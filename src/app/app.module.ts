@@ -9,6 +9,7 @@ import { GamesComponent } from './features/games/games.component';
 import { StatisticsComponent } from './features/statistics/statistics.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
 import { LoginComponent } from './features/login/login.component';
+import { FooterComponent } from './core/components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { LoginComponent } from './features/login/login.component';
     GamesComponent,
     StatisticsComponent,
     NotFoundComponent,
-    LoginComponent
+    LoginComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
