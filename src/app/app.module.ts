@@ -10,6 +10,7 @@ import { StatisticsComponent } from './features/statistics/statistics.component'
 import { NotFoundComponent } from './features/not-found/not-found.component';
 import { LoginComponent } from './features/login/login.component';
 import { FooterComponent } from './core/components/footer/footer.component';
+import { HeaderComponent } from './core/components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -20,13 +21,15 @@ import { FooterComponent } from './core/components/footer/footer.component';
     StatisticsComponent,
     NotFoundComponent,
     LoginComponent,
-    FooterComponent
+    HeaderComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
