@@ -20,6 +20,7 @@ import { HeaderComponent } from './core/components/header/header.component';
     StatisticsComponent,
     NotFoundComponent,
     LoginComponent,
+    HeaderComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
