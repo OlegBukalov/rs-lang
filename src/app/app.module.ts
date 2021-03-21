@@ -24,10 +24,6 @@ import { HeaderComponent } from './core/components/header/header.component';
     HeaderComponent,
     FooterComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-  ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
