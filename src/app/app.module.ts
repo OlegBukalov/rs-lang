@@ -20,13 +20,9 @@ import { HeaderComponent } from './core/components/header/header.component';
     StatisticsComponent,
     NotFoundComponent,
     LoginComponent,
-    HeaderComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
