@@ -13,25 +13,25 @@ export class GameListComponent implements OnInit {
     {
       id: 0,
       title: 'Саванна',
-      imgUrl: ''
+      imgUrl: '../assets/img/game_savanna.jpg'
     },
     {
       id: 1,
       title: 'Аудиовызов',
-      imgUrl: ''
+      imgUrl: '../assets/img/game_audio.jpg'
     },
     {
       id: 2,
       title: 'Спринт',
-      imgUrl: ''
+      imgUrl: '../assets/img/game_sprint.jpg'
     },
     {
       id: 3,
       title: 'Своя игра',
-      imgUrl: ''
+      imgUrl: '../assets/img/game_me.jpg'
     },
   ]
-  
+
   constructor() { }
 
   ngOnInit(): void {
