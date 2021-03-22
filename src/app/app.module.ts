@@ -11,6 +11,8 @@ import { NotFoundComponent } from './features/not-found/not-found.component';
 import { LoginComponent } from './features/login/login.component';
 import { FooterComponent } from './core/components/footer/footer.component';
 import { HeaderComponent } from './core/components/header/header.component';
+import { GameListComponent } from './core/components/game-list/game-list.component';
+import { GameItemComponent } from './core/components/game-item/game-item.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { HeaderComponent } from './core/components/header/header.component';
     LoginComponent,
     HeaderComponent,
     FooterComponent,
+    GameListComponent,
+    GameItemComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
