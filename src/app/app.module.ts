@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './features/home/home.component';
@@ -13,7 +13,8 @@ import { FooterComponent } from './core/components/footer/footer.component';
 import { HeaderComponent } from './core/components/header/header.component';
 import { GameListComponent } from './core/components/game-list/game-list.component';
 import { GameItemComponent } from './core/components/game-item/game-item.component';
-
+import { WordsApiService } from './core/services/wordsApi.service';
+import { CardGameListComponent } from './features/games/card-game-list/card-game-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,9 +28,10 @@ import { GameItemComponent } from './core/components/game-item/game-item.compone
     FooterComponent,
     GameListComponent,
     GameItemComponent,
+    CardGameListComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
-  providers: [],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  providers: [WordsApiService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,0 +1,17 @@
+<!-- <div *ngFor="let card of allWords | async">
+  <p>Имя пользователя: {{ card.word }}</p>
+  <p>Возраст пользователя: {{ card.wordTranslate }}</p>
+</div> -->
+
+<div class="wrap-game-list">
+  <h2>Своя игра</h2>
+  <div *ngFor="let card of allWords | async">
+    <div class="game-title">
+      <h3>{{ card.word }}</h3>
+    </div>
+    <div class="game-subtitle">
+      <h3>{{ card.wordTranslate }}</h3>
+    </div>
+    <app-card-game-item [card]="card" class="wrap"></app-card-game-item>
+  </div>
+</div>
