@@ -15,6 +15,7 @@ import { GameListComponent } from './core/components/game-list/game-list.compone
 import { GameItemComponent } from './core/components/game-item/game-item.component';
 import { WordsApiService } from './core/services/wordsApi.service';
 import { CardGameListComponent } from './features/games/card-game-list/card-game-list.component';
+import { CardGameItemComponent } from './features/games/card-game-item/card-game-item.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +30,7 @@ import { CardGameListComponent } from './features/games/card-game-list/card-game
     GameListComponent,
     GameItemComponent,
     CardGameListComponent,
+    CardGameItemComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [WordsApiService],
