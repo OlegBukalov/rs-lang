@@ -5,7 +5,7 @@
 
 <div class="wrap-game-list">
   <h2>Своя игра</h2>
-  <div class="game-list" *ngFor="let card of allWords | async">
+  <div class="game-list" *ngFor="let card of wordList | async">
     <app-card-game-item [card]="card" class="wrap"></app-card-game-item>
   </div>
 </div>

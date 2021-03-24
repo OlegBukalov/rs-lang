@@ -10,20 +10,42 @@ import { IBaseWord, IWord } from '../interfaces/iword';
 export class WordsApiService {
   constructor(private http: HttpClient) {}
 
-  getData(): Observable<IWord[]> {
-    return this.http
-      .get<IBaseWord[]>('https://afternoon-falls-25894.herokuapp.com/words?page=2&group=0')
-      .pipe(
-        map((word) => {
-          // eslint-disable-next-line @typescript-eslint/unbound-method
-          return word.map(this.transformBaseWordToWord);
-        }),
-      );
+  private baseUrl = 'https://afternoon-falls-25894.herokuapp.com/words';
+
+  private pageToken = '0';
+
+  private groupToken = '0';
+
+  private wordList = `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
+
+  // getWordID(id: string): Observable<IWord[]> {
+  //   return this.http.get<IBaseWord[]>(`${this.baseUrl}/${id}`).pipe(
+  //     map((word) => {
+  //       return word.map(this.transformBaseWordToWord);
+  //     }),
+  //   );
+  // }
+
+  getWordList(): Observable<IWord[]> {
+    return this.http.get<IBaseWord[]>(this.wordList).pipe(
+      map((word) => {
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        return word.map(this.transformBaseWordToWord);
+      }),
+    );
   }
 
   private transformBaseWordToWord(baseWord: IBaseWord): IWord {
     return {
       ...baseWord,
     };
+  }
+
+  changePageToken(passedPageToken: string): void {
+    this.pageToken = passedPageToken;
+  }
+
+  changeGroupToken(passedGroupToken: string): void {
+    this.groupToken = passedGroupToken;
   }
 }

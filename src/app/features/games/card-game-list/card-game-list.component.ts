@@ -10,15 +10,11 @@ import { WordsApiService } from 'src/app/core/services/wordsApi.service';
   providers: [WordsApiService],
 })
 export class CardGameListComponent implements OnInit {
-  allWords: Observable<IWord[]>;
+  wordList: Observable<IWord[]>;
 
   constructor(private wordsApiService: WordsApiService) {}
 
   ngOnInit() {
-    this.allWords = this.wordsApiService.getData();
+    this.wordList = this.wordsApiService.getWordList();
   }
 }
-
-// .subscribe((data: IWord[]) => {
-//   this.allWords = data;
-// });
