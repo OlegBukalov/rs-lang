@@ -13,21 +13,25 @@ export class GameListComponent {
       id: 0,
       title: 'Саванна',
       imgUrl: '../assets/img/game_savanna.jpg',
+      routerLink: 'card-game',
     },
     {
       id: 1,
       title: 'Аудиовызов',
       imgUrl: '../assets/img/game_audio.jpg',
+      routerLink: 'card-game',
     },
     {
       id: 2,
       title: 'Спринт',
       imgUrl: '../assets/img/game_sprint.jpg',
+      routerLink: 'card-game',
     },
     {
       id: 3,
       title: 'Своя игра',
       imgUrl: '../assets/img/game_me.jpg',
+      routerLink: 'card-game',
     },
   ];
 }
