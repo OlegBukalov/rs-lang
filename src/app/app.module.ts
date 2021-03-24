@@ -14,8 +14,8 @@ import { HeaderComponent } from './core/components/header/header.component';
 import { GameListComponent } from './core/components/game-list/game-list.component';
 import { GameItemComponent } from './core/components/game-item/game-item.component';
 import { WordsApiService } from './core/services/wordsApi.service';
-import { CardGameListComponent } from './features/games/card-game-list/card-game-list.component';
-import { CardGameItemComponent } from './features/games/card-game-item/card-game-item.component';
+import { CardGameListComponent } from './features/card-game-list/card-game-list.component';
+import { CardGameItemComponent } from './features/card-game-item/card-game-item.component';
 @NgModule({
   declarations: [
     AppComponent,
