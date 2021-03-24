@@ -18,14 +18,6 @@ export class WordsApiService {
 
   private wordList = `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
 
-  // getWordID(id: string): Observable<IWord[]> {
-  //   return this.http.get<IBaseWord[]>(`${this.baseUrl}/${id}`).pipe(
-  //     map((word) => {
-  //       return word.map(this.transformBaseWordToWord);
-  //     }),
-  //   );
-  // }
-
   getWordList(): Observable<IWord[]> {
     return this.http.get<IBaseWord[]>(this.wordList).pipe(
       map((word) => {
