@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { IGameItem } from '../../../core/interfaces/igame-item';
 
-import { GAMES_DESCRIPTION } from '../../../shared/mocks/data-game-description';
+import { GAMES_DESCRIPTION } from './data-game-description';
 
 @Component({
   selector: 'app-game-list',
@@ -10,7 +10,5 @@ import { GAMES_DESCRIPTION } from '../../../shared/mocks/data-game-description';
   styleUrls: ['./game-list.component.scss'],
 })
 export class GameListComponent {
-
   gameList: IGameItem[] = GAMES_DESCRIPTION;
-
 }

@@ -1,0 +1,20 @@
+<h3>Наша команда</h3>
+<ul class="team">
+  <li
+    *ngFor="let teamItem of teamList"
+    [teamItem]="teamItem"
+  >
+    <div class="avatar">
+      <img src="{{ teamItem.imgUrl }}" alt="">
+    </div>
+    <h4>{{ teamItem.name }}</h4>
+    <p class="strong">{{ teamItem.position }}</p>
+    <p>{{ teamItem.description }}</p>
+    <a
+      *ngIf="teamItem.link"
+      href="{{ teamItem.link }}"
+      target="_blank">
+      GitHub
+    </a>
+  </li>
+</ul>
