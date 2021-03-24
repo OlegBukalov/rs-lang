@@ -4,5 +4,5 @@ import { GameListComponent } from './game-list/game-list.component';
 
 export const gamesRoutes: Routes = [
   { path: '', component: GameListComponent },
-  { path: '**', component: NotFoundComponent }
+  { path: '**', component: NotFoundComponent },
 ];
