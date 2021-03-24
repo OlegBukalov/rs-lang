@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { IGameItem } from '../../interfaces/igame-item';
+import { IGameItem } from '../../../core/interfaces/igame-item';
 
 @Component({
   selector: 'app-game-list',
