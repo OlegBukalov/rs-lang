@@ -5,5 +5,5 @@ import { StatisticsComponent } from './statistics.component';
 
 export const statisticsRoutes: Routes = [
   { path: '', component: StatisticsComponent },
-  { path: '**', component: NotFoundComponent }
+  { path: '**', component: NotFoundComponent },
 ];

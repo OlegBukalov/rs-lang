@@ -8,8 +8,6 @@ import { IBaseWord, IWord } from '../interfaces/iword';
   providedIn: 'root',
 })
 export class WordsApiService {
-  constructor(private http: HttpClient) {}
-
   private baseUrl = 'https://afternoon-falls-25894.herokuapp.com/words';
 
   private pageToken = '0';
@@ -17,6 +15,8 @@ export class WordsApiService {
   private groupToken = '0';
 
   private wordList = `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
+
+  constructor(private http: HttpClient) {}
 
   getWordList(): Observable<IWord[]> {
     return this.http.get<IBaseWord[]>(this.wordList).pipe(

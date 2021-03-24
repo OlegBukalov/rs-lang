@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { StatisticsComponent } from './statistics.component';
-import { statisticsRoutes } from './statistics-routes'
-
+import { statisticsRoutes } from './statistics-routes';
 
 @NgModule({
   declarations: [StatisticsComponent],
