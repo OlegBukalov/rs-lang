@@ -19,6 +19,29 @@ export class WordsApiService {
     return this.http.get<IWord[]>(this.wordList);
   }
 
+  // TODO: finish sorting (Second try)
+  // .pipe(map((arr) => this.random(arr)));
+
+  // random(arr: IWord[]): IWord[] {
+  //   const newArr: IWord[] = [];
+  //   const index = Math.floor(Math.random() * arr.length);
+  //   let arrLength: number = arr.length;
+  //   if (arrLength > 1) {
+  //     newArr.push(arr[index]);
+  //     arrLength -= 1;
+  //   }
+  //   return newArr;
+  // }
+
+  // TODO: finish sorting (First try)
+  // .pipe(map((arr) => this.random(arr)));
+
+  // random(arr: IWord[]): IWord[] {
+  //   const newArr: IWord[] = [...arr];
+  //   const index = Math.floor(Math.random() * arr.length);
+  //   return newArr.map((el) => el[index]);
+  // }
+
   changePageToken(passedPageToken: string): void {
     this.pageToken = passedPageToken;
   }

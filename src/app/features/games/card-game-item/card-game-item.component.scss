@@ -1,7 +1,7 @@
-.wrap-game-item {
+.card-game__card {
   padding: 20px;
 
-  .game-description {
+  .card__description {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -12,7 +12,7 @@
     border-radius: 20px;
     position: relative;
 
-    .game-wrap-img {
+    .image {
       width: 260px;
       height: 260px;
       position: absolute;
@@ -22,7 +22,7 @@
       border: 3px solid #8f6cef;
     }
 
-    .game-img {
+    .card__image {
       position: absolute;
       top: -10px;
       right: -10px;

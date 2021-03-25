@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { IWord } from 'src/app/core/interfaces/iword';
 
 @Component({
@@ -9,5 +9,11 @@ import { IWord } from 'src/app/core/interfaces/iword';
 export class CardGameItemComponent {
   @Input() card?: IWord;
 
+  @ViewChild('audio') audioPlayerRef: ElementRef;
+
   readonly baseCardURL = 'https://raw.githubusercontent.com/Oubowen/rslang-data/master/';
+
+  play() {
+    this.audioPlayerRef.nativeElement.play();
+  }
 }

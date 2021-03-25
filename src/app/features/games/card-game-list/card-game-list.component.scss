@@ -1,9 +1,9 @@
-.wrap-game-list {
+.card-game {
   padding: 50px;
   font-family: 'Poiret One', cursive;
   font-size: 26px;
 
-  h2 {
+  .card-game__title {
     text-align: center;
     font-size: 30px;
     color: #333470;
@@ -11,7 +11,7 @@
     text-transform: uppercase;
   }
 
-  .game-list {
+  .card-game__content {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
