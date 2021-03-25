@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: 'dictionary',
-    loadChildren: () => import('./features/dictionary/dictionary.module').then((m) => m.DictionaryModule),
+    loadChildren: () =>
+      import('./features/dictionary/dictionary.module').then((m) => m.DictionaryModule),
   },
   {
     path: 'games',
