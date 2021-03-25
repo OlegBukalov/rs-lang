@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { IWord } from '../interfaces/iword';
 
 @Injectable({
@@ -16,31 +17,21 @@ export class WordsApiService {
   constructor(private http: HttpClient) {}
 
   getWordList(): Observable<IWord[]> {
-    return this.http.get<IWord[]>(this.wordList);
+    return this.http.get<IWord[]>(this.wordList).pipe(map((arr) => this.random(arr)));
   }
 
-  // TODO: finish sorting (Second try)
-  // .pipe(map((arr) => this.random(arr)));
-
-  // random(arr: IWord[]): IWord[] {
-  //   const newArr: IWord[] = [];
-  //   const index = Math.floor(Math.random() * arr.length);
-  //   let arrLength: number = arr.length;
-  //   if (arrLength > 1) {
-  //     newArr.push(arr[index]);
-  //     arrLength -= 1;
-  //   }
-  //   return newArr;
-  // }
-
-  // TODO: finish sorting (First try)
-  // .pipe(map((arr) => this.random(arr)));
-
-  // random(arr: IWord[]): IWord[] {
-  //   const newArr: IWord[] = [...arr];
-  //   const index = Math.floor(Math.random() * arr.length);
-  //   return newArr.map((el) => el[index]);
-  // }
+  random(arr: IWord[]): IWord[] {
+    const newArr: IWord[] = [];
+    let arrLength: number = arr.length;
+    while (arrLength > 1) {
+      const index = Math.floor(Math.random() * arr.length);
+      if (!newArr.includes(arr[index])) {
+        newArr.push(arr[index]);
+        arrLength -= 1;
+      }
+    }
+    return newArr;
+  }
 
   changePageToken(passedPageToken: string): void {
     this.pageToken = passedPageToken;
