@@ -16,7 +16,9 @@ export class WordsApiService {
 
   private groupToken = '0';
 
-  private wordList = `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
+  get wordList() {
+    return `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
+  }
 
   getWordList(): Observable<IWord[]> {
     return this.http.get<IBaseWord[]>(this.wordList).pipe(

@@ -8,9 +8,10 @@ import { HeaderComponent } from './core/components/header/header.component';
 import { StatisticsModule } from './features/statistics/statistics.module';
 import { HomeModule } from './features/home/home.module';
 import { LoginModule } from './features/login/login.module';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [AppComponent, NotFoundComponent, HeaderComponent, FooterComponent],
-  imports: [BrowserModule, AppRoutingModule, HomeModule, StatisticsModule, LoginModule],
+  imports: [BrowserModule, AppRoutingModule, HomeModule, StatisticsModule, LoginModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })
