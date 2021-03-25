@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './features/not-found/not-found.component';
 import { StatisticsComponent } from './features/statistics/statistics.component';
 import { HomeComponent } from './features/home/home.component';
+import { LoginComponent } from './features/login/login.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
     loadChildren: () => import('./features/games/games.module').then((m) => m.GamesModule),
   },
   { path: 'statistics', component: StatisticsComponent },
+  { path: 'login', component: LoginComponent },
   { path: '**', component: NotFoundComponent },
 ];
 

@@ -12,16 +12,29 @@ import { NotFoundComponent } from './features/not-found/not-found.component';
 import { StatisticsModule } from './features/statistics/statistics.module';
 import { HomeModule } from './features/home/home.module';
 import { LoginModule } from './features/login/login.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
+
 
 @NgModule({
-  declarations: [AppComponent, NotFoundComponent, HeaderComponent, FooterComponent],
+  declarations: [
+    AppComponent,
+    NotFoundComponent,
+    HeaderComponent,
+    FooterComponent,
+    LoginComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HomeModule,
+    HomeModule, 
     StatisticsModule,
-    LoginModule,
     HttpClientModule,
+    LoginModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MaterialModule,
   ],
   providers: [WordsApiService],
   bootstrap: [AppComponent],
