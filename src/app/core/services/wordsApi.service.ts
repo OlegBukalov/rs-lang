@@ -23,7 +23,7 @@ export class WordsApiService {
   random(arr: IWord[]): IWord[] {
     const newArr: IWord[] = [];
     let arrLength: number = arr.length;
-    while (arrLength > 1) {
+    while (arrLength > 0) {
       const index = Math.floor(Math.random() * arr.length);
       if (!newArr.includes(arr[index])) {
         newArr.push(arr[index]);
