@@ -1,21 +1,26 @@
-<div class="card-game__card">
-  <div class="card__description">
-    <div class="card__image">
-      <img src="{{ baseCardURL + card.image }}" alt="{{ card.word }}" />
+<div class="card-game__card card-animation">
+  <div class="base-animation">
+    <div class="card__description card__front">
+      <div class="card__image">
+        <img src="{{ baseCardURL + card.image }}" alt="{{ card.word }}" />
+      </div>
+      <div class="card__title">
+        <h3>{{ card.word }}</h3>
+      </div>
+      <div class="card__button">
+        <button (click)="play()">
+          озвучить
+          <audio #audio>
+            <source src="{{ baseCardURL + card.audio }}" type="audio/mp3" />
+          </audio>
+        </button>
+        <button class="bt-icons" (click)="rotateCard($event)">
+          <span class="material-icons">autorenew</span>
+        </button>
+      </div>
     </div>
-    <div class="card__title">
-      <h3>{{ card.word }}</h3>
+    <div class="card__back">
+      <p>{{ card.wordTranslate }}</p>
     </div>
-    <div class="card__button">
-      <button (click)="play()">
-        озвучить
-        <audio #audio>
-          <source src="{{ baseCardURL + card.audio }}" type="audio/mp3" />
-        </audio>
-      </button>
-    </div>
-  </div>
-  <div class="card__back">
-    <p>back</p>
   </div>
 </div>

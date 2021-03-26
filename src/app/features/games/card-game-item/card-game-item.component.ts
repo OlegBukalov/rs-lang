@@ -16,4 +16,19 @@ export class CardGameItemComponent {
   play() {
     this.audioPlayerRef.nativeElement.play();
   }
+
+  rotateCard(event) {
+    let target;
+    if (event.target.tagName === 'BUTTON') {
+      target = event.target.parentElement.parentElement.parentElement;
+    } else {
+      target = event.target.parentElement.parentElement.parentElement.parentElement;
+    }
+    if (target) {
+      target.classList.add('card-hover');
+      setTimeout(() => {
+        target.classList.remove('card-hover');
+      }, 1300);
+    }
+  }
 }
