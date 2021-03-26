@@ -1,22 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Component, Input } from '@angular/core';
 import { IWord } from 'src/app/core/interfaces/iword';
-import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 
 @Component({
   selector: 'app-text-book-page',
   templateUrl: './text-book-page.component.html',
   styleUrls: ['./text-book-page.component.scss'],
 })
-export class TextBookPageComponent implements OnInit {
-
+export class TextBookPageComponent {
   @Input() words: IWord[];
-
-  constructor() {
-  }
-
-  ngOnInit() : void {
-  }
-
 }

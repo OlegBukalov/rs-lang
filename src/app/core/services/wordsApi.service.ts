@@ -16,12 +16,12 @@ export class WordsApiService {
 
   private groupToken = '0';
 
-  get wordList() {
+  get wordListUrl() {
     return `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
   }
 
   getWordList(): Observable<IWord[]> {
-    return this.http.get<IBaseWord[]>(this.wordList).pipe(
+    return this.http.get<IBaseWord[]>(this.wordListUrl).pipe(
       map((word) => {
         // eslint-disable-next-line @typescript-eslint/unbound-method
         return word.map(this.transformBaseWordToWord);
