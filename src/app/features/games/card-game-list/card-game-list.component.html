@@ -3,7 +3,9 @@
   <div class="card-game__button">
     <button (click)="startGame()">играть</button>
   </div>
-  <div class="card-game__content" *ngFor="let card of wordList | async">
-    <app-card-game-item [card]="card"></app-card-game-item>
+  <div class="card-game__wrap">
+    <div class="card-game__content" *ngFor="let card of wordList | async">
+      <app-card-game-item [card]="card"></app-card-game-item>
+    </div>
   </div>
 </div>
