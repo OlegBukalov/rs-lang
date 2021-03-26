@@ -1,9 +1,7 @@
 <div class="card-game__card">
   <div class="card__description">
-    <div class="image">
-      <div class="card__image">
-        <img src="{{ baseCardURL + card.image }}" alt="{{ card.word }}" />
-      </div>
+    <div class="card__image">
+      <img src="{{ baseCardURL + card.image }}" alt="{{ card.word }}" />
     </div>
     <div class="card__title">
       <h3>{{ card.word }}</h3>
@@ -16,5 +14,8 @@
         </audio>
       </button>
     </div>
+  </div>
+  <div class="card__back">
+    <p>back</p>
   </div>
 </div>

@@ -3,18 +3,18 @@
   font-family: 'Poiret One', cursive;
   font-size: 26px;
 
+  .card-game__wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
   .card-game__title {
     text-align: center;
     font-size: 30px;
     color: #333470;
     letter-spacing: 5px;
     text-transform: uppercase;
-  }
-
-  .card-game__content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
   }
 }

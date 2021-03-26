@@ -1,6 +1,8 @@
 <div class="card-game">
   <h2 class="card-game__title">Своя игра</h2>
-  <div class="card-game__content" *ngFor="let card of wordList | async">
-    <app-card-game-item [card]="card"></app-card-game-item>
+  <div class="card-game__wrap">
+    <div class="card-game__content" *ngFor="let card of wordList | async">
+      <app-card-game-item [card]="card"></app-card-game-item>
+    </div>
   </div>
 </div>
