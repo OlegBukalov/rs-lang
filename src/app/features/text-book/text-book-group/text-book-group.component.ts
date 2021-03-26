@@ -8,7 +8,6 @@ import { WordsApiService } from 'src/app/core/services/wordsApi.service';
   selector: 'app-text-book-group',
   templateUrl: './text-book-group.component.html',
   styleUrls: ['./text-book-group.component.scss'],
-  providers: [WordsApiService]
 })
 export class TextBookGroupComponent implements OnInit {
 

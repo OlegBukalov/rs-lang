@@ -7,7 +7,6 @@ import { WordsApiService } from 'src/app/core/services/wordsApi.service';
   selector: 'app-card-game-list',
   templateUrl: './card-game-list.component.html',
   styleUrls: ['./card-game-list.component.scss'],
-  providers: [WordsApiService],
 })
 export class CardGameListComponent implements OnInit {
   wordList: Observable<IWord[]>;
