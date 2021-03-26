@@ -11,12 +11,15 @@ export class WordsApiService {
   private baseUrl = 'https://afternoon-falls-25894.herokuapp.com/words';
   private pageToken = '0';
   private groupToken = '0';
-  private wordList = `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
 
   constructor(private http: HttpClient) {}
 
+  private get wordListUrl() {
+    return `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
+  }
+
   getWordList(): Observable<IWord[]> {
-    return this.http.get<IWord[]>(this.wordList);
+    return this.http.get<IWord[]>(this.wordListUrl);
   }
 
   changePageToken(passedPageToken: string): void {

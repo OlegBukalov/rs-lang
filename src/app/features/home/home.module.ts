@@ -10,7 +10,7 @@ import { HomeTeamComponent } from './home-team/home-team.component';
     HomeComponent,
     HomeDescriptionComponent,
     HomeAdvantagesComponent,
-    HomeTeamComponent
+    HomeTeamComponent,
   ],
   imports: [CommonModule],
 })

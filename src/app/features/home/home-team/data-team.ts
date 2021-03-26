@@ -7,7 +7,7 @@ export const LIST_TEAM: ITeamItem[] = [
     name: 'Олег',
     position: 'тимлид',
     description: 'описание что-нибудь о человеке и его работе в команде и над проектом',
-    link: 'https://github.com/olegbukalov'
+    link: 'https://github.com/olegbukalov',
   },
   {
     id: 1,
@@ -15,7 +15,7 @@ export const LIST_TEAM: ITeamItem[] = [
     name: 'Александр',
     position: 'разработчик',
     description: 'описание что-нибудь о человеке и его работе в команде и над проектом',
-    link: 'https://github.com/oubowen'
+    link: 'https://github.com/oubowen',
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ export const LIST_TEAM: ITeamItem[] = [
     name: 'Юра',
     position: 'разработчик',
     description: 'описание что-нибудь о человеке и его работе в команде и над проектом',
-    link: 'https://github.com/yurakuzmich'
+    link: 'https://github.com/yurakuzmich',
   },
   {
     id: 3,
@@ -31,7 +31,7 @@ export const LIST_TEAM: ITeamItem[] = [
     name: 'Кирилл',
     position: 'разработчик',
     description: 'описание что-нибудь о человеке и его работе в команде и над проектом',
-    link: 'https://github.com/kirillbuzov73'
+    link: 'https://github.com/kirillbuzov73',
   },
   {
     id: 4,
@@ -39,7 +39,7 @@ export const LIST_TEAM: ITeamItem[] = [
     name: 'Алексей',
     position: 'разработчик',
     description: 'описание что-нибудь о человеке и его работе в команде и над проектом',
-    link: 'https://github.com/vanessagrapefruit'
+    link: 'https://github.com/vanessagrapefruit',
   },
   {
     id: 5,
@@ -47,7 +47,7 @@ export const LIST_TEAM: ITeamItem[] = [
     name: 'Марина',
     position: 'разработчик',
     description: 'описание что-нибудь о человеке и его работе в команде и над проектом',
-    link: 'https://github.com/mig-marina'
+    link: 'https://github.com/mig-marina',
   },
   {
     id: 6,
@@ -55,6 +55,6 @@ export const LIST_TEAM: ITeamItem[] = [
     name: 'Аня',
     position: 'ментор',
     description: 'описание что-нибудь о человеке и его работе в команде и над проектом',
-    link: ''
+    link: '',
   },
 ];

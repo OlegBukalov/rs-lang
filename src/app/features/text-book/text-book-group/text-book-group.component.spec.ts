@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeAdvantagesComponent } from './home-advantages.component';
+import { TextBookGroupComponent } from './text-book-group.component';
 
-describe('HomeAdvantagesComponent', () => {
-  let component: HomeAdvantagesComponent;
-  let fixture: ComponentFixture<HomeAdvantagesComponent>;
+describe('TextBookGroupComponent', () => {
+  let component: TextBookGroupComponent;
+  let fixture: ComponentFixture<TextBookGroupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HomeAdvantagesComponent],
+      declarations: [TextBookGroupComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeAdvantagesComponent);
+    fixture = TestBed.createComponent(TextBookGroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

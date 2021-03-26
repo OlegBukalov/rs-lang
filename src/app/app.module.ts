@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WordsApiService } from './core/services/wordsApi.service';
 import { FooterComponent } from './core/components/footer/footer.component';
 import { HeaderComponent } from './core/components/header/header.component';
 
@@ -14,24 +13,17 @@ import { HomeModule } from './features/home/home.module';
 import { LoginModule } from './features/login/login.module';
 import { MaterialModule } from './material.module';
 
-
 @NgModule({
-  declarations: [
-    AppComponent,
-    NotFoundComponent,
-    HeaderComponent,
-    FooterComponent,
-  ],
+  declarations: [AppComponent, NotFoundComponent, HeaderComponent, FooterComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HomeModule, 
+    HomeModule,
     StatisticsModule,
     HttpClientModule,
     LoginModule,
     MaterialModule,
   ],
-  providers: [WordsApiService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
