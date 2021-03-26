@@ -15,4 +15,3 @@ export interface IWord {
   wordTranslate: string;
   wordsPerExampleSentence: number;
 }
-export interface IBaseWord extends IWord {}

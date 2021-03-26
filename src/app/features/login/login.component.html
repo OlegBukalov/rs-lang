@@ -1,1 +1,75 @@
-<p>login works!</p>
+<mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+    <mat-tab label="Регистрация">
+        <form (ngSubmit)="onSignup()" class="form" [formGroup]="signupForm">
+            <mat-form-field appearance="standard">
+                <mat-label>Username</mat-label>
+                <input matInput placeholder="username" [formControl]="signupForm.controls['userName']">
+                <ng-container
+                    *ngIf="(formSubmitted || signupForm.controls['userName'].touched) && signupForm.controls['userName'].errors">
+                    <mat-error *ngIf="signupForm.controls['userName'].errors.required">Обязательно для заполнения
+                    </mat-error>
+                    <mat-error *ngIf="signupForm.controls['userName'].errors.maxlength">Максимум 20 символов
+                    </mat-error>
+                </ng-container>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="email@example.com" [formControl]="signupForm.controls['email']">
+                <ng-container
+                    *ngIf="(formSubmitted || signupForm.controls['email'].touched) && signupForm.controls['email'].errors">
+                    <mat-error *ngIf="signupForm.controls['email'].errors.required">Обязательно для заполнения
+                    </mat-error>
+                    <mat-error *ngIf="signupForm.controls['email'].errors.email">Некорректный email</mat-error>
+                </ng-container>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hidePassword ? 'password' : 'text'"
+                    [formControl]="signupForm.controls['password']">
+                <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <ng-container
+                    *ngIf="(formSubmitted || signupForm.controls['password'].touched) && signupForm.controls['password'].errors">
+                    <mat-error *ngIf="signupForm.controls['password'].errors.required">Обязательно для заполнения
+                    </mat-error>
+                    <mat-error *ngIf="signupForm.controls['password'].errors.maxlength">Максимум 20 символов
+                    </mat-error>
+                </ng-container>
+            </mat-form-field>
+            <button mat-flat-button color="primary" type="submit">Зарегистрироваться</button>
+        </form>
+    </mat-tab>
+    <mat-tab label="Вход">
+        <form (ngSubmit)="onLogin()" class="form" [formGroup]="loginForm">
+            <mat-form-field appearance="standard">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="email@example.com" [formControl]="loginForm.controls['email']">
+                <ng-container
+                    *ngIf="(formSubmitted || loginForm.controls['email'].touched) && loginForm.controls['email'].errors">
+                    <mat-error *ngIf="loginForm.controls['email'].errors.required">Обязательно для заполнения
+                    </mat-error>
+                    <mat-error *ngIf="loginForm.controls['email'].errors.email">Некорректный email</mat-error>
+                </ng-container>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hidePassword ? 'password' : 'text'"
+                    [formControl]="loginForm.controls['password']">
+                <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <ng-container
+                    *ngIf="(formSubmitted || loginForm.controls['password'].touched) && loginForm.controls['password'].errors">
+                    <mat-error *ngIf="loginForm.controls['password'].errors.required">Обязательно для заполнения
+                    </mat-error>
+                    <mat-error *ngIf="loginForm.controls['password'].errors.maxlength">Максимум 20 символов
+                    </mat-error>
+                </ng-container>
+            </mat-form-field>
+            <button mat-flat-button color="primary" type="submit">Войти</button>
+        </form>
+    </mat-tab>
+</mat-tab-group>
