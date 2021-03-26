@@ -1,38 +1,25 @@
+/* eslint-disable @typescript-eslint/lines-between-class-members */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { IBaseWord, IWord } from '../interfaces/iword';
+import { IWord } from '../interfaces/iword';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WordsApiService {
-  constructor(private http: HttpClient) {}
-
   private baseUrl = 'https://afternoon-falls-25894.herokuapp.com/words';
-
   private pageToken = '0';
-
   private groupToken = '0';
 
-  get wordListUrl() {
+  constructor(private http: HttpClient) {}
+
+  private get wordListUrl() {
     return `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
   }
 
   getWordList(): Observable<IWord[]> {
-    return this.http.get<IBaseWord[]>(this.wordListUrl).pipe(
-      map((word) => {
-        // eslint-disable-next-line @typescript-eslint/unbound-method
-        return word.map(this.transformBaseWordToWord);
-      }),
-    );
-  }
-
-  private transformBaseWordToWord(baseWord: IBaseWord): IWord {
-    return {
-      ...baseWord,
-    };
+    return this.http.get<IWord[]>(this.wordListUrl);
   }
 
   changePageToken(passedPageToken: string): void {

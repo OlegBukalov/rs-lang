@@ -7,5 +7,5 @@ import { IWord } from 'src/app/core/interfaces/iword';
   styleUrls: ['./text-book-page.component.scss'],
 })
 export class TextBookPageComponent {
-  @Input() words: IWord[];
+  @Input() cards: IWord[];
 }

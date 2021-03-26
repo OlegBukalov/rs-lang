@@ -8,9 +8,8 @@ describe('TextBookPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TextBookPageComponent ]
-    })
-    .compileComponents();
+      declarations: [TextBookPageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

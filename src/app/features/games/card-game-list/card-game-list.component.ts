@@ -13,7 +13,7 @@ export class CardGameListComponent implements OnInit {
 
   constructor(private wordsApiService: WordsApiService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.wordList = this.wordsApiService.getWordList();
   }
 }

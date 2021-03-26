@@ -1,15 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-text-book',
   templateUrl: './text-book.component.html',
-  styleUrls: ['./text-book.component.scss']
+  styleUrls: ['./text-book.component.scss'],
 })
-export class TextBookComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class TextBookComponent {}

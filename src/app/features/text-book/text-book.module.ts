@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router'
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { TextBookComponent } from './text-book/text-book.component';
@@ -9,9 +9,7 @@ import { textBookRoutes } from './text-book.routes';
 
 @NgModule({
   declarations: [TextBookComponent, TextBookGroupComponent, TextBookPageComponent],
-  imports: [
-    CommonModule, RouterModule.forChild(textBookRoutes),
-  ],
-  providers: [HttpClient]
+  imports: [CommonModule, RouterModule.forChild(textBookRoutes)],
+  providers: [HttpClient],
 })
-export class TextBookModule { }
+export class TextBookModule {}

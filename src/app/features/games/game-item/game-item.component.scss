@@ -1,4 +1,4 @@
-.wrap-game-item {
+:host{
   padding: 20px;
 
   .game-description {
@@ -33,7 +33,7 @@
       border-radius: 50%;
     }
 
-    h3 {
+    .game-title {
       font-size: 24px;
       color: #333470;
       text-transform: uppercase;
@@ -61,6 +61,7 @@
 
       &:focus {
         outline: none;
+        background-color: #060137;
       }
     }
   }
