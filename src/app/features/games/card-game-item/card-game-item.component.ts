@@ -13,7 +13,7 @@ export class CardGameItemComponent {
 
   readonly baseCardURL = 'https://raw.githubusercontent.com/Oubowen/rslang-data/master/';
 
-  play() {
+  playAudio() {
     this.audioPlayerRef.nativeElement.play();
   }
 
