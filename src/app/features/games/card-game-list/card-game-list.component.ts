@@ -36,14 +36,28 @@ export class CardGameListComponent implements OnInit, OnDestroy {
 
   startGame() {
     this.isStartPlay = true;
-    this.copyWords = this.words.slice();
+    this.copyWords = [...this.words];
+    this.startAudio();
+  }
+
+  startAudio() {
     if (this.isPlay) {
+      this.isFinish();
       this.index = Math.floor(Math.random() * this.copyWords.length);
       const audioInstance = new Audio();
       audioInstance.src = `${this.baseCardURL + this.copyWords[this.index].audio}`;
       audioInstance.play();
       this.isPlayingWord = this.copyWords.splice(this.index, 1);
       this.isPlay = false;
+    }
+  }
+
+  isFinish() {
+    if (this.copyWords.length === 0) {
+      this.isPlay = false;
+      const audioInstance = new Audio();
+      audioInstance.src = '../../../../assets/sounds/466133__humanoide9000__victory-fanfare.wav';
+      audioInstance.play();
     }
   }
 
@@ -63,7 +77,7 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   playNextWord() {
     setTimeout(() => {
       this.isPlay = true;
-      this.startGame();
+      this.startAudio();
     }, 1700);
   }
 
