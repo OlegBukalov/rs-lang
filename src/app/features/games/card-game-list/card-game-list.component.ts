@@ -12,8 +12,10 @@ import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 })
 export class CardGameListComponent implements OnInit, OnDestroy {
   words: IWord[];
+  copyWords: IWord[];
   index: number;
   isPlay = true;
+  isPlayingWord: IWord[];
   private subscription: Subscription;
   // TODO: remake with tap(pipe)
   // wordList: Observable<IWord[]>;
@@ -31,13 +33,27 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   }
 
   startGame() {
+    this.copyWords = this.words.slice();
     if (this.isPlay) {
-      this.index = Math.floor(Math.random() * this.words.length);
+      this.index = Math.floor(Math.random() * this.copyWords.length);
       const audioInstance = new Audio();
-      audioInstance.src = `${this.baseCardURL + this.words[this.index].audio}`;
+      audioInstance.src = `${this.baseCardURL + this.copyWords[this.index].audio}`;
       audioInstance.play();
-      this.words.splice(this.index, 1);
+      this.isPlayingWord = this.copyWords.splice(this.index, 1);
       this.isPlay = false;
+    }
+  }
+
+  checkCard(card: IWord) {
+    if (this.isPlay) {
+      if (this.isPlayingWord[0].id === card.id) {
+        const audioInstance = new Audio();
+        audioInstance.src = '../../../../assets/sounds/yes.mp3';
+        audioInstance.play();
+      }
+      const audioInstance = new Audio();
+      audioInstance.src = '../../../../assets/sounds/no.mp3';
+      audioInstance.play();
     }
   }
 

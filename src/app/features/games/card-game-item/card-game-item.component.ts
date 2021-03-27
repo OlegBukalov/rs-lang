@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/lines-between-class-members */
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { IWord } from 'src/app/core/interfaces/iword';
 
