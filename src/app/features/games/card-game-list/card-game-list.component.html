@@ -5,7 +5,11 @@
   </div>
   <div class="card-game__wrap">
     <div class="card-game__content" *ngFor="let card of words">
-      <app-card-game-item [card]="card" [ngClass]="{play: isStartPlay}"></app-card-game-item>
+      <app-card-game-item
+        [card]="card"
+        [ngClass]="{ play: isStartPlay }"
+        (click)="checkCard(card)"
+      ></app-card-game-item>
     </div>
   </div>
 </div>

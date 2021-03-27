@@ -48,16 +48,23 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   }
 
   checkCard(card: IWord) {
-    if (this.isPlay) {
-      if (this.isPlayingWord[0].id === card.id) {
-        const audioInstance = new Audio();
-        audioInstance.src = '../../../../assets/sounds/yes.mp3';
-        audioInstance.play();
-      }
+    if (this.isPlayingWord[0].audio === card.audio) {
+      const audioInstance = new Audio();
+      audioInstance.src = '../../../../assets/sounds/yes.mp3';
+      audioInstance.play();
+      this.playNextWord();
+    } else if (this.isPlayingWord[0].audio !== card.audio) {
       const audioInstance = new Audio();
       audioInstance.src = '../../../../assets/sounds/no.mp3';
       audioInstance.play();
     }
+  }
+
+  playNextWord() {
+    setTimeout(() => {
+      this.isPlay = true;
+      this.startGame();
+    }, 1700);
   }
 
   ngOnDestroy() {
