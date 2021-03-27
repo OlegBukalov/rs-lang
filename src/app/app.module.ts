@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WordsApiService } from './core/services/wordsApi.service';
 import { FooterComponent } from './core/components/footer/footer.component';
 import { HeaderComponent } from './core/components/header/header.component';
 
@@ -23,7 +22,7 @@ import { LoginModule } from './features/login/login.module';
     LoginModule,
     HttpClientModule,
   ],
-  providers: [WordsApiService],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
