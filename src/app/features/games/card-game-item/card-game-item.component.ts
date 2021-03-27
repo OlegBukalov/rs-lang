@@ -11,24 +11,18 @@ export class CardGameItemComponent {
 
   @ViewChild('audio') audioPlayerRef: ElementRef;
 
+  isRotate = false;
+
   readonly baseCardURL = 'https://raw.githubusercontent.com/Oubowen/rslang-data/master/';
 
   playAudio() {
     this.audioPlayerRef.nativeElement.play();
   }
 
-  rotateCard(event) {
-    let target;
-    if (event.target.tagName === 'BUTTON') {
-      target = event.target.parentElement.parentElement.parentElement;
-    } else {
-      target = event.target.parentElement.parentElement.parentElement.parentElement;
-    }
-    if (target) {
-      target.classList.add('card-hover');
-      setTimeout(() => {
-        target.classList.remove('card-hover');
-      }, 1300);
-    }
+  rotateCard() {
+    this.isRotate = true;
+    setTimeout(() => {
+      this.isRotate = false;
+    }, 1300);
   }
 }
