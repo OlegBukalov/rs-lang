@@ -15,7 +15,9 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   copyWords: IWord[];
   index: number;
   isPlay = true;
+  isStartPlay = false;
   isPlayingWord: IWord[];
+
   private subscription: Subscription;
   // TODO: remake with tap(pipe)
   // wordList: Observable<IWord[]>;
@@ -33,6 +35,7 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   }
 
   startGame() {
+    this.isStartPlay = true;
     this.copyWords = this.words.slice();
     if (this.isPlay) {
       this.index = Math.floor(Math.random() * this.copyWords.length);

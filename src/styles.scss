@@ -1,2 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
+
+// STYLE FOR GAMES
+.play .card-game__card .card__title,
+.play .card-game__card .card__button {
+  display: none;
+}
