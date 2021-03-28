@@ -15,7 +15,15 @@ export class CardGameItemComponent {
 
   isRotate = false;
 
-  readonly baseCardURL = 'https://raw.githubusercontent.com/Oubowen/rslang-data/master/';
+  private readonly baseCardURL = 'https://raw.githubusercontent.com/Oubowen/rslang-data/master/';
+
+  get cardImgSrc(): string {
+    return this.card ? `${this.baseCardURL + this.card.image}` : '';
+  }
+
+  get cardAudioSrc(): string {
+    return this.card ? `${this.baseCardURL + this.card.audio}` : '';
+  }
 
   playAudio() {
     this.audioPlayerRef.nativeElement.play();

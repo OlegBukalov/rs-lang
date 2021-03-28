@@ -9,15 +9,19 @@ import { IWord } from '../interfaces/iword';
   providedIn: 'root',
 })
 export class WordsApiService {
-  private baseUrl = 'https://afternoon-falls-25894.herokuapp.com/words';
+  private readonly baseUrl = 'https://afternoon-falls-25894.herokuapp.com/words';
   private pageToken = '0';
   private groupToken = '0';
-  private wordList = `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
+  // private wordList = `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
 
   constructor(private http: HttpClient) {}
 
+  private get wordListUrl() {
+    return `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
+  }
+
   getWordList(): Observable<IWord[]> {
-    return this.http.get<IWord[]>(this.wordList).pipe(map((arr) => this.random(arr)));
+    return this.http.get<IWord[]>(this.wordListUrl).pipe(map((arr) => this.random(arr)));
   }
 
   random(arr: IWord[]): IWord[] {

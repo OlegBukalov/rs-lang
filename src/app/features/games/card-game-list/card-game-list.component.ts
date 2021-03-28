@@ -13,10 +13,13 @@ import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 export class CardGameListComponent implements OnInit, OnDestroy {
   words: IWord[];
   copyWords: IWord[];
-  index: number;
+  randomIndex: number;
   isPlay = true;
   isStartPlay = false;
-  isPlayingWord: IWord[];
+  playingWord: IWord[];
+  leftCards = 20;
+  sixtLevel = '6';
+  statistic: object;
 
   private subscription: Subscription;
   // TODO: remake with tap(pipe)
@@ -43,11 +46,11 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   startAudio() {
     if (this.isPlay) {
       this.isFinish();
-      this.index = Math.floor(Math.random() * this.copyWords.length);
+      this.randomIndex = Math.floor(Math.random() * this.copyWords.length);
       const audioInstance = new Audio();
-      audioInstance.src = `${this.baseCardURL + this.copyWords[this.index].audio}`;
+      audioInstance.src = `${this.baseCardURL + this.copyWords[this.randomIndex].audio}`;
       audioInstance.play();
-      this.isPlayingWord = this.copyWords.splice(this.index, 1);
+      this.playingWord = this.copyWords.splice(this.randomIndex, 1);
       this.isPlay = false;
     }
   }
@@ -62,12 +65,13 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   }
 
   checkCard(card: IWord) {
-    if (this.isPlayingWord[0].audio === card.audio) {
+    if (this.playingWord[0].audio === card.audio) {
       const audioInstance = new Audio();
       audioInstance.src = '../../../../assets/sounds/yes.mp3';
       audioInstance.play();
+      this.leftCards -= 1;
       this.playNextWord();
-    } else if (this.isPlayingWord[0].audio !== card.audio) {
+    } else if (this.playingWord[0].audio !== card.audio) {
       const audioInstance = new Audio();
       audioInstance.src = '../../../../assets/sounds/no.mp3';
       audioInstance.play();
@@ -79,6 +83,10 @@ export class CardGameListComponent implements OnInit, OnDestroy {
       this.isPlay = true;
       this.startAudio();
     }, 1700);
+  }
+
+  changeLevel(level: string) {
+    this.wordsApiService.changeGroupToken(level);
   }
 
   ngOnDestroy() {
