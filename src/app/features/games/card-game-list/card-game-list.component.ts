@@ -18,8 +18,8 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   isStartPlay = false;
   playingWord: IWord[];
   leftCards = 20;
-  sixtLevel = '6';
-  statistic: object;
+  // TODO: fix change level
+  // sixtLevel = '6';
 
   private subscription: Subscription;
   // TODO: remake with tap(pipe)
@@ -85,9 +85,10 @@ export class CardGameListComponent implements OnInit, OnDestroy {
     }, 1700);
   }
 
-  changeLevel(level: string) {
-    this.wordsApiService.changeGroupToken(level);
-  }
+  // TODO: fix change level
+  // changeLevel(level: string) {
+  //   this.wordsApiService.changeGroupToken(level);
+  // }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();

@@ -1,11 +1,11 @@
 <div class="card-game">
   <h2 class="card-game__title">Своя игра</h2>
   <h4 class="card-game__score">Осталось карточек: {{ leftCards }}</h4>
-  <!-- <h4 class="card-game__score">Сложные слова: {{ mistakenWords }}</h4> -->
   <div class="card-game__button">
     <button (click)="startGame()">играть</button>
   </div>
-  <!-- <div class="card-game__button">
+  <!-- TODO: fix change level
+  <div class="card-game__button">
     <button (click)="changeLevel('{{ firstLevel }}')">*</button>
   </div>
   <div class="card-game__button">
@@ -19,10 +19,10 @@
   </div>
   <div class="card-game__button">
     <button (click)="changeLevel(4)">*****</button>
-  </div> -->
+  </div>
   <div class="card-game__button">
     <button (click)="changeLevel('{{ sixtLevel }}')">******</button>
-  </div>
+  </div> -->
   <div class="card-game__wrap">
     <div class="card-game__content" *ngFor="let card of words">
       <app-card-game-item
