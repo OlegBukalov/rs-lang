@@ -84,7 +84,9 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   }
 
   changeLevel(level: string) {
+    const randomPage: string = Math.floor(Math.random() * 29).toString();
     this.wordsApiService.changeGroupToken(level);
+    this.wordsApiService.changePageToken(randomPage);
     this.ngOnInit();
   }
 
