@@ -85,6 +85,18 @@ export class CardGameListComponent implements OnInit, OnDestroy {
     }, 1700);
   }
 
+  repeatWord() {
+    if (typeof this.playingWord !== 'undefined') {
+      const audioInstance = new Audio();
+      audioInstance.src = `${this.baseCardURL + this.playingWord[0].audio}`;
+      audioInstance.play();
+    }
+  }
+
+  repeatGame() {
+    this.ngOnInit();
+  }
+
   changeLevel(level: string) {
     const randomPage: string = Math.floor(Math.random() * 29).toString();
     this.wordsApiService.changeGroupToken(level);
