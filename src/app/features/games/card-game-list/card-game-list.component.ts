@@ -63,16 +63,18 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   }
 
   checkCard(card: IWord) {
-    if (this.playingWord[0].audio === card.audio) {
-      const audioInstance = new Audio();
-      audioInstance.src = '../../../../assets/sounds/yes.mp3';
-      audioInstance.play();
-      this.leftCards -= 1;
-      this.playNextWord();
-    } else if (this.playingWord[0].audio !== card.audio) {
-      const audioInstance = new Audio();
-      audioInstance.src = '../../../../assets/sounds/no.mp3';
-      audioInstance.play();
+    if (typeof this.playingWord !== 'undefined') {
+      if (this.playingWord[0].audio === card.audio) {
+        const audioInstance = new Audio();
+        audioInstance.src = '../../../../assets/sounds/yes.mp3';
+        audioInstance.play();
+        this.leftCards -= 1;
+        this.playNextWord();
+      } else if (this.playingWord[0].audio !== card.audio) {
+        const audioInstance = new Audio();
+        audioInstance.src = '../../../../assets/sounds/no.mp3';
+        audioInstance.play();
+      }
     }
   }
 
