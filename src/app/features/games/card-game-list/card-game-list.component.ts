@@ -16,14 +16,14 @@ import { IWord } from 'src/app/core/interfaces/iword';
 export class CardGameListComponent implements OnInit, OnDestroy {
   words: IWord[];
   copyWords: IWord[];
-  hardWords: IWord[] = [];
-  randomIndex: number;
-  isPlay = true;
-  isEndGame = false;
-  countTry = 0;
-  isStartPlay = false;
   playingWord: IWord[];
-  leftCards = 20;
+  hardWords: IWord[];
+  randomIndex: number;
+  countTry: number;
+  leftCards: number;
+  isPlay: boolean;
+  isEndGame: boolean;
+  isStartPlay: boolean;
 
   private subscription: Subscription;
   // TODO: remake with tap(pipe)
@@ -39,6 +39,14 @@ export class CardGameListComponent implements OnInit, OnDestroy {
     // TODO: remake with tap(pipe)
     // this.wordList = this.wordsApiService.getWordList();
     // this.wordList.pipe(tap((el) => (this.words2 = el)));
+    this.copyWords = [];
+    this.playingWord = [];
+    this.hardWords = [];
+    this.countTry = 0;
+    this.leftCards = 20;
+    this.isPlay = true;
+    this.isEndGame = false;
+    this.isStartPlay = false;
   }
 
   startGame() {
@@ -76,7 +84,6 @@ export class CardGameListComponent implements OnInit, OnDestroy {
       const audioInstance = new Audio();
       audioInstance.src = '../../../../assets/sounds/466133__humanoide9000__victory-fanfare.wav';
       audioInstance.play();
-      this.isEndGame = true;
     }
   }
 
