@@ -81,19 +81,21 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   }
 
   checkCard(card: IWord) {
-    if (this.playingWord[0].audio === card.audio) {
-      const audioInstance = new Audio();
-      audioInstance.src = '../../../../assets/sounds/yes.mp3';
-      audioInstance.play();
-      this.leftCards -= 1;
-      this.playNextWord();
-      // service cart inactivate
-      this.ownGameService.setItemDisable(card.id);
-    } else if (this.playingWord[0].audio !== card.audio) {
-      const audioInstance = new Audio();
-      audioInstance.src = '../../../../assets/sounds/no.mp3';
-      audioInstance.play();
-      this.countTry += 1;
+    if (typeof this.playingWord !== 'undefined') {
+      if (this.playingWord[0].audio === card.audio) {
+        const audioInstance = new Audio();
+        audioInstance.src = '../../../../assets/sounds/yes.mp3';
+        audioInstance.play();
+        this.leftCards -= 1;
+        this.playNextWord();
+        // service cart inactivate
+        this.ownGameService.setItemDisable(card.id);
+      } else if (this.playingWord[0].audio !== card.audio) {
+        const audioInstance = new Audio();
+        audioInstance.src = '../../../../assets/sounds/no.mp3';
+        audioInstance.play();
+        this.countTry += 1;
+      }
     }
   }
 
@@ -104,8 +106,22 @@ export class CardGameListComponent implements OnInit, OnDestroy {
     }, 1700);
   }
 
+  repeatWord() {
+    if (typeof this.playingWord !== 'undefined') {
+      const audioInstance = new Audio();
+      audioInstance.src = `${this.baseCardURL + this.playingWord[0].audio}`;
+      audioInstance.play();
+    }
+  }
+
+  repeatGame() {
+    this.ngOnInit();
+  }
+
   changeLevel(level: string) {
+    const randomPage: string = Math.floor(Math.random() * 29).toString();
     this.wordsApiService.changeGroupToken(level);
+    this.wordsApiService.changePageToken(randomPage);
     this.ngOnInit();
   }
 
