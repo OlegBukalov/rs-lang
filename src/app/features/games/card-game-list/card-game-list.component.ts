@@ -2,8 +2,11 @@
 /* eslint-disable @typescript-eslint/lines-between-class-members */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { IWord } from 'src/app/core/interfaces/iword';
+
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
+import { OwnGameService } from 'src/app/core/services/own-game/own-game.service';
+
+import { IWord } from 'src/app/core/interfaces/iword';
 
 @Component({
   selector: 'app-card-game-list',
@@ -13,8 +16,11 @@ import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 export class CardGameListComponent implements OnInit, OnDestroy {
   words: IWord[];
   copyWords: IWord[];
+  hardWords: IWord[] = [];
   randomIndex: number;
   isPlay = true;
+  isEndGame = false;
+  countTry = 0;
   isStartPlay = false;
   playingWord: IWord[];
   leftCards = 20;
@@ -26,7 +32,7 @@ export class CardGameListComponent implements OnInit, OnDestroy {
 
   readonly baseCardURL = 'https://raw.githubusercontent.com/Oubowen/rslang-data/master/';
 
-  constructor(private wordsApiService: WordsApiService) {}
+  constructor(private wordsApiService: WordsApiService, private ownGameService: OwnGameService) {}
 
   ngOnInit(): void {
     this.subscription = this.wordsApiService.getWordList().subscribe((data) => (this.words = data));
@@ -42,6 +48,10 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   }
 
   startAudio() {
+    if (this.countTry > 2) {
+      this.hardWords.push(this.playingWord[0]);
+    }
+
     if (this.isPlay) {
       this.isFinish();
       this.randomIndex = Math.floor(Math.random() * this.copyWords.length);
@@ -50,15 +60,23 @@ export class CardGameListComponent implements OnInit, OnDestroy {
       audioInstance.play();
       this.playingWord = this.copyWords.splice(this.randomIndex, 1);
       this.isPlay = false;
+
+      // service cart inactivate fot start game
+      const elem = this.playingWord[0].id;
+      this.ownGameService.setItemDisable(elem);
+      // number of attempts per word again
+      this.countTry = 0;
     }
   }
 
   isFinish() {
     if (this.copyWords.length === 0) {
       this.isPlay = false;
+      this.isEndGame = true;
       const audioInstance = new Audio();
       audioInstance.src = '../../../../assets/sounds/466133__humanoide9000__victory-fanfare.wav';
       audioInstance.play();
+      this.isEndGame = true;
     }
   }
 
@@ -70,10 +88,13 @@ export class CardGameListComponent implements OnInit, OnDestroy {
         audioInstance.play();
         this.leftCards -= 1;
         this.playNextWord();
+        // service cart inactivate
+        this.ownGameService.setItemDisable(card.id);
       } else if (this.playingWord[0].audio !== card.audio) {
         const audioInstance = new Audio();
         audioInstance.src = '../../../../assets/sounds/no.mp3';
         audioInstance.play();
+        this.countTry += 1;
       }
     }
   }
@@ -102,6 +123,10 @@ export class CardGameListComponent implements OnInit, OnDestroy {
     this.wordsApiService.changeGroupToken(level);
     this.wordsApiService.changePageToken(randomPage);
     this.ngOnInit();
+  }
+
+  closeModal() {
+    this.isEndGame = false;
   }
 
   ngOnDestroy() {

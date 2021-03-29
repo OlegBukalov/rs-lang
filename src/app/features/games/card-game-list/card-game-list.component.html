@@ -64,4 +64,17 @@
       ></app-card-game-item>
     </div>
   </div>
+
+  <div class="own-modal-result" *ngIf="isEndGame">
+    <div class="modal">
+      <span class="material-icons close" (click)="closeModal()">close</span>
+      <p class="end-game-text">game over</p>
+      <div *ngIf="hardWords.length !== 0">
+        <p class="list-hard-title">difficult words</p>
+        <ul class="list-hard">
+          <li *ngFor="let hardWord of hardWords">{{hardWord.word}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
