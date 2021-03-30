@@ -12,7 +12,8 @@ export class WordsApiService {
   private readonly baseUrl = 'https://afternoon-falls-25894.herokuapp.com/words';
   private pageToken = '0';
   private groupToken = '0';
-  private id = '';
+  // TODO: not used yet
+  // private id = '';
   // private wordList = `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
 
   constructor(private http: HttpClient) {}
@@ -21,17 +22,19 @@ export class WordsApiService {
     return `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
   }
 
-  private get wordUrl() {
-    return `${this.baseUrl}/${this.id}`;
-  }
+  // TODO: not used yet
+  // private get wordUrl() {
+  //   return `${this.baseUrl}/${this.id}`;
+  // }
 
   getWordList(): Observable<IWord[]> {
     return this.http.get<IWord[]>(this.wordListUrl).pipe(map((arr) => this.random(arr)));
   }
 
-  getWord(): Observable<IWord[]> {
-    return this.http.get<IWord[]>(this.wordUrl).pipe(map((arr) => arr));
-  }
+  // TODO: not used yet
+  // getWord(): Observable<IWord[]> {
+  //   return this.http.get<IWord[]>(this.wordUrl).pipe(map((arr) => arr));
+  // }
 
   random(arr: IWord[]): IWord[] {
     const newArr: IWord[] = [];
@@ -54,7 +57,8 @@ export class WordsApiService {
     this.groupToken = passedGroupToken;
   }
 
-  changeIDToken(passedIDToken: string): void {
-    this.id = passedIDToken;
-  }
+  // TODO: not used yet
+  // changeIDToken(passedIDToken: string): void {
+  //   this.id = passedIDToken;
+  // }
 }
