@@ -8,33 +8,6 @@
     font-size: 30px;
   }
 
-  .logo {
-    width: 30%;
-
-    h1 {
-      display: flex;
-      align-items: center;
-      padding-left: 50px;
-      font-family: 'Poiret One', cursive;
-      color: #FFF;
-
-      .prefix-logo {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 60px;
-        height: 60px;
-        border: 1px solid #FFF;
-        color: #FE8931;
-      }
-
-      .logo-body {
-        padding-left: 10px;
-        letter-spacing: 5px;
-      }
-    }
-  }
-
   nav {
     width: 70%;
     display: flex;

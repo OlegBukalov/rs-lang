@@ -38,31 +38,5 @@
       color: #333470;
       text-transform: uppercase;
     }
-
-    button {
-      display: block;
-      padding: 10px 20px;
-      margin-bottom: 20px;
-      background-color: #333470;
-      border: none;
-      border: 1px solid #333470;
-      border-radius: 10px;
-      font-family: 'Poiret One', cursive;
-      font-size: 24px;
-      color: #FFF;
-      letter-spacing: 2px;
-      transition: background-color .3s;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #FFF;
-        color: #333470;
-      }
-
-      &:focus {
-        outline: none;
-        background-color: #060137;
-      }
-    }
   }
 }

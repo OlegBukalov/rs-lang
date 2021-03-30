@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { IGameItem } from '../../../core/interfaces/igame-item';
 
@@ -9,4 +10,10 @@ import { IGameItem } from '../../../core/interfaces/igame-item';
 })
 export class GameItemComponent {
   @Input() public gameItem: IGameItem;
+
+  constructor(private router: Router) {}
+
+  getLinkToGame(): void {
+    this.router.navigate(['games', this.gameItem.titleEn]);
+  }
 }
