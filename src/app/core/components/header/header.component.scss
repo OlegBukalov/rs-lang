@@ -1,19 +1,66 @@
 :host {
-  border: 1px solid red;
-  width: 1000px;
-  margin: 0 auto;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
+  background-color: #262E5B;
+
+  .logo {
+    width: 30%;
+
+    h1 {
+      display: flex;
+      align-items: center;
+      padding-left: 50px;
+      font-family: 'Poiret One', cursive;
+      color: #FFF;
+
+      .prefix-logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 60px;
+        height: 60px;
+        border: 1px solid #FFF;
+        color: #FE8931;
+      }
+
+      .logo-body {
+        padding-left: 10px;
+        letter-spacing: 5px;
+      }
+    }
+  }
+
+  nav {
+    width: 70%;
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 .main-menu {
   display: flex;
   flex-direction: row;
-  list-style: none;
+  list-style-type: none;
+  padding-right: 50px;
 
   &__item {
-    margin: 0 5px;
+    padding: 0 10px;
+
+    a {
+      display: block;
+      font-family: 'Poiret One', cursive;
+      font-size: 24px;
+      color: #FFF;
+      transition: color .2s;
+
+      &:hover {
+        color: #FE8931;
+      }
+
+      &.active {
+        color: #Fe8931;
+      }
+    }
   }
 }
