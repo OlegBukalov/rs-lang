@@ -13,7 +13,7 @@ export class GameItemComponent {
 
   constructor(private router: Router) {}
 
-  getLinkToGame(): void {
+  redirectToGame(): void {
     this.router.navigate(['games', this.gameItem.titleEn]);
   }
 }

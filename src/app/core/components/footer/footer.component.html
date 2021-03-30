@@ -5,7 +5,7 @@
   </h1>
   <div class="logo-rsschool">
     <a href="https://rs.school/react/" target="_blank">
-      <img src="https://rs.school/images/rs_school_js.svg" alt="rs scool">
+      <img src="https://rs.school/images/rs_school_js.svg" alt="rs school">
     </a>
     <span> - 2021</span>
   </div>
@@ -16,11 +16,11 @@
       *ngFor="let teamItem of teamList"
       [teamItem]="teamItem"
     >
-    <a
-      href="{{ teamItem.link }}"
-      target="_blank">
-      {{ teamItem.name }}
-    </a>
+      <a
+        href="{{ teamItem.link }}"
+        target="_blank">
+        {{ teamItem.name }}
+      </a>
     </li>
   </ul>
 </div>
