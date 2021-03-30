@@ -35,10 +35,18 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   constructor(private wordsApiService: WordsApiService, private ownGameService: OwnGameService) {}
 
   ngOnInit(): void {
-    this.subscription = this.wordsApiService.getWordList().subscribe((data) => (this.words = data));
+    this.getData();
     // TODO: remake with tap(pipe)
     // this.wordList = this.wordsApiService.getWordList();
     // this.wordList.pipe(tap((el) => (this.words2 = el)));
+    this.initializeValues();
+  }
+
+  getData() {
+    this.subscription = this.wordsApiService.getWordList().subscribe((data) => (this.words = data));
+  }
+
+  initializeValues() {
     this.copyWords = [];
     this.playingWord = [];
     this.hardWords = [];
@@ -122,14 +130,16 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   }
 
   repeatGame() {
-    this.ngOnInit();
+    this.getData();
+    this.initializeValues();
   }
 
   changeLevel(level: string) {
     const randomPage: string = Math.floor(Math.random() * 29).toString();
     this.wordsApiService.changeGroupToken(level);
     this.wordsApiService.changePageToken(randomPage);
-    this.ngOnInit();
+    this.getData();
+    this.initializeValues();
   }
 
   closeModal() {
