@@ -12,6 +12,7 @@ export class WordsApiService {
   private readonly baseUrl = 'https://afternoon-falls-25894.herokuapp.com/words';
   private pageToken = '0';
   private groupToken = '0';
+
   // TODO: not used yet
   // private id = '';
   // private wordList = `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
@@ -21,6 +22,7 @@ export class WordsApiService {
   private get wordListUrl() {
     return `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
   }
+
 
   // TODO: not used yet
   // private get wordUrl() {
@@ -47,6 +49,7 @@ export class WordsApiService {
       }
     }
     return newArr;
+
   }
 
   changePageToken(passedPageToken: string): void {
