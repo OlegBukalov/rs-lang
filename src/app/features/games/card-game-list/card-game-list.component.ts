@@ -1,19 +1,20 @@
 /* eslint-disable no-return-assign */
+/* eslint-disable no-alert */
 /* eslint-disable @typescript-eslint/lines-between-class-members */
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { OwnGameService } from 'src/app/core/services/own-game/own-game.service';
-
 import { IWord } from 'src/app/core/interfaces/iword';
+import { ComponentCanDeactivate } from '../guards/exit-card-game.guard';
 
 @Component({
   selector: 'app-card-game-list',
   templateUrl: './card-game-list.component.html',
   styleUrls: ['./card-game-list.component.scss'],
 })
-export class CardGameListComponent implements OnInit, OnDestroy {
+export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDeactivate {
   words: IWord[];
   copyWords: IWord[];
   playingWord: IWord[];
@@ -24,6 +25,7 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   isPlay: boolean;
   isEndGame: boolean;
   isStartPlay: boolean;
+  isSaved: boolean;
 
   private subscription: Subscription;
   // TODO: remake with tap(pipe)
@@ -55,10 +57,12 @@ export class CardGameListComponent implements OnInit, OnDestroy {
     this.isPlay = true;
     this.isEndGame = false;
     this.isStartPlay = false;
+    this.isSaved = true;
   }
 
   startGame() {
     this.isStartPlay = true;
+    this.isSaved = false;
     this.copyWords = [...this.words];
     this.startAudio();
   }
@@ -132,6 +136,11 @@ export class CardGameListComponent implements OnInit, OnDestroy {
   repeatGame() {
     this.getData();
     this.initializeValues();
+  }
+
+  canDeactivate(): boolean | Observable<boolean> {
+    // eslint-disable-next-line no-restricted-globals
+    return this.isSaved ? true : confirm('Вы хотите выйти из игры?');
   }
 
   changeLevel(level: string) {
