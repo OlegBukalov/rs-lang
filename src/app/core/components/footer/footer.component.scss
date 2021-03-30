@@ -1,9 +1,54 @@
 :host {
-  border: 1px solid red;
-  width: 1000px;
-  margin: 0 auto;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
+  padding: 20px 0;
+  background-color: #262E5B;
+
+  .logo-rsschool {
+    display: flex;
+    padding-left: 50px;
+
+    a {
+      width: 50px;
+
+      img {
+        max-width: 100%;
+      }
+    }
+
+    span {
+      padding-left: 10px;
+      color: #FFF;
+    }
+  }
+
+  .list-team {
+    width: 70%;
+    display: flex;
+    justify-content: flex-end;
+
+    ul {
+      list-style-type: none;
+      padding-right: 50px;
+      display: flex;
+      flex-wrap: wrap;
+
+      li {
+        width: 50%;
+        padding: 5px 0;
+        text-align: right;
+      }
+
+      a {
+        font-family: 'Poiret One', cursive;
+        font-size: 20px;
+        color: #FFF;
+
+        &:hover {
+          color: #FE8931;
+        }
+      }
+    }
+  }
 }
