@@ -1,0 +1,20 @@
+<div class="wrap-game-list">
+    <h2>Саванна</h2>
+    <div class="background"></div>
+    <div *ngIf="isStarted && !health" class="game-over">Конец Игры</div>
+    <div *ngIf="isStarted && isGameInProgress && health" class="level">Уровень:&nbsp;{{level}}</div>
+    <!-- <p>Total words: {{(wordList | async).length}}</p> -->
+    <div *ngIf="isStarted && isGameInProgress && health" class="health">{{health}}</div>
+    <div *ngIf="isStarted && isGameInProgress && health" class="animal-wrapper">
+        <div [ngStyle]="{'top': coordinateY + 'px', 'left': coordinateX + 'px'}" class="animal" mat-button>{{targetWord}}</div>
+    </div>
+    <div class="game-list">
+        <!-- {{targetWord}} -->
+        <app-card-game-item *ngIf="!isGameInProgress && isStarted" [card]="cardWord" class="wrap"></app-card-game-item>
+        <button color="primary" mat-flat-button (click)="continue()" *ngIf="isStarted && !isGameInProgress">Продолжить</button>
+        <button color="primary" mat-flat-button (click)="start()" *ngIf="!isStarted">Старт</button>
+        <div *ngIf="isStarted && isGameInProgress" class="buttons-wrapper">
+            <button class="answer-word" color="accent" mat-flat-button (click)="compareWords($event)" *ngFor="let answer of answerWordsArray">{{answer}}</button>
+        </div>
+    </div>
+</div>

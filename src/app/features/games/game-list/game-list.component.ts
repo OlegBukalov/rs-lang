@@ -13,7 +13,7 @@ export class GameListComponent {
       id: 0,
       title: 'Саванна',
       imgUrl: '../assets/img/game_savanna.jpg',
-      routerLink: 'card-game',
+      routerLink: 'savanna-game',
     },
     {
       id: 1,
