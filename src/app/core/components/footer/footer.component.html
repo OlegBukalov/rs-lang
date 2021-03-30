@@ -1,3 +1,26 @@
 <div class="logo">
-  <h1><span class="prefix-logo">RS</span><span class="logo-body">Lang</span></h1>
+  <h1>
+    <span class="prefix-logo">RS</span>
+    <span class="logo-body">Lang</span>
+  </h1>
+  <div class="logo-rsschool">
+    <a href="https://rs.school/react/" target="_blank">
+      <img src="https://rs.school/images/rs_school_js.svg" alt="rs scool">
+    </a>
+    <span> - 2021</span>
+  </div>
+</div>
+<div class="list-team">
+  <ul>
+    <li
+      *ngFor="let teamItem of teamList"
+      [teamItem]="teamItem"
+    >
+    <a
+      href="{{ teamItem.link }}"
+      target="_blank">
+      {{ teamItem.name }}
+    </a>
+    </li>
+  </ul>
 </div>

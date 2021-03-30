@@ -3,6 +3,83 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding: 20px 0;
+  background-color: #262E5B;
 
-  
+  .logo {
+    width: 50%;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+
+    h1 {
+      display: flex;
+      align-items: center;
+      padding-left: 50px;
+      font-family: 'Poiret One', cursive;
+      color: #FFF;
+
+      .prefix-logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 60px;
+        height: 60px;
+        border: 1px solid #FFF;
+        color: #FE8931;
+      }
+
+      .logo-body {
+        padding-left: 10px;
+        letter-spacing: 5px;
+      }
+    }
+  }
+
+  .logo-rsschool {
+    display: flex;
+    padding-left: 50px;
+
+    a {
+      width: 50px;
+
+      img {
+        max-width: 100%;
+      }
+    }
+
+    span {
+      padding-left: 10px;
+      color: #FFF;
+    }
+  }
+
+  .list-team {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+
+    ul {
+      list-style-type: none;
+      padding-right: 50px;
+      display: flex;
+      flex-wrap: wrap;
+
+      li {
+        width: 50%;
+        padding: 5px 0;
+        text-align: right;
+      }
+
+      a {
+        font-family: 'Poiret One', cursive;
+        font-size: 20px;
+        color: #FFF;
+
+        &:hover {
+          color: #FE8931;
+        }
+      }
+    }
+  }
 }
