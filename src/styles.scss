@@ -1,4 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+// Fonts and template global
+ // * ========================================================================== *
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
 
@@ -98,6 +99,7 @@ pre {
 
 a {
   background-color: transparent;
+  text-decoration: none;
 }
 
 /**
@@ -428,8 +430,68 @@ template {
   display: none;
 }
 
+<<<<<<< HEAD
 // STYLE FOR GAMES
 .play .card-game__card .card__title,
 .play .card-game__card .card__button {
   display: none;
+=======
+// Logo
+// ==========================================================================
+
+.logo {
+  width: 30%;
+
+  h1 {
+    display: flex;
+    align-items: center;
+    padding-left: 50px;
+    font-family: 'Poiret One', cursive;
+    color: #FFF;
+
+    .prefix-logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 60px;
+      height: 60px;
+      border: 1px solid #FFF;
+      color: #FE8931;
+    }
+
+    .logo-body {
+      padding-left: 10px;
+      letter-spacing: 5px;
+    }
+  }
+}
+
+// Button template
+// ==========================================================================
+
+button.btn-template {
+  display: block;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  background-color: #333470;
+  border: none;
+  border: 1px solid #333470;
+  border-radius: 10px;
+  font-family: 'Poiret One', cursive;
+  font-size: 24px;
+  color: #FFF;
+  letter-spacing: 2px;
+  transition: background-color .3s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #FFF;
+    color: #333470;
+  }
+
+  &:focus {
+    outline: none;
+    background-color: #060137;
+  }
+>>>>>>> 861a321642c404ede49161b3e9e6d0e6bcfbffb0
 }

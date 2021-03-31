@@ -1,19 +1,71 @@
 :host {
-  border: 1px solid red;
-  width: 1000px;
-  margin: 0 auto;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
+  background-color: #262E5B;
+
+  .btn-icon {
+    font-size: 30px;
+  }
+
+  nav {
+    width: 70%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  ul {
+    padding-left: 0;
+  }
 }
 
 .main-menu {
   display: flex;
   flex-direction: row;
-  list-style: none;
+  list-style-type: none;
+  padding-right: 50px;
 
   &__item {
-    margin: 0 5px;
+    padding: 0 10px;
+
+    a {
+      display: block;
+      font-family: 'Poiret One', cursive;
+      font-size: 24px;
+      color: #FFF;
+      transition: color .2s;
+
+      &:hover {
+        color: #FE8931;
+      }
+
+      &.active {
+        color: #Fe8931;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  :host {
+    flex-direction: column;
+
+    .logo {
+      width: 100%;
+
+      h1 {
+        padding-left: 0;
+        justify-content: center;
+      }
+    }
+
+    nav {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .main-menu {
+      padding-right: 0;
+    }
   }
 }
