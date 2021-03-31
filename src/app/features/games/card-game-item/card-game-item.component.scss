@@ -1,31 +1,8 @@
-@font-face {
-  font-family: 'Material Icons';
-  font-style: normal;
-  font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/materialicons/v81/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
-}
-
-.material-icons {
-  font-family: 'Material Icons';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -webkit-font-feature-settings: 'liga';
-  -webkit-font-smoothing: antialiased;
-}
-
 .card-animation {
   perspective: 700px;
 }
 
-.rotate {
+.rotated {
   transform: rotateY(180deg);
 }
 
@@ -75,31 +52,6 @@
       text-transform: uppercase;
     }
 
-    button {
-      display: block;
-      padding: 10px 20px;
-      margin-bottom: 20px;
-      background-color: #333470;
-      border: none;
-      border: 1px solid #333470;
-      border-radius: 10px;
-      font-family: 'Poiret One', cursive;
-      font-size: 24px;
-      color: #fff;
-      letter-spacing: 2px;
-      transition: background-color 0.3s;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #fff;
-        color: #333470;
-      }
-
-      &:focus {
-        outline: none;
-      }
-    }
-
     .bt-icons {
       padding: 5px;
       margin: auto;
@@ -117,6 +69,7 @@
     font-weight: bold;
     cursor: default;
   }
+
   .card__back {
     transform: rotateY(180deg);
     display: flex;
@@ -131,6 +84,6 @@
   }
 }
 
-.disable {
+.disabled {
   display: none;
 }

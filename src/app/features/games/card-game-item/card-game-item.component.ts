@@ -15,8 +15,8 @@ export class CardGameItemComponent {
 
   @ViewChild('audio') audioPlayerRef: ElementRef;
 
-  isRotate = false;
-  isDisable = false;
+  isRotated = false;
+  isDisabled = false;
 
   private readonly baseCardURL = 'https://raw.githubusercontent.com/Oubowen/rslang-data/master/';
 
@@ -35,16 +35,16 @@ export class CardGameItemComponent {
   }
 
   rotateCard() {
-    this.isRotate = true;
+    this.isRotated = true;
     setTimeout(() => {
-      this.isRotate = false;
+      this.isRotated = false;
     }, 1300);
   }
 
   getDisable(card) {
-    const item = this.ownGameService.getItemDisable();
+    const item = this.ownGameService.getDisabledItemId();
     if (item === card.id) {
-      this.isDisable = true;
+      this.isDisabled = true;
     }
   }
 }

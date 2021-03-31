@@ -91,7 +91,7 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
 
       // service cart inactivate fot start game
       const elem = this.playingWord[0].id;
-      this.ownGameService.setItemDisable(elem);
+      this.ownGameService.setDisabledItemId(elem);
       // number of attempts per word again
       this.countTry = 0;
     }
@@ -116,7 +116,7 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
         this.leftCards -= 1;
         this.playNextWord();
         // service cart inactivate
-        this.ownGameService.setItemDisable(card.id);
+        this.ownGameService.setDisabledItemId(card.id);
       } else if (this.playingWord[0].audio !== card.audio) {
         const audioInstance = new Audio();
         audioInstance.src = '../../../../assets/sounds/no.mp3';
@@ -147,8 +147,6 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
   }
 
   canDeactivate(): boolean | Observable<boolean> {
-    // canDeactivate(): any {
-    // canDeactivate() {
     // eslint-disable-next-line no-restricted-globals
     // return this.isSaved ? true : confirm('Вы хотите выйти из игры?');
     return this.isSaved ? true : this.openDialog();
@@ -168,7 +166,6 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
 
   openDialog() {
     this.dialog.open(DialogElementsExampleDialogComponent);
-    // возможно стоит вернуть true? но работает и так
     return false;
   }
 
@@ -176,9 +173,3 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
     this.subscription.unsubscribe();
   }
 }
-//
-// @Component({
-//   selector: 'app-card-game-list-dialog',
-//   templateUrl: 'card-game-list-dialog.html',
-// })
-// export class DialogElementsExampleDialog {}
