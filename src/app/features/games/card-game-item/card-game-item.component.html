@@ -1,5 +1,5 @@
-<div class="card-game__card card-animation" [ngClass]="{ disable: isDisable }">
-  <div class="base-animation" [ngClass]="{ rotate: isRotate }">
+<div class="card-game__card card-animation" [class.disabled]="isDisabled">
+  <div class="base-animation" [class.rotated]="isRotated">
     <div class="card__description card__front" (click)="getDisable(card)" >
       <div class="card__image">
         <img src="{{ cardImgSrc }}" alt="{{ card.word }}" />
@@ -8,13 +8,13 @@
         <h3>{{ card.word }}</h3>
       </div>
       <div class="card__button">
-        <button (click)="playAudio()">
+        <button class="btn-template" (click)="playAudio()">
           озвучить
           <audio #audio>
             <source src="{{ cardAudioSrc }}" type="audio/mp3" />
           </audio>
         </button>
-        <button class="bt-icons" (click)="rotateCard()">
+        <button class="btn-template bt-icons" (click)="rotateCard()">
           <span class="material-icons">autorenew</span>
         </button>
       </div>

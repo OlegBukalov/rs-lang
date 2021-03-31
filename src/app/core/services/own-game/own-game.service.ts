@@ -6,11 +6,11 @@ import { Injectable } from '@angular/core';
 export class OwnGameService {
   idItemDisable: string;
 
-  setItemDisable(item: string) {
+  setDisabledItemId(item: string) {
     this.idItemDisable = item;
   }
 
-  getItemDisable(): string {
+  getDisabledItemId(): string {
     return this.idItemDisable;
   }
 }
