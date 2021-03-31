@@ -4,9 +4,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 
+import { MatDialog } from '@angular/material/dialog';
+
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { OwnGameService } from 'src/app/core/services/own-game/own-game.service';
+
 import { IWord } from 'src/app/core/interfaces/iword';
+import { DialogElementsExampleDialogComponent } from './card-game-list-dialog.component';
 import { ComponentCanDeactivate } from '../guards/exit-card-game.guard';
 
 @Component({
@@ -34,7 +38,11 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
 
   readonly baseCardURL = 'https://raw.githubusercontent.com/Oubowen/rslang-data/master/';
 
-  constructor(private wordsApiService: WordsApiService, private ownGameService: OwnGameService) {}
+  constructor(
+    private wordsApiService: WordsApiService,
+    private ownGameService: OwnGameService,
+    public dialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
     this.getData();
@@ -139,8 +147,11 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
   }
 
   canDeactivate(): boolean | Observable<boolean> {
+    // canDeactivate(): any {
+    // canDeactivate() {
     // eslint-disable-next-line no-restricted-globals
-    return this.isSaved ? true : confirm('Вы хотите выйти из игры?');
+    // return this.isSaved ? true : confirm('Вы хотите выйти из игры?');
+    return this.isSaved ? true : this.openDialog();
   }
 
   changeLevel(level: string) {
@@ -155,7 +166,19 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
     this.isEndGame = false;
   }
 
+  openDialog() {
+    this.dialog.open(DialogElementsExampleDialogComponent);
+    // возможно стоит вернуть true? но работает и так
+    return false;
+  }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 }
+//
+// @Component({
+//   selector: 'app-card-game-list-dialog',
+//   templateUrl: 'card-game-list-dialog.html',
+// })
+// export class DialogElementsExampleDialog {}

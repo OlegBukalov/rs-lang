@@ -5,6 +5,9 @@
     <div class="card-game__button">
       <button (click)="repeatGame()">начать заново</button>
     </div>
+    <div class="card-game__button">
+      <button (click)="openDialog()" *ngIf="!isPlay">прервать игру</button>
+    </div>
     <div class="card-game__button" *ngIf="isPlay">
       <button (click)="startGame()">играть</button>
     </div>

@@ -23,7 +23,6 @@ export class WordsApiService {
     return `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
   }
 
-
   // TODO: not used yet
   // private get wordUrl() {
   //   return `${this.baseUrl}/${this.id}`;
@@ -49,7 +48,6 @@ export class WordsApiService {
       }
     }
     return newArr;
-
   }
 
   changePageToken(passedPageToken: string): void {
