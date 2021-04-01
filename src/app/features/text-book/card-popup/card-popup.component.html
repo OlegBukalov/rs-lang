@@ -1,0 +1,15 @@
+<div class="container">
+  <img src="data:image/jpeg;base64,{{ card.image }}" alt="" />
+  <div class="word-transcription">
+    <div class="audio" (click)="playAudio()">
+      <img src="../../../../assets/icons/volume.svg" alt="" />
+    </div>
+    <div class="word">{{ card.word }}</div>
+    <div class="transcription">{{ card.transcription }}</div>
+  </div>
+  <div class="examples">
+    <div [innerHTML]="card.textMeaning"></div>
+    <div [innerHTML]="card.textExample"></div>
+  </div>
+</div>
+<div class="overlay" routerLink="../../"></div>

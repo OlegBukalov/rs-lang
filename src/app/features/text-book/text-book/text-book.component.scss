@@ -1,0 +1,16 @@
+.text-book {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  &__container {
+    //padding: 30px;
+    .title {
+      font-weight: 500;
+      font-size: 30px;
+      color: #333470;
+      letter-spacing: 5px;
+      line-height: 50px;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  }
+}

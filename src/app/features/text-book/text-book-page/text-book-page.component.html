@@ -1,3 +1,31 @@
-<div *ngFor="let card of cards">
-    {{card.word}}
+<div class="page-container">
+  <div class="arrow-btn left" (click)="navigate(pageId - 1)">
+    <img src="../../../../assets/icons/right-arrow.svg" alt="" />
+  </div>
+  <div class="cards-container">
+    <app-text-book-card
+      *ngFor="let card of cards | async"
+      [card]="card"
+      [color]="color"
+    ></app-text-book-card>
+  </div>
+  <div class="arrow-btn right" (click)="navigate(+pageId + 1)">
+    <img src="../../../../assets/icons/right-arrow.svg" alt="" />
+  </div>
 </div>
+<div class="pagination">
+  <div class="btn left" (click)="navigate(paginationOptions.firstPageIndex)">
+    <img src="../../../../assets/icons/right-arrow-end.svg" alt="To begin" />
+  </div>
+  <div class="btn left" (click)="navigate(pageId - 1)">
+    <img src="../../../../assets/icons/right-arrow.svg" alt="One left" />
+  </div>
+  <div class="btn left">{{ pageId }}</div>
+  <div class="btn right" (click)="navigate(+pageId + 1)">
+    <img src="../../../../assets/icons/right-arrow.svg" alt="One right" />
+  </div>
+  <div class="btn right" (click)="navigate(paginationOptions.lastPageIndex)">
+    <img src="../../../../assets/icons/right-arrow-end.svg" alt="To end" />
+  </div>
+</div>
+<router-outlet></router-outlet>
