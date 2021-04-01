@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { NotFoundComponent } from './features/not-found/not-found.component';
 import { StatisticsComponent } from './features/statistics/statistics.component';
 import { HomeComponent } from './features/home/home.component';
 import { AuthComponent } from './features/auth/auth.component';
@@ -24,7 +23,11 @@ const routes: Routes = [
   },
   { path: 'statistics', component: StatisticsComponent },
   { path: 'auth', component: AuthComponent },
-  { path: '**', component: NotFoundComponent },
+  {
+    path: '**',
+    loadChildren: () =>
+      import('./features/not-found/not-found.module').then((m) => m.NotFoundModule),
+  },
 ];
 
 @NgModule({
