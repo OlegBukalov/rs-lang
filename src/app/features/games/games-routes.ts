@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { NotFoundComponent } from '../not-found/not-found.component';
 import { GameListComponent } from './game-list/game-list.component';
-import { CardGameListComponent } from './card-game/card-game-list/card-game-list.component';
+import { CardGameComponent } from './card-game/card-game.component';
 import { ExitCardGameGuard } from './card-game/guards/exit-card-game.guard';
 
 export const gamesRoutes: Routes = [
@@ -12,6 +12,6 @@ export const gamesRoutes: Routes = [
   { path: 'audio-call', component: NotFoundComponent },
   // заменить компоненту для игры sprint
   { path: 'sprint', component: NotFoundComponent },
-  { path: 'card-game', component: CardGameListComponent, canDeactivate: [ExitCardGameGuard] },
+  { path: 'card-game', component: CardGameComponent, canDeactivate: [ExitCardGameGuard] },
   { path: '**', component: NotFoundComponent },
 ];

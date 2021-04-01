@@ -4,19 +4,18 @@ import { Observable, Subscription } from 'rxjs';
 
 import { MatDialog } from '@angular/material/dialog';
 
-import { WordsApiService } from 'src/app/core/services/wordsApi.service';
-import { OwnGameService } from 'src/app/features/games/card-game/services/own-game.service';
-
 import { IWord } from 'src/app/core/interfaces/iword';
-import { DialogElementsExampleDialogComponent } from './card-game-list-dialog.component';
-import { IComponentCanDeactivate } from '../guards/exit-card-game.guard';
+import { WordsApiService } from 'src/app/core/services/wordsApi.service';
+import { IComponentCanDeactivate } from './guards/exit-card-game.guard';
+import { DialogElementsExampleDialogComponent } from './card-game-modal/card-game-modal.component';
+import { OwnGameService } from './services/own-game.service';
 
 @Component({
-  selector: 'app-card-game-list',
-  templateUrl: './card-game-list.component.html',
-  styleUrls: ['./card-game-list.component.scss'],
+  selector: 'app-card-game',
+  templateUrl: './card-game.component.html',
+  styleUrls: ['./card-game.component.scss'],
 })
-export class CardGameListComponent implements OnInit, OnDestroy, IComponentCanDeactivate {
+export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeactivate {
   words: IWord[];
   copyWords: IWord[];
   playingWord: IWord[];
