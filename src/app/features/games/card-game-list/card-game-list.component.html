@@ -6,12 +6,7 @@
       <button class="btn-template" (click)="repeatGame()">начать заново</button>
     </div>
     <div class="card-game__button">
-      <button
-        class="btn-template"
-        (click)="openDialog()"
-        *ngIf="!isPlay">
-        прервать игру
-      </button>
+      <button class="btn-template" (click)="openDialog()" *ngIf="!isPlay">прервать игру</button>
     </div>
     <div class="card-game__button" *ngIf="isPlay">
       <button class="btn-template" (click)="startGame()">играть</button>
@@ -80,7 +75,7 @@
     </div>
   </div>
 
-  <div class="own-modal-result" *ngIf="isEndGame">
+  <div class="own-modal-result" *ngIf="isShowResult">
     <div class="modal">
       <span class="material-icons close" (click)="closeModal()">close</span>
       <p class="end-game-text">игра окончена</p>

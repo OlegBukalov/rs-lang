@@ -1,5 +1,3 @@
-/* eslint-disable no-return-assign */
-/* eslint-disable no-alert */
 /* eslint-disable @typescript-eslint/lines-between-class-members */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
@@ -11,14 +9,14 @@ import { OwnGameService } from 'src/app/core/services/own-game/own-game.service'
 
 import { IWord } from 'src/app/core/interfaces/iword';
 import { DialogElementsExampleDialogComponent } from './card-game-list-dialog.component';
-import { ComponentCanDeactivate } from '../guards/exit-card-game.guard';
+import { IComponentCanDeactivate } from '../guards/exit-card-game.guard';
 
 @Component({
   selector: 'app-card-game-list',
   templateUrl: './card-game-list.component.html',
   styleUrls: ['./card-game-list.component.scss'],
 })
-export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDeactivate {
+export class CardGameListComponent implements OnInit, OnDestroy, IComponentCanDeactivate {
   words: IWord[];
   copyWords: IWord[];
   playingWord: IWord[];
@@ -27,14 +25,11 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
   countTry: number;
   leftCards: number;
   isPlay: boolean;
-  isEndGame: boolean;
+  isShowResult: boolean;
   isStartPlay: boolean;
   isSaved: boolean;
 
   private subscription: Subscription;
-  // TODO: remake with tap(pipe)
-  // wordList: Observable<IWord[]>;
-  // words2: IWord[];
 
   readonly baseCardURL = 'https://raw.githubusercontent.com/Oubowen/rslang-data/master/';
 
@@ -46,14 +41,13 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
 
   ngOnInit(): void {
     this.getData();
-    // TODO: remake with tap(pipe)
-    // this.wordList = this.wordsApiService.getWordList();
-    // this.wordList.pipe(tap((el) => (this.words2 = el)));
     this.initializeValues();
   }
 
   getData() {
-    this.subscription = this.wordsApiService.getWordList().subscribe((data) => (this.words = data));
+    this.subscription = this.wordsApiService.getWordList().subscribe((data) => {
+      this.words = data;
+    });
   }
 
   initializeValues() {
@@ -63,7 +57,7 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
     this.countTry = 0;
     this.leftCards = 20;
     this.isPlay = true;
-    this.isEndGame = false;
+    this.isShowResult = false;
     this.isStartPlay = false;
     this.isSaved = true;
   }
@@ -81,7 +75,7 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
     }
 
     if (this.isPlay) {
-      this.isFinish();
+      this.finishGame();
       this.randomIndex = Math.floor(Math.random() * this.copyWords.length);
       const audioInstance = new Audio();
       audioInstance.src = `${this.baseCardURL + this.copyWords[this.randomIndex].audio}`;
@@ -97,10 +91,10 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
     }
   }
 
-  isFinish() {
+  finishGame() {
     if (this.copyWords.length === 0) {
       this.isPlay = false;
-      this.isEndGame = true;
+      this.isShowResult = true;
       const audioInstance = new Audio();
       audioInstance.src = '../../../../assets/sounds/466133__humanoide9000__victory-fanfare.wav';
       audioInstance.play();
@@ -147,7 +141,6 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
   }
 
   canDeactivate(): boolean | Observable<boolean> {
-    // eslint-disable-next-line no-restricted-globals
     // return this.isSaved ? true : confirm('Вы хотите выйти из игры?');
     return this.isSaved ? true : this.openDialog();
   }
@@ -161,7 +154,7 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
   }
 
   closeModal() {
-    this.isEndGame = false;
+    this.isShowResult = false;
   }
 
   openDialog() {
