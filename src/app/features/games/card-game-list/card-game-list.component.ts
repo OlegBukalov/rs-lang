@@ -21,7 +21,6 @@ export class CardGameListComponent implements OnInit, OnDestroy, IComponentCanDe
   copyWords: IWord[];
   playingWord: IWord[];
   hardWords: IWord[];
-  randomIndex: number;
   countTry: number;
   leftCards: number;
   isPlay: boolean;
@@ -76,11 +75,11 @@ export class CardGameListComponent implements OnInit, OnDestroy, IComponentCanDe
 
     if (this.isPlay) {
       this.finishGame();
-      this.randomIndex = Math.floor(Math.random() * this.copyWords.length);
+      const randomIndex = Math.floor(Math.random() * this.copyWords.length);
       const audioInstance = new Audio();
-      audioInstance.src = `${this.baseCardURL + this.copyWords[this.randomIndex].audio}`;
+      audioInstance.src = `${this.baseCardURL + this.copyWords[randomIndex].audio}`;
       audioInstance.play();
-      this.playingWord = this.copyWords.splice(this.randomIndex, 1);
+      this.playingWord = this.copyWords.splice(randomIndex, 1);
       this.isPlay = false;
 
       // service cart inactivate fot start game
