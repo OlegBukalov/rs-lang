@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
-import { OwnGameService } from 'src/app/core/services/own-game/own-game.service';
+import { OwnGameService } from 'src/app/features/games/card-game/services/own-game.service';
 
 import { IWord } from 'src/app/core/interfaces/iword';
 import { DialogElementsExampleDialogComponent } from './card-game-list-dialog.component';

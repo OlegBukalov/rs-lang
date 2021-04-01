@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/lines-between-class-members */
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 
-import { OwnGameService } from 'src/app/core/services/own-game/own-game.service';
-
 import { IWord } from 'src/app/core/interfaces/iword';
+import { OwnGameService } from '../services/own-game.service';
 
 @Component({
   selector: 'app-card-game-item',

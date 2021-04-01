@@ -4,8 +4,9 @@ import { RouterModule } from '@angular/router';
 import { GameListComponent } from './game-list/game-list.component';
 import { GameItemComponent } from './game-item/game-item.component';
 import { gamesRoutes } from './games-routes';
-import { CardGameItemComponent } from './card-game-item/card-game-item.component';
-import { CardGameListComponent } from './card-game-list/card-game-list.component';
+import { CardGameItemComponent } from './card-game/card-game-item/card-game-item.component';
+import { CardGameListComponent } from './card-game/card-game-list/card-game-list.component';
+
 @NgModule({
   declarations: [
     GameListComponent,
