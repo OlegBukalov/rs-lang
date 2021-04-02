@@ -1,4 +1,4 @@
-import { IGameItem } from '../../../core/interfaces/igame-item';
+import { IGameItem } from '../../core/interfaces/igame-item';
 
 export const GAMES_DESCRIPTION: IGameItem[] = [
   {
