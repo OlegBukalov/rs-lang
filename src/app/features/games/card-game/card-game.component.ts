@@ -16,10 +16,14 @@ import { OwnGameService } from './services/own-game.service';
   styleUrls: ['./card-game.component.scss'],
 })
 export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeactivate {
+  COUNT_TRY = 0;
+  LEFT_CARDS = 20;
+  CARDS_QUANTITY = 29;
+
   words: IWord[];
   copyWords: IWord[];
-  playingWord: IWord[];
   hardWords: IWord[];
+  playingWord: IWord;
   countTry: number;
   leftCards: number;
   isPlay: boolean;
@@ -50,10 +54,10 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   initializeValues() {
     this.copyWords = [];
-    this.playingWord = [];
+    this.playingWord = null;
     this.hardWords = [];
-    this.countTry = 0;
-    this.leftCards = 20;
+    this.countTry = this.COUNT_TRY;
+    this.leftCards = this.LEFT_CARDS;
     this.isPlay = true;
     this.isShowResult = false;
     this.isStartPlay = false;
@@ -69,27 +73,28 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   startAudio() {
     if (this.countTry > 2) {
-      this.hardWords.push(this.playingWord[0]);
+      this.hardWords.push(this.playingWord);
     }
 
     if (this.isPlay) {
-      this.finishGame();
+      this.checkFinished();
       const randomIndex = Math.floor(Math.random() * this.copyWords.length);
       const audioInstance = new Audio();
       audioInstance.src = `${this.baseCardURL + this.copyWords[randomIndex].audio}`;
       audioInstance.play();
-      this.playingWord = this.copyWords.splice(randomIndex, 1);
+      const cuttedWord = this.copyWords.splice(randomIndex, 1);
+      [this.playingWord] = cuttedWord;
       this.isPlay = false;
 
       // service cart inactivate fot start game
-      const elem = this.playingWord[0].id;
+      const elem = this.playingWord.id;
       this.ownGameService.setDisabledItemId(elem);
       // number of attempts per word again
       this.countTry = 0;
     }
   }
 
-  finishGame() {
+  checkFinished() {
     if (this.copyWords.length === 0) {
       this.isPlay = false;
       this.isShowResult = true;
@@ -100,8 +105,8 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   checkCard(card: IWord) {
-    if (typeof this.playingWord !== 'undefined') {
-      if (this.playingWord[0].audio === card.audio) {
+    if (this.playingWord) {
+      if (this.playingWord.audio === card.audio) {
         const audioInstance = new Audio();
         audioInstance.src = '../../../../assets/sounds/yes.mp3';
         audioInstance.play();
@@ -109,7 +114,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
         this.playNextWord();
         // service cart inactivate
         this.ownGameService.setDisabledItemId(card.id);
-      } else if (this.playingWord[0].audio !== card.audio) {
+      } else if (this.playingWord.audio !== card.audio) {
         const audioInstance = new Audio();
         audioInstance.src = '../../../../assets/sounds/no.mp3';
         audioInstance.play();
@@ -126,9 +131,9 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   repeatWord() {
-    if (typeof this.playingWord !== 'undefined') {
+    if (this.playingWord) {
       const audioInstance = new Audio();
-      audioInstance.src = `${this.baseCardURL + this.playingWord[0].audio}`;
+      audioInstance.src = `${this.baseCardURL + this.playingWord.audio}`;
       audioInstance.play();
     }
   }
@@ -144,7 +149,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   changeLevel(level: string) {
-    const randomPage: string = Math.floor(Math.random() * 29).toString();
+    const randomPage: string = Math.floor(Math.random() * this.CARDS_QUANTITY).toString();
     this.wordsApiService.changeGroupToken(level);
     this.wordsApiService.changePageToken(randomPage);
     this.getData();
