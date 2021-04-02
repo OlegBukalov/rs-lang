@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class OwnGameService {
-  idItemDisable: string;
+  private idItemDisable: string;
 
   setDisabledItemId(item: string) {
     this.idItemDisable = item;

@@ -144,7 +144,6 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   canDeactivate(): boolean | Observable<boolean> {
-    // return this.isSaved ? true : confirm('Вы хотите выйти из игры?');
     return this.isSaved ? true : this.openDialog();
   }
 
