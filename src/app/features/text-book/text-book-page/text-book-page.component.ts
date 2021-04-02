@@ -4,6 +4,10 @@ import { Observable } from 'rxjs';
 import { IPaginationOptions } from 'src/app/core/interfaces/ipagination-options';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
+import { IdValidatorService } from '../id-validator.service';
+
+const FIRST_PAGE_INDEX = 0;
+const LAST_PAGE_INDEX = 29;
 
 @Component({
   selector: 'app-text-book-page',
@@ -18,8 +22,8 @@ export class TextBookPageComponent implements OnInit {
   @Input() cards: Observable<IWord[]>;
 
   paginationOptions: IPaginationOptions = {
-    firstPageIndex: 0,
-    lastPageIndex: 29,
+    firstPageIndex: FIRST_PAGE_INDEX,
+    lastPageIndex: LAST_PAGE_INDEX,
     UrlFragment: /(?<=page\/)\d+/,
   };
 
@@ -31,13 +35,9 @@ export class TextBookPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      const id = this.validateId(params.pageId);
+      const id = IdValidatorService.validate(params.pageId);
       this.updateCards(id);
     });
-  }
-
-  validateId(id: any): number {
-    return !id || Number.isNaN(+id) ? 0 : id;
   }
 
   updateCards(pageId: number) {

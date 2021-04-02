@@ -1,33 +1,42 @@
 .container {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 100;
-  background-color: white;
-  padding: 20px;
-  .word-transcription {
-    display: flex;
-    align-items: center;
-    .word {
-      margin-right: 20px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    background-color: white;
+    padding: 20px;
+    .word-transcription {
+        display: flex;
+        align-items: center;
+        .word {
+            margin-right: 20px;
+        }
+        .audio {
+            margin-right: 20px;
+            img {
+                width: 25px;
+                height: 25px;
+            }
+        }
     }
-    .audio {
-      margin-right: 20px;
-      img {
-        width: 25px;
-        height: 25px;
-      }
-    }
-  }
+}
+
+.spinner {
+    position: absolute;
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
+    width: 100px;
+    height: 100px;
+    z-index: 110;
 }
 
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba($color: #202020, $alpha: 0.7);
-  z-index: 90;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba($color: #202020, $alpha: 0.7);
+    z-index: 90;
 }

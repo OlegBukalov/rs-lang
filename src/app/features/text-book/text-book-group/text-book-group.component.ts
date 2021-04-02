@@ -3,7 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
-import { difficulties, IGroupDifficulty } from './group-difficulty';
+import { IdValidatorService } from '../id-validator.service';
+import { categories, IGroupCategory } from './group-difficulty';
 
 @Component({
   selector: 'app-text-book-group',
@@ -19,7 +20,7 @@ export class TextBookGroupComponent implements OnInit {
 
   urlFragment = /(?<=group\/)\d+/;
 
-  difficulties: IGroupDifficulty[] = difficulties;
+  difficulties: IGroupCategory[] = categories;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,7 +28,7 @@ export class TextBookGroupComponent implements OnInit {
     private wordsApiService: WordsApiService,
   ) {
     this.route.params.subscribe((params) => {
-      const id = this.validateId(params.groupId);
+      const id = IdValidatorService.validate(params.groupId);
       this.updateCards(id);
       this.updateColor();
     });
@@ -37,10 +38,6 @@ export class TextBookGroupComponent implements OnInit {
     this.wordsApiService.changeGroupToken(this.groupId.toString());
   }
 
-  validateId(id: any): number {
-    return !id || Number.isNaN(+id) ? 0 : id;
-  }
-
   updateCards(groupId: number) {
     this.groupId = groupId;
     this.wordsApiService.changeGroupToken(this.groupId.toString());
@@ -48,14 +45,10 @@ export class TextBookGroupComponent implements OnInit {
   }
 
   updateColor() {
-    this.currentColor = this.difficulties.find((diff) => diff.groupId === +this.groupId).color;
+    this.currentColor = this.difficulties.find((diff) => diff.groupId === this.groupId).color;
   }
 
-  navigate(e: MouseEvent) {
-    const target = e.target as HTMLElement;
-    const element = target.closest('.difficulty') as HTMLElement;
-    const id = element.getAttribute('id');
-
-    this.router.navigateByUrl(this.router.url.replace(this.urlFragment, id));
+  navigate(groupId: number) {
+    this.router.navigateByUrl(this.router.url.replace(this.urlFragment, groupId.toString()));
   }
 }

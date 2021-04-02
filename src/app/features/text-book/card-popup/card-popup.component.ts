@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 
@@ -9,23 +9,29 @@ import { WordsApiService } from 'src/app/core/services/wordsApi.service';
   styleUrls: ['./card-popup.component.scss'],
 })
 export class CardPopupComponent {
-  cardId: string;
-
   card: IWord;
 
   // TODO: buttons to add word to dictionary
 
-  constructor(private route: ActivatedRoute, private wordsApiService: WordsApiService) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private wordsApiService: WordsApiService,
+  ) {
     this.route.params.subscribe((params) => {
-      this.cardId = params.cardId;
-      this.updateCard();
+      const { cardId } = params;
+      if (!cardId) return;
+      this.updateCard(cardId);
     });
   }
 
-  updateCard() {
-    this.wordsApiService.getCardById(this.cardId).subscribe((card) => {
-      this.card = card;
-    });
+  updateCard(cardId: string) {
+    this.wordsApiService.getCardById(cardId).subscribe(
+      (card) => {
+        this.card = card;
+      },
+      () => this.router.navigateByUrl(this.router.url.replace(/\/card\/.+/, '')),
+    );
   }
 
   playAudio() {

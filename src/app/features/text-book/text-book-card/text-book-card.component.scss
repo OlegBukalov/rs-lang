@@ -1,23 +1,24 @@
 .card {
-  padding: 10px;
-  border: 2px solid black;
-  display: flex;
-  align-items: center;
-  .content {
-    margin-left: 50px;
-    .word {
+    padding: 10px;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    &:hover {
+        cursor: pointer;
     }
-    .translation {
+    .content {
+        margin-left: 50px;
+        .word {}
+        .translation {}
     }
-  }
-  .image-container {
-    padding: 5px;
-    border-radius: 50%;
-    .image {
-      background-color: aqua;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
+    .image-container {
+        padding: 5px;
+        border-radius: 50%;
+        .image {
+            background-color: aqua;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+        }
     }
-  }
 }

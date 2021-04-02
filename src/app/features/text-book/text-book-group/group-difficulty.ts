@@ -1,10 +1,10 @@
-export interface IGroupDifficulty {
+export interface IGroupCategory {
   groupId: number;
   name: string;
   color: string;
 }
 
-export const difficulties: IGroupDifficulty[] = [
+export const categories: IGroupCategory[] = [
   { groupId: 0, name: 'Beginner', color: 'f94144' },
   { groupId: 1, name: 'Elementary', color: 'f3722c' },
   { groupId: 2, name: 'Intermediate', color: 'f8961e' },

@@ -1,15 +1,19 @@
-<div class="container">
-  <img src="data:image/jpeg;base64,{{ card.image }}" alt="" />
-  <div class="word-transcription">
-    <div class="audio" (click)="playAudio()">
-      <img src="../../../../assets/icons/volume.svg" alt="" />
+<div class="container" *ngIf="card; else loadingBlock">
+    <img src="data:image/jpeg;base64,{{ card.image }}" alt="{{card.word}}" />
+    <div class="word-transcription">
+        <button class="audio" (click)="playAudio()">
+            <img src="../../../../assets/icons/volume.svg" alt="Воспроизвести" />
+        </button>
+        <div class="word">{{ card.word }}</div>
+        <div class="transcription">{{ card.transcription }}</div>
     </div>
-    <div class="word">{{ card.word }}</div>
-    <div class="transcription">{{ card.transcription }}</div>
-  </div>
-  <div class="examples">
-    <div [innerHTML]="card.textMeaning"></div>
-    <div [innerHTML]="card.textExample"></div>
-  </div>
+    <div class="examples">
+        <div [innerHTML]="card.textMeaning"></div>
+        <div [innerHTML]="card.textExample"></div>
+    </div>
 </div>
 <div class="overlay" routerLink="../../"></div>
+
+<ng-template #loadingBlock>
+    <mat-spinner class="spinner"></mat-spinner>
+</ng-template>

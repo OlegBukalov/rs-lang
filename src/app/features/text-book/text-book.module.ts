@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TextBookComponent } from './text-book/text-book.component';
 import { TextBookGroupComponent } from './text-book-group/text-book-group.component';
 import { TextBookPageComponent } from './text-book-page/text-book-page.component';
 import { textBookRoutes } from './text-book.routes';
 import { TextBookCardComponent } from './text-book-card/text-book-card.component';
 import { CardPopupComponent } from './card-popup/card-popup.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -16,8 +18,9 @@ import { CardPopupComponent } from './card-popup/card-popup.component';
     TextBookPageComponent,
     TextBookCardComponent,
     CardPopupComponent,
+    PaginationComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(textBookRoutes)],
+  imports: [CommonModule, RouterModule.forChild(textBookRoutes), MatProgressSpinnerModule],
   providers: [HttpClient],
 })
 export class TextBookModule {}
