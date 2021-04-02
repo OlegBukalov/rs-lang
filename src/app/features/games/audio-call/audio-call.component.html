@@ -1,9 +1,5 @@
 <h2>Аудиовызов</h2>
-<div class="buttons">
-  <button class="buttons__item" (click)="onChangeGameMode('start')">Старт</button>
-  <button class="buttons__item" (click)="onChangeGameMode('game')">Игра</button>
-  <button class="buttons__item" (click)="onChangeGameMode('end')">Финиш</button>
-</div>
+
 <div [ngSwitch]="gameStatus">
   <app-audio-call-start *ngSwitchCase="'start'" (startNewGame)="gameStart($event)"></app-audio-call-start>
   <app-audio-call-game *ngSwitchCase="'game'" [level]="level"></app-audio-call-game>

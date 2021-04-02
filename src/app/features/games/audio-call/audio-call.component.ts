@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
 
+enum GameStatus {
+  Start = 'start',
+  Game = 'game',
+  End = 'end',
+}
+
 @Component({
   selector: 'app-audio-call',
   templateUrl: './audio-call.component.html',
@@ -11,15 +17,11 @@ export class AudioCallComponent {
   level = 1;
 
   constructor() {
-    this.gameStatus = 'start';
+    this.gameStatus = GameStatus.Start;
   }
 
-  gameStart($event) {
-    this.level = $event;
-    this.gameStatus = 'game';
-  }
-
-  onChangeGameMode(mode): void {
-    this.gameStatus = mode;
+  gameStart(level: number): void {
+    this.level = level;
+    this.gameStatus = GameStatus.Game;
   }
 }
