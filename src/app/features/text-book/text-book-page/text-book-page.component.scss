@@ -1,0 +1,33 @@
+.page-container {
+    display: grid;
+    grid-template-columns: 1fr 8fr 1fr;
+    grid-column-gap: 10px;
+    .arrow-btn {
+        background-color: rgba($color: #bcb8b1, $alpha: 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color 0.3s;
+        &:hover {
+            cursor: pointer;
+            background-color: rgba($color: #a8a5a0, $alpha: 0.5);
+        }
+        &[disabled]:hover {
+            cursor: auto;
+            background-color: rgba($color: #bcb8b1, $alpha: 0.5);
+        }
+        &.left img {
+            transform: rotate(180deg);
+        }
+        img {
+            width: 100px;
+            height: 100px;
+        }
+    }
+    .cards-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 20px;
+        grid-row-gap: 20px;
+    }
+}
