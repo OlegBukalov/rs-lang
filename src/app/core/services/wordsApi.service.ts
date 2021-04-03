@@ -22,6 +22,10 @@ export class WordsApiService {
     return this.http.get<IWord[]>(this.wordListUrl);
   }
 
+  getCardById(id: string): Observable<IWord> {
+    return this.http.get<IWord>(`${this.baseUrl}/${id}`);
+  }
+
   changePageToken(passedPageToken: string): void {
     this.pageToken = passedPageToken;
   }

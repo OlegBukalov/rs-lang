@@ -9,14 +9,13 @@ import { AppComponent } from './app.component';
 import { FooterComponent } from './core/components/footer/footer.component';
 import { HeaderComponent } from './core/components/header/header.component';
 
-import { NotFoundComponent } from './features/not-found/not-found.component';
 import { StatisticsModule } from './features/statistics/statistics.module';
 import { HomeModule } from './features/home/home.module';
 import { AuthModule } from './features/auth/auth.module';
 import { AuthInterceptor } from './features/interceptors/auth.interceptor';
 
 @NgModule({
-  declarations: [AppComponent, NotFoundComponent, HeaderComponent, FooterComponent],
+  declarations: [AppComponent, HeaderComponent, FooterComponent],
   imports: [
     BrowserModule,
     ToastrModule.forRoot(),

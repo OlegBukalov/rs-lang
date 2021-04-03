@@ -1,0 +1,7 @@
+<h2>Аудиовызов</h2>
+
+<div [ngSwitch]="gameStatus">
+  <app-audio-call-start *ngSwitchCase="'start'" (startNewGame)="gameStart($event)"></app-audio-call-start>
+  <app-audio-call-game *ngSwitchCase="'game'" [level]="level"></app-audio-call-game>
+  <app-audio-call-end *ngSwitchCase="'end'"></app-audio-call-end>
+</div>

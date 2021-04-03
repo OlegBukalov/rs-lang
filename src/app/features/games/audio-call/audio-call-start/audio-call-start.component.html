@@ -1,0 +1,7 @@
+<h3>Уровень сложности</h3>
+
+<select [(ngModel)]="level">
+  <option *ngFor="let level of levels" value="{{level}}">{{ level }}</option>
+</select>
+
+<button (click)="onStartClick()">Старт</button>
