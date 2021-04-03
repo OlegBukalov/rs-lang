@@ -25,12 +25,12 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   copyWords: IWord[];
   hardWords: IWord[];
   playingWord: IWord;
-  countTry: number;
-  leftCards: number;
+  countTry: number = this.COUNT_TRY;
+  leftCards: number = this.LEFT_CARDS;
 
   state = GameState;
-  currentState: GameState;
-  isSaved: boolean;
+  currentState: GameState = GameState.STOP;
+  isSaved = true;
 
   private subscription: Subscription;
 
@@ -44,7 +44,6 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   ngOnInit(): void {
     this.getData();
-    this.initializeValues();
   }
 
   getData() {
