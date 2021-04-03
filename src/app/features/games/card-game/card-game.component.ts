@@ -8,7 +8,7 @@ import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { IComponentCanDeactivate } from './guards/exit-card-game.guard';
 import { DialogElementsExampleDialogComponent } from './card-game-modal/card-game-modal.component';
-import { OwnGameService } from './services/own-game.service';
+import { GameState, OwnGameService } from './services/own-game.service';
 
 @Component({
   selector: 'app-card-game',
@@ -19,6 +19,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   COUNT_TRY = 0;
   LEFT_CARDS = 20;
   CARDS_QUANTITY = 29;
+  LOSS_QUANTITY = 2;
 
   words: IWord[];
   copyWords: IWord[];
@@ -26,9 +27,9 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   playingWord: IWord;
   countTry: number;
   leftCards: number;
-  isPlay: boolean;
-  isShowResult: boolean;
-  isStartPlay: boolean;
+
+  state = GameState;
+  currentState: GameState;
   isSaved: boolean;
 
   private subscription: Subscription;
@@ -54,29 +55,27 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   initializeValues() {
     this.copyWords = [];
-    this.playingWord = null;
     this.hardWords = [];
+    this.playingWord = null;
     this.countTry = this.COUNT_TRY;
     this.leftCards = this.LEFT_CARDS;
-    this.isPlay = true;
-    this.isShowResult = false;
-    this.isStartPlay = false;
+    this.currentState = GameState.STOP;
     this.isSaved = true;
   }
 
   startGame() {
-    this.isStartPlay = true;
+    this.currentState = GameState.PLAY;
     this.isSaved = false;
     this.copyWords = [...this.words];
     this.startAudio();
   }
 
   startAudio() {
-    if (this.countTry > 2) {
+    if (this.countTry > this.LOSS_QUANTITY) {
       this.hardWords.push(this.playingWord);
     }
 
-    if (this.isPlay) {
+    if (this.currentState === GameState.PLAY) {
       this.checkFinished();
       const randomIndex = Math.floor(Math.random() * this.copyWords.length);
       const audioInstance = new Audio();
@@ -84,20 +83,18 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
       audioInstance.play();
       const cuttedWord = this.copyWords.splice(randomIndex, 1);
       [this.playingWord] = cuttedWord;
-      this.isPlay = false;
-
+      this.currentState = GameState.HOLD;
       // service cart inactivate fot start game
       const elem = this.playingWord.id;
       this.ownGameService.setDisabledItemId(elem);
       // number of attempts per word again
-      this.countTry = 0;
+      this.countTry = this.COUNT_TRY;
     }
   }
 
   checkFinished() {
     if (this.copyWords.length === 0) {
-      this.isPlay = false;
-      this.isShowResult = true;
+      this.currentState = GameState.RESULT;
       const audioInstance = new Audio();
       audioInstance.src = '../../../../assets/sounds/466133__humanoide9000__victory-fanfare.wav';
       audioInstance.play();
@@ -125,7 +122,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   playNextWord() {
     setTimeout(() => {
-      this.isPlay = true;
+      this.currentState = GameState.PLAY;
       this.startAudio();
     }, 1700);
   }
@@ -156,7 +153,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   closeModal() {
-    this.isShowResult = false;
+    this.currentState = GameState.HOLD;
   }
 
   openDialog() {

@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
 
+export enum GameState {
+  STOP,
+  PLAY,
+  HOLD,
+  RESULT,
+}
 @Injectable({
   providedIn: 'root',
 })
