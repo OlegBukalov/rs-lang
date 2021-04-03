@@ -31,6 +31,10 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
   isStartPlay: boolean;
   isSaved: boolean;
 
+  Stars: string[];
+  itemStar: string;
+  COUNT_CAREGORIES = 6;
+
   private subscription: Subscription;
   // TODO: remake with tap(pipe)
   // wordList: Observable<IWord[]>;
@@ -50,6 +54,10 @@ export class CardGameListComponent implements OnInit, OnDestroy, ComponentCanDea
     // this.wordList = this.wordsApiService.getWordList();
     // this.wordList.pipe(tap((el) => (this.words2 = el)));
     this.initializeValues();
+    this.itemStar = '<span  class="material-icons"> star_border </span>';
+    this.Stars.length = this.COUNT_CAREGORIES;
+
+    this.Stars.fill('').forEach((item, i) => (i + 1).toString());
   }
 
   getData() {
