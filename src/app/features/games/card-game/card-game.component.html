@@ -1,0 +1,56 @@
+<div class="card-game">
+  <h2 class="card-game__title">Своя игра</h2>
+  <h4 class="card-game__score">Осталось карточек: {{ leftCards }}</h4>
+  <div class="card-game-buttons">
+    <div class="card-game__button">
+      <button class="btn-template" (click)="repeatGame()">начать заново</button>
+    </div>
+    <div class="card-game__button">
+      <button class="btn-template" (click)="openDialog()" *ngIf="currentState === state.HOLD">
+        прервать игру
+      </button>
+    </div>
+    <div class="card-game__button" *ngIf="currentState === state.STOP">
+      <button class="btn-template" (click)="startGame()">играть</button>
+    </div>
+    <div class="card-game__button" *ngIf="currentState === state.HOLD">
+      <button class="btn-template" (click)="repeatWord()">повторить</button>
+    </div>
+  </div>
+  <div class="card-game__levels">
+    <div
+      class="card-game__button"
+      *ngFor="let btn of getGeneratedArray(COUNT_CAREGORIES); let i = index"
+    >
+      <button class="btn-template" (click)="changeLevel(i)">
+        <span
+          *ngFor="let star of getGeneratedArray(i+1)"
+          class="material-icons"
+        >
+          star_border 
+        </span>
+      </button>
+    </div>
+  </div>
+  <div class="card-game__wrap">
+    <div class="card-game__content" *ngFor="let card of words">
+      <app-card-game-item
+        [card]="card"
+        [class.play]="currentState === state.HOLD"
+        (click)="checkCard(card)"
+      ></app-card-game-item>
+    </div>
+  </div>
+  <div class="own-modal-result" *ngIf="currentState === state.RESULT">
+    <div class="modal">
+      <span class="material-icons close" (click)="closeModal()">close</span>
+      <p class="end-game-text">игра окончена</p>
+      <div *ngIf="hardWords.length !== 0">
+        <p class="list-hard-title">Слова, которые вам нужно повторить</p>
+        <ul class="list-hard">
+          <li *ngFor="let hardWord of hardWords">{{ hardWord.word }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

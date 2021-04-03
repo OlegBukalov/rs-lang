@@ -13,7 +13,7 @@ export class WordsApiService {
   private pageToken = '0';
   private groupToken = '0';
 
-  // TODO: not used yet
+  // TODO: get data by ID
   // private id = '';
   // private wordList = `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
 
@@ -23,7 +23,7 @@ export class WordsApiService {
     return `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
   }
 
-  // TODO: not used yet
+  // TODO: get data by ID
   // private get wordUrl() {
   //   return `${this.baseUrl}/${this.id}`;
   // }
@@ -32,22 +32,13 @@ export class WordsApiService {
     return this.http.get<IWord[]>(this.wordListUrl).pipe(map((arr) => this.random(arr)));
   }
 
-  // TODO: not used yet
+  // TODO: get data by ID
   // getWord(): Observable<IWord[]> {
   //   return this.http.get<IWord[]>(this.wordUrl).pipe(map((arr) => arr));
   // }
 
   random(arr: IWord[]): IWord[] {
-    const newArr: IWord[] = [];
-    let arrLength: number = arr.length;
-    while (arrLength > 0) {
-      const index = Math.floor(Math.random() * arr.length);
-      if (!newArr.includes(arr[index])) {
-        newArr.push(arr[index]);
-        arrLength -= 1;
-      }
-    }
-    return newArr;
+    return arr.sort(() => Math.random() - 0.5);
   }
 
   changePageToken(passedPageToken: string): void {
@@ -58,7 +49,7 @@ export class WordsApiService {
     this.groupToken = passedGroupToken;
   }
 
-  // TODO: not used yet
+  // TODO: get data by ID
   // changeIDToken(passedIDToken: string): void {
   //   this.id = passedIDToken;
   // }
