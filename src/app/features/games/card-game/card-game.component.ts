@@ -118,7 +118,8 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
         this.playNextWord();
         // service cart inactivate
         this.ownGameService.setDisabledItemId(card.id);
-      } else if (this.playingWord.audio !== card.audio) {
+        // } else if (this.playingWord.audio !== card.audio) {
+      } else {
         const audioInstance = new Audio();
         audioInstance.src = '../../../../assets/sounds/no.mp3';
         audioInstance.play();
@@ -128,10 +129,10 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   playNextWord() {
-    setTimeout(() => {
-      this.currentState = GameState.PLAY;
-      this.startAudio();
-    }, 1700);
+    // setTimeout(() => {
+    this.currentState = GameState.PLAY;
+    this.startAudio();
+    // }, 1700);
   }
 
   repeatWord() {
