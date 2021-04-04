@@ -10,5 +10,5 @@ export class SprintGameComponent {
 
   bonusScoreCounter = 2;
 
-  bonusScoreLvl = 2;
+  bonusScoreLvl = 1;
 }

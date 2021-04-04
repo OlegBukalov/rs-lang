@@ -1,4 +1,4 @@
-<div class="bonus-score-list" [ngClass]="{'center': scoreLvl > 2}">
+<div class="bonus-score-list" [class.center]="scoreLvl > 2">
   <div class="bonus-score-image" *ngIf="scoreLvl > 2; else allImages">
     <span class="material-icons">
       done
