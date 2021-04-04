@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './sprint-game.component.html',
   styleUrls: ['./sprint-game.component.scss'],
 })
-export class SprintGameComponent {
-  startLoading = true;
-}
+export class SprintGameComponent {}
