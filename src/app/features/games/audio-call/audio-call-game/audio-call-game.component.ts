@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
-// import { IWord } from 'src/app/core/interfaces/iword';
+import { EventEmitter, Component, Input, Output } from '@angular/core';
+
+import { AudioCallService } from '../audio-call.service';
+import { IWordTask } from '../interfaces';
 
 @Component({
   selector: 'app-audio-call-game',
@@ -9,5 +11,26 @@ import { Component, Input } from '@angular/core';
 export class AudioCallGameComponent {
   @Input() level;
 
-  // @Input() aWord: ;
+  @Input() task: IWordTask | null;
+
+  @Output() newTask = new EventEmitter();
+
+  constructor(private gameService: AudioCallService) {}
+
+  getNextTask() {
+    this.newTask.emit();
+  }
+
+  checkAnswer(e) {
+    let event = e;
+    if (this.task.translation === event.target.textContent) {
+      event.target.style.background = 'green';
+      setTimeout(() => {
+        event.target.style.background = 'none';
+        this.getNextTask();
+      }, 500);
+    } else {
+      event.target.style.background = 'red';
+    }
+  }
 }

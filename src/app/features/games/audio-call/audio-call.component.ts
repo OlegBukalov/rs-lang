@@ -20,6 +20,8 @@ export class AudioCallComponent {
 
   level = 1;
 
+  page = 0;
+
   words: IWord[];
 
   wordsArray: IWordsInCallGame[];
@@ -32,15 +34,42 @@ export class AudioCallComponent {
 
   gameStart(level: number): void {
     this.level = level;
-    this.getWords(this.level);
+    this.page = 0;
+    this.getWords(this.level, this.page);
     this.gameStatus = GameStatus.Game;
   }
 
-  getWords(level): void {
-    this.gameService.getWords(level).subscribe((data: IWord[]) => {
+  getWords(level, page): void {
+    this.gameService.getWords(level, page).subscribe((data: IWord[]) => {
       this.words = data;
+      this.wordsArray = this.createTasks();
+      this.singleTask = this.createTask();
+      this.markWordAsShown(this.singleTask.correctIndex);
     });
   }
 
-  createTask() {}
+  createTasks(): IWordsInCallGame[] {
+    return this.gameService.createTasks(this.words);
+  }
+
+  createTask(): IWordTask {
+    return this.gameService.createTask(this.wordsArray);
+  }
+
+  createNewTask() {
+    this.singleTask = this.createTask();
+    this.markWordAsShown(this.singleTask.correctIndex);
+    if (this.checkUnshownWords()) {
+      this.page += 1;
+      this.getWords(this.level, this.page);
+    }
+  }
+
+  markWordAsShown(index) {
+    this.wordsArray[index].isShown = true;
+  }
+
+  checkUnshownWords() {
+    return this.gameService.countShown(this.wordsArray);
+  }
 }

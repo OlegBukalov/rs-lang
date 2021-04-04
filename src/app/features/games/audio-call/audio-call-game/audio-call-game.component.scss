@@ -1,0 +1,17 @@
+.loudspeaker {
+    display: block;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+}
+
+.answers {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    &__button {
+        display: block;
+        margin: 0 10px;
+    }
+}
