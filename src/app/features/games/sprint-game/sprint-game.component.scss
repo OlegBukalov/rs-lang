@@ -2,7 +2,6 @@
   width: 100%;
   height: calc(100vh - 309px);
   display:flex;
-  // background: url('/assets/images/sprint/bg.jpg');
   background-size: cover ;
   justify-content: center;
   align-items: center;
@@ -11,7 +10,6 @@
 
 .card {
   width: 40%;
-  // background: $background-card;
   border: 2px solid;
   border-radius: 5px;
   text-align: -webkit-center;
