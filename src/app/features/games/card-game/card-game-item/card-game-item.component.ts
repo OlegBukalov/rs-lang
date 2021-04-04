@@ -2,7 +2,7 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 
 import { IWord } from 'src/app/core/interfaces/iword';
-import { GameState, OwnGameService } from '../services/own-game.service';
+import { OwnGameService } from '../services/own-game.service';
 
 @Component({
   selector: 'app-card-game-item',
@@ -11,14 +11,12 @@ import { GameState, OwnGameService } from '../services/own-game.service';
 })
 export class CardGameItemComponent {
   @Input() card?: IWord;
-  @Input() currentState?: GameState = GameState.STOP;
-  @Input() state = GameState;
+  @Input() isHiddenDataChild: boolean;
 
   @ViewChild('audio') audioPlayerRef: ElementRef;
 
   isRotated = false;
   isDisabled = false;
-  isPlay: boolean = this.currentState === this.state.PLAY;
 
   private readonly baseCardURL = 'https://raw.githubusercontent.com/Oubowen/rslang-data/master/';
 

@@ -27,7 +27,7 @@
           *ngFor="let star of getGeneratedArray(i+1)"
           class="material-icons"
         >
-          star_border 
+          star_border
         </span>
       </button>
     </div>
@@ -36,6 +36,7 @@
     <div class="card-game__content" *ngFor="let card of words">
       <app-card-game-item
         [card]="card"
+        [isHiddenDataChild]="isHiddenDataChild"
         [class.play]="currentState === state.HOLD"
         (click)="checkCard(card)"
       ></app-card-game-item>

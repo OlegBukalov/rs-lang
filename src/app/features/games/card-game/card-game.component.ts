@@ -28,6 +28,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   playingWord: IWord;
   countTry: number = this.COUNT_TRY;
   leftCards: number = this.LEFT_CARDS;
+  isHiddenDataChild: boolean;
 
   state = GameState;
   currentState: GameState = GameState.STOP;
@@ -65,6 +66,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     this.leftCards = this.LEFT_CARDS;
     this.currentState = GameState.STOP;
     this.isSaved = true;
+    this.isHiddenDataChild = false;
   }
 
   startGame() {
@@ -72,6 +74,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     this.isSaved = false;
     this.copyWords = [...this.words];
     this.startAudio();
+    this.isHiddenDataChild = true;
   }
 
   startAudio() {
