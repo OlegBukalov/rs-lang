@@ -1,4 +1,5 @@
 .container {
+    width: 50%;
     position: fixed;
     left: 50%;
     top: 50%;
@@ -6,24 +7,30 @@
     z-index: 100;
     background-color: white;
     padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 6px #000;
+
+    img {
+      border-radius: 20px;
+    }
+
     .word-transcription {
         display: flex;
         align-items: center;
+        padding: 10px 0;
+
         .word {
             margin-right: 20px;
         }
+
         .audio {
             margin-right: 20px;
-            img {
-                width: 25px;
-                height: 25px;
-            }
         }
     }
 }
 
 .spinner {
-    position: absolute;
+    position: fixed;
     top: calc(50% - 50px);
     left: calc(50% - 50px);
     width: 100px;
