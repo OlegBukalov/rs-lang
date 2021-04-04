@@ -1,18 +1,15 @@
-<div class="bonus-score-images" [ngClass]="{'center': bonusScoreLvl > 2}">
-  <div class="bonus-score-image" [ngClass]="{'green-bacground': bonusScoreCounter > 0}">
-    <span class="material-icons" *ngIf="bonusScoreCounter > 0">
+<div class="bonus-score-list" [ngClass]="{'center': scoreLvl > 2}">
+  <div class="bonus-score-image" *ngIf="scoreLvl > 2; else allImages">
+    <span class="material-icons">
       done
     </span>
   </div>
-  <div class="bonus-score-image" [ngClass]="{'green-bacground': bonusScoreCounter > 1}" *ngIf="bonusScoreLvl < 3">
-    <span class="material-icons" *ngIf="bonusScoreCounter > 1">
-      done
-    </span>
-  </div>
-  <div class="bonus-score-image" [ngClass]="{'green-bacground': bonusScoreCounter > 2}" *ngIf="bonusScoreLvl < 3">
-    <span class="material-icons" *ngIf="bonusScoreCounter > 2">
-      done
-    </span>
-  </div>
+  <ng-template #allImages>
+    <div class="bonus-score-image" *ngFor="let item of scoreCounters; let i = index">
+      <span class="material-icons" *ngIf="scoreCounter > i">
+        done
+      </span>
+    </div>
+  </ng-template>
 </div>
-<p>{{bonusScoreLvlText}}</p>
+<p>{{lvlText}}</p>

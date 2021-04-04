@@ -1,4 +1,4 @@
-.bonus-score-images {
+.bonus-score-list {
   display: flex;
   justify-content: space-between;
   width: 100px;
@@ -13,10 +13,10 @@
 
 .material-icons {
   font-size: 18px;
-}
-
-.green-bacground {
-  background-color: lawngreen;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  background-color: lawngreen
 }
 
 .center {

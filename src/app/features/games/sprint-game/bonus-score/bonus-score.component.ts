@@ -1,31 +1,26 @@
 import { Component, Input, OnInit } from '@angular/core';
-
-enum BonusScoreLvlTexts {
-  ZeroLvl = '',
-  SecondLvl = '+20 очков за слово',
-  ThirdLvl = '+40 очков за слово',
-  FourthLvl = '+80 очков за слово',
-}
-
-const convertLvl = ['ZeroLvl', 'SecondLvl', 'ThirdLvl', 'FourthLvl'];
+import { TextByLevel } from '../constants/textByLvl';
+import { ScoreCounters } from '../constants/scoreCounters';
 
 @Component({
   selector: 'app-bonus-score',
   templateUrl: './bonus-score.component.html',
-  styleUrls: ['./bonus-score.component.scss']
+  styleUrls: ['./bonus-score.component.scss'],
 })
 export class BonusScoreComponent implements OnInit {
-  @Input() bonusScoreCounter: number;
+  @Input() scoreCounter: number;
 
-  @Input() bonusScoreLvl: number;
+  @Input() scoreLvl: number;
 
-  bonusScoreLvlText = BonusScoreLvlTexts.ZeroLvl;
+  lvlText = TextByLevel[0];
+
+  scoreCounters = ScoreCounters;
 
   ngOnInit(): void {
-    this.changeLvlText(this.bonusScoreLvl)
+    this.changeLvlText(this.scoreLvl);
   }
 
-  changeLvlText(bonusScoreLvl: number) {
-    this.bonusScoreLvlText = BonusScoreLvlTexts[convertLvl[bonusScoreLvl]];
+  private changeLvlText(scoreLvl: number) {
+    this.lvlText = TextByLevel[scoreLvl];
   }
 }
