@@ -1,3 +1,4 @@
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -14,6 +15,7 @@ import { AudioCallGameComponent } from './audio-call/audio-call-game/audio-call-
 import { AudioCallEndComponent } from './audio-call/audio-call-end/audio-call-end.component';
 
 import { SprintGameComponent } from './sprint-game/sprint-game.component';
+import { StartLoadingComponent } from './sprint-game/start-loading/start-loading.component';
 @NgModule({
   declarations: [
     GameListComponent,
@@ -25,8 +27,14 @@ import { SprintGameComponent } from './sprint-game/sprint-game.component';
     AudioCallGameComponent,
     AudioCallEndComponent,
     SprintGameComponent,
+    StartLoadingComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(gamesRoutes), FormsModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(gamesRoutes),
+    FormsModule,
+    MatProgressSpinnerModule,
+  ],
   providers: [],
 })
 export class GamesModule {}
