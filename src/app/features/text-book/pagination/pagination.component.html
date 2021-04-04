@@ -1,0 +1,15 @@
+<div class="pagination">
+    <button class="btn left" (click)="navigateClick(options.firstPageIndex)" [disabled]="pageId === options.firstPageIndex">
+        <img src="../../../../assets/icons/right-arrow-end.svg" alt="To begin" />
+    </button>
+    <button class="btn left" (click)="navigateClick(pageId - 1)" [disabled]="pageId === options.firstPageIndex">
+        <img src="../../../../assets/icons/right-arrow.svg" alt="One left" />
+    </button>
+    <div class="btn left">{{ pageId }}</div>
+    <button class="btn right" (click)="navigateClick(+pageId + 1)" [disabled]="pageId === options.lastPageIndex">
+        <img src="../../../../assets/icons/right-arrow.svg" alt="One right" />
+    </button>
+    <button class="btn right" (click)="navigateClick(options.lastPageIndex)" [disabled]="pageId === options.lastPageIndex">
+        <img src="../../../../assets/icons/right-arrow-end.svg" alt="To end" />
+    </button>
+</div>

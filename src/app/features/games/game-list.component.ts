@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { IGameItem } from '../../../core/interfaces/igame-item';
+import { IGameItem } from '../../core/interfaces/igame-item';
 
 import { GAMES_DESCRIPTION } from './data-game-description';
 
