@@ -56,7 +56,7 @@ export class AudioCallComponent {
     return this.gameService.createTask(this.wordsArray);
   }
 
-  createNewTask() {
+  createNewTask(): void {
     this.singleTask = this.createTask();
     this.markWordAsShown(this.singleTask.correctIndex);
     if (this.checkUnshownWords()) {
@@ -65,11 +65,11 @@ export class AudioCallComponent {
     }
   }
 
-  markWordAsShown(index) {
+  markWordAsShown(index: number): void {
     this.wordsArray[index].isShown = true;
   }
 
-  checkUnshownWords() {
+  checkUnshownWords(): boolean {
     return this.gameService.countShown(this.wordsArray);
   }
 }

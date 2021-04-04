@@ -17,12 +17,12 @@ export class AudioCallGameComponent {
 
   constructor(private gameService: AudioCallService) {}
 
-  getNextTask() {
+  getNextTask(): void {
     this.newTask.emit();
   }
 
-  checkAnswer(e) {
-    let event = e;
+  checkAnswer(e): void {
+    const event = e;
     if (this.task.translation === event.target.textContent) {
       event.target.style.background = 'green';
       setTimeout(() => {

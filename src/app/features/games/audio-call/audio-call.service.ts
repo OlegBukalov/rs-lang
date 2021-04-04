@@ -46,7 +46,7 @@ export class AudioCallService {
     return task;
   }
 
-  createIncorrectIndexes() {
+  createIncorrectIndexes(): number[] {
     let incorrectIndexes = [];
 
     while (incorrectIndexes.length <= 3) {
@@ -69,7 +69,7 @@ export class AudioCallService {
     return incorrectWords;
   }
 
-  createCorrectIndex(wordsArray) {
+  createCorrectIndex(wordsArray): number {
     let correct = Math.floor(20 * Math.random());
     while (wordsArray[correct].isShown === true) {
       correct = correct >= 19 ? 0 : (correct += 1);
@@ -78,7 +78,7 @@ export class AudioCallService {
     return correct;
   }
 
-  createAnswers(correct, incorrects) {
+  createAnswers(correct, incorrects): string[] {
     const randomPosition = Math.floor(4 * Math.random());
     const answersArr = incorrects;
     answersArr.splice(randomPosition, 0, correct);
@@ -86,7 +86,7 @@ export class AudioCallService {
     return answersArr;
   }
 
-  countShown(array) {
+  countShown(array): boolean {
     const markedArr = array.filter((element) => element.isShown === false);
     if (markedArr.length <= 1) return true;
     return false;
