@@ -4,19 +4,21 @@
       <div class="card__image">
         <img src="{{ cardImgSrc }}" alt="{{ card.word }}" />
       </div>
-      <div class="card__title" [class.hidden]="isPlay">
-        <h3>{{ card.word }}</h3>
-      </div>
-      <div class="card__button">
-        <button class="btn-template" (click)="playAudio()">
-          озвучить
-          <audio #audio>
-            <source src="{{ cardAudioSrc }}" type="audio/mp3" />
-          </audio>
-        </button>
-        <button class="btn-template bt-icons" (click)="rotateCard()">
-          <span class="material-icons">autorenew</span>
-        </button>
+      <div *ngIf="!isHiddenDataChild">
+        <div class="card__title">
+          <h3>{{ card.word }}</h3>
+        </div>
+        <div class="card__button">
+          <button class="btn-template" (click)="playAudio()">
+            озвучить
+            <audio #audio>
+              <source src="{{ cardAudioSrc }}" type="audio/mp3" />
+            </audio>
+          </button>
+          <button class="btn-template bt-icons" (click)="rotateCard()">
+            <span class="material-icons">autorenew</span>
+          </button>
+        </div>
       </div>
     </div>
     <div class="card__back">
