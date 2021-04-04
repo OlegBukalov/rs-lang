@@ -15,6 +15,7 @@ import { AudioCallGameComponent } from './audio-call/audio-call-game/audio-call-
 import { AudioCallEndComponent } from './audio-call/audio-call-end/audio-call-end.component';
 
 import { SprintGameComponent } from './sprint-game/sprint-game.component';
+import { BonusScoreComponent } from './sprint-game/bonus-score/bonus-score.component';
 @NgModule({
   declarations: [
     GameListComponent,
@@ -26,6 +27,7 @@ import { SprintGameComponent } from './sprint-game/sprint-game.component';
     AudioCallGameComponent,
     AudioCallEndComponent,
     SprintGameComponent,
+    BonusScoreComponent,
   ],
   imports: [CommonModule, RouterModule.forChild(gamesRoutes), FormsModule, MatCardModule],
   providers: [],

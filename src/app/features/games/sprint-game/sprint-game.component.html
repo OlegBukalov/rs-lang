@@ -3,10 +3,18 @@
     <span>Score: {{score}}</span>
   </div>
   <mat-card class="card">
-      <mat-card-header>
-          <mat-card-title>Title</mat-card-title>
-          <mat-card-subtitle>Subtitle</mat-card-subtitle>
-      </mat-card-header>
+    <app-bonus-score
+      [bonusScoreCounter] = "bonusScoreCounter"
+      [bonusScoreLvl] = "bonusScoreLvl"
+    ></app-bonus-score>
+
+
+
+
+
+
+
+
       <img matCardImage src="Card wide image source">
       <mat-card-content>
           Text content

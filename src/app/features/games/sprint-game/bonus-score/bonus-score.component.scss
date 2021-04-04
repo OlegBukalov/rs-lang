@@ -1,0 +1,24 @@
+.bonus-score-images {
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+}
+
+.bonus-score-image {
+  border: 1px solid;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+
+.material-icons {
+  font-size: 18px;
+}
+
+.green-bacground {
+  background-color: lawngreen;
+}
+
+.center {
+  justify-content: center;
+}

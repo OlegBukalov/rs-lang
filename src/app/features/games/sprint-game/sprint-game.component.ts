@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class SprintGameComponent {
   score = 0;
+
+  bonusScoreCounter = 2;
+
+  bonusScoreLvl = 2;
 }
