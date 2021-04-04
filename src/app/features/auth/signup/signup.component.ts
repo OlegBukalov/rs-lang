@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -61,23 +62,30 @@ export class SignupComponent implements OnInit, OnDestroy {
     );
   }
 
-  handleSignupErrors(err) {
+  handleSignupErrors(err: HttpErrorResponse) {
     if (err.status === 422 || err.status === 404) {
       err.error.error.errors.forEach((error) => {
         const errorName = error.path[0];
-        if (errorName === 'name') {
-          this.toastrService.showError('Неверное имя', 'Ошибка');
-        } else if (errorName === 'email') {
-          this.toastrService.showError('Неверная почта', 'Ошибка');
-        } else if (errorName === 'password') {
-          this.toastrService.showError(
-            'Неверный пароль. Ваш пароль должен содержать по крайней мере 8 символов, одну прописную, одну строчную букву и специальный символ',
-            'Ошибка',
-          );
+        switch (errorName) {
+          case 'name':
+            this.toastrService.showError('Неверное имя', 'Ошибка');
+            break;
+          case 'email':
+            this.toastrService.showError('Неверная почта', 'Ошибка');
+            break;
+          case 'password':
+            this.toastrService.showError(
+              'Неверный пароль. Ваш пароль должен содержать по крайней мере 8 символов, одну прописную, одну строчную букву и специальный символ',
+              'Ошибка',
+            );
+            break;
+          default:
+            this.toastrService.showError(
+              'Имя, почта или пароль не соответствуют формату',
+              'Ошибка',
+            );
         }
       });
-    } else {
-      this.toastrService.showError('Имя, почта или пароль не соответствуют формату', 'Ошибка');
     }
   }
 

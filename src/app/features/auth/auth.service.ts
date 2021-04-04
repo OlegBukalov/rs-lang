@@ -3,6 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
+import { LoginResponse } from './auth.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -88,12 +89,4 @@ export class AuthService implements OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-}
-
-export interface LoginResponse {
-  message: string;
-  token: string;
-  refreshToken: string;
-  userId: string;
-  name: string;
 }
