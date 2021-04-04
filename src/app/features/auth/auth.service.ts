@@ -3,7 +3,6 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
-import { LoginResponse } from './constants';
 
 @Injectable({
   providedIn: 'root',
@@ -17,11 +16,11 @@ export class AuthService implements OnDestroy {
     name: '',
   };
 
-  baseUrl = 'https://afternoon-falls-25894.herokuapp.com/';
+  private readonly baseUrl = 'https://afternoon-falls-25894.herokuapp.com/';
 
-  tokenExpirationTime: number;
+  private tokenExpirationTime: number;
 
-  subscription: Subscription;
+  private subscription: Subscription;
 
   constructor(private http: HttpClient) {}
 
@@ -39,7 +38,7 @@ export class AuthService implements OnDestroy {
     return this.http.post<LoginResponse>(`${this.baseUrl}users`, loginForm.value);
   }
 
-  refreshToken() {
+  private refreshToken() {
     const options = {
       headers: {
         Authorization: `Bearer ${this.loginData.refreshToken}`,
@@ -62,7 +61,7 @@ export class AuthService implements OnDestroy {
     });
   }
 
-  setupTokenResreshTimeout() {
+  private setupTokenResreshTimeout() {
     if (this.loginData.token) {
       const { token } = this.loginData;
       const payload = JSON.parse(atob(token.split('.')[1]));
@@ -89,4 +88,12 @@ export class AuthService implements OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+}
+
+export interface LoginResponse {
+  message: string;
+  token: string;
+  refreshToken: string;
+  userId: string;
+  name: string;
 }

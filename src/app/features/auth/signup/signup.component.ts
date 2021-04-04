@@ -48,6 +48,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   onSignup(): void {
     this.isFormSubmitted = true;
     if (!this.signupForm.valid) {
+      this.toastrService.showError('Неверно заполнена форма регистрации', 'Ошибка');
       return;
     }
     this.subscription = this.authService.signup(this.signupForm).subscribe(
@@ -55,27 +56,29 @@ export class SignupComponent implements OnInit, OnDestroy {
         this.toastrService.showSuccess('Регистрация прошла успешно!', 'Успех');
       },
       (error) => {
-        if (error.status === 422 || error.status === 404) {
-          for (let i = 0; i <= error.error.error.errors.length - 1; i += 1) {
-            const errorName = error.error.error.errors[i].path[0];
-            if (errorName === 'name') {
-              this.toastrService.showError('Неверное имя', 'Ошибка');
-            }
-            if (errorName === 'email') {
-              this.toastrService.showError('Неверная почта', 'Ошибка');
-            }
-            if (errorName === 'password') {
-              this.toastrService.showError(
-                'Неверный пароль. Ваш пароль должен содержать по крайней мере 8 символов, одну прописную, одну строчную букву и специальный символ',
-                'Ошибка',
-              );
-            }
-          }
-        } else {
-          this.toastrService.showError('Имя, почта или пароль не соответствуют формату', 'Ошибка');
-        }
+        this.handleSignupErrors(error);
       },
     );
+  }
+
+  handleSignupErrors(err) {
+    if (err.status === 422 || err.status === 404) {
+      err.error.error.errors.forEach((error) => {
+        const errorName = error.path[0];
+        if (errorName === 'name') {
+          this.toastrService.showError('Неверное имя', 'Ошибка');
+        } else if (errorName === 'email') {
+          this.toastrService.showError('Неверная почта', 'Ошибка');
+        } else if (errorName === 'password') {
+          this.toastrService.showError(
+            'Неверный пароль. Ваш пароль должен содержать по крайней мере 8 символов, одну прописную, одну строчную букву и специальный символ',
+            'Ошибка',
+          );
+        }
+      });
+    } else {
+      this.toastrService.showError('Имя, почта или пароль не соответствуют формату', 'Ошибка');
+    }
   }
 
   isShowErrors(formControlName: FormControlName): boolean {

@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   onLogin(): void {
     this.isFormSubmitted = true;
     if (!this.loginForm.valid) {
+      this.toastrService.showError('Неверно заполнена форма входа', 'Ошибка');
       return;
     }
     this.subscription = this.authService.login(this.loginForm).subscribe(

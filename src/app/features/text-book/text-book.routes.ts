@@ -7,6 +7,11 @@ import { TextBookComponent } from './text-book/text-book.component';
 const cardRoutes: Routes = [{ path: 'card/:cardId', component: CardPopupComponent }];
 
 export const textBookRoutes: Routes = [
-  { path: 'group/:groupId/page/:pageId', component: TextBookComponent, children: cardRoutes, canActivate: [AuthGuard] },
+  {
+    path: 'group/:groupId/page/:pageId',
+    component: TextBookComponent,
+    children: cardRoutes,
+    canActivate: [AuthGuard],
+  },
   { path: '**', component: NotFoundComponent },
 ];
