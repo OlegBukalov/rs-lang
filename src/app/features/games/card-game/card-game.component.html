@@ -23,11 +23,8 @@
       *ngFor="let btn of getGeneratedArray(COUNT_CAREGORIES); let i = index"
     >
       <button class="btn-template" (click)="changeLevel(i)">
-        <span
-          *ngFor="let star of getGeneratedArray(i+1)"
-          class="material-icons"
-        >
-          star_border 
+        <span *ngFor="let star of getGeneratedArray(i + 1)" class="material-icons">
+          star_border
         </span>
       </button>
     </div>

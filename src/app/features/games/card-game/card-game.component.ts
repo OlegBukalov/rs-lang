@@ -8,7 +8,8 @@ import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { IComponentCanDeactivate } from './guards/exit-card-game.guard';
 import { DialogElementsExampleDialogComponent } from './card-game-modal/card-game-modal.component';
-import { GameState, OwnGameService } from './services/own-game.service';
+import { OwnGameService } from './services/own-game.service';
+import { GameState } from './services/gameState.state';
 
 @Component({
   selector: 'app-card-game',
