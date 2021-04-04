@@ -8,8 +8,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   signupForm: FormGroup;
+
   loginForm: FormGroup;
+
   formSubmitted = false;
+
   hidePassword = true;
 
   ngOnInit(): void {
@@ -26,17 +29,11 @@ export class LoginComponent implements OnInit {
 
   onSignup(): void {
     this.formSubmitted = true;
-    if (!this.signupForm.valid) {
-      return;
-    }
     // TODO: Implement logic of making signup request
   }
 
   onLogin(): void {
     this.formSubmitted = true;
-    if (!this.loginForm.valid) {
-      return;
-    }
     // TODO: Implement logic of making login request
   }
 }

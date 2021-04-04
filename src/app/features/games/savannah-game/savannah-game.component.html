@@ -14,7 +14,8 @@
         <button color="primary" mat-flat-button (click)="continue()" *ngIf="isStarted && !isGameInProgress">Продолжить</button>
         <button color="primary" mat-flat-button (click)="start()" *ngIf="!isStarted">Старт</button>
         <div *ngIf="isStarted && isGameInProgress" class="buttons-wrapper">
-            <button class="answer-word" color="accent" mat-flat-button (click)="compareWords($event)" *ngFor="let answer of answerWordsArray">{{answer}}</button>
+            <button class="answer-word" color="accent" mat-flat-button (click)="compareWords($event)"
+            *ngFor="let answer of answerWordsArray">{{answer}}</button>
         </div>
     </div>
 </div>

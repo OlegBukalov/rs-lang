@@ -12,8 +12,8 @@ export class GameListComponent {
     {
       id: 0,
       title: 'Саванна',
-      imgUrl: '../assets/img/game_savanna.jpg',
-      routerLink: 'savanna-game',
+      imgUrl: '../assets/img/game_savannah.jpg',
+      routerLink: 'savannah-game',
     },
     {
       id: 1,
