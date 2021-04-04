@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+// import { IWord } from 'src/app/core/interfaces/iword';
 
 @Component({
   selector: 'app-audio-call-game',
@@ -7,4 +8,6 @@ import { Component, Input } from '@angular/core';
 })
 export class AudioCallGameComponent {
   @Input() level;
+
+  // @Input() aWord: ;
 }
