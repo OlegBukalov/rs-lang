@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { WordsApiService } from '../../../../core/services/wordsApi.service';
 
 @Component({
   selector: 'app-settings-page',
@@ -10,13 +11,15 @@ export class SettingsPageComponent {
 
   levels = [1, 2, 3, 4, 5, 6];
 
-  currentLvl = 1;
+  constructor(private wordsApiService: WordsApiService) {}
 
   private chooseLvl(lvl: number): void {
-    this.currentLvl = lvl;
+    this.wordsApiService.changeGroupToken(lvl.toString());
   }
 
   onStart(): void {
-    this.startGame.emit(this.currentLvl);
+    const page = Math.round(Math.random() * 29);
+    this.wordsApiService.changePageToken(page.toString());
+    this.startGame.emit();
   }
 }
