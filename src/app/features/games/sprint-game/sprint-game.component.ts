@@ -4,6 +4,7 @@ import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { ISprintWord } from './interfaces/sprint-word';
 import { GameStatuses } from './enums/game-statuses.enum';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sprint-game',
@@ -27,6 +28,8 @@ export class SprintGameComponent {
 
   currentWord: ISprintWord;
 
+  private subscriptionWords: Subscription;
+
   constructor(private wordsApiService: WordsApiService, private toastrService: ToasterService) {
     this.currentWord = {
       id: '',
@@ -44,7 +47,7 @@ export class SprintGameComponent {
 
   setPlayStatus(): void {
     this.gameStatus = GameStatuses.Play;
-    this.wordsApiService.getWordList().subscribe(
+    this.subscriptionWords = this.wordsApiService.getWordList().subscribe(
       (words: IWord[]) => {
         if (words) {
           this.words = words.sort(() => Math.random() - 0.5);
@@ -74,6 +77,7 @@ export class SprintGameComponent {
   }
 
   setEndStatus(): void {
+    this.subscriptionWords.unsubscribe();
     this.gameStatus = GameStatuses.End;
   }
 
