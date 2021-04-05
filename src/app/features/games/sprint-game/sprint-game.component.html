@@ -1,19 +1,18 @@
 <div class="container">
-  <!-- TODO add settings component -->
-  <!-- TODO add loading component -->
+  <!-- TODO: add settings component -->
+  <!-- TODO: add loading component -->
   <div>
     <span>Score: {{score}}</span>
   </div>
   <mat-card class="card">
-    <!-- TODO add score component -->
+    <!-- TODO: add score component -->
     <span>{{currentWord.word}}</span>
     <span>{{currentWord.randomTranslate}}</span>
     <div class="answer-buttons">
-      <button (click)="checkAnswer()"> Неверно </button>
-      <button (click)="checkAnswer()"> Верно </button>
+      <button (click)="checkAnswer(false)"> Неверно </button>
+      <button (click)="checkAnswer(true)"> Верно </button>
     </div>
   </mat-card>
-  <!-- TODO add mat progress bar -->
-  <!-- TODO add end component -->
+  <!-- TODO: add mat progress bar -->
+  <!-- TODO: add end component -->
 </div>
-<button (click)="setPlayStatus()">Go</button>
