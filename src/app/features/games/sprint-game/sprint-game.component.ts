@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { ISprintWord } from './interfaces/sprint-word';
 import { GameStatuses } from './enums/game-statuses.enum';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sprint-game',
@@ -18,7 +18,7 @@ export class SprintGameComponent {
 
   bonusScoreLvl = 0;
 
-  wordCounter = 1;
+  wordCounter = 0;
 
   gameStatus = GameStatuses.Play;
 
@@ -46,6 +46,11 @@ export class SprintGameComponent {
   }
 
   setPlayStatus(): void {
+    this.score = 0;
+    this.bonusScoreCounter = 0;
+    this.bonusScoreLvl = 0;
+    this.wordCounter = 0;
+    this.gameWords = [];
     this.gameStatus = GameStatuses.Play;
     this.subscriptionWords = this.wordsApiService.getWordList().subscribe(
       (words: IWord[]) => {
@@ -79,6 +84,10 @@ export class SprintGameComponent {
   setEndStatus(): void {
     this.subscriptionWords.unsubscribe();
     this.gameStatus = GameStatuses.End;
+    this.bonusScoreCounter = 0;
+    this.bonusScoreLvl = 0;
+    this.wordCounter = 0;
+    this.gameWords = [];
   }
 
   checkAnswer(answer: boolean): void {
