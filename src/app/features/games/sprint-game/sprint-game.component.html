@@ -12,9 +12,18 @@
       <button (click)="checkAnswer(false)"> Неверно </button>
       <button (click)="checkAnswer(true)"> Верно </button>
     </div>
+    <div class="progress-bar-block">
+      <mat-progress-bar
+        mode="determinate"
+        [value]="progressbarValue">
+      </mat-progress-bar>
+      <div style="position: absolute; padding: 10px; color: white;">{{curSecond}} sec</div>
+    </div>
   </mat-card>
-  <!-- TODO: add mat progress bar -->
-  <button (click)="setPlayStatus()">Начать заново</button>
+  <div class="answer-buttons">
+    <button (click)="setPlayStatus()">Начать заново</button>
+    <button (click)="setEndStatus()">Выйти</button>
+  </div>
   <!-- TODO: add end component -->
 </div>
 

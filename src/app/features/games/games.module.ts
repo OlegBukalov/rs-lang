@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { GameListComponent } from './game-list.component';
 import { GameItemComponent } from './game-item/game-item.component';
@@ -27,7 +28,13 @@ import { SprintGameComponent } from './sprint-game/sprint-game.component';
     AudioCallEndComponent,
     SprintGameComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(gamesRoutes), FormsModule, MatCardModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(gamesRoutes),
+    FormsModule,
+    MatCardModule,
+    MatProgressBarModule,
+  ],
   providers: [],
 })
 export class GamesModule {}

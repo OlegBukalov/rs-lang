@@ -20,3 +20,14 @@
   display: flex;
   justify-content: space-evenly;
 }
+
+.progress-bar-block {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 40px;
+}
+
+.mat-progress-bar {
+  height: 30px;
+}

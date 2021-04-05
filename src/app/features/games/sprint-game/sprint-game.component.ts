@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { ISprintWord } from './interfaces/sprint-word';
 import { GameStatuses } from './enums/game-statuses.enum';
+
+const TimeLimit = 60;
 
 @Component({
   selector: 'app-sprint-game',
@@ -30,7 +32,13 @@ export class SprintGameComponent {
 
   audio = new Audio();
 
+  progressbarValue = 100;
+
+  curSecond = TimeLimit;
+
   private subscriptionWords: Subscription;
+
+  private subscriptionTimer: Subscription;
 
   constructor(private wordsApiService: WordsApiService, private toastrService: ToasterService) {
     this.currentWord = {
@@ -48,12 +56,18 @@ export class SprintGameComponent {
   }
 
   setPlayStatus(): void {
-    this.score = 0;
-    this.bonusScoreCounter = 0;
-    this.bonusScoreLvl = 0;
-    this.wordCounter = 0;
-    this.gameWords = [];
     this.gameStatus = GameStatuses.Play;
+    this.clearValues();
+    this.score = 0;
+    const timer$ = interval(1000);
+    this.subscriptionTimer = timer$.subscribe((sec) => {
+      if (TimeLimit - 1 === sec) {
+        this.subscriptionTimer.unsubscribe();
+        this.setEndStatus();
+      }
+      this.progressbarValue = 100 - ((sec + 1) * 100) / TimeLimit;
+      this.curSecond -= 1;
+    });
     this.subscriptionWords = this.wordsApiService.getWordList().subscribe(
       (words: IWord[]) => {
         if (words) {
@@ -86,10 +100,7 @@ export class SprintGameComponent {
   setEndStatus(): void {
     this.subscriptionWords.unsubscribe();
     this.gameStatus = GameStatuses.End;
-    this.bonusScoreCounter = 0;
-    this.bonusScoreLvl = 0;
-    this.wordCounter = 0;
-    this.gameWords = [];
+    this.clearValues();
   }
 
   checkAnswer(answer: boolean): void {
@@ -122,6 +133,18 @@ export class SprintGameComponent {
     } else {
       const rurrentIndex = this.gameWords.indexOf(this.currentWord) + 1;
       this.currentWord = this.gameWords[rurrentIndex];
+    }
+  }
+
+  private clearValues() {
+    this.bonusScoreCounter = 0;
+    this.bonusScoreLvl = 0;
+    this.wordCounter = 0;
+    this.gameWords = [];
+    this.curSecond = TimeLimit;
+    this.progressbarValue = 100;
+    if (this.subscriptionTimer) {
+      this.subscriptionTimer.unsubscribe();
     }
   }
 }
