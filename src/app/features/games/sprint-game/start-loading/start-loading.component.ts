@@ -1,7 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { interval } from 'rxjs';
+import { map, finalize, take } from 'rxjs/operators';
 
-const MaxSeconds = 3;
+const MAX_SECONDS = 3;
 
 @Component({
   selector: 'app-start-loading',
@@ -11,16 +12,21 @@ const MaxSeconds = 3;
 export class StartLoadingComponent implements OnInit {
   @Output() startLoadingEnd = new EventEmitter();
 
-  curSecond = MaxSeconds;
+  curSecond = MAX_SECONDS;
 
   ngOnInit(): void {
-    const timer$ = interval(1000);
-    const sub = timer$.subscribe((sec) => {
-      if (MaxSeconds - 1 === sec) {
-        sub.unsubscribe();
-        this.startLoadingEnd.emit();
-      }
-      this.curSecond -= 1;
-    });
+    const sub = interval(1000)
+      .pipe(
+        map((counter: number) => MAX_SECONDS - counter),
+        take(MAX_SECONDS),
+        finalize(() => this.startLoadingEnd.emit()),
+      )
+      .subscribe((sec) => {
+        if (MAX_SECONDS - 1 === sec) {
+          sub.unsubscribe();
+          this.startLoadingEnd.emit();
+        }
+        this.curSecond -= 1;
+      });
   }
 }
