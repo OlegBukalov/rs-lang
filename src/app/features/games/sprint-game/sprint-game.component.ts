@@ -5,4 +5,10 @@ import { Component } from '@angular/core';
   templateUrl: './sprint-game.component.html',
   styleUrls: ['./sprint-game.component.scss'],
 })
-export class SprintGameComponent {}
+export class SprintGameComponent {
+  score = 0;
+
+  bonusScoreCounter = 2;
+
+  bonusScoreLvl = 1;
+}

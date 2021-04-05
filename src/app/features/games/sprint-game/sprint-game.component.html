@@ -1,1 +1,11 @@
-<p>sprint-game works!</p>
+<div class="container">
+  <div>
+    <span>Score: {{score}}</span>
+  </div>
+  <mat-card class="card">
+    <app-bonus-score
+      [scoreCounter] = "bonusScoreCounter"
+      [scoreLvl] = "bonusScoreLvl"
+    ></app-bonus-score>
+  </mat-card>
+</div>
