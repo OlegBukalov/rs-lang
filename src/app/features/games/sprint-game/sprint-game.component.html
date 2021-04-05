@@ -6,8 +6,14 @@
   </div>
   <mat-card class="card">
     <!-- TODO add score component -->
-
+    <span>{{currentWord.word}}</span>
+    <span>{{currentWord.randomTranslate}}</span>
+    <div class="answer-buttons">
+      <button (click)="checkAnswer()"> Неверно </button>
+      <button (click)="checkAnswer()"> Верно </button>
+    </div>
   </mat-card>
   <!-- TODO add mat progress bar -->
   <!-- TODO add end component -->
 </div>
+<button (click)="setPlayStatus()">Go</button>

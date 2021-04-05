@@ -9,7 +9,14 @@
 
 .card {
   width: 40%;
+  display:flex;
+  flex-direction: column;
   border: 2px solid;
   border-radius: 5px;
   text-align: -webkit-center;
+}
+
+.answer-buttons {
+  display: flex;
+  justify-content: space-evenly;
 }
