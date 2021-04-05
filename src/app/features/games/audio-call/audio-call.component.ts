@@ -23,6 +23,8 @@ export class AudioCallComponent implements OnDestroy {
 
   page = 0;
 
+  totalScores = 0;
+
   words: IWord[];
 
   wordsArray: IWordsInCallGame[];
@@ -65,13 +67,25 @@ export class AudioCallComponent implements OnDestroy {
     return this.gameService.createTask(this.wordsArray);
   }
 
-  createNewTask(): void {
+  onNewGameBegin() {
+    this.level = 1;
+    this.page = 0;
+    this.totalScores = 0;
+    this.gameStatus = GameStatus.Start;
+  }
+
+  onCreateNewTask(): void {
     this.singleTask = this.createTask();
     this.markWordAsShown(this.singleTask.correctIndex);
     if (this.checkUnshownWords()) {
       this.page += 1;
       this.getWords(this.level, this.page);
     }
+  }
+
+  onEndGame(e) {
+    this.totalScores = e;
+    this.gameStatus = GameStatus.End;
   }
 
   markWordAsShown(index: number): void {

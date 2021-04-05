@@ -1,16 +1,17 @@
-<div>
-  Игра начата на <b>{{ level }}</b> уровне
+<div class="scoretab">
+  <p>Правильных ответов: <b>{{ scores }}</b></p>
+  <p>Ошибок: <b>{{ errors }}</b></p>
 </div>
 
-<img src="./../../../../../assets/img/games/audioCall/loud-speaker'.svg" alt="Loud speaker image" class="loudspeaker" />
+<div>
+  <p>Игра начата на <b>{{ level }}</b> уровне</p>
+</div>
+
+<img src="./../../../../../assets/img/games/audioCall/loud-speaker'.svg" alt="Нажми, чтбы повторить слово" class="loudspeaker" />
 
 <div>
-  <p>Озвучиваемое слово: {{ task.word }}</p>
-  <p>Его значение: {{ task.translation }}</p>
+  <p>Озвучиваемое слово: {{ task?.word }}</p>
 </div>
 <p>Варианты ответов</p>
-<div class="answers">
-  <div *ngFor="let answer of task.answers">
-    <button class="answers__button" (click)="checkAnswer($event)">{{ answer }}</button>
-  </div>
-</div>
+<div class="answers" #answers></div>
+
