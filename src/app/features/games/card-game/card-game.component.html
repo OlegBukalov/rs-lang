@@ -6,14 +6,14 @@
       <button class="btn-template" (click)="repeatGame()">начать заново</button>
     </div>
     <div class="card-game__button">
-      <button class="btn-template" (click)="openDialog()" *ngIf="currentState === state.HOLD">
+      <button class="btn-template" (click)="openDialog()" *ngIf="isHiddenDataChild">
         прервать игру
       </button>
     </div>
     <div class="card-game__button" *ngIf="currentState === state.STOP">
       <button class="btn-template" (click)="startGame()">играть</button>
     </div>
-    <div class="card-game__button" *ngIf="currentState === state.HOLD">
+    <div class="card-game__button" *ngIf="isHiddenDataChild">
       <button class="btn-template" (click)="repeatWord()">повторить</button>
     </div>
   </div>
