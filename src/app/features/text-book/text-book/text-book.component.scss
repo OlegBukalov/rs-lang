@@ -1,16 +1,22 @@
-.text-book {
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
-  &__container {
-    //padding: 30px;
-    .title {
-      font-weight: 500;
-      font-size: 30px;
-      color: #333470;
-      letter-spacing: 5px;
-      line-height: 50px;
-      text-transform: uppercase;
-      text-align: center;
-      margin-bottom: 30px;
-    }
+:host {
+  padding: 20px 20px 10px 20px;
+  font-family: 'Poiret One', cursive;
+  font-weight: bold;
+  font-size: 20px;
+  color: #333470;
+
+  .title {
+    letter-spacing: 3px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .description {
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .color-strong {
+    color: #8F6CEF;
   }
 }
