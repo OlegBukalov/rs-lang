@@ -1,3 +1,4 @@
+import { MatMenuModule } from '@angular/material/menu';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -14,6 +15,7 @@ import { AudioCallGameComponent } from './audio-call/audio-call-game/audio-call-
 import { AudioCallEndComponent } from './audio-call/audio-call-end/audio-call-end.component';
 
 import { SprintGameComponent } from './sprint-game/sprint-game.component';
+import { SettingsPageComponent } from './sprint-game/settings-page/settings-page.component';
 @NgModule({
   declarations: [
     GameListComponent,
@@ -25,8 +27,9 @@ import { SprintGameComponent } from './sprint-game/sprint-game.component';
     AudioCallGameComponent,
     AudioCallEndComponent,
     SprintGameComponent,
+    SettingsPageComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(gamesRoutes), FormsModule],
+  imports: [CommonModule, RouterModule.forChild(gamesRoutes), FormsModule, MatMenuModule],
   providers: [],
 })
 export class GamesModule {}
