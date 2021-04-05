@@ -6,14 +6,14 @@
       <button class="btn-template" (click)="repeatGame()">начать заново</button>
     </div>
     <div class="card-game__button">
-      <button class="btn-template" (click)="openDialog()" *ngIf="currentState === state.HOLD">
+      <button class="btn-template" (click)="openDialog()" *ngIf="isHiddenDataChild">
         прервать игру
       </button>
     </div>
     <div class="card-game__button" *ngIf="currentState === state.STOP">
       <button class="btn-template" (click)="startGame()">играть</button>
     </div>
-    <div class="card-game__button" *ngIf="currentState === state.HOLD">
+    <div class="card-game__button" *ngIf="isHiddenDataChild">
       <button class="btn-template" (click)="repeatWord()">повторить</button>
     </div>
   </div>
@@ -23,10 +23,7 @@
       *ngFor="let btn of getGeneratedArray(COUNT_CAREGORIES); let i = index"
     >
       <button class="btn-template" (click)="changeLevel(i)">
-        <span
-          *ngFor="let star of getGeneratedArray(i+1)"
-          class="material-icons"
-        >
+        <span *ngFor="let star of getGeneratedArray(i + 1)" class="material-icons">
           star_border
         </span>
       </button>
@@ -42,16 +39,10 @@
       ></app-card-game-item>
     </div>
   </div>
-  <div class="own-modal-result" *ngIf="currentState === state.RESULT">
-    <div class="modal">
-      <span class="material-icons close" (click)="closeModal()">close</span>
-      <p class="end-game-text">игра окончена</p>
-      <div *ngIf="hardWords.length !== 0">
-        <p class="list-hard-title">Слова, которые вам нужно повторить</p>
-        <ul class="list-hard">
-          <li *ngFor="let hardWord of hardWords">{{ hardWord.word }}</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <app-card-game-exit-modal
+    *ngIf="currentState === state.RESULT"
+    [hardWords]="hardWords"
+    (closeModal)="closeModal()"
+  >
+  </app-card-game-exit-modal>
 </div>

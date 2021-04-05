@@ -15,7 +15,6 @@ export class WordsApiService {
 
   // TODO: get data by ID
   // private id = '';
-  // private wordList = `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
 
   constructor(private http: HttpClient) {}
 
@@ -34,7 +33,7 @@ export class WordsApiService {
 
   // TODO: get data by ID
   // getWord(): Observable<IWord[]> {
-  //   return this.http.get<IWord[]>(this.wordUrl).pipe(map((arr) => arr));
+  //   return this.http.get<IWord[]>(this.wordUrl);
   // }
 
   random(arr: IWord[]): IWord[] {
