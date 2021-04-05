@@ -28,6 +28,8 @@ export class SprintGameComponent {
 
   currentWord: ISprintWord;
 
+  audio = new Audio();
+
   private subscriptionWords: Subscription;
 
   constructor(private wordsApiService: WordsApiService, private toastrService: ToasterService) {
@@ -93,6 +95,8 @@ export class SprintGameComponent {
   checkAnswer(answer: boolean): void {
     this.wordCounter += 1;
     if (this.currentWord.correctTranslate === answer) {
+      this.audio.src = 'assets/audio/sprint/correct.mp3';
+      this.audio.play();
       this.score += 10 * 2 ** this.bonusScoreLvl;
       if (this.bonusScoreCounter < 3) {
         // добавляем чек картинку
@@ -108,6 +112,8 @@ export class SprintGameComponent {
         }
       }
     } else {
+      this.audio.src = 'assets/audio/sprint/error.mp3';
+      this.audio.play();
       this.bonusScoreLvl = 0;
       this.bonusScoreCounter = 0;
     }
