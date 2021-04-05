@@ -2,18 +2,21 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-column-gap: 10px;
-  margin-bottom: 30px;
-  background-color: #edf0f6;
+  margin-bottom: 20px;
   padding: 20px;
+  background-color: #edf0f6;
+
   .difficulty {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
+    padding-bottom: 20px;
+    border-bottom: 4px solid #939ba5;
+    font-size: 20px;
     font-weight: 500;
     color: #939ba5;
-    border-bottom: 4px solid #939ba5;
-    padding-bottom: 20px;
+    text-align: center;
+
     transition: color 0.3s, border-color 0.3s;
     &:hover {
       cursor: pointer;
@@ -37,6 +40,15 @@
       &[id='5'] {
         border-color: #577590;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .difficulty-container {
+
+    .difficulty {
+      font-size: 14px;
     }
   }
 }

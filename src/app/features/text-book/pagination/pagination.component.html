@@ -1,15 +1,33 @@
-<div class="pagination">
-    <button class="btn left" (click)="navigateClick(options.firstPageIndex)" [disabled]="pageId === options.firstPageIndex">
-        <img src="../../../../assets/icons/right-arrow-end.svg" alt="To begin" />
-    </button>
-    <button class="btn left" (click)="navigateClick(pageId - 1)" [disabled]="pageId === options.firstPageIndex">
-        <img src="../../../../assets/icons/right-arrow.svg" alt="One left" />
-    </button>
-    <div class="btn left">{{ pageId }}</div>
-    <button class="btn right" (click)="navigateClick(+pageId + 1)" [disabled]="pageId === options.lastPageIndex">
-        <img src="../../../../assets/icons/right-arrow.svg" alt="One right" />
-    </button>
-    <button class="btn right" (click)="navigateClick(options.lastPageIndex)" [disabled]="pageId === options.lastPageIndex">
-        <img src="../../../../assets/icons/right-arrow-end.svg" alt="To end" />
-    </button>
-</div>
+<button
+  class="btn left btn-template"
+  (click)="navigateClick(options.firstPageIndex)"
+  [disabled]="pageId === options.firstPageIndex"
+>
+  <span class="material-icons">first_page</span>
+</button>
+
+<button
+  class="btn left btn-template"
+  (click)="navigateClick(pageId - 1)"
+  [disabled]="pageId === options.firstPageIndex"
+>
+  <span class="material-icons">chevron_left</span>
+</button>
+
+<div class="btn left"><span>{{ pageId + 1}}</span></div>
+
+<button
+  class="btn right btn-template"
+  (click)="navigateClick(+pageId + 1)"
+  [disabled]="pageId === options.lastPageIndex"
+>
+  <span class="material-icons">chevron_right</span>
+</button>
+
+<button
+  class="btn right btn-template"
+  (click)="navigateClick(options.lastPageIndex)"
+  [disabled]="pageId === options.lastPageIndex"
+>
+  <span class="material-icons">last_page</span>
+</button>
