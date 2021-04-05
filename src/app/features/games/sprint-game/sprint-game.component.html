@@ -5,7 +5,10 @@
     <span>Score: {{score}}</span>
   </div>
   <mat-card class="card">
-    <!-- TODO: add score component -->
+    <app-bonus-score
+      [scoreCounter] = "bonusScoreCounter"
+      [scoreLvl] = "bonusScoreLvl"
+    ></app-bonus-score>
     <span>{{currentWord.word}}</span>
     <span>{{currentWord.randomTranslate}}</span>
     <div class="answer-buttons">
