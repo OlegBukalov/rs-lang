@@ -39,16 +39,10 @@
       ></app-card-game-item>
     </div>
   </div>
-  <div class="own-modal-result" *ngIf="currentState === state.RESULT">
-    <div class="modal">
-      <span class="material-icons close" (click)="closeModal()">close</span>
-      <p class="end-game-text">игра окончена</p>
-      <div *ngIf="hardWords.length !== 0">
-        <p class="list-hard-title">Слова, которые вам нужно повторить</p>
-        <ul class="list-hard">
-          <li *ngFor="let hardWord of hardWords">{{ hardWord.word }}</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <app-card-game-exit-modal
+    *ngIf="currentState === state.RESULT"
+    [hardWords]="hardWords"
+    (closeModal)="closeModal()"
+  >
+  </app-card-game-exit-modal>
 </div>

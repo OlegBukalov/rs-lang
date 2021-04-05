@@ -181,6 +181,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   closeModal() {
     this.setCurrentState(GameState.HOLD);
+    this.getCurrentState();
   }
 
   openDialog() {
