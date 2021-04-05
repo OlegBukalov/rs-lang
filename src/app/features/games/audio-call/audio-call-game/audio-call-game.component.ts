@@ -18,19 +18,30 @@ export class AudioCallGameComponent {
   constructor(private gameService: AudioCallService) {}
 
   getNextTask(): void {
+    this.resetTask();
     this.newTask.emit();
   }
 
   checkAnswer(e): void {
     const event = e;
     if (this.task.translation === event.target.textContent) {
-      event.target.style.background = 'green';
+      event.target.classList.add('answers__button_correct');
       setTimeout(() => {
-        event.target.style.background = 'none';
         this.getNextTask();
       }, 500);
     } else {
-      event.target.style.background = 'red';
+      event.target.classList.add('answers__button_incorrect');
     }
+  }
+
+  resetTask() {
+    this.task = {
+      word: '',
+      translation: '',
+      correctIndex: 0,
+      voiceFile: '',
+      incorrectWords: ['loading...', 'loading...', 'loading...', 'loading...'],
+      answers: ['loading...', 'loading...', 'loading...', 'loading...', 'loading...'],
+    };
   }
 }

@@ -13,5 +13,13 @@
     &__button {
         display: block;
         margin: 0 10px;
+
+        &_correct {
+            background-color: green;
+        }
+
+        &_incorrect {
+            background-color: red;
+        }
     }
 }

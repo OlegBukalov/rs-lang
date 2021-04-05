@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 
+import { Subscription } from 'rxjs';
 import { AudioCallService } from './audio-call.service';
 import { IWord } from '../../../core/interfaces/iword';
 import { IWordsInCallGame, IWordTask } from './interfaces';
@@ -15,7 +16,7 @@ enum GameStatus {
   templateUrl: './audio-call.component.html',
   styleUrls: ['./audio-call.component.scss'],
 })
-export class AudioCallComponent {
+export class AudioCallComponent implements OnDestroy {
   gameStatus: string;
 
   level = 1;
@@ -28,8 +29,14 @@ export class AudioCallComponent {
 
   singleTask: IWordTask;
 
+  private subscription = new Subscription();
+
   constructor(private gameService: AudioCallService) {
     this.gameStatus = GameStatus.Start;
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   gameStart(level: number): void {
@@ -40,12 +47,14 @@ export class AudioCallComponent {
   }
 
   getWords(level, page): void {
-    this.gameService.getWords(level, page).subscribe((data: IWord[]) => {
-      this.words = data;
-      this.wordsArray = this.createTasks();
-      this.singleTask = this.createTask();
-      this.markWordAsShown(this.singleTask.correctIndex);
-    });
+    this.subscription.add(
+      this.gameService.getWords(level, page).subscribe((data: IWord[]) => {
+        this.words = data;
+        this.wordsArray = this.createTasks();
+        this.singleTask = this.createTask();
+        this.markWordAsShown(this.singleTask.correctIndex);
+      }),
+    );
   }
 
   createTasks(): IWordsInCallGame[] {

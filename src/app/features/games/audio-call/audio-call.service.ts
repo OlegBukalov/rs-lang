@@ -31,7 +31,7 @@ export class AudioCallService {
   createTask(wordsArray: Array<IWordsInCallGame>): IWordTask {
     const incorrectIndexes = this.createIncorrectIndexes();
     const incorrectWords = this.createIncorrectWords(incorrectIndexes, wordsArray);
-    const correct = this.createCorrectIndex(wordsArray);
+    const correct = this.createCorrectIndex(wordsArray, incorrectWords);
     const answers = this.createAnswers(wordsArray[correct].word.wordTranslate, incorrectWords);
 
     const task = {
@@ -69,9 +69,12 @@ export class AudioCallService {
     return incorrectWords;
   }
 
-  createCorrectIndex(wordsArray): number {
+  createCorrectIndex(wordsArray, incorrectWords): number {
     let correct = Math.floor(20 * Math.random());
-    while (wordsArray[correct].isShown === true) {
+    while (
+      wordsArray[correct].isShown === true ||
+      incorrectWords.indexOf(wordsArray[correct].word.wordTranslate) >= 0
+    ) {
       correct = correct >= 19 ? 0 : (correct += 1);
     }
 
