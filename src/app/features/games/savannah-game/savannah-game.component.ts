@@ -1,13 +1,14 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { IWord } from 'src/app/core/interfaces/iword';
+// import { IWord } from 'src/app/core/interfaces/iword';
+import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 
 @Component({
   selector: 'app-savannah-game',
   templateUrl: './savannah-game.component.html',
   styleUrls: ['./savannah-game.component.scss'],
 })
-export class SavannahGameComponent implements OnDestroy {
+export class SavannahGameComponent implements OnInit, OnDestroy {
   level = 1;
 
   wordsList: string[] = [
@@ -21,7 +22,21 @@ export class SavannahGameComponent implements OnDestroy {
     'ball',
     'cow',
     'arrow',
+    'world',
+    'logic',
+    'wizard',
+    'mail',
+    'cheese',
+    'rat',
+    'sword',
+    'generator',
+    'oil',
+    'ten',
   ];
+
+  learnedWords: Set<string> = new Set();
+
+  unlearnedWords: Set<string> = new Set();
 
   wordsForRoundList: string[] = [];
 
@@ -29,29 +44,31 @@ export class SavannahGameComponent implements OnDestroy {
 
   answerWordsArray: string[] = [];
 
-  health = 3;
+  health: number;
 
-  cardWord: IWord = {
-    id: '1',
-    group: 1,
-    page: 1,
-    word: 'word',
-    image: 'img',
-    audio: 'string',
-    audioMeaning: 'audioMeaning',
-    audioExample: 'string',
-    textMeaning: 'textMeaning',
-    textExample: 'textExample',
-    transcription: 'transcription',
-    textExampleTranslate: 'textExampleTranslate',
-    textMeaningTranslate: 'textMeaningTranslate',
-    wordTranslate: 'wordTranslate',
-    wordsPerExampleSentence: 10,
-  };
+  // cardWord: IWord = {
+  //   id: '1',
+  //   group: 1,
+  //   page: 1,
+  //   word: 'word',
+  //   image: 'img',
+  //   audio: 'string',
+  //   audioMeaning: 'audioMeaning',
+  //   audioExample: 'string',
+  //   textMeaning: 'textMeaning',
+  //   textExample: 'textExample',
+  //   transcription: 'transcription',
+  //   textExampleTranslate: 'textExampleTranslate',
+  //   textMeaningTranslate: 'textMeaningTranslate',
+  //   wordTranslate: 'wordTranslate',
+  //   wordsPerExampleSentence: 10,
+  // };
 
   isStarted = false;
 
   isGameInProgress = false;
+
+  isGameOver = false;
 
   subscription: Subscription;
 
@@ -71,18 +88,21 @@ export class SavannahGameComponent implements OnDestroy {
 
   n = 0;
 
-  // this.subscription = this.wordsApiService.getWordList().subscribe((wordList: IWord[]) => {
-  //   this.wordList = wordList;
-  //   console.log('wordList ', this.wordList);
-  // });
+  constructor(private wordsApiService: WordsApiService) {}
+
+  ngOnInit(): void {
+    this.subscription = this.wordsApiService.getWordList().subscribe(() => {});
+  }
 
   start() {
     // this.getRandomWord();
+    this.health = 5;
     this.wordsForRoundList = this.wordsList.slice();
     this.targetWord = this.wordsForRoundList.shift();
     this.getRandomWords(4);
-    this.isStarted = !this.isStarted;
+    this.isStarted = true;
     this.isGameInProgress = true;
+    this.isGameOver = false;
     this.continueRun();
   }
 
@@ -93,10 +113,10 @@ export class SavannahGameComponent implements OnDestroy {
       this.coordinateX += this.stepH;
       if (this.coordinateX >= window.innerWidth - 50) {
         this.wordsForRoundList.push(this.targetWord);
+        // this.unlearnedWords;
         clearInterval(this.interval1);
         clearInterval(this.interval2);
-        this.isGameInProgress = false;
-        this.health -= 1;
+        this.checkHealth();
       }
     }, 100);
     this.interval2 = setInterval(() => {
@@ -121,13 +141,21 @@ export class SavannahGameComponent implements OnDestroy {
     clearInterval(this.interval2);
     if (event.target.textContent !== this.targetWord) {
       this.wordsForRoundList.push(this.targetWord);
-      this.health -= 1;
-      this.isGameInProgress = false;
+      this.checkHealth();
       // TODO fail
     } else {
       this.continue();
       // TODO success
     }
+  }
+
+  checkHealth(): void {
+    if (this.health > 0) {
+      this.health -= 1;
+    } else {
+      this.isGameOver = true;
+    }
+    this.isGameInProgress = false;
   }
 
   // getRandomWord(): void {
