@@ -11,6 +11,8 @@ import { DialogElementsExampleDialogComponent } from './card-game-modal/card-gam
 import { OwnGameService } from './services/own-game.service';
 import { GameState } from './services/gameState.state';
 
+import { environment } from '../../../../environments/environment';
+
 @Component({
   selector: 'app-card-game',
   templateUrl: './card-game.component.html',
@@ -39,7 +41,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   private subscription: Subscription;
 
-  readonly baseCardURL = 'https://raw.githubusercontent.com/Oubowen/rslang-data/master/';
+  readonly baseCardURL = environment.dataURL;
 
   constructor(
     private wordsApiService: WordsApiService,
