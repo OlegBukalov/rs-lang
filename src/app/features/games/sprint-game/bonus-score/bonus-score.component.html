@@ -1,0 +1,15 @@
+<div class="bonus-score-list" [class.center]="scoreLvl > 2">
+  <div class="bonus-score-image" *ngIf="scoreLvl > 2; else allImages">
+    <span class="material-icons">
+      done
+    </span>
+  </div>
+  <ng-template #allImages>
+    <div class="bonus-score-image" *ngFor="let item of scoreCounters; let i = index">
+      <span class="material-icons" *ngIf="scoreCounter > i">
+        done
+      </span>
+    </div>
+  </ng-template>
+</div>
+<p>{{lvlText}}</p>
