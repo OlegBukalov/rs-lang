@@ -6,18 +6,21 @@ ul {
 .menu-statistics {
   display: flex;
 
-
   li {
     width: 50%;
-    border-bottom: 3px solid #6EB7BE;
     text-align: center;
   }
 
   .active {
-    border-bottom-color: #8F6CEF;
+    border-bottom-color: #FE8931;
   }
 
   a {
+    display: block;
+    width: 90%;
+    margin: auto;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #6EB7BE;
     text-transform: uppercase;
     font-weight: bold;
     color: #262E5B;
