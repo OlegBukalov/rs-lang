@@ -58,7 +58,7 @@ export class SprintGameComponent implements OnInit {
     this.gameStatus = GameStatuses.Loading;
   }
 
-  setPlayStatus(): void {
+  gameInit(): void {
     this.gameStatus = GameStatuses.Play;
     this.clearValues();
     this.score = 0;
@@ -89,7 +89,7 @@ export class SprintGameComponent implements OnInit {
     );
   }
 
-  setEndStatus(): void {
+  gameEnd(): void {
     this.subscriptionWords.unsubscribe();
     this.gameStatus = GameStatuses.End;
     this.clearValues();
@@ -121,7 +121,7 @@ export class SprintGameComponent implements OnInit {
       this.bonusScoreCounter = 0;
     }
     if (this.wordCounter === this.gameWords.length) {
-      this.setEndStatus();
+      this.gameEnd();
     } else {
       const rurrentIndex = this.gameWords.indexOf(this.currentWord) + 1;
       this.currentWord = this.gameWords[rurrentIndex];
@@ -146,7 +146,7 @@ export class SprintGameComponent implements OnInit {
         take(TIME_LIMIT),
         finalize(() => {
           if (this.curSecond === 0) {
-            this.setEndStatus();
+            this.gameEnd();
           }
         }),
       )

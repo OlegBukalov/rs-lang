@@ -1,7 +1,7 @@
 <div class="container" [ngSwitch]="gameStatus">
   <!-- TODO: add settings component -->
   <ng-template  ngSwitchCase="loading">
-    <app-start-loading (startLoadingEnd)="setPlayStatus()"></app-start-loading>
+    <app-start-loading (startLoadingEnd)="gameInit()"></app-start-loading>
   </ng-template>
   <ng-template ngSwitchCase="play">
     <div>
@@ -27,8 +27,8 @@
       </div>
     </mat-card>
     <div class="answer-buttons">
-      <button (click)="setPlayStatus()">Начать заново</button>
-      <button (click)="setEndStatus()">Выйти</button>
+      <button (click)="gameInit()">Начать заново</button>
+      <button (click)="gameEnd()">Выйти</button>
     </div>
   </ng-template>
   <!-- TODO: add end component -->
