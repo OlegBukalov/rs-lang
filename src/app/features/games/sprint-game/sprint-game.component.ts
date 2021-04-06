@@ -23,7 +23,7 @@ export class SprintGameComponent implements OnInit {
 
   wordCounter = 0;
 
-  gameStatus = GameStatuses.Play;
+  gameStatus: GameStatuses;
 
   words: IWord[];
 
@@ -51,7 +51,7 @@ export class SprintGameComponent implements OnInit {
   constructor(private wordsApiService: WordsApiService, private toastrService: ToasterService) {}
 
   ngOnInit(): void {
-    this.gameStatus = GameStatuses.Loading;
+    this.gameStatus = GameStatuses.Start;
   }
 
   setLoadingStatus(): void {
@@ -106,7 +106,10 @@ export class SprintGameComponent implements OnInit {
       if (this.bonusScoreCounter === 4 && this.bonusScoreLvl < 2) {
         this.bonusScoreCounter = 0;
         this.bonusScoreLvl += 1;
-      } else if (this.bonusScoreCounter === 4 && this.bonusScoreLvl === 2 || this.bonusScoreLvl === 3) {
+      } else if (
+        (this.bonusScoreCounter === 4 && this.bonusScoreLvl === 2) ||
+        this.bonusScoreLvl === 3
+      ) {
         this.bonusScoreCounter = 1;
         this.bonusScoreLvl = 3;
       }

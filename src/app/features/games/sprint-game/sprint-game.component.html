@@ -1,5 +1,7 @@
 <div class="container" [ngSwitch]="gameStatus">
-  <!-- TODO: add settings component -->
+  <ng-template ngSwitchCase="start">
+    <app-settings-page (startGame)="setLoadingStatus()"></app-settings-page>
+  </ng-template>
   <ng-template  ngSwitchCase="loading">
     <app-start-loading (startLoadingEnd)="gameInit()"></app-start-loading>
   </ng-template>
