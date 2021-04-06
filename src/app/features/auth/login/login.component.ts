@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ToasterService } from 'src/app/core/services/toaster.service';
+import { AuthService } from '../auth.service';
 import { FormControlName, MAX_PASSWORD_LENGTH, MIN_PASSWORD_LENGTH } from '../constants';
 
 @Component({
@@ -7,7 +11,7 @@ import { FormControlName, MAX_PASSWORD_LENGTH, MIN_PASSWORD_LENGTH } from '../co
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
 
   formControlName = FormControlName;
@@ -15,6 +19,14 @@ export class LoginComponent implements OnInit {
   isFormSubmitted = false;
 
   isHidePassword = true;
+
+  subscription: Subscription;
+
+  constructor(
+    private authService: AuthService,
+    private toastrService: ToasterService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -30,8 +42,22 @@ export class LoginComponent implements OnInit {
   onLogin(): void {
     this.isFormSubmitted = true;
     if (!this.loginForm.valid) {
-      // TODO: Implement logic of making login request
+      this.toastrService.showError('Неверно заполнена форма входа', 'Ошибка');
+      return;
     }
+    this.subscription = this.authService.login(this.loginForm).subscribe(
+      () => {
+        this.toastrService.showSuccess('Авторизация успешна', 'Успех');
+        this.router.navigate(['']);
+      },
+      (error) => {
+        if (error.status === 403 || error.status === 404) {
+          this.toastrService.showError('Неверная почта или пароль', 'Ошибка');
+        } else {
+          this.toastrService.showError(error.error, 'Error');
+        }
+      },
+    );
   }
 
   isShowErrors(formControlName: FormControlName): boolean {
@@ -39,5 +65,9 @@ export class LoginComponent implements OnInit {
       (this.isFormSubmitted || this.loginForm.controls[formControlName].touched) &&
         this.loginForm.controls[formControlName].errors,
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

@@ -1,0 +1,5 @@
+<button mat-button [matMenuTriggerFor]="menu">Уровень сложности</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item *ngFor="let level of levels" (click)="chooseLvl(level)">Уровень {{level}}</button>
+</mat-menu>
+<button mat-flat-button (click)="onStart()">Начать игру</button>
