@@ -100,7 +100,7 @@ export class SprintGameComponent implements OnInit {
     if (this.currentWord.isCorrectTranslate === answer) {
       this.audio.src = 'assets/audio/sprint/correct.mp3';
       this.audio.play();
-      this.score += 10 * 2 ** this.bonusScoreLvl;
+      this.score += 10 * 2 ** this.bonusScoreLvl; // рассчет бонусных очков в зависимости от lvl'a: 0-10, 1-20, 2-40, 3-80
 
       this.bonusScoreCounter += 1;
       if (this.bonusScoreCounter === 4 && this.bonusScoreLvl < 2) {
