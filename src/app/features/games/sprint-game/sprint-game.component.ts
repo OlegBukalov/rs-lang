@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
@@ -13,7 +13,7 @@ const TimeLimit = 60;
   templateUrl: './sprint-game.component.html',
   styleUrls: ['./sprint-game.component.scss'],
 })
-export class SprintGameComponent {
+export class SprintGameComponent implements OnInit {
   score = 0;
 
   bonusScoreCounter = 0;
@@ -49,6 +49,10 @@ export class SprintGameComponent {
       correctTranslate: false,
       audio: '',
     };
+  }
+
+  ngOnInit(): void {
+    this.gameStatus = GameStatuses.Loading;
   }
 
   setLoadingStatus(): void {

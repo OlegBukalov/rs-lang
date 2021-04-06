@@ -1,32 +1,35 @@
-<div class="container">
+<div class="container" [ngSwitch]="gameStatus">
   <!-- TODO: add settings component -->
-  <!-- TODO: add loading component -->
-  <div>
-    <span>Score: {{score}}</span>
-  </div>
-  <mat-card class="card">
-    <app-bonus-score
-      [scoreCounter] = "bonusScoreCounter"
-      [scoreLvl] = "bonusScoreLvl"
-    ></app-bonus-score>
-    <span>{{currentWord.word}}</span>
-    <span>{{currentWord.randomTranslate}}</span>
+  <ng-template  ngSwitchCase="loading">
+    <app-start-loading (startLoadingEnd)="setPlayStatus()"></app-start-loading>
+  </ng-template>
+  <ng-template ngSwitchCase="play">
+    <div>
+      <span>Score: {{score}}</span>
+    </div>
+    <mat-card class="card">
+      <app-bonus-score
+        [scoreCounter] = "bonusScoreCounter"
+        [scoreLvl] = "bonusScoreLvl"
+      ></app-bonus-score>
+      <span>{{currentWord.word}}</span>
+      <span>{{currentWord.randomTranslate}}</span>
+      <div class="answer-buttons">
+        <button (click)="checkAnswer(false)"> Неверно </button>
+        <button (click)="checkAnswer(true)"> Верно </button>
+      </div>
+      <div class="progress-bar-block">
+        <mat-progress-bar
+          mode="determinate"
+          [value]="progressbarValue">
+        </mat-progress-bar>
+        <div style="position: absolute; padding: 10px; color: white;">{{curSecond}} sec</div>
+      </div>
+    </mat-card>
     <div class="answer-buttons">
-      <button (click)="checkAnswer(false)"> Неверно </button>
-      <button (click)="checkAnswer(true)"> Верно </button>
+      <button (click)="setPlayStatus()">Начать заново</button>
+      <button (click)="setEndStatus()">Выйти</button>
     </div>
-    <div class="progress-bar-block">
-      <mat-progress-bar
-        mode="determinate"
-        [value]="progressbarValue">
-      </mat-progress-bar>
-      <div style="position: absolute; padding: 10px; color: white;">{{curSecond}} sec</div>
-    </div>
-  </mat-card>
-  <div class="answer-buttons">
-    <button (click)="setPlayStatus()">Начать заново</button>
-    <button (click)="setEndStatus()">Выйти</button>
-  </div>
+  </ng-template>
   <!-- TODO: add end component -->
 </div>
-
