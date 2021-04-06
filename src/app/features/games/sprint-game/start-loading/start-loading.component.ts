@@ -21,11 +21,7 @@ export class StartLoadingComponent implements OnInit {
         take(MAX_SECONDS),
         finalize(() => this.startLoadingEnd.emit()),
       )
-      .subscribe((sec) => {
-        if (MAX_SECONDS - 1 === sec) {
-          sub.unsubscribe();
-          this.startLoadingEnd.emit();
-        }
+      .subscribe(() => {
         this.curSecond -= 1;
       });
   }
