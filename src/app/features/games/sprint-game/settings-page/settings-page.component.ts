@@ -15,10 +15,10 @@ export class SettingsPageComponent {
 
   private chooseLvl(lvl: number): void {
     this.wordsApiService.changeGroupToken(lvl.toString());
+    this.wordsApiService.setRandomPage();
   }
 
   onStart(): void {
-    this.wordsApiService.setRandomPage();
     this.startGame.emit();
   }
 }
