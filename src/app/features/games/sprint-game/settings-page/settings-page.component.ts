@@ -9,7 +9,7 @@ import { WordsApiService } from '../../../../core/services/wordsApi.service';
 export class SettingsPageComponent {
   @Output() startGame = new EventEmitter();
 
-  levels = [1, 2, 3, 4, 5, 6];
+  readonly levels = [1, 2, 3, 4, 5, 6];
 
   constructor(private wordsApiService: WordsApiService) {}
 
@@ -18,8 +18,7 @@ export class SettingsPageComponent {
   }
 
   onStart(): void {
-    const page = Math.round(Math.random() * 29);
-    this.wordsApiService.changePageToken(page.toString());
+    this.wordsApiService.setRandomPage();
     this.startGame.emit();
   }
 }

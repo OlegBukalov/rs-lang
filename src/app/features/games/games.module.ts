@@ -32,7 +32,13 @@ import { BonusScoreComponent } from './sprint-game/bonus-score/bonus-score.compo
     SettingsPageComponent,
     BonusScoreComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(gamesRoutes), FormsModule, MatMenuModule, MatCardModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(gamesRoutes),
+    FormsModule,
+    MatMenuModule,
+    MatCardModule,
+  ],
   providers: [],
 })
 export class GamesModule {}
