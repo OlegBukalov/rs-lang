@@ -15,7 +15,7 @@ export class StartLoadingComponent implements OnInit {
   curSecond = MAX_SECONDS;
 
   ngOnInit(): void {
-    const sub = interval(1000)
+    interval(1000)
       .pipe(
         map((counter: number) => MAX_SECONDS - counter),
         take(MAX_SECONDS),
