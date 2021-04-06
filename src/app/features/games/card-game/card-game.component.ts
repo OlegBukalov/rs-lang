@@ -26,7 +26,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   PAGE_CARDS = 29;
   LOSS_QUANTITY = 2;
 
-  wordsID: string[];
+  wordsIds: string[];
   words: IWord[];
   hardWords: IWord[] = [];
   playingWord: IWord;
@@ -57,10 +57,6 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     return Array.from({ length }, (_, id) => id);
   }
 
-  getCurrentState(): GameState {
-    return this.currentState;
-  }
-
   setCurrentState(state: GameState): void {
     this.currentState = state;
   }
@@ -73,7 +69,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   initializeValues() {
     this.currentState = GameState.STOP;
-    this.wordsID = [];
+    this.wordsIds = [];
     this.hardWords = [];
     this.playingWord = null;
     this.wordIndex = this.COUNT_WORDS_ID;
@@ -85,7 +81,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   startGame() {
     this.setCurrentState(GameState.PLAY);
-    this.wordsID = this.words.map((el) => el.id).sort(() => Math.random() - 0.5);
+    this.wordsIds = this.words.map((el) => el.id).sort(() => Math.random() - 0.5);
     this.isHiddenDataChild = true;
     this.isSaved = false;
     this.initializeGameSteps();
@@ -93,9 +89,9 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   initializeGameSteps() {
     this.checkFinished();
-    for (let i = this.wordIndex; i < this.wordsID.length; i += 1) {
-      if (this.getCurrentState() === GameState.PLAY) {
-        this.playingWord = this.words.find((el) => el.id === this.wordsID[i]);
+    for (let i = this.wordIndex; i < this.wordsIds.length; i += 1) {
+      if (this.currentState === GameState.PLAY) {
+        this.playingWord = this.words.find((el) => el.id === this.wordsIds[i]);
         this.startAudio();
         this.wordIndex += 1;
         this.setCurrentState(GameState.HOLD);
@@ -115,7 +111,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   checkFinished() {
-    if (this.wordIndex === this.wordsID.length) {
+    if (this.wordIndex === this.wordsIds.length) {
       this.setCurrentState(GameState.RESULT);
       const audioInstance = new Audio();
       audioInstance.src = '../../../../assets/sounds/466133__humanoide9000__victory-fanfare.wav';
@@ -165,6 +161,10 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   repeatGame() {
+    this.initializeValues();
+  }
+
+  mixCards() {
     this.getData();
     this.initializeValues();
   }
@@ -183,7 +183,6 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   closeModal() {
     this.setCurrentState(GameState.HOLD);
-    this.getCurrentState();
   }
 
   openDialog() {

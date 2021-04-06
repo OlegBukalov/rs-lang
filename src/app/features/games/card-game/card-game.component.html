@@ -5,6 +5,9 @@
     <div class="card-game__button">
       <button class="btn-template" (click)="repeatGame()">начать заново</button>
     </div>
+      <div class="card-game__button">
+      <button class="btn-template" (click)="mixCards()">перемешать</button>
+    </div>
     <div class="card-game__button">
       <button class="btn-template" (click)="openDialog()" *ngIf="isHiddenDataChild">
         прервать игру
