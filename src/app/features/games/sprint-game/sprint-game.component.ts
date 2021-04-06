@@ -34,7 +34,7 @@ export class SprintGameComponent implements OnInit {
     word: '',
     translate: '',
     randomTranslate: '',
-    correctTranslate: false,
+    isCorrectTranslate: false,
     audio: '',
   };
 
@@ -66,7 +66,7 @@ export class SprintGameComponent implements OnInit {
     this.subscriptionWords = this.wordsApiService.getWordList().subscribe(
       (words: IWord[]) => {
         if (words) {
-          this.words = words.sort(() => Math.random() - 0.5);
+          this.words = words.sort(() => Math.random() - 0.5); // рандомная сортировка слов, чтобы не было одинакового порядка слов
           this.words.forEach((word) => {
             const randomTranslate = this.getRandomTranslate(word);
             this.gameWords.push({
@@ -74,7 +74,7 @@ export class SprintGameComponent implements OnInit {
               word: word.word,
               translate: word.wordTranslate,
               randomTranslate,
-              correctTranslate: randomTranslate === word.wordTranslate,
+              isCorrectTranslate: randomTranslate === word.wordTranslate,
               audio: word.audio,
             });
           });
@@ -97,7 +97,7 @@ export class SprintGameComponent implements OnInit {
 
   checkAnswer(answer: boolean): void {
     this.wordCounter += 1;
-    if (this.currentWord.correctTranslate === answer) {
+    if (this.currentWord.isCorrectTranslate === answer) {
       this.audio.src = 'assets/audio/sprint/correct.mp3';
       this.audio.play();
       this.score += 10 * 2 ** this.bonusScoreLvl;

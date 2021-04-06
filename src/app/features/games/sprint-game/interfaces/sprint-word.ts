@@ -3,6 +3,6 @@ export interface ISprintWord {
   word: string;
   translate: string;
   randomTranslate: string;
-  correctTranslate: boolean;
+  isCorrectTranslate: boolean;
   audio: string;
 }
