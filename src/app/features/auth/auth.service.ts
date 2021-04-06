@@ -3,7 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
-import { LoginResponse } from './auth.interface';
+import { LoginResponse } from './login-response.interface';
 
 @Injectable({
   providedIn: 'root',
