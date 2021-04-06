@@ -1,0 +1,12 @@
+<ul class="menu-statistics">
+  <li>
+    <a [routerLink]="['day']" routerLinkActive="active">Данные за день</a>
+    <!-- <a (click)="redirectToGroup('day')" routerLinkActive="active">Данные за день</a> -->
+  </li>
+  <li>
+    <!-- <a (click)="redirectToGroup('all')" routerLinkActive="active">Данные за весь период</a> -->
+    <a [routerLink]="['all']" routerLinkActive="active">Данные за весь период</a>
+  </li>
+</ul>
+
+<router-outlet></router-outlet>
