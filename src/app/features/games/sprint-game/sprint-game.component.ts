@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
+import { finalize, take } from 'rxjs/operators';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { ISprintWord } from './interfaces/sprint-word';
 import { GameStatuses } from './enums/game-statuses.enum';
 
-const TimeLimit = 60;
+const TIME_LIMIT = 60;
 
 @Component({
   selector: 'app-sprint-game',
@@ -34,11 +35,9 @@ export class SprintGameComponent implements OnInit {
 
   progressbarValue = 100;
 
-  curSecond = TimeLimit;
+  curSecond = TIME_LIMIT;
 
   private subscriptionWords: Subscription;
-
-  private subscriptionTimer: Subscription;
 
   constructor(private wordsApiService: WordsApiService, private toastrService: ToasterService) {
     this.currentWord = {
@@ -63,24 +62,13 @@ export class SprintGameComponent implements OnInit {
     this.gameStatus = GameStatuses.Play;
     this.clearValues();
     this.score = 0;
-    const timer$ = interval(1000);
-    this.subscriptionTimer = timer$.subscribe((sec) => {
-      if (TimeLimit - 1 === sec) {
-        this.subscriptionTimer.unsubscribe();
-        this.setEndStatus();
-      }
-      this.progressbarValue = 100 - ((sec + 1) * 100) / TimeLimit;
-      this.curSecond -= 1;
-    });
+    this.timerInit();
     this.subscriptionWords = this.wordsApiService.getWordList().subscribe(
       (words: IWord[]) => {
         if (words) {
           this.words = words.sort(() => Math.random() - 0.5);
           this.words.forEach((word) => {
-            const isRandom: boolean = Math.random() < 0.5;
-            const randomTranslate = isRandom
-              ? this.words[Math.round(Math.random() * (this.words.length - 1))].wordTranslate
-              : word.wordTranslate;
+            const randomTranslate = this.getRandomTranslate(word);
             this.gameWords.push({
               id: word.id,
               word: word.word,
@@ -140,15 +128,32 @@ export class SprintGameComponent implements OnInit {
     }
   }
 
-  private clearValues() {
+  private clearValues(): void {
     this.bonusScoreCounter = 0;
     this.bonusScoreLvl = 0;
     this.wordCounter = 0;
     this.gameWords = [];
-    this.curSecond = TimeLimit;
+    this.curSecond = TIME_LIMIT;
     this.progressbarValue = 100;
-    if (this.subscriptionTimer) {
-      this.subscriptionTimer.unsubscribe();
-    }
+  }
+
+  private timerInit(): void {
+    interval(1000)
+      .pipe(
+        take(TIME_LIMIT),
+        finalize(() => this.setEndStatus()),
+      )
+      .subscribe((sec: number) => {
+        this.progressbarValue = 100 - ((sec + 1) * 100) / TIME_LIMIT;
+        this.curSecond -= 1;
+      });
+  }
+
+  private getRandomTranslate(word: IWord): string {
+    const isRandom: boolean = Math.random() < 0.5;
+    const randomTranslate = isRandom
+      ? this.words[Math.round(Math.random() * (this.words.length - 1))].wordTranslate
+      : word.wordTranslate;
+    return randomTranslate;
   }
 }
