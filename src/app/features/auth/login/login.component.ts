@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (error.status === 403 || error.status === 404) {
           this.toastrService.showError('Неверная почта или пароль', 'Ошибка');
         } else {
-          this.toastrService.showError(error.error, 'Error');
+          this.toastrService.showError(error, 'Ошибка');
         }
       },
     );
