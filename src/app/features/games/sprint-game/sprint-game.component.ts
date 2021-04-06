@@ -101,18 +101,14 @@ export class SprintGameComponent implements OnInit {
       this.audio.src = 'assets/audio/sprint/correct.mp3';
       this.audio.play();
       this.score += 10 * 2 ** this.bonusScoreLvl;
-      if (this.bonusScoreCounter < 3) {
-        // добавляем чек картинку
-        this.bonusScoreCounter += 1;
-      } else {
-        // если 3 чека собрали - переходим на next lvl
+
+      this.bonusScoreCounter += 1;
+      if (this.bonusScoreCounter === 4 && this.bonusScoreLvl < 2) {
         this.bonusScoreCounter = 0;
-        if (this.bonusScoreLvl < 3) {
-          this.bonusScoreLvl += 1;
-        } else {
-          // достигнут max lxl
-          this.bonusScoreCounter = 1;
-        }
+        this.bonusScoreLvl += 1;
+      } else if (this.bonusScoreCounter === 4 && this.bonusScoreLvl === 2 || this.bonusScoreLvl === 3) {
+        this.bonusScoreCounter = 1;
+        this.bonusScoreLvl = 3;
       }
     } else {
       this.audio.src = 'assets/audio/sprint/error.mp3';
