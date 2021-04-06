@@ -8,8 +8,4 @@ import { Router } from '@angular/router';
 })
 export class StatisticsGroupComponent {
   constructor(private router: Router) {}
-
-  // redirectToGroup(url: string): void {
-  //   this.router.navigate(['statistics', url]);
-  // }
 }
