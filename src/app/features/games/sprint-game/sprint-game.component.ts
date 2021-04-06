@@ -29,7 +29,14 @@ export class SprintGameComponent implements OnInit {
 
   gameWords: ISprintWord[] = [];
 
-  currentWord: ISprintWord;
+  currentWord: ISprintWord = {
+    id: '',
+    word: '',
+    translate: '',
+    randomTranslate: '',
+    correctTranslate: false,
+    audio: '',
+  };
 
   audio = new Audio();
 
@@ -39,16 +46,9 @@ export class SprintGameComponent implements OnInit {
 
   private subscriptionWords: Subscription;
 
-  constructor(private wordsApiService: WordsApiService, private toastrService: ToasterService) {
-    this.currentWord = {
-      id: '',
-      word: '',
-      translate: '',
-      randomTranslate: '',
-      correctTranslate: false,
-      audio: '',
-    };
-  }
+  private subscriptionTimer: Subscription;
+
+  constructor(private wordsApiService: WordsApiService, private toastrService: ToasterService) {}
 
   ngOnInit(): void {
     this.gameStatus = GameStatuses.Loading;
@@ -135,13 +135,20 @@ export class SprintGameComponent implements OnInit {
     this.gameWords = [];
     this.curSecond = TIME_LIMIT;
     this.progressbarValue = 100;
+    if (this.subscriptionTimer) {
+      this.subscriptionTimer.unsubscribe();
+    }
   }
 
   private timerInit(): void {
-    interval(1000)
+    this.subscriptionTimer = interval(1000)
       .pipe(
         take(TIME_LIMIT),
-        finalize(() => this.setEndStatus()),
+        finalize(() => {
+          if (this.curSecond === 0) {
+            this.setEndStatus();
+          }
+        }),
       )
       .subscribe((sec: number) => {
         this.progressbarValue = 100 - ((sec + 1) * 100) / TIME_LIMIT;
