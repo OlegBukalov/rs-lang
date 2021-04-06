@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { interval } from 'rxjs';
-import { map, finalize, take } from 'rxjs/operators';
+import { finalize, take } from 'rxjs/operators';
 
 const MAX_SECONDS = 3;
 
@@ -17,7 +17,6 @@ export class StartLoadingComponent implements OnInit {
   ngOnInit(): void {
     interval(1000)
       .pipe(
-        map((counter: number) => MAX_SECONDS - counter),
         take(MAX_SECONDS),
         finalize(() => this.startLoadingEnd.emit()),
       )
