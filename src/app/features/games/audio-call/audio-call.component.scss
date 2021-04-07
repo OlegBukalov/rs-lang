@@ -3,12 +3,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
-.game {
-    position: relative;
-    width: 500px;
-    margin: 0 auto;
-    padding-bottom: 15px;
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    &__item {
+        display: block;
+        margin: 0 10px;
+    }
 }
