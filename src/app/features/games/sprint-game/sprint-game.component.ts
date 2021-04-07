@@ -4,7 +4,12 @@ import { filter, finalize, take } from 'rxjs/operators';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { ToasterService } from 'src/app/core/services/toaster.service';
-import { BASE_SCORE, SCORE_MULTIPLIER, MAX_SCORE_COUNTER, MAX_SCORE_LVL } from './constants/scoreCounters';
+import {
+  BASE_SCORE,
+  SCORE_MULTIPLIER,
+  MAX_SCORE_COUNTER,
+  MAX_SCORE_LVL,
+} from './constants/scoreCounters';
 import { ISprintWord } from './interfaces/sprint-word';
 import { GameStatuses } from './enums/game-statuses.enum';
 
@@ -100,15 +105,11 @@ export class SprintGameComponent implements OnInit {
   private setScore(): void {
     this.score += BASE_SCORE * SCORE_MULTIPLIER ** this.bonusLvl; // рассчет бонусных очков в зависимости от lvl'a: 0-10, 1-20, 2-40, 3-80
     this.bonusCounter += 1;
-    if (
-      this.bonusCounter === MAX_SCORE_COUNTER + 1 &&
-      this.bonusLvl < MAX_SCORE_LVL - 1
-    ) {
+    if (this.bonusCounter === MAX_SCORE_COUNTER + 1 && this.bonusLvl < MAX_SCORE_LVL - 1) {
       this.bonusCounter = 0;
       this.bonusLvl += 1;
     } else if (
-      (this.bonusCounter === MAX_SCORE_COUNTER + 1 &&
-        this.bonusLvl === MAX_SCORE_LVL - 1) ||
+      (this.bonusCounter === MAX_SCORE_COUNTER + 1 && this.bonusLvl === MAX_SCORE_LVL - 1) ||
       this.bonusLvl === MAX_SCORE_LVL
     ) {
       this.bonusCounter = 1;

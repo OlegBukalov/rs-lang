@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TextByLevel } from '../constants/textByLvl';
 import { SCORE_COUNTERS } from '../constants/scoreCounters';
 
@@ -7,24 +7,14 @@ import { SCORE_COUNTERS } from '../constants/scoreCounters';
   templateUrl: './bonus-score.component.html',
   styleUrls: ['./bonus-score.component.scss'],
 })
-export class BonusScoreComponent implements OnInit, OnChanges {
+export class BonusScoreComponent {
   @Input() scoreCounter: number;
 
   @Input() scoreLvl: number;
 
-  lvlText = TextByLevel[0];
+  get lvlText(): string {
+    return TextByLevel[this.scoreLvl];
+  }
 
   scoreCounters = SCORE_COUNTERS;
-
-  ngOnChanges(): void {
-    this.changeLvlText(this.scoreLvl);
-  }
-
-  ngOnInit(): void {
-    this.changeLvlText(this.scoreLvl);
-  }
-
-  private changeLvlText(scoreLvl: number) {
-    this.lvlText = TextByLevel[scoreLvl];
-  }
 }
