@@ -9,6 +9,7 @@ import {
   SCORE_MULTIPLIER,
   MAX_SCORE_COUNTER,
   MAX_SCORE_LVL,
+  MAX_PROGRESSBAR_VALUE,
 } from './constants/scoreCounters';
 import { ISprintWord } from './interfaces/sprint-word';
 import { GameStatuses } from './enums/game-statuses.enum';
@@ -46,7 +47,7 @@ export class SprintGameComponent implements OnInit {
 
   audio = new Audio();
 
-  progressbarValue = 100;
+  progressbarValue = MAX_PROGRESSBAR_VALUE;
 
   curSecond = TIME_LIMIT;
 
@@ -151,7 +152,7 @@ export class SprintGameComponent implements OnInit {
     this.wordCounter = 0;
     this.gameWords = [];
     this.curSecond = TIME_LIMIT;
-    this.progressbarValue = 100;
+    this.progressbarValue = MAX_PROGRESSBAR_VALUE;
     if (this.subscriptionTimer) {
       this.subscriptionTimer.unsubscribe();
     }
@@ -168,7 +169,7 @@ export class SprintGameComponent implements OnInit {
         }),
       )
       .subscribe((sec: number) => {
-        this.progressbarValue = 100 - ((sec + 1) * 100) / TIME_LIMIT;
+        this.progressbarValue = MAX_PROGRESSBAR_VALUE - ((sec + 1) * MAX_PROGRESSBAR_VALUE) / TIME_LIMIT;
         this.curSecond -= 1;
       });
   }
