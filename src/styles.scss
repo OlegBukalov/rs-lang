@@ -537,5 +537,35 @@ button.btn-template {
   &:focus {
     outline: none;
     background-color: #060137;
+    color: #FFF;
+  }
+}
+
+.menu-select-template {
+  width: 100%;
+}
+
+.cdk-overlay-pane {
+  width: 275px;
+}
+
+button.item-btn-template {
+  display: block;
+  border: none;
+  height: auto;
+  font-family: 'Poiret One', cursive;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333470;
+  line-height: 2.3;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  transition: background-color .3s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #E0E2F6;
+    color: #333470;
   }
 }
