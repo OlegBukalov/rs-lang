@@ -11,6 +11,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { AuthComponent } from './auth.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [AuthComponent, LoginComponent, SignupComponent],
@@ -24,6 +25,7 @@ import { SignupComponent } from './signup/signup.component';
     MatInputModule,
     MatTabsModule,
   ],
+  providers: [AuthGuard],
   exports: [AuthComponent],
 })
 export class AuthModule {}

@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { ToasterService } from 'src/app/core/services/toaster.service';
+import { AuthService } from '../auth.service';
 import {
   FormControlName,
   MAX_NAME_LENGTH,
@@ -13,7 +17,7 @@ import {
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   signupForm: FormGroup;
 
   formControlName = FormControlName;
@@ -21,6 +25,10 @@ export class SignupComponent implements OnInit {
   isFormSubmitted = false;
 
   isHidePassword = true;
+
+  subscription: Subscription;
+
+  constructor(private authService: AuthService, private toastrService: ToasterService) {}
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
@@ -41,7 +49,43 @@ export class SignupComponent implements OnInit {
   onSignup(): void {
     this.isFormSubmitted = true;
     if (!this.signupForm.valid) {
-      // TODO: Implement logic of making signup request
+      this.toastrService.showError('Неверно заполнена форма регистрации', 'Ошибка');
+      return;
+    }
+    this.subscription = this.authService.signup(this.signupForm).subscribe(
+      () => {
+        this.toastrService.showSuccess('Регистрация прошла успешно!', 'Успех');
+      },
+      (error) => {
+        this.handleSignupErrors(error);
+      },
+    );
+  }
+
+  handleSignupErrors(err: HttpErrorResponse) {
+    if (err.status === 422 || err.status === 404) {
+      err.error.error.errors.forEach((error) => {
+        const errorName = error.path[0];
+        switch (errorName) {
+          case 'name':
+            this.toastrService.showError('Неверное имя', 'Ошибка');
+            break;
+          case 'email':
+            this.toastrService.showError('Неверная почта', 'Ошибка');
+            break;
+          case 'password':
+            this.toastrService.showError(
+              'Неверный пароль. Ваш пароль должен содержать по крайней мере 8 символов, одну прописную, одну строчную букву и специальный символ',
+              'Ошибка',
+            );
+            break;
+          default:
+            this.toastrService.showError(
+              'Имя, почта или пароль не соответствуют формату',
+              'Ошибка',
+            );
+        }
+      });
     }
   }
 
@@ -50,5 +94,9 @@ export class SignupComponent implements OnInit {
       (this.isFormSubmitted || this.signupForm.controls[formControlName].touched) &&
         this.signupForm.controls[formControlName].errors,
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }
