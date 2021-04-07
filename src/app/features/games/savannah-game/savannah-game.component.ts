@@ -22,21 +22,21 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     'ball',
     'cow',
     'arrow',
-    'world',
-    'logic',
-    'wizard',
-    'mail',
-    'cheese',
-    'rat',
-    'sword',
-    'generator',
-    'oil',
-    'ten',
+    // 'world',
+    // 'logic',
+    // 'wizard',
+    // 'mail',
+    // 'cheese',
+    // 'rat',
+    // 'sword',
+    // 'generator',
+    // 'oil',
+    // 'ten',
   ];
 
-  learnedWords: Set<string> = new Set();
+  learnedWords: string[];
 
-  unlearnedWords: Set<string> = new Set();
+  unlearnedWords: string[];
 
   wordsForRoundList: string[] = [];
 
@@ -66,7 +66,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
 
   isStarted = false;
 
-  isGameInProgress = false;
+  // isGameInProgress = false;
 
   isGameOver = false;
 
@@ -82,7 +82,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
 
   stepV = 1;
 
-  stepH = 4; // top lvl stepH = 8;
+  stepH = 6; // top lvl stepH = 8;
 
   k = -1;
 
@@ -95,28 +95,39 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
   }
 
   start() {
-    // this.getRandomWord();
+    clearInterval(this.interval1);
+    clearInterval(this.interval2);
+    this.learnedWords = [];
+    this.unlearnedWords = [];
     this.health = 5;
     this.wordsForRoundList = this.wordsList.slice();
     this.targetWord = this.wordsForRoundList.shift();
     this.getRandomWords(4);
     this.isStarted = true;
-    this.isGameInProgress = true;
+    // this.isGameInProgress = true;
     this.isGameOver = false;
     this.continueRun();
   }
 
   continueRun() {
+    if (!this.wordsForRoundList.length) {
+      this.isGameOver = true;
+      return;
+    }
+    this.targetWord = this.wordsForRoundList.shift();
+    this.getRandomWords(4);
     this.coordinateX = 0;
     this.coordinateY = 50;
     this.interval1 = setInterval(() => {
       this.coordinateX += this.stepH;
       if (this.coordinateX >= window.innerWidth - 50) {
-        this.wordsForRoundList.push(this.targetWord);
-        // this.unlearnedWords;
+        // this.wordsForRoundList.push(this.targetWord);
+        this.unlearnedWords.push(this.targetWord);
+
         clearInterval(this.interval1);
         clearInterval(this.interval2);
         this.checkHealth();
+        this.continueRun();
       }
     }, 100);
     this.interval2 = setInterval(() => {
@@ -129,33 +140,45 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
-  continue() {
-    this.isGameInProgress = true;
-    this.targetWord = this.wordsForRoundList.shift();
-    this.getRandomWords(4);
-    this.continueRun();
-  }
+  // continue() {
+  //   this.isGameInProgress = true;
+
+  //   this.continueRun();
+  // }
 
   compareWords(event: any): void {
     clearInterval(this.interval1);
     clearInterval(this.interval2);
+
     if (event.target.textContent !== this.targetWord) {
-      this.wordsForRoundList.push(this.targetWord);
+      // this.wordsForRoundList.push(this.targetWord);
+      this.unlearnedWords.push(this.targetWord);
+
       this.checkHealth();
       // TODO fail
     } else {
-      this.continue();
+      this.learnedWords.push(this.targetWord);
+
       // TODO success
     }
+    this.continueRun();
   }
 
+  // arrayDuplicateChecker(array: string[], targetWord: string): void {
+  //   if (!array.includes(targetWord)) {
+  //     array.push(targetWord);
+  //   }
+  // }
+
   checkHealth(): void {
-    if (this.health > 0) {
+    if (this.health > 1) {
       this.health -= 1;
+      // console.log('CheckHealth If ', this.health);
     } else {
+      // console.log('checkHealth Else ', this.health);
+      // console.log('END GAME: ', this.isStarted, this.isGameOver);
       this.isGameOver = true;
     }
-    this.isGameInProgress = false;
   }
 
   // getRandomWord(): void {
@@ -192,8 +215,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
       const randomIndex = getNonDuplicatedRandomIndex();
       this.answerWordsArray.push(this.wordsList[randomIndex]);
     }
-    this.shuffle(this.answerWordsArray);
-    // console.log('answerWordsArray: ', this.answerWordsArray);
+    this.answerWordsArray = this.shuffle(this.answerWordsArray);
   }
 
   // TODO refactoring - change names of variables, set variables types
