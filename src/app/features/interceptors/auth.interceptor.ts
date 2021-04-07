@@ -11,7 +11,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (!request.headers.has('Authorization')) {
       const newRequest = request.clone({
         headers: request.headers
-          .append('Authorization', `Bearer ${this.authService.loginData.token}`)
+          .append('Authorization', `Bearer ${this.authService.loginData?.token}`)
           .append('Accept', 'application/json'),
       });
       return next.handle(newRequest);
