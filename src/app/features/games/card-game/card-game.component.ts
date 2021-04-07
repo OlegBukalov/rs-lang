@@ -19,18 +19,16 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./card-game.component.scss'],
 })
 export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeactivate {
-  COUNT_TRY = 0;
-  COUNT_CAREGORIES = 6;
-  LEFT_CARDS = 20;
-  PAGE_CARDS = 29;
   LOSS_QUANTITY = 2;
 
   words: IWord[];
   playingWordIndexes: number[] = [];
   hardWords: IWord[] = [];
   playingWord: IWord;
-  countTry: number = this.COUNT_TRY;
-  leftCards: number = this.LEFT_CARDS;
+  countTry: number = this.wordsApiService.INIT_MISTAKES_COUNTER;
+  leftCards: number = this.wordsApiService.INIT_LEFT_CARDS_COUNTER;
+  totalCategories: number = this.wordsApiService.TOTAL_CATEGORIES;
+  totalPageCards: number = this.wordsApiService.TOTAL_PAGE_CARDS;
   isHiddenDataChild = false;
   isSaved = true;
 
@@ -73,8 +71,8 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     this.playingWordIndexes = this.words.map((_, ind) => ind).sort(() => Math.random() - 0.5);
     this.hardWords = [];
     this.playingWord = null;
-    this.countTry = this.COUNT_TRY;
-    this.leftCards = this.LEFT_CARDS;
+    this.countTry = this.wordsApiService.INIT_MISTAKES_COUNTER;
+    this.leftCards = this.wordsApiService.INIT_LEFT_CARDS_COUNTER;
     this.isHiddenDataChild = false;
     this.isSaved = true;
   }
@@ -170,7 +168,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   changeLevel(level: string) {
-    const randomPage: string = Math.floor(Math.random() * this.PAGE_CARDS).toString();
+    const randomPage: string = Math.floor(Math.random() * this.totalPageCards).toString();
     this.wordsApiService.changeGroupToken(level);
     this.wordsApiService.changePageToken(randomPage);
     this.getData();
@@ -178,10 +176,10 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   canDeactivate(): boolean | Observable<boolean> {
-    return this.isSaved ? true : this.openDialog();
+    return this.isSaved ? true : this.openExitModalWindow();
   }
 
-  openDialog() {
+  openExitModalWindow() {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;

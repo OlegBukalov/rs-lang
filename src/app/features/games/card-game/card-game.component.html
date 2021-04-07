@@ -12,7 +12,7 @@
       <button
         class="btn-template"
         [isSaved]="isSaved"
-        (click)="openDialog()"
+        (click)="openExitModalWindow()"
         *ngIf="currentState === state.HOLD"
       >
         прервать игру
@@ -28,7 +28,7 @@
   <div class="card-game__levels">
     <div
       class="card-game__button"
-      *ngFor="let btn of getGeneratedArray(COUNT_CAREGORIES); let i = index"
+      *ngFor="let btn of getGeneratedArray(totalCategories); let i = index"
     >
       <button class="btn-template" (click)="changeLevel(i)">
         <span *ngFor="let star of getGeneratedArray(i + 1)" class="material-icons">

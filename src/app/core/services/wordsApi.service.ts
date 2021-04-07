@@ -9,6 +9,11 @@ import { IWord } from '../interfaces/iword';
   providedIn: 'root',
 })
 export class WordsApiService {
+  INIT_MISTAKES_COUNTER = 0;
+  INIT_LEFT_CARDS_COUNTER = 20;
+  TOTAL_CATEGORIES = 6;
+  TOTAL_PAGE_CARDS = 29;
+
   private readonly baseUrl = 'https://afternoon-falls-25894.herokuapp.com/words';
   private pageToken = '0';
   private groupToken = '0';
