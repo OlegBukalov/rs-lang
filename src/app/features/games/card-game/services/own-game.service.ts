@@ -7,11 +7,17 @@ import { Injectable } from '@angular/core';
 export class OwnGameService {
   private idItemDisable: string;
 
+  isSaved = true;
+
   setDisabledItemId(item: string) {
     this.idItemDisable = item;
   }
 
   getDisabledItemId(): string {
     return this.idItemDisable;
+  }
+
+  setIsSaved(isSave: boolean) {
+    this.isSaved = isSave;
   }
 }

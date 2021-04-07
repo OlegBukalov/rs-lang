@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { OwnGameService } from '../services/own-game.service';
 
 @Component({
   selector: 'app-card-game-modal',
@@ -7,16 +8,17 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./card-game-modal.component.scss'],
 })
 export class DialogElementsExampleDialogComponent {
-  @Output() redirect = new EventEmitter();
-
-  constructor(private dialogRef: MatDialogRef<DialogElementsExampleDialogComponent>) {}
+  constructor(
+    private dialogRef: MatDialogRef<DialogElementsExampleDialogComponent>,
+    private ownGameService: OwnGameService,
+  ) {}
 
   close() {
     this.dialogRef.close();
   }
 
-  redirectEvent() {
+  redirect() {
     this.dialogRef.close();
-    this.redirect.emit();
+    this.ownGameService.setIsSaved(true);
   }
 }

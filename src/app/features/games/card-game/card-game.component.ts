@@ -30,7 +30,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   totalCategories: number = this.wordsApiService.TOTAL_CATEGORIES;
   totalPageCards: number = this.wordsApiService.TOTAL_PAGE_CARDS;
   isHiddenDataChild = false;
-  isSaved = true;
+  isSaved: boolean = this.ownGameService.isSaved;
 
   state = GameState;
   currentState: GameState = GameState.STOP;
@@ -74,14 +74,15 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     this.countTry = this.wordsApiService.INIT_MISTAKES_COUNTER;
     this.leftCards = this.wordsApiService.INIT_LEFT_CARDS_COUNTER;
     this.isHiddenDataChild = false;
-    this.isSaved = true;
+    this.ownGameService.setIsSaved(true);
+    this.setCurrentState(GameState.STOP);
   }
 
   startGame() {
     this.setCurrentState(GameState.PLAY);
     this.playingWordIndexes = this.words.map((_, ind) => ind).sort(() => Math.random() - 0.5);
     this.isHiddenDataChild = true;
-    this.isSaved = false;
+    this.ownGameService.setIsSaved(false);
     this.definePlayingWord();
   }
 
@@ -176,7 +177,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   canDeactivate(): boolean | Observable<boolean> {
-    return this.isSaved ? true : this.openExitModalWindow();
+    return this.ownGameService.isSaved ? true : this.openExitModalWindow();
   }
 
   openExitModalWindow() {
@@ -187,10 +188,6 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
     this.dialog.open(DialogElementsExampleDialogComponent, dialogConfig);
     return false;
-  }
-
-  redirect() {
-    this.isSaved = true;
   }
 
   closeModal() {
