@@ -21,18 +21,16 @@ import { environment } from '../../../../environments/environment';
 export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeactivate {
   COUNT_TRY = 0;
   COUNT_CAREGORIES = 6;
-  COUNT_WORDS_ID = 0;
   LEFT_CARDS = 20;
   PAGE_CARDS = 29;
   LOSS_QUANTITY = 2;
 
-  wordsIds: string[];
   words: IWord[];
+  playingWordIndexes: number[] = [];
   hardWords: IWord[] = [];
   playingWord: IWord;
   countTry: number = this.COUNT_TRY;
   leftCards: number = this.LEFT_CARDS;
-  wordIndex: number = this.COUNT_WORDS_ID;
   isHiddenDataChild = false;
   isSaved = true;
 
@@ -42,6 +40,10 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   private subscription: Subscription;
 
   readonly baseCardURL = environment.dataURL;
+
+  get leftCardsCount(): number {
+    return this.playingWordIndexes.length;
+  }
 
   constructor(
     private wordsApiService: WordsApiService,
@@ -67,12 +69,10 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     });
   }
 
-  initializeValues() {
-    this.currentState = GameState.STOP;
-    this.wordsIds = [];
+  initializeValuesForGame(): void {
+    this.playingWordIndexes = this.words.map((_, ind) => ind).sort(() => Math.random() - 0.5);
     this.hardWords = [];
     this.playingWord = null;
-    this.wordIndex = this.COUNT_WORDS_ID;
     this.countTry = this.COUNT_TRY;
     this.leftCards = this.LEFT_CARDS;
     this.isHiddenDataChild = false;
@@ -81,62 +81,70 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   startGame() {
     this.setCurrentState(GameState.PLAY);
-    this.wordsIds = this.words.map((el) => el.id).sort(() => Math.random() - 0.5);
+    this.playingWordIndexes = this.words.map((_, ind) => ind).sort(() => Math.random() - 0.5);
     this.isHiddenDataChild = true;
     this.isSaved = false;
-    this.initializeGameSteps();
+    this.definePlayingWord();
   }
 
-  initializeGameSteps() {
-    this.checkFinished();
-    for (let i = this.wordIndex; i < this.wordsIds.length; i += 1) {
-      if (this.currentState === GameState.PLAY) {
-        this.playingWord = this.words.find((el) => el.id === this.wordsIds[i]);
-        this.startAudio();
-        this.wordIndex += 1;
-        this.setCurrentState(GameState.HOLD);
-        // service cart inactivate fot start game
-        const elem = this.playingWord.id;
-        this.ownGameService.setDisabledItemId(elem);
-        // number of attempts per word again
-        this.countTry = this.COUNT_TRY;
-      }
-    }
+  definePlayingWord() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    this.leftCardsCount
+      ? (this.playingWord = this.words[this.playingWordIndexes[0]])
+      : (this.playingWord = null);
+    this.ownGameService.setDisabledItemId(this.playingWord.id);
+    this.playCard();
   }
 
-  startAudio() {
-    const audioInstance = new Audio();
-    audioInstance.src = `${this.baseCardURL + this.playingWord.audio}`;
-    audioInstance.play();
+  playCard(): void {
+    this.startPlayingWordAudio();
+    this.countTry = 0;
+    this.setCurrentState(GameState.HOLD);
   }
 
-  checkFinished() {
-    if (this.wordIndex === this.wordsIds.length) {
-      this.setCurrentState(GameState.RESULT);
+  startPlayingWordAudio(): void {
+    if (this.playingWord) {
       const audioInstance = new Audio();
-      audioInstance.src = '../../../../assets/sounds/466133__humanoide9000__victory-fanfare.wav';
+      audioInstance.src = `${this.baseCardURL + this.playingWord.audio}`;
       audioInstance.play();
     }
   }
 
-  checkCard(card: IWord) {
-    if (this.playingWord) {
-      if (this.playingWord.audio !== card.audio) {
-        const audioInstance = new Audio();
-        audioInstance.src = '../../../../assets/sounds/no.mp3';
-        audioInstance.play();
-        this.countTry += 1;
-      } else {
-        this.countMistakes();
-        const audioInstance = new Audio();
-        audioInstance.src = '../../../../assets/sounds/yes.mp3';
-        audioInstance.play();
-        this.leftCards -= 1;
+  checkCard(card: IWord): void {
+    if (this.playingWord.audio === card.audio) {
+      this.playResultAudio(true);
+      this.leftCards -= 1;
+      this.ownGameService.setDisabledItemId(card.id);
+      this.playingWordIndexes.shift();
+      if (this.playingWordIndexes.length) {
         this.playNextWord();
-        // service cart inactivate
-        this.ownGameService.setDisabledItemId(card.id);
+      } else {
+        this.finishGame();
       }
+    } else {
+      this.playResultAudio(false);
+      this.countTry += 1;
     }
+  }
+
+  playResultAudio(value) {
+    if (value) {
+      const audioInstance = new Audio();
+      audioInstance.src = '../../../../assets/sounds/yes.mp3';
+      audioInstance.play();
+      this.countMistakes();
+    } else {
+      const audioInstance = new Audio();
+      audioInstance.src = '../../../../assets/sounds/no.mp3';
+      audioInstance.play();
+    }
+  }
+
+  finishGame(): void {
+    this.setCurrentState(GameState.RESULT);
+    const audioInstance = new Audio();
+    audioInstance.src = '../../../../assets/sounds/466133__humanoide9000__victory-fanfare.wav';
+    audioInstance.play();
   }
 
   countMistakes() {
@@ -147,8 +155,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   playNextWord() {
     setTimeout(() => {
-      this.setCurrentState(GameState.PLAY);
-      this.initializeGameSteps();
+      this.definePlayingWord();
     }, 1700);
   }
 
@@ -161,12 +168,12 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   repeatGame() {
-    this.initializeValues();
+    this.initializeValuesForGame();
   }
 
   mixCards() {
     this.getData();
-    this.initializeValues();
+    this.initializeValuesForGame();
   }
 
   canDeactivate(): boolean | Observable<boolean> {
@@ -178,7 +185,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     this.wordsApiService.changeGroupToken(level);
     this.wordsApiService.changePageToken(randomPage);
     this.getData();
-    this.initializeValues();
+    this.initializeValuesForGame();
   }
 
   closeModal() {
