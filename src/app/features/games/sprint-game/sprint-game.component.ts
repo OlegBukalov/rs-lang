@@ -18,9 +18,9 @@ const TIME_LIMIT = 60;
 export class SprintGameComponent implements OnInit {
   score = 0;
 
-  bonusScoreCounter = 0;
+  bonusCounter = 0;
 
-  bonusScoreLvl = 0;
+  bonusLvl = 0;
 
   wordCounter = 0;
 
@@ -82,8 +82,8 @@ export class SprintGameComponent implements OnInit {
     } else {
       this.audio.src = 'assets/audio/sprint/error.mp3';
       this.audio.play();
-      this.bonusScoreLvl = 0;
-      this.bonusScoreCounter = 0;
+      this.bonusLvl = 0;
+      this.bonusCounter = 0;
     }
     this.setNextGameWord();
   }
@@ -98,21 +98,21 @@ export class SprintGameComponent implements OnInit {
   }
 
   private setScore(): void {
-    this.score += BASE_SCORE * SCORE_MULTIPLIER ** this.bonusScoreLvl; // рассчет бонусных очков в зависимости от lvl'a: 0-10, 1-20, 2-40, 3-80
-    this.bonusScoreCounter += 1;
+    this.score += BASE_SCORE * SCORE_MULTIPLIER ** this.bonusLvl; // рассчет бонусных очков в зависимости от lvl'a: 0-10, 1-20, 2-40, 3-80
+    this.bonusCounter += 1;
     if (
-      this.bonusScoreCounter === MAX_SCORE_COUNTER + 1 &&
-      this.bonusScoreLvl < MAX_SCORE_LVL - 1
+      this.bonusCounter === MAX_SCORE_COUNTER + 1 &&
+      this.bonusLvl < MAX_SCORE_LVL - 1
     ) {
-      this.bonusScoreCounter = 0;
-      this.bonusScoreLvl += 1;
+      this.bonusCounter = 0;
+      this.bonusLvl += 1;
     } else if (
-      (this.bonusScoreCounter === MAX_SCORE_COUNTER + 1 &&
-        this.bonusScoreLvl === MAX_SCORE_LVL - 1) ||
-      this.bonusScoreLvl === MAX_SCORE_LVL
+      (this.bonusCounter === MAX_SCORE_COUNTER + 1 &&
+        this.bonusLvl === MAX_SCORE_LVL - 1) ||
+      this.bonusLvl === MAX_SCORE_LVL
     ) {
-      this.bonusScoreCounter = 1;
-      this.bonusScoreLvl = MAX_SCORE_LVL;
+      this.bonusCounter = 1;
+      this.bonusLvl = MAX_SCORE_LVL;
     }
   }
 
@@ -145,8 +145,8 @@ export class SprintGameComponent implements OnInit {
   }
 
   private clearValues(): void {
-    this.bonusScoreCounter = 0;
-    this.bonusScoreLvl = 0;
+    this.bonusCounter = 0;
+    this.bonusLvl = 0;
     this.wordCounter = 0;
     this.gameWords = [];
     this.curSecond = TIME_LIMIT;
