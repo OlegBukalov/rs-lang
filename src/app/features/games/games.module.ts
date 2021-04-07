@@ -19,7 +19,7 @@ import { SprintGameComponent } from './sprint-game/sprint-game.component';
 import { SettingsPageComponent } from './sprint-game/settings-page/settings-page.component';
 import { StartLoadingComponent } from './sprint-game/start-loading/start-loading.component';
 import { BonusScoreComponent } from './sprint-game/bonus-score/bonus-score.component';
-
+import { SavannahGameComponent } from './savannah-game/savannah-game.component';
 @NgModule({
   declarations: [
     GameListComponent,
@@ -34,6 +34,7 @@ import { BonusScoreComponent } from './sprint-game/bonus-score/bonus-score.compo
     SettingsPageComponent,
     StartLoadingComponent,
     BonusScoreComponent,
+    SavannahGameComponent,
   ],
   imports: [
     CommonModule,

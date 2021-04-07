@@ -4,11 +4,11 @@ import { AudioCallComponent } from './audio-call/audio-call.component';
 import { CardGameListComponent } from './card-game-list/card-game-list.component';
 import { GameListComponent } from './game-list.component';
 import { SprintGameComponent } from './sprint-game/sprint-game.component';
+import { SavannahGameComponent } from './savannah-game/savannah-game.component';
 
 export const gamesRoutes: Routes = [
   { path: '', component: GameListComponent },
-  // заменить компоненту для игры savannah
-  { path: 'savannah', component: NotFoundComponent },
+  { path: 'savannah', component: SavannahGameComponent },
   // заменить компоненту для игры audio-call
   { path: 'audio-call', component: AudioCallComponent },
   { path: 'sprint', component: SprintGameComponent },

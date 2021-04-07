@@ -1,0 +1,109 @@
+:host {
+  display: flex;
+  width: 100%;
+  height: 85vh;
+  flex-direction: column;
+}
+
+.wrap-game-list {
+    position: relative;
+    // padding: 50px;
+    font-family: 'Poiret One', cursive;
+    font-size: 26px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    .game-over {
+      display: flex;
+      flex-direction: row;
+      min-height: 300px;
+      min-width: 300px;
+
+      .words-tab-learned, .words-tab-unlearned {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        .learned-words {
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+        }
+
+        .unlearned-words {
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+        }
+      }
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 30px;
+      color: #333470;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+    }
+
+    .background {
+      position: absolute;
+      background-image: url('/assets/img/savannah.svg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 90%;
+      width: 100%;
+      align-self: center;
+      z-index: 0;
+    }
+
+    .animal-wrapper {
+      width: 100vw;
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+
+      .animal {
+        position: absolute;
+        width: 100px;
+        height: 50px;
+        color: red;
+        background-image: url('/assets/img/giraffe.svg');
+        background-repeat: no-repeat;
+      }
+    }
+  
+    .game-list {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      align-self: center;
+      z-index: 1;
+      height: 100%;
+
+      button {
+        z-index: 1;
+      }
+
+      .buttons-wrapper {
+        display: flex;
+        flex-direction: row;
+        
+
+        button {
+          z-index: 1;
+        }
+
+        .answer-word {
+          margin: 10px;
+        }
+      }
+    }
+  }
+  
