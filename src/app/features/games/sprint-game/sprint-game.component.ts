@@ -63,30 +63,7 @@ export class SprintGameComponent implements OnInit {
     this.clearValues();
     this.score = 0;
     this.timerInit();
-    this.subscriptionWords = this.wordsApiService.getWordList().subscribe(
-      (words: IWord[]) => {
-        if (words) {
-          this.words = words.sort(() => Math.random() - 0.5); // рандомная сортировка слов, чтобы не было одинакового порядка слов
-          this.words.forEach((word) => {
-            const randomTranslate = this.getRandomTranslate(word);
-            this.gameWords.push({
-              id: word.id,
-              word: word.word,
-              translate: word.wordTranslate,
-              randomTranslate,
-              isCorrectTranslate: randomTranslate === word.wordTranslate,
-              audio: word.audio,
-            });
-          });
-          [this.currentWord] = this.gameWords;
-        }
-      },
-      (err) =>
-        this.toastrService.showError(
-          err,
-          'Не удалось получить слова для изучения, попробуйте позже.',
-        ),
-    );
+    this.setGameWords();
   }
 
   gameEnd(): void {
@@ -125,6 +102,33 @@ export class SprintGameComponent implements OnInit {
       const rurrentIndex = this.gameWords.indexOf(this.currentWord) + 1;
       this.currentWord = this.gameWords[rurrentIndex];
     }
+  }
+
+  private setGameWords(): void {
+    this.subscriptionWords = this.wordsApiService.getWordList().subscribe(
+      (words: IWord[]) => {
+        if (words) {
+          this.words = words.sort(() => Math.random() - 0.5); // рандомная сортировка слов, чтобы не было одинакового порядка слов
+          this.words.forEach((word) => {
+            const randomTranslate = this.getRandomTranslate(word);
+            this.gameWords.push({
+              id: word.id,
+              word: word.word,
+              translate: word.wordTranslate,
+              randomTranslate,
+              isCorrectTranslate: randomTranslate === word.wordTranslate,
+              audio: word.audio,
+            });
+          });
+          [this.currentWord] = this.gameWords;
+        }
+      },
+      (err) =>
+        this.toastrService.showError(
+          err,
+          'Не удалось получить слова для изучения, попробуйте позже.',
+        ),
+    );
   }
 
   private clearValues(): void {
