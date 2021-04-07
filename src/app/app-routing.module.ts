@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { StatisticsComponent } from './features/statistics/statistics.component';
 import { HomeComponent } from './features/home/home.component';
 import { AuthComponent } from './features/auth/auth.component';
 import { AuthGuard } from './features/auth/auth.guard';
@@ -25,7 +24,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () => import('./features/games/games.module').then((m) => m.GamesModule),
   },
-  { path: 'statistics', component: StatisticsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'statistics',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./features/statistics/statistics.module').then((m) => m.StatisticsModule),
+  },
   { path: 'auth', component: AuthComponent },
   {
     path: '**',
