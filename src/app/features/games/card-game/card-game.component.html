@@ -42,6 +42,7 @@
       <app-card-game-item
         [card]="card"
         [isHiddenDataChild]="isHiddenDataChild"
+        [ViewChildCard]="ViewChildCard"
         [class.play]="currentState === state.HOLD"
         (click)="checkCard(card)"
       ></app-card-game-item>
