@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/lines-between-class-members */
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-card-game-modal',
@@ -8,14 +9,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class DialogElementsExampleDialogComponent {
   @Input() isSaved: boolean;
-  @Output() exitGameModal = new EventEmitter();
-  @Output() continueGameModal = new EventEmitter();
 
-  exitGameModalWindow() {
-    this.exitGameModal.emit();
-  }
+  constructor(private dialogRef: MatDialogRef<DialogElementsExampleDialogComponent>) {}
 
-  continueGameModalWindow() {
-    this.continueGameModal.emit();
+  close() {
+    this.dialogRef.close();
   }
 }

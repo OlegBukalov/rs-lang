@@ -2,7 +2,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
@@ -189,18 +189,14 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   openDialog() {
-    this.dialog.open(DialogElementsExampleDialogComponent);
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    this.dialog.open(DialogElementsExampleDialogComponent, dialogConfig);
     return false;
   }
-
-  // TODO: don't work yet
-  // exitGameModal() {
-  //   this.mixCards();
-  // }
-
-  // continueGameModal() {
-  //   this.dialog.close(DialogElementsExampleDialogComponent);
-  // }
 
   closeModal() {
     this.setCurrentState(GameState.HOLD);
