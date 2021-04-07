@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/lines-between-class-members */
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild, OnInit, OnChanges } from '@angular/core';
 
 import { IWord } from 'src/app/core/interfaces/iword';
 import { OwnGameService } from '../services/own-game.service';
@@ -11,18 +11,27 @@ import { environment } from '../../../../../environments/environment';
   templateUrl: './card-game-item.component.html',
   styleUrls: ['./card-game-item.component.scss'],
 })
-export class CardGameItemComponent {
+export class CardGameItemComponent implements OnInit, OnChanges {
   @Input() card?: IWord;
   @Input() isHiddenDataChild: boolean;
+  @Input() ViewChildCard: boolean;
 
   @ViewChild('audio') audioPlayerRef: ElementRef;
 
   isRotated = false;
-  isDisabled = false;
+  isDisabled: boolean;
 
   private readonly baseCardURL = environment.dataURL;
 
   constructor(private ownGameService: OwnGameService) {}
+
+  ngOnInit(): void {
+    this.isDisabled = this.ViewChildCard;
+  }
+
+  ngOnChanges(): void {
+    this.isDisabled = this.ViewChildCard;
+  }
 
   get cardImgSrc(): string {
     return this.card ? `${this.baseCardURL + this.card.image}` : '';
