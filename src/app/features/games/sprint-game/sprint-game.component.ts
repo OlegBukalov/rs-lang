@@ -111,16 +111,16 @@ export class SprintGameComponent implements OnInit {
       .subscribe(
         (words: IWord[]) => {
           this.words = words.sort(() => Math.random() - 0.5); // рандомная сортировка слов, чтобы не было одинакового порядка слов
-          this.words.forEach((word) => {
+          this.gameWords = this.words.map((word: IWord) => {
             const randomTranslate = this.getRandomTranslate(word);
-            this.gameWords.push({
+            return {
               id: word.id,
               word: word.word,
               translate: word.wordTranslate,
               randomTranslate,
               isCorrectTranslate: randomTranslate === word.wordTranslate,
               audio: word.audio,
-            });
+            };
           });
           [this.currentWord] = this.gameWords;
         },
