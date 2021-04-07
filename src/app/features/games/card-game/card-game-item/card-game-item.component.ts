@@ -4,6 +4,8 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { OwnGameService } from '../services/own-game.service';
 
+import { environment } from '../../../../../environments/environment';
+
 @Component({
   selector: 'app-card-game-item',
   templateUrl: './card-game-item.component.html',
@@ -18,7 +20,7 @@ export class CardGameItemComponent {
   isRotated = false;
   isDisabled = false;
 
-  private readonly baseCardURL = 'https://raw.githubusercontent.com/Oubowen/rslang-data/master/';
+  private readonly baseCardURL = environment.dataURL;
 
   constructor(private ownGameService: OwnGameService) {}
 

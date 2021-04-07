@@ -2,7 +2,7 @@
   <div class="modal">
     <span class="material-icons close" (click)="closeModalWindow()">close</span>
     <p class="end-game-text">игра окончена</p>
-    <div *ngIf="hardWords.length !== 0">
+    <div *ngIf="hardWords?.length">
       <p class="list-hard-title">Слова, которые вам нужно повторить</p>
       <ul class="list-hard">
         <li *ngFor="let hardWord of hardWords">{{ hardWord.word }}</li>
