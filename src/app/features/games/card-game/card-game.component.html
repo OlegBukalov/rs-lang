@@ -9,7 +9,12 @@
       <button class="btn-template" (click)="mixCards()">перемешать</button>
     </div>
     <div class="card-game__button">
-      <button class="btn-template" (click)="openDialog()" *ngIf="currentState === state.HOLD">
+      <button
+        class="btn-template"
+        [isSaved]="isSaved"
+        (click)="openDialog()"
+        *ngIf="currentState === state.HOLD"
+      >
         прервать игру
       </button>
     </div>

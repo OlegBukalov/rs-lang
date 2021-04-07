@@ -176,10 +176,6 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     this.initializeValuesForGame();
   }
 
-  canDeactivate(): boolean | Observable<boolean> {
-    return this.isSaved ? true : this.openDialog();
-  }
-
   changeLevel(level: string) {
     const randomPage: string = Math.floor(Math.random() * this.PAGE_CARDS).toString();
     this.wordsApiService.changeGroupToken(level);
@@ -188,13 +184,26 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     this.initializeValuesForGame();
   }
 
-  closeModal() {
-    this.setCurrentState(GameState.HOLD);
+  canDeactivate(): boolean | Observable<boolean> {
+    return this.isSaved ? true : this.openDialog();
   }
 
   openDialog() {
     this.dialog.open(DialogElementsExampleDialogComponent);
     return false;
+  }
+
+  // TODO: don't work yet
+  // exitGameModal() {
+  //   this.mixCards();
+  // }
+
+  // continueGameModal() {
+  //   this.dialog.close(DialogElementsExampleDialogComponent);
+  // }
+
+  closeModal() {
+    this.setCurrentState(GameState.HOLD);
   }
 
   ngOnDestroy() {
