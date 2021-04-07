@@ -1,0 +1,47 @@
+$color_light_gray: #D8DEEA;
+$color_dark_gray: #BEC9D7;
+$color_dark_blue: #262E5B;
+//TODO: delete color variables
+.dictionary-page {
+    background-color: $color_light_gray;
+    .categories {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-column-gap: 20px;
+        padding: 20px;
+        .category {
+            padding-bottom: 20px;
+            text-align: center;
+            border-bottom: 4px solid $color_dark_gray;
+            transition: border-color 0.3s;
+            font-family: 'Poiret One', cursive;
+            font-weight: bold;
+            font-size: 28px;
+            &:hover {
+                cursor: pointer;
+            }
+            &.active {
+                border-color: $color_dark_blue;
+            }
+        }
+    }
+    .select {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin: 20px 50px;
+        select {
+            margin-right: 20px;
+        }
+        span {
+            font-size: 20px;
+        }
+    }
+    .pages {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 20px;
+        grid-row-gap: 20px;
+        padding: 30px;
+    }
+}

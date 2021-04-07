@@ -1,4 +1,4 @@
-import { IWord } from "./iword";
+import { IWord } from './iword';
 
 export interface IWordPage {
   paginatedResults: IWord[];

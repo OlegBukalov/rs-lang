@@ -1,0 +1,22 @@
+<div class="dictionary-page">
+    <div class="categories">
+        <div class="category" 
+          *ngFor="let category of categories" 
+          [class.active]="category === currentCategory" 
+          (click)="selectCurrentCategory(category)">
+          <span>{{category}}</span></div>
+        </div>
+
+    <div class="select">
+        <select [(ngModel)]="wordsPerPage">
+        <option *ngFor="let count of paginationArray" [ngValue]="count" (change)="setWordsPerPageCount(count)">{{count}}</option>
+      </select>
+        <span>слов на странице</span>
+    </div>
+
+    <div class="pages" *ngFor="let page of wordPages">
+        <div *ngFor="let card of page.paginatedResults" class="page">
+            <app-dictionary-card [card]="card"></app-dictionary-card>
+        </div>
+    </div>
+</div>
