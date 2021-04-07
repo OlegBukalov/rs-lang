@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { TextByLevel } from '../constants/textByLvl';
-import { ScoreCounters } from '../constants/scoreCounters';
+import { SCORE_COUNTERS } from '../constants/scoreCounters';
 
 @Component({
   selector: 'app-bonus-score',
@@ -14,7 +14,7 @@ export class BonusScoreComponent implements OnInit, OnChanges {
 
   lvlText = TextByLevel[0];
 
-  scoreCounters = ScoreCounters;
+  scoreCounters = SCORE_COUNTERS;
 
   ngOnChanges(): void {
     this.changeLvlText(this.scoreLvl);

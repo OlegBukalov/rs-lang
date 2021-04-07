@@ -4,6 +4,7 @@ import { filter, finalize, take } from 'rxjs/operators';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { ToasterService } from 'src/app/core/services/toaster.service';
+import { BASE_SCORE, SCORE_MULTIPLIER, MAX_SCORE_COUNTER, MAX_SCORE_LVL } from './constants/scoreCounters';
 import { ISprintWord } from './interfaces/sprint-word';
 import { GameStatuses } from './enums/game-statuses.enum';
 
@@ -77,30 +78,41 @@ export class SprintGameComponent implements OnInit {
     if (this.currentWord.isCorrectTranslate === answer) {
       this.audio.src = 'assets/audio/sprint/correct.mp3';
       this.audio.play();
-      this.score += 10 * 2 ** this.bonusScoreLvl; // рассчет бонусных очков в зависимости от lvl'a: 0-10, 1-20, 2-40, 3-80
-
-      this.bonusScoreCounter += 1;
-      if (this.bonusScoreCounter === 4 && this.bonusScoreLvl < 2) {
-        this.bonusScoreCounter = 0;
-        this.bonusScoreLvl += 1;
-      } else if (
-        (this.bonusScoreCounter === 4 && this.bonusScoreLvl === 2) ||
-        this.bonusScoreLvl === 3
-      ) {
-        this.bonusScoreCounter = 1;
-        this.bonusScoreLvl = 3;
-      }
+      this.setScore();
     } else {
       this.audio.src = 'assets/audio/sprint/error.mp3';
       this.audio.play();
       this.bonusScoreLvl = 0;
       this.bonusScoreCounter = 0;
     }
+    this.setNextGameWord();
+  }
+
+  private setNextGameWord(): void {
     if (this.wordCounter === this.gameWords.length) {
       this.gameEnd();
     } else {
       const rurrentIndex = this.gameWords.indexOf(this.currentWord) + 1;
       this.currentWord = this.gameWords[rurrentIndex];
+    }
+  }
+
+  private setScore(): void {
+    this.score += BASE_SCORE * SCORE_MULTIPLIER ** this.bonusScoreLvl; // рассчет бонусных очков в зависимости от lvl'a: 0-10, 1-20, 2-40, 3-80
+    this.bonusScoreCounter += 1;
+    if (
+      this.bonusScoreCounter === MAX_SCORE_COUNTER + 1 &&
+      this.bonusScoreLvl < MAX_SCORE_LVL - 1
+    ) {
+      this.bonusScoreCounter = 0;
+      this.bonusScoreLvl += 1;
+    } else if (
+      (this.bonusScoreCounter === MAX_SCORE_COUNTER + 1 &&
+        this.bonusScoreLvl === MAX_SCORE_LVL - 1) ||
+      this.bonusScoreLvl === MAX_SCORE_LVL
+    ) {
+      this.bonusScoreCounter = 1;
+      this.bonusScoreLvl = MAX_SCORE_LVL;
     }
   }
 
