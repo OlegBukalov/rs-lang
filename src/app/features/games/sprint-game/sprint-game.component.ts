@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
-import { finalize, take } from 'rxjs/operators';
+import { filter, finalize, take } from 'rxjs/operators';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { ToasterService } from 'src/app/core/services/toaster.service';
@@ -105,9 +105,11 @@ export class SprintGameComponent implements OnInit {
   }
 
   private setGameWords(): void {
-    this.subscriptionWords = this.wordsApiService.getWordList().subscribe(
-      (words: IWord[]) => {
-        if (words) {
+    this.subscriptionWords = this.wordsApiService
+      .getWordList()
+      .pipe(filter((data) => !!data))
+      .subscribe(
+        (words: IWord[]) => {
           this.words = words.sort(() => Math.random() - 0.5); // рандомная сортировка слов, чтобы не было одинакового порядка слов
           this.words.forEach((word) => {
             const randomTranslate = this.getRandomTranslate(word);
@@ -121,14 +123,13 @@ export class SprintGameComponent implements OnInit {
             });
           });
           [this.currentWord] = this.gameWords;
-        }
-      },
-      (err) =>
-        this.toastrService.showError(
-          err,
-          'Не удалось получить слова для изучения, попробуйте позже.',
-        ),
-    );
+        },
+        (err) =>
+          this.toastrService.showError(
+            err,
+            'Не удалось получить слова для изучения, попробуйте позже.',
+          ),
+      );
   }
 
   private clearValues(): void {
