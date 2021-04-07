@@ -88,10 +88,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   definePlayingWord() {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    this.leftCardsCount
-      ? (this.playingWord = this.words[this.playingWordIndexes[0]])
-      : (this.playingWord = null);
+    this.playingWord = this.leftCardsCount ? this.words[this.playingWordIndexes[0]] : null;
     this.ownGameService.setDisabledItemId(this.playingWord.id);
     this.playCard();
   }
@@ -116,6 +113,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
       this.leftCards -= 1;
       this.ownGameService.setDisabledItemId(card.id);
       this.playingWordIndexes.shift();
+      this.countMistakes();
       if (this.playingWordIndexes.length) {
         this.playNextWord();
       } else {
@@ -127,17 +125,12 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     }
   }
 
-  playResultAudio(value) {
-    if (value) {
-      const audioInstance = new Audio();
-      audioInstance.src = '../../../../assets/sounds/yes.mp3';
-      audioInstance.play();
-      this.countMistakes();
-    } else {
-      const audioInstance = new Audio();
-      audioInstance.src = '../../../../assets/sounds/no.mp3';
-      audioInstance.play();
-    }
+  playResultAudio(isCorrect: boolean) {
+    const audioInstance = new Audio();
+    audioInstance.src = isCorrect
+      ? '../../../../assets/sounds/yes.mp3'
+      : '../../../../assets/sounds/no.mp3';
+    audioInstance.play();
   }
 
   finishGame(): void {
@@ -196,6 +189,10 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
     this.dialog.open(DialogElementsExampleDialogComponent, dialogConfig);
     return false;
+  }
+
+  redirect() {
+    this.isSaved = true;
   }
 
   closeModal() {

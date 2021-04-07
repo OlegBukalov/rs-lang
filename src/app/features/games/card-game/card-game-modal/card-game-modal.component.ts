@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/lines-between-class-members */
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -7,11 +6,16 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: 'card-game-modal.component.html',
 })
 export class DialogElementsExampleDialogComponent {
-  @Input() isSaved: boolean;
+  @Output() redirect = new EventEmitter();
 
   constructor(private dialogRef: MatDialogRef<DialogElementsExampleDialogComponent>) {}
 
   close() {
     this.dialogRef.close();
+  }
+
+  redirectEvent() {
+    this.dialogRef.close();
+    this.redirect.emit();
   }
 }
