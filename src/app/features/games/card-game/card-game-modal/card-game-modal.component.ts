@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-card-game-modal',
   templateUrl: 'card-game-modal.component.html',
+  styleUrls: ['./card-game-modal.component.scss'],
 })
 export class DialogElementsExampleDialogComponent {
   @Output() redirect = new EventEmitter();

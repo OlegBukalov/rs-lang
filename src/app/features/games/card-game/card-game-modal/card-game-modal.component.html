@@ -1,6 +1,10 @@
-<h1 mat-dialog-title>Вы действительно хотите прервать игру?</h1>
-<div mat-dialog-content>Если вы преждевременно завершите игру, то данные не сохранятся</div>
-<div mat-dialog-actions>
-  <button mat-button mat-dialog-close (click)="redirectEvent()">Да</button>
-  <button mat-button mat-dialog-close (click)="close()">Нет</button>
+<div mat-dialog-content>
+  <p class="dialog-exit-title">
+    Если вы преждевременно завершите игру, то <span>данные не сохранятся</span>
+  </p>
+  <p class="dialog-exit-title">Вы уверены, что хотите прервать игру?</p>
+</div>
+<div mat-dialog-actions class="dialog-exit-buttons">
+  <button mat-button mat-dialog-close class="btn-template">Да</button>
+  <button mat-button mat-dialog-close class="btn-template" (click)="close()">Нет</button>
 </div>
