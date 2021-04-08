@@ -1,0 +1,35 @@
+ul {
+  list-style-type: none;
+  padding: 50px;
+}
+
+.menu-statistics {
+  display: flex;
+
+  li {
+    width: 50%;
+    text-align: center;
+
+    .active {
+      border-bottom-color: #FE8931;
+    }
+
+    a {
+      display: block;
+      width: 90%;
+      margin: auto;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #6EB7BE;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: #262E5B;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: letter-spacing .3s;
+
+      &:hover {
+        letter-spacing: 4px;
+      }
+    }
+  }
+}
