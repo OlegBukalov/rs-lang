@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 import { filter, finalize, take } from 'rxjs/operators';
 import { IWord } from 'src/app/core/interfaces/iword';
@@ -54,6 +54,14 @@ export class SprintGameComponent implements OnInit {
   private subscriptionWords: Subscription;
 
   private subscriptionTimer: Subscription;
+
+  @HostListener('document:keydown.arrowleft') onKeydownLeftHandler() {
+    this.checkAnswer(false);
+  }
+
+  @HostListener('document:keydown.arrowright') onKeydownRightHandler() {
+    this.checkAnswer(true);
+  }
 
   constructor(private wordsApiService: WordsApiService, private toastrService: ToasterService) {}
 
