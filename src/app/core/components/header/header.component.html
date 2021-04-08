@@ -19,12 +19,21 @@
       <a routerLink="games" routerLinkActive="active">Игры</a>
     </li>
     <li class="main-menu__item">
-      <a routerLink="statistics" routerLinkActive="active">Статистика</a>
+      <a
+        routerLink="statistics" routerLinkActive="active">Статистика</a>
     </li>
-    <li class="main-menu__item">
+    <li *ngIf="!this.authService.isLoggedIn(); else logout" class="main-menu__item">
       <a routerLink="auth" routerLinkActive="active">
         <span class="material-icons btn-icon">login</span>
       </a>
     </li>
+      <ng-template #logout>
+        <li class="main-menu__item">
+          <a routerLink="**" routerLinkActive="active">{{this.authService.loginData.name}}</a>
+        </li>
+        <li class="main-menu__item">
+          <a (click)="onClick()" routerLink="auth" routerLinkActive="active">Выход</a>
+        </li>
+      </ng-template>
   </ul>
 </nav>

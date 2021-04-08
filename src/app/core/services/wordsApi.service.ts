@@ -34,4 +34,9 @@ export class WordsApiService {
   changeGroupToken(passedGroupToken: string): void {
     this.groupToken = passedGroupToken;
   }
+
+  setRandomPage(): void {
+    const randomPage = Math.round(Math.random() * 29).toString();
+    this.changePageToken(randomPage);
+  }
 }

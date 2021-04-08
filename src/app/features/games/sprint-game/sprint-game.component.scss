@@ -1,0 +1,38 @@
+.container {
+  width: 100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.card {
+  width: 40%;
+  display:flex;
+  flex-direction: column;
+  border: 2px solid;
+  border-radius: 5px;
+  text-align: -webkit-center;
+}
+
+.answer-buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.progress-bar-block {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 40px;
+}
+
+.mat-progress-bar {
+  height: 30px;
+}
+
+.progress-bar-timer {
+  position: absolute;
+  padding: 10px;
+  color: white;
+}

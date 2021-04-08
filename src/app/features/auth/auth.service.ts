@@ -108,6 +108,11 @@ export class AuthService implements OnDestroy {
     return this.tokenExpirationTime && this.tokenExpirationTime * 1000 - Date.now() > 0;
   }
 
+  logout(): void {
+    this.tokenExpirationTime = null;
+    this.loginData = null;
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
