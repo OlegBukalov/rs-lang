@@ -65,10 +65,15 @@ export class SprintGameComponent implements OnInit {
     this.gameStatus = GameStatuses.Loading;
   }
 
+  exit(): void {
+    this.gameStatus = GameStatuses.Start;
+  }
+
   gameInit(): void {
     this.gameStatus = GameStatuses.Play;
     this.clearValues();
     this.score = 0;
+    this.wordCounter = 0;
     this.timerInit();
     this.setGameWords();
   }
@@ -149,7 +154,6 @@ export class SprintGameComponent implements OnInit {
   private clearValues(): void {
     this.bonusCounter = 0;
     this.bonusLvl = 0;
-    this.wordCounter = 0;
     this.gameWords = [];
     this.curSecond = TIME_LIMIT;
     this.progressbarValue = MAX_PROGRESSBAR_VALUE;
@@ -169,7 +173,8 @@ export class SprintGameComponent implements OnInit {
         }),
       )
       .subscribe((sec: number) => {
-        this.progressbarValue = MAX_PROGRESSBAR_VALUE - ((sec + 1) * MAX_PROGRESSBAR_VALUE) / TIME_LIMIT;
+        this.progressbarValue =
+          MAX_PROGRESSBAR_VALUE - ((sec + 1) * MAX_PROGRESSBAR_VALUE) / TIME_LIMIT;
         this.curSecond -= 1;
       });
   }

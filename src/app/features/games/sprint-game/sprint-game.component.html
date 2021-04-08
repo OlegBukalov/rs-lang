@@ -30,8 +30,16 @@
     </mat-card>
     <div class="answer-buttons">
       <button (click)="setLoadingStatus()">Начать заново</button>
-      <button (click)="gameEnd()">Выйти</button>
+      <button (click)="exit()">Выйти</button>
     </div>
   </ng-template>
-  <!-- TODO: add end component -->
+  <ng-template  ngSwitchCase="end">
+    <!-- TODO: поменять correctWordCounter -->
+    <app-sprint-game-over
+      [wordCounter]="wordCounter"
+      [correctWordCounter]="5"
+      [score]="score"
+    >
+    </app-sprint-game-over>
+  </ng-template>
 </div>
