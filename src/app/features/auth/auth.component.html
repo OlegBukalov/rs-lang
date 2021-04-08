@@ -1,8 +1,9 @@
-<mat-tab-group mat-align-tabs="center" animationDuration="0ms">
-  <mat-tab label="Вход">
-    <app-login></app-login>
-  </mat-tab>
-  <mat-tab label="Регистрация">
-    <app-signup></app-signup>
-  </mat-tab>
-</mat-tab-group>
+<nav mat-tab-nav-bar mat-align-tabs="center">
+  <a mat-tab-link routerLink="{{links[0]}}" routerLinkActive="active"
+    (click)="activeLink = links[0]" [active]="activeLink == links[0]"
+  >Вход</a>
+  <a mat-tab-link routerLink="{{links[1]}}" routerLinkActive="active"
+    (click)="activeLink = links[1]" [active]="activeLink == links[1]"
+  >Регистрация</a>
+</nav>
+<router-outlet></router-outlet>

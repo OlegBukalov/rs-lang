@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { tap } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
-import { LoginResponse } from './login-response.interface';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { LoginResponse, TokenPayload } from './login-response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -17,11 +17,15 @@ export class AuthService implements OnDestroy {
     name: '',
   };
 
+  activeLink: Subject<string> = new Subject();
+
   private readonly baseUrl = 'https://afternoon-falls-25894.herokuapp.com/';
 
   private tokenExpirationTime: number;
 
   private subscription: Subscription;
+
+  private tokenRefreshTimeout: any;
 
   constructor(private http: HttpClient) {}
 
@@ -29,7 +33,8 @@ export class AuthService implements OnDestroy {
     return this.http.post<LoginResponse>(`${this.baseUrl}signin`, loginForm.value).pipe(
       tap((value: LoginResponse) => {
         this.loginData = value;
-        this.setupTokenResreshTimeout();
+        localStorage.loginData = JSON.stringify(this.loginData);
+        this.setupTokenRefreshTimeout();
         return value;
       }),
     );
@@ -53,6 +58,8 @@ export class AuthService implements OnDestroy {
           (response: LoginResponse) => {
             this.loginData.token = response.token;
             this.loginData.refreshToken = response.refreshToken;
+            localStorage.loginData = JSON.stringify(this.loginData);
+            this.setupTokenRefreshTimeout();
             resolve(true);
           },
           (error) => {
@@ -62,21 +69,19 @@ export class AuthService implements OnDestroy {
     });
   }
 
-  private setupTokenResreshTimeout() {
+  setupTokenRefreshTimeout() {
     if (this.loginData.token) {
-      const { token } = this.loginData;
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      this.tokenExpirationTime = payload.exp;
-      const iatTime = payload.iat;
+      this.tokenExpirationTime = this.getTokenPayload(this.loginData.token).exp;
+      const iatTime = this.getTokenPayload(this.loginData.token).iat;
       const timeoutTime = (this.tokenExpirationTime - iatTime) * 1000;
-      setTimeout(() => {
-        const tokenLifeTime = this.tokenExpirationTime * 1000 - Date.now();
-        if (tokenLifeTime <= 0) {
+      this.tokenRefreshTimeout = setTimeout(() => {
+        const tokenLifeTimeLeft = this.tokenExpirationTime * 1000 - Date.now();
+        if (tokenLifeTimeLeft <= 0) {
           this.refreshToken();
         } else {
-          setTimeout(() => {
+          this.tokenRefreshTimeout = setTimeout(() => {
             this.refreshToken();
-          }, tokenLifeTime);
+          }, tokenLifeTimeLeft);
         }
       }, timeoutTime);
     }
@@ -86,12 +91,19 @@ export class AuthService implements OnDestroy {
     return this.tokenExpirationTime && this.tokenExpirationTime * 1000 - Date.now() > 0;
   }
 
+  private getTokenPayload(token: string): TokenPayload {
+    return JSON.parse(atob(token.split('.')[1]));
+  }
+
   logout(): void {
+    clearTimeout(this.tokenRefreshTimeout);
+    localStorage.loginData = null;
     this.tokenExpirationTime = null;
     this.loginData = null;
   }
 
   ngOnDestroy(): void {
+    clearTimeout(this.tokenRefreshTimeout);
     this.subscription.unsubscribe();
   }
 }
