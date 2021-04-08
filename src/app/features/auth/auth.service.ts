@@ -22,7 +22,7 @@ export class AuthService implements OnDestroy {
     // const token = localStorage.getItem('token');
     // if (token) return token;
 
-    // localStorage.setItem('token',this.loginData.token);
+    // localStorage.setItem('token', this.loginData.token);
     return this.loginData.token;
   }
 
@@ -35,7 +35,7 @@ export class AuthService implements OnDestroy {
     // const id = localStorage.getItem('userId');
     // if (id) return id;
 
-    // localStorage.setItem('userId',this.loginData.userId);
+    // localStorage.setItem('userId', this.loginData.userId);
     return this.loginData.userId;
   }
 

@@ -29,7 +29,7 @@ export class CardPopupComponent {
     this.wordsApiService.getCardById(cardId).subscribe(
       (card) => {
         this.card = card;
-        this.dictionaryService.AddWordToDictionary(this.card.id);
+        this.dictionaryService.addWordToDictionary(this.card.id);
       },
       () => this.router.navigateByUrl(this.router.url.replace(/\/card\/.+/, '')),
     );

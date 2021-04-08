@@ -1,7 +1,4 @@
-$color_light_gray: #D8DEEA;
-$color_dark_gray: #BEC9D7;
-$color_dark_blue: #262E5B;
-//TODO: delete color variables
+@import '../../../../styles.scss';
 .dictionary-page {
     background-color: $color_light_gray;
     .categories {
@@ -12,11 +9,15 @@ $color_dark_blue: #262E5B;
         .category {
             padding-bottom: 20px;
             text-align: center;
-            border-bottom: 4px solid $color_dark_gray;
             transition: border-color 0.3s;
             font-family: 'Poiret One', cursive;
             font-weight: bold;
             font-size: 28px;
+            background: none;
+            border-bottom: 4px solid $color_dark_gray;
+            border-top: none;
+            border-left: none;
+            border-right: none;
             &:hover {
                 cursor: pointer;
             }
@@ -43,5 +44,8 @@ $color_dark_blue: #262E5B;
         grid-column-gap: 20px;
         grid-row-gap: 20px;
         padding: 30px;
+    }
+    .spinner {
+        margin: 50px auto;
     }
 }

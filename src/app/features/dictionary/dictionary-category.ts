@@ -1,7 +1,7 @@
 export enum DictionaryCategory {
-  'Изучаемые' = 'Изучаемые',
-  'Сложные' = 'Сложные',
-  'Удаленные' = 'Удаленные',
+  Studied = 'Изучаемые',
+  Hard = 'Сложные',
+  Deleted = 'Удаленные',
 }
 
-export const DEFAULT_CATEGORY = DictionaryCategory['Изучаемые'];
+export const DEFAULT_CATEGORY = DictionaryCategory.Studied;

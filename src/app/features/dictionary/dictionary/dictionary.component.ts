@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { IWordPage } from 'src/app/core/interfaces/iword-page';
 import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { DEFAULT_CATEGORY, DictionaryCategory } from '../dictionary-category';
@@ -20,8 +19,10 @@ export class DictionaryComponent implements OnInit {
 
   wordsPerPage: number;
 
+  isLoading: boolean;
+
   get categories(): string[] {
-    return Object.keys(DictionaryCategory).filter((key) => Number.isNaN(+key));
+    return Object.values(DictionaryCategory).filter((key) => Number.isNaN(+key));
   }
 
   // TODO: пагинация
@@ -29,31 +30,23 @@ export class DictionaryComponent implements OnInit {
 
   ngOnInit() {
     this.updateCategoryWords();
-    this.wordsPerPage = 5;
+    this.wordsPerPage = this.paginationArray[0];
   }
 
   selectCurrentCategory(categoryName: string) {
-    this.currentCategory = DictionaryCategory[categoryName];
+    const categoryKey = Object.keys(DictionaryCategory).find((key) => {
+      const category = DictionaryCategory[key] as DictionaryCategory;
+      return category.toString() === categoryName;
+    });
+    this.currentCategory = DictionaryCategory[categoryKey];
     this.updateCategoryWords();
   }
 
   updateCategoryWords() {
-    let wordPages: Observable<IWordPage[]>;
-    switch (this.currentCategory) {
-      case DictionaryCategory['Изучаемые']:
-        wordPages = this.dictionarySevice.getStudiedWords();
-        break;
-      case DictionaryCategory['Сложные']:
-        wordPages = this.dictionarySevice.getHardWords();
-        break;
-      case DictionaryCategory['Удаленные']:
-        wordPages = this.dictionarySevice.getDeletedWords();
-        break;
-      default:
-        break;
-    }
-    wordPages.subscribe((result) => {
+    this.isLoading = true;
+    this.dictionarySevice.getAggregatedWords(this.currentCategory).subscribe((result) => {
       this.wordPages = result;
+      this.isLoading = false;
     });
   }
 
