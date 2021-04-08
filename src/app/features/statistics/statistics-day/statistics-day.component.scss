@@ -1,1 +1,24 @@
+.empty-data {
+  padding: 0 50px;
+  padding-bottom: 50px;
+  font-family: 'Poiret One', cursive;
+  font-size: 18px;
+  font-weight: bold;
 
+  li {
+    margin-bottom: 20px;
+  }
+
+  a {
+    color: #8F6CEF;
+    cursor: pointer;
+
+    &:hover {
+      color: #FE8931;
+    }
+
+    &:active {
+      color: #FE8931;
+    }
+  }
+}
