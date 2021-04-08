@@ -31,7 +31,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   totalPageCards: number = this.wordsApiService.TOTAL_PAGE_CARDS;
   isHiddenDataChild = false;
   isSaved: boolean = this.ownGameService.isSaved;
-  ViewChildCard: boolean;
+  isHiddenChildCard: boolean;
 
   state = GameState;
   currentState: GameState = GameState.STOP;
@@ -77,7 +77,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     this.isHiddenDataChild = false;
     this.ownGameService.setIsSaved(true);
     this.setCurrentState(GameState.STOP);
-    this.ViewChildCard = false;
+    this.isHiddenChildCard = false;
   }
 
   startGame() {
@@ -163,7 +163,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   repeatGame() {
     this.initializeValuesForGame();
-    this.ViewChildCard = false;
+    this.isHiddenChildCard = false;
   }
 
   mixCards() {
