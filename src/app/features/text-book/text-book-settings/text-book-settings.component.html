@@ -1,0 +1,16 @@
+<form class="example-form" (ngSubmit)="onFormSubmit()" ngNativeValidate>
+  <mat-slide-toggle color="primary" ngModel name="hideWordTranslation"
+    >Скрыть перевод слова</mat-slide-toggle
+  >
+  <mat-slide-toggle color="primary" ngModel name="hideSentenceTranslation"
+    >Скрыть перевод предложения</mat-slide-toggle
+  >
+  <mat-slide-toggle color="primary" ngModel name="hideHardWordsBtn"
+    >Убрать кнопку "сложные слова"</mat-slide-toggle
+  >
+  <mat-slide-toggle color="primary" ngModel name="hideDeletedWordsBtn"
+    >Убрать кнопку "удаленные слова"
+  </mat-slide-toggle>
+
+  <button class="btn-template" type="submit">Сохранить</button>
+</form>

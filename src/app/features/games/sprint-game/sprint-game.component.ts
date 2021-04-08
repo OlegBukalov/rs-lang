@@ -169,7 +169,8 @@ export class SprintGameComponent implements OnInit {
         }),
       )
       .subscribe((sec: number) => {
-        this.progressbarValue = MAX_PROGRESSBAR_VALUE - ((sec + 1) * MAX_PROGRESSBAR_VALUE) / TIME_LIMIT;
+        this.progressbarValue =
+          MAX_PROGRESSBAR_VALUE - ((sec + 1) * MAX_PROGRESSBAR_VALUE) / TIME_LIMIT;
         this.curSecond -= 1;
       });
   }
