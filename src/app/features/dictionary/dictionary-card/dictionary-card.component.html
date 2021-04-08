@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-info">
-        <img [src]="getAssetUrl(card.image) | cardAsset | async" alt="{{card.word}}" class="card-image">
+        <img [src]="card.image | cardAsset | async" alt="{{card.word}}" class="card-image">
         <button class="play-btn" (click)="playAudio()">
           <img src="../../../../assets/icons/volume.svg" alt="Воспроизвести">
         </button>
@@ -8,6 +8,6 @@
             <p class="word">{{card.word}}</p>
             <p class="translate">{{card.wordTranslate}}</p>
         </div>
-        <audio #audio [src]="getAssetUrl(card.audio) | cardAsset | async"></audio>
+        <audio #audio [src]="card.audio | cardAsset | async"></audio>
     </div>
 </div>

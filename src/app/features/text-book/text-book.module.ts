@@ -10,6 +10,7 @@ import { textBookRoutes } from './text-book.routes';
 import { TextBookCardComponent } from './text-book-card/text-book-card.component';
 import { CardPopupComponent } from './card-popup/card-popup.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { SharedModule } from 'src/app/core/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     CardPopupComponent,
     PaginationComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(textBookRoutes), MatProgressSpinnerModule],
+  imports: [CommonModule, RouterModule.forChild(textBookRoutes), MatProgressSpinnerModule, SharedModule],
   providers: [HttpClient],
 })
 export class TextBookModule {}

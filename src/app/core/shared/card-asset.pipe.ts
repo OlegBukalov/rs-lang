@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from 'src/app/features/auth/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Pipe({
   name: 'cardAsset',
@@ -13,10 +14,11 @@ export class CardAssetPipe implements PipeTransform {
     private sanitizer: DomSanitizer,
   ) {}
 
-  async transform(src: string): Promise<SafeResourceUrl> {
+  async transform(fragment: string): Promise<SafeResourceUrl> {
     try {
       const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth.token}` });
-      const blob = await this.http.get(src, { headers, responseType: 'blob' }).toPromise();
+      const url = `${environment.baseUrl}/${fragment}`;
+      const blob = await this.http.get(url, { headers, responseType: 'blob' }).toPromise();
       const reader = new FileReader();
       return await new Promise((resolve) => {
         reader.onload = () => {
