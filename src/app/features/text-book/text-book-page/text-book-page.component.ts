@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { IPaginationOptions } from 'src/app/core/interfaces/ipagination-options';
 import { IWord } from 'src/app/core/interfaces/iword';
+import { StorageService } from 'src/app/core/services/storage.service';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { IdValidatorService } from '../id-validator.service';
 
@@ -31,12 +32,14 @@ export class TextBookPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private wordsApiService: WordsApiService,
+    private storage: StorageService
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const id = IdValidatorService.validate(params.pageId);
       this.updateCards(id);
+      this.storage.setItem('pageId',id.toString());
     });
   }
 
