@@ -90,8 +90,10 @@ export class SprintGameComponent implements OnInit {
   gameEnd(): void {
     this.subscriptionWords.unsubscribe();
     this.gameStatus = GameStatuses.End;
-    console.log(this.maxCorrectSequence);
-    console.log(this.correctWordCounter);
+    // TODO: для передачи в статистику
+    // this.wordCounter - всего слов
+    // this.correctWordCounter - всего правильных
+    // this.maxCorrectSequence - макс последовательность правильных ответов
     this.clearValues();
   }
 
