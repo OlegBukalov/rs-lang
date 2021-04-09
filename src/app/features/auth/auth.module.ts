@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthComponent } from './auth.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
@@ -26,6 +27,7 @@ import { AuthRoutingModule } from './auth-routing.module';
     MatInputModule,
     MatTabsModule,
     AuthRoutingModule,
+    MatProgressSpinnerModule,
   ],
   providers: [AuthGuard],
   exports: [AuthComponent],

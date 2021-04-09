@@ -30,6 +30,8 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   isHidePassword = true;
 
+  isSigninCompleted = true;
+
   subscription: Subscription;
 
   constructor(
@@ -56,6 +58,7 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   onSignup(): void {
     this.isFormSubmitted = true;
+    this.isSigninCompleted = false;
     if (!this.signupForm.valid) {
       this.toastrService.showError('Неверно заполнена форма регистрации', 'Ошибка');
       return;
@@ -63,10 +66,12 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.subscription = this.authService.signup(this.signupForm).subscribe(
       () => {
         this.toastrService.showSuccess('Регистрация прошла успешно!', 'Успех');
+        this.isSigninCompleted = true;
         this.authService.activeLink.next(AuthPath.Login);
         this.router.navigate([AuthPath.Auth, AuthPath.Login]);
       },
       (error) => {
+        this.isSigninCompleted = true;
         this.handleSignupErrors(error);
       },
     );
@@ -96,6 +101,8 @@ export class SignupComponent implements OnInit, OnDestroy {
             );
         }
       });
+    } else if (err.status === 417) {
+      this.toastrService.showError('Пользователь с такой почтой уже существует', 'Ошибка');
     }
   }
 

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthPath } from 'src/app/features/auth/auth.constants';
 import { AuthService } from 'src/app/features/auth/auth.service';
 
 @Component({
@@ -7,9 +8,11 @@ import { AuthService } from 'src/app/features/auth/auth.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  authPath = AuthPath;
+
   constructor(public authService: AuthService) {}
 
-  onClick(): void {
+  onLogout(): void {
     this.authService.logout();
   }
 }

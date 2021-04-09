@@ -22,15 +22,6 @@
     }
 }
 
-.spinner {
-    position: absolute;
-    top: calc(50% - 50px);
-    left: calc(50% - 50px);
-    width: 100px;
-    height: 100px;
-    z-index: 110;
-}
-
 .overlay {
     position: fixed;
     top: 0;

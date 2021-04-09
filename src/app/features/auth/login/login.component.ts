@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   isHidePassword = true;
 
+  isLoginCompleted = true;
+
   subscription: Subscription;
 
   constructor(
@@ -41,6 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onLogin(): void {
     this.isFormSubmitted = true;
+    this.isLoginCompleted = false;
     if (!this.loginForm.valid) {
       this.toastrService.showError('Неверно заполнена форма входа', 'Ошибка');
       return;
@@ -48,9 +51,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscription = this.authService.login(this.loginForm).subscribe(
       () => {
         this.toastrService.showSuccess('Авторизация успешна', 'Успех');
+        this.isLoginCompleted = true;
         this.router.navigate(['']);
       },
       (error) => {
+        this.isLoginCompleted = true;
         if (error.status === 403 || error.status === 404) {
           this.toastrService.showError('Неверная почта или пароль', 'Ошибка');
         } else {

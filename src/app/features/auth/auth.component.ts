@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { AuthPath } from './auth.constants';
 import { AuthService } from './auth.service';
 @Component({
@@ -17,10 +17,15 @@ export class AuthComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.activeLink.next(AuthPath.Login);
+    this.authService.activeLink = new Subject();
     this.subscription = this.authService.activeLink.subscribe((link: AuthPath) => {
       this.activeLink = link;
     });
+    this.updateActiveLink(AuthPath.Login);
+  }
+
+  updateActiveLink(link: AuthPath) {
+    this.authService.activeLink.next(link);
   }
 
   ngOnDestroy(): void {

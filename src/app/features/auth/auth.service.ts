@@ -3,6 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { Observable, Subject, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 import { LoginResponse, TokenPayload } from './auth.interfaces';
 import { AuthPath } from './auth.constants';
 
@@ -18,7 +19,7 @@ export class AuthService implements OnDestroy {
     name: '',
   };
 
-  activeLink: Subject<AuthPath> = new Subject();
+  activeLink: Subject<AuthPath | undefined> = new Subject();
 
   private readonly baseUrl = 'https://afternoon-falls-25894.herokuapp.com/';
 
@@ -28,7 +29,7 @@ export class AuthService implements OnDestroy {
 
   private tokenRefreshTimeout: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(loginForm: FormGroup): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.baseUrl}signin`, loginForm.value).pipe(

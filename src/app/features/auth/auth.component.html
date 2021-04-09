@@ -1,9 +1,9 @@
 <nav mat-tab-nav-bar mat-align-tabs="center">
   <a mat-tab-link routerLink="{{authPath.Login}}" routerLinkActive="active"
-    (click)="activeLink = authPath.Login" [active]="activeLink === authPath.Login"
+    (click)="updateActiveLink(authPath.Login)" [active]="activeLink === authPath.Login"
   >Вход</a>
   <a mat-tab-link routerLink="{{authPath.Signup}}" routerLinkActive="active"
-    (click)="activeLink = authPath.Signup" [active]="activeLink === authPath.Signup"
+    (click)="updateActiveLink(authPath.Signup)" [active]="activeLink === authPath.Signup"
   >Регистрация</a>
 </nav>
 <router-outlet></router-outlet>
