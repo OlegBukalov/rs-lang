@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
 
 import { IItemListGames } from './interfaces/iitem-list-games';
+import { IDataGame } from './interfaces/idata-game';
 
 import { GameID } from './enums/game-id.enum';
+
+type ItemGame = {
+  idGame: GameID;
+  countAll: number;
+  countRight: number;
+  maxRight: number;
+};
 
 @Injectable({
   providedIn: 'root',
@@ -54,38 +62,30 @@ export class StatisticsService {
     },
   ];
 
-  getDataFromGame(idGame: GameID, countAll: number, countRight: number, maxRight: number): void {
-    this.updateCountAnswers(idGame, countAll);
-    this.updateCountRightAnswers(idGame, countRight);
-    this.updateMaxRightAnswers(idGame, maxRight);
-    this.updatePercentRightAnswers(idGame);
+  getDataFromGame(dataGame: ItemGame): void {
+    const item = this.dataAllGames.find((itemGame) => itemGame.game === dataGame.idGame).data;
+    item.countAnswers += dataGame.countAll;
+    item.countRightAnswers += dataGame.countRight;
+    item.maxRightAnswers = this.updateMaxRightAnswers(item, dataGame.maxRight);
+    item.percentRightAnswers = this.updatePercentRightAnswers(item);
     this.updateAllRightAnswers();
   }
 
-  updateCountAnswers(idGame: GameID, countAll: number): void {
-    this.dataAllGames.find((item) => item.game === idGame).data.countAnswers += countAll;
-  }
-
-  updateCountRightAnswers(idGame: GameID, countRight: number): void {
-    this.dataAllGames.find((item) => item.game === idGame).data.countRightAnswers += countRight;
-  }
-
-  updateMaxRightAnswers(idGame: GameID, maxRight: number): void {
-    const currentMax = this.dataAllGames.find((item) => item.game === idGame).data.maxRightAnswers;
-
+  updateMaxRightAnswers(item: IDataGame, maxRight: number): number {
+    const currentMax = item.maxRightAnswers;
     if (currentMax < maxRight) {
-      this.dataAllGames.find((item) => item.game === idGame).data.maxRightAnswers = maxRight;
+      return maxRight;
     }
+    return item.maxRightAnswers;
   }
 
-  updatePercentRightAnswers(idGame: GameID): void {
-    if (this.dataAllGames.find((item) => item.game === idGame).data.countRightAnswers !== 0) {
-      const all = this.dataAllGames.find((item) => item.game === idGame).data.countAnswers;
-      const right = this.dataAllGames.find((item) => item.game === idGame).data.countRightAnswers;
-
-      this.dataAllGames.find((item) => item.game === idGame).data.percentRightAnswers =
-        (right / all) * 100;
+  updatePercentRightAnswers(item: IDataGame): void {
+    if (item.countRightAnswers !== 0) {
+      const all = item.countAnswers;
+      const right = item.countRightAnswers;
+      return (right / all) * 100;
     }
+    return 0;
   }
 
   updateAllRightAnswers(): number {

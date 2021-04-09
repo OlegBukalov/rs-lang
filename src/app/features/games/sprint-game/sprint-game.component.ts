@@ -100,12 +100,13 @@ export class SprintGameComponent implements OnInit {
   }
 
   gameEnd(): void {
-    this.statisticsService.getDataFromGame(
-      IDGame,
-      this.wordCounter,
-      this.correctWordCounter,
-      this.maxCorrectSequence,
-    );
+    const dataGame = {
+      idGame: IDGame,
+      countAll: this.wordCounter,
+      countRight: this.correctWordCounter,
+      maxRight: this.maxCorrectSequence,
+    };
+    this.statisticsService.getDataFromGame(dataGame);
     this.subscriptionWords.unsubscribe();
     this.gameStatus = GameStatuses.End;
     this.clearValues();
