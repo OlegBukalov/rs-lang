@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  dataURL: 'https://raw.githubusercontent.com/Oubowen/rslang-data/master/',
 };
 
 /*
