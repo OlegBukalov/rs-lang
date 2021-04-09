@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 import { filter, finalize, take } from 'rxjs/operators';
 import { IWord } from 'src/app/core/interfaces/iword';
@@ -30,6 +30,12 @@ export class SprintGameComponent implements OnInit {
 
   wordCounter = 0;
 
+  correctWordCounter = 0;
+
+  maxCorrectSequence = 0;
+
+  correctSequenceCounter = 0;
+
   gameStatus: GameStatuses;
 
   words: IWord[];
@@ -55,6 +61,14 @@ export class SprintGameComponent implements OnInit {
 
   private subscriptionTimer: Subscription;
 
+  @HostListener('document:keydown.arrowleft') onKeydownLeftHandler() {
+    this.checkAnswer(false);
+  }
+
+  @HostListener('document:keydown.arrowright') onKeydownRightHandler() {
+    this.checkAnswer(true);
+  }
+
   constructor(private wordsApiService: WordsApiService, private toastrService: ToasterService) {}
 
   ngOnInit(): void {
@@ -76,6 +90,10 @@ export class SprintGameComponent implements OnInit {
   gameEnd(): void {
     this.subscriptionWords.unsubscribe();
     this.gameStatus = GameStatuses.End;
+    // TODO: для передачи в статистику
+    // this.wordCounter - всего слов
+    // this.correctWordCounter - всего правильных
+    // this.maxCorrectSequence - макс последовательность правильных ответов
     this.clearValues();
   }
 
@@ -85,13 +103,23 @@ export class SprintGameComponent implements OnInit {
       this.audio.src = 'assets/audio/sprint/correct.mp3';
       this.audio.play();
       this.setScore();
+      this.setCorrectCounters();
     } else {
       this.audio.src = 'assets/audio/sprint/error.mp3';
       this.audio.play();
       this.bonusLvl = 0;
       this.bonusCounter = 0;
+      this.correctSequenceCounter = 0;
     }
     this.setNextGameWord();
+  }
+
+  private setCorrectCounters(): void {
+    this.correctWordCounter += 1;
+    this.correctSequenceCounter += 1;
+    if (this.correctSequenceCounter > this.maxCorrectSequence) {
+      this.maxCorrectSequence = this.correctSequenceCounter;
+    }
   }
 
   private setNextGameWord(): void {
@@ -150,6 +178,8 @@ export class SprintGameComponent implements OnInit {
     this.bonusCounter = 0;
     this.bonusLvl = 0;
     this.wordCounter = 0;
+    this.maxCorrectSequence = 0;
+    this.correctSequenceCounter = 0;
     this.gameWords = [];
     this.curSecond = TIME_LIMIT;
     this.progressbarValue = MAX_PROGRESSBAR_VALUE;
@@ -169,7 +199,8 @@ export class SprintGameComponent implements OnInit {
         }),
       )
       .subscribe((sec: number) => {
-        this.progressbarValue = MAX_PROGRESSBAR_VALUE - ((sec + 1) * MAX_PROGRESSBAR_VALUE) / TIME_LIMIT;
+        this.progressbarValue =
+          MAX_PROGRESSBAR_VALUE - ((sec + 1) * MAX_PROGRESSBAR_VALUE) / TIME_LIMIT;
         this.curSecond -= 1;
       });
   }

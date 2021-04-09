@@ -14,7 +14,7 @@ export class SettingsPageComponent {
   constructor(private wordsApiService: WordsApiService) {}
 
   private chooseLvl(lvl: number): void {
-    this.wordsApiService.changeGroupToken(lvl.toString());
+    this.wordsApiService.changeGroupToken((lvl - 1).toString());
     this.wordsApiService.setRandomPage();
   }
 
