@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { StatisticsComponent } from './features/statistics/statistics.component';
 import { HomeComponent } from './features/home/home.component';
 import { AuthGuard } from './features/auth/auth.guard';
 import { AuthRoutingModule } from './features/auth/auth-routing.module';
@@ -10,6 +9,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: 'dictionary',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/dictionary/dictionary.module').then((m) => m.DictionaryModule),
   },
@@ -22,7 +22,12 @@ const routes: Routes = [
     path: 'games',
     loadChildren: () => import('./features/games/games.module').then((m) => m.GamesModule),
   },
-  { path: 'statistics', component: StatisticsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'statistics',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./features/statistics/statistics.module').then((m) => m.StatisticsModule),
+  },
   {
     path: '**',
     loadChildren: () =>

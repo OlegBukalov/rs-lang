@@ -1,0 +1,29 @@
+<div class="dictionary-page">
+    <div class="categories">
+        <button class="category"
+        *ngFor="let category of categories"
+        [class.active]="category === currentCategory.toString()"
+        [disabled]="isLoading"
+        (click)="selectCurrentCategory(category)">
+            <span>{{category}}</span></button>
+    </div>
+
+    <div class="select">
+        <select [(ngModel)]="wordsPerPage">
+        <option *ngFor="let count of paginationArray" [ngValue]="count" (change)="setWordsPerPageCount(count)">{{count}}</option>
+      </select>
+        <span>слов на странице</span>
+    </div>
+
+    <div *ngIf="!isLoading; else: loadingBlock">
+        <div class="pages" *ngFor="let page of wordPages">
+            <div *ngFor="let card of page.paginatedResults" class="page">
+                <app-dictionary-card [card]="card"></app-dictionary-card>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #loadingBlock>
+        <mat-spinner class="spinner"></mat-spinner>
+    </ng-template>
+</div>

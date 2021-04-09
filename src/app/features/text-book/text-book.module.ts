@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SharedModule } from 'src/app/core/shared/shared.module';
 import { TextBookComponent } from './text-book/text-book.component';
 import { TextBookGroupComponent } from './text-book-group/text-book-group.component';
 import { TextBookPageComponent } from './text-book-page/text-book-page.component';
@@ -20,7 +21,12 @@ import { PaginationComponent } from './pagination/pagination.component';
     CardPopupComponent,
     PaginationComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(textBookRoutes), MatProgressSpinnerModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(textBookRoutes),
+    MatProgressSpinnerModule,
+    SharedModule,
+  ],
   providers: [HttpClient],
 })
 export class TextBookModule {}

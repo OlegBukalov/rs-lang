@@ -1,24 +1,51 @@
+:host {
+    width: 48%;
+    padding: 1%;
+}
+
 .card {
-    padding: 10px;
-    border: 2px solid black;
     display: flex;
     align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #DDD;
+    border-radius: 20px;
     &:hover {
         cursor: pointer;
-    }
-    .content {
-        margin-left: 50px;
-        .word {}
-        .translation {}
+        box-shadow: 0 0 6px #8F6CEF;
     }
     .image-container {
-        padding: 5px;
+        width: 150px;
+        height: 150px;
+        padding: 6px;
         border-radius: 50%;
-        .image {
-            background-color: aqua;
+        img {
+            background-color: #DDD;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
         }
+    }
+    .content {
+        padding-left: 20px;
+        font-family: 'Poiret One', cursive;
+        font-size: 26px;
+        .word {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    }
+}
+
+@media screen and (max-width: 950px) {
+     :host {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+     :host {
+        width: 90%;
     }
 }

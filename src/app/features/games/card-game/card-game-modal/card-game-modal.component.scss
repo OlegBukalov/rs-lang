@@ -1,0 +1,19 @@
+.dialog-exit-title {
+  text-align: center;
+  font-family: 'Poiret One', cursive;
+  font-size: 26px;
+  font-weight: bold;
+
+  span {
+    color: #A23979;
+  }
+}
+
+.dialog-exit-buttons {
+  display: flex;
+  justify-content: center;
+
+  button {
+    margin-left: 20px;
+  }
+}
