@@ -1,13 +1,34 @@
-<div class="data-day" *ngIf="data?.length; else emptyData">
+<div class="data-day" *ngIf="isEmpty; else emptyData">
   <div class="data-words">
     <p>Количество изученных слов (за сегодня)</p>
     <p>Общее количество изученных слов (за весь период)</p>
   </div>
 
   <div class="data-games">
+    <table>
+      <caption>Статистика по играм</caption>
+      <colgroup>
+        <col style="width: 20%">
+        <col style="width: 40%">
+        <col style="width: 40%">
+      </colgroup>
+      <thead>
+        <th></th>
+        <th>Самая длинная серия правильных ответов</th>
+        <th>Правильные ответы (в %)</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let itemData of data">
+          <td>{{itemData.name}}</td>
+          <td>{{itemData.countRightAnswers}}</td>
+          <td>{{itemData.maxRightAnswers}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="data-correct">
+    <p>Правильные ответы за день (%) - 74%</p>
   </div>
 </div>
 

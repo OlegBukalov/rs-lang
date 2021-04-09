@@ -12,6 +12,6 @@ export const gamesRoutes: Routes = [
   // заменить компоненту для игры audio-call
   { path: 'audio-call', component: AudioCallComponent },
   { path: 'sprint', component: SprintGameComponent },
-  { path: 'own-game', component: CardGameListComponent },
+  { path: 'card-game', component: CardGameListComponent },
   { path: '**', component: NotFoundComponent },
 ];
