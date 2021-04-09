@@ -1,66 +1,111 @@
 import { Injectable } from '@angular/core';
 
-import { IDataGame } from './interfaces/idata-game';
+import { IItemListGames } from './interfaces/iitem-list-games';
+
+import { GameID } from './enums/game-id.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StatisticsService {
   // TODO временно явно прописан со значениями, будет заменено на полученные данные с бэка
-  private dataGame: IDataGame[] = [
+  private allRightAnswers = 0;
+
+  private dataAllGames: IItemListGames[] = [
     {
-      id: 0,
-      name: 'Саванна',
-      countAnswers: 0,
-      countRightAnswers: 0,
-      maxRightAnswers: 0,
+      game: GameID.Savannah,
+      data: {
+        name: 'Саванна',
+        countAnswers: 0,
+        countRightAnswers: 0,
+        percentRightAnswers: 0,
+        maxRightAnswers: 0,
+      },
     },
     {
-      id: 1,
-      name: 'Аудиовызов',
-      countAnswers: 0,
-      countRightAnswers: 0,
-      maxRightAnswers: 0,
+      game: GameID.AudioCall,
+      data: {
+        name: 'Аудиовызов',
+        countAnswers: 0,
+        countRightAnswers: 0,
+        percentRightAnswers: 0,
+        maxRightAnswers: 0,
+      },
     },
     {
-      id: 2,
-      name: 'Спринт',
-      countAnswers: 0,
-      countRightAnswers: 0,
-      maxRightAnswers: 0,
+      game: GameID.Sprint,
+      data: {
+        name: 'Спринт',
+        countAnswers: 0,
+        countRightAnswers: 0,
+        percentRightAnswers: 0,
+        maxRightAnswers: 0,
+      },
     },
     {
-      id: 3,
-      name: 'Своя игра',
-      countAnswers: 0,
-      countRightAnswers: 0,
-      maxRightAnswers: 0,
+      game: GameID.Sprint,
+      data: {
+        name: 'Своя игра',
+        countAnswers: 0,
+        countRightAnswers: 0,
+        percentRightAnswers: 0,
+        maxRightAnswers: 0,
+      },
     },
   ];
 
-  getDataFromGame(idGame: number, countAll: number, countRight: number, maxRight: number): void {
+  getDataFromGame(idGame: GameID, countAll: number, countRight: number, maxRight: number): void {
     this.updateCountAnswers(idGame, countAll);
     this.updateCountRightAnswers(idGame, countRight);
     this.updateMaxRightAnswers(idGame, maxRight);
+    this.updatePercentRightAnswers(idGame);
+    this.updateAllRightAnswers();
   }
 
-  updateCountAnswers(idGame: number, countAll: number): void {
-    this.dataGame.find((item) => item.id === idGame).countAnswers += countAll;
+  updateCountAnswers(idGame: GameID, countAll: number): void {
+    this.dataAllGames.find((item) => item.game === idGame).data.countAnswers += countAll;
   }
 
-  updateCountRightAnswers(idGame: number, countRight: number): void {
-    this.dataGame.find((item) => item.id === idGame).countRightAnswers += countRight;
+  updateCountRightAnswers(idGame: GameID, countRight: number): void {
+    this.dataAllGames.find((item) => item.game === idGame).data.countRightAnswers += countRight;
   }
 
-  updateMaxRightAnswers(idGame: number, maxRight: number): void {
-    const currentMax = this.dataGame.find((item) => item.id === idGame).maxRightAnswers;
+  updateMaxRightAnswers(idGame: GameID, maxRight: number): void {
+    const currentMax = this.dataAllGames.find((item) => item.game === idGame).data.maxRightAnswers;
+
     if (currentMax < maxRight) {
-      this.dataGame.find((item) => item.id === idGame).maxRightAnswers += maxRight;
+      this.dataAllGames.find((item) => item.game === idGame).data.maxRightAnswers = maxRight;
     }
   }
 
+  updatePercentRightAnswers(idGame: GameID): void {
+    if (this.dataAllGames.find((item) => item.game === idGame).data.countRightAnswers !== 0) {
+      const all = this.dataAllGames.find((item) => item.game === idGame).data.countAnswers;
+      const right = this.dataAllGames.find((item) => item.game === idGame).data.countRightAnswers;
+
+      this.dataAllGames.find((item) => item.game === idGame).data.percentRightAnswers =
+        (right / all) * 100;
+    }
+  }
+
+  updateAllRightAnswers(): number {
+    let all = 0;
+    let right = 0;
+    this.dataAllGames.map((item) => {
+      all += item.data.countAnswers;
+      right += item.data.countRightAnswers;
+      return item;
+    });
+    this.allRightAnswers = (right / all) * 100;
+    return this.allRightAnswers;
+  }
+
+  getAllRightAnswers() {
+    return this.allRightAnswers;
+  }
+
   getData() {
-    return this.dataGame;
+    return this.dataAllGames;
   }
 
   setData() {

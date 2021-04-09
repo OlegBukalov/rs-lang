@@ -1,7 +1,7 @@
 export interface IDataGame {
-  id: number;
   name: string;
   countAnswers: number;
   countRightAnswers: number;
+  percentRightAnswers: number;
   maxRightAnswers: number;
 }

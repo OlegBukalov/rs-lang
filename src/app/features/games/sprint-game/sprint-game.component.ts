@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 import { filter, finalize, take } from 'rxjs/operators';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { ToasterService } from 'src/app/core/services/toaster.service';
+import { StatisticsService } from 'src/app/features/statistics/statistics.service';
+import { GameID } from 'src/app/features/statistics/enums/game-id.enum';
 import {
   BASE_SCORE,
   SCORE_MULTIPLIER,
@@ -15,6 +17,7 @@ import { ISprintWord } from './interfaces/sprint-word';
 import { GameStatuses } from './enums/game-statuses.enum';
 
 const TIME_LIMIT = 60;
+const IDGame = GameID.Sprint;
 
 @Component({
   selector: 'app-sprint-game',
@@ -29,6 +32,12 @@ export class SprintGameComponent implements OnInit {
   bonusLvl = 0;
 
   wordCounter = 0;
+
+  correctWordCounter = 0;
+
+  maxCorrectSequence = 0;
+
+  correctSequenceCounter = 0;
 
   gameStatus: GameStatuses;
 
@@ -55,7 +64,19 @@ export class SprintGameComponent implements OnInit {
 
   private subscriptionTimer: Subscription;
 
-  constructor(private wordsApiService: WordsApiService, private toastrService: ToasterService) {}
+  @HostListener('document:keydown.arrowleft') onKeydownLeftHandler() {
+    this.checkAnswer(false);
+  }
+
+  @HostListener('document:keydown.arrowright') onKeydownRightHandler() {
+    this.checkAnswer(true);
+  }
+
+  constructor(
+    private wordsApiService: WordsApiService,
+    private toastrService: ToasterService,
+    private statisticsService: StatisticsService,
+  ) {}
 
   ngOnInit(): void {
     this.gameStatus = GameStatuses.Start;
@@ -65,15 +86,26 @@ export class SprintGameComponent implements OnInit {
     this.gameStatus = GameStatuses.Loading;
   }
 
+  exit(): void {
+    this.gameStatus = GameStatuses.Start;
+  }
+
   gameInit(): void {
     this.gameStatus = GameStatuses.Play;
     this.clearValues();
     this.score = 0;
+    this.wordCounter = 0;
     this.timerInit();
     this.setGameWords();
   }
 
   gameEnd(): void {
+    this.statisticsService.getDataFromGame(
+      IDGame,
+      this.wordCounter,
+      this.correctWordCounter,
+      this.maxCorrectSequence,
+    );
     this.subscriptionWords.unsubscribe();
     this.gameStatus = GameStatuses.End;
     this.clearValues();
@@ -85,13 +117,23 @@ export class SprintGameComponent implements OnInit {
       this.audio.src = 'assets/audio/sprint/correct.mp3';
       this.audio.play();
       this.setScore();
+      this.setCorrectCounters();
     } else {
       this.audio.src = 'assets/audio/sprint/error.mp3';
       this.audio.play();
       this.bonusLvl = 0;
       this.bonusCounter = 0;
+      this.correctSequenceCounter = 0;
     }
     this.setNextGameWord();
+  }
+
+  private setCorrectCounters(): void {
+    this.correctWordCounter += 1;
+    this.correctSequenceCounter += 1;
+    if (this.correctSequenceCounter > this.maxCorrectSequence) {
+      this.maxCorrectSequence = this.correctSequenceCounter;
+    }
   }
 
   private setNextGameWord(): void {
@@ -149,7 +191,8 @@ export class SprintGameComponent implements OnInit {
   private clearValues(): void {
     this.bonusCounter = 0;
     this.bonusLvl = 0;
-    this.wordCounter = 0;
+    this.maxCorrectSequence = 0;
+    this.correctSequenceCounter = 0;
     this.gameWords = [];
     this.curSecond = TIME_LIMIT;
     this.progressbarValue = MAX_PROGRESSBAR_VALUE;

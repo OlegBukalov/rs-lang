@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { StatisticsService } from '../statistics.service';
-import { IDataGame } from '../interfaces/idata-game';
+
+import { IItemListGames } from '../interfaces/iitem-list-games';
 
 @Component({
   selector: 'app-statistics-day',
@@ -10,14 +11,18 @@ import { IDataGame } from '../interfaces/idata-game';
   styleUrls: ['./statistics-day.component.scss'],
 })
 export class StatisticsDayComponent implements OnInit {
-  data: IDataGame[];
+  data: IItemListGames[];
 
-  isEmpty = true; // TODO будет меняться в зависимости от наличия данных по обучению
+  allRightAnswers: number;
+
+  isEmpty = true;
+  // TODO будет меняться в зависимости от наличия данных по обучению для отображения альтернативного контента
 
   constructor(private router: Router, private statisticsService: StatisticsService) {}
 
   ngOnInit(): void {
     this.data = this.statisticsService.getData();
+    this.allRightAnswers = this.statisticsService.getAllRightAnswers();
   }
 
   redirectToLink(link: string) {
