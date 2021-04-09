@@ -116,8 +116,9 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     }
     this.targetWord = this.wordsForRoundList.shift();
     this.getRandomWords(4);
-    this.coordinateX = 0;
-    this.coordinateY = 50;
+    this.stepH = window.innerWidth >= 1070 ? 8 : 6;
+    this.coordinateY = window.innerWidth >= 1070 ? 250 : 180;
+    this.coordinateX = -150;
     this.interval1 = setInterval(() => {
       this.coordinateX += this.stepH;
       if (this.coordinateX >= window.innerWidth - 50) {

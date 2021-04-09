@@ -1,5 +1,21 @@
 <div class="wrap-game-list">
-    <h2>Саванна</h2>
+    <div *ngIf="!isStarted && !isGameOver" class="start-game-menu">
+        <div class="game-title-wrapper">
+            <h2 class="game-title">Саванна</h2>
+        </div>
+        <div class="game-rules-wrapper">
+            <div class="game-rules">
+                Правила игры:<br>
+                - Необходимо определить правильный перевод слова<br>
+                - Выбор правильного варианта необходимо делать кликом левой кнопки мыши<br>
+                - Игра начинается с выбранного раздела словa<br>
+                - Для начала игры нажмите на кнопку "Старт"
+            </div>
+        </div>
+        <div class="start-button-wrapper">
+            <button mat-raised-button color="primary" class="start-button" (click)="start()" *ngIf="!isStarted">Старт</button>
+        </div>
+    </div>
     <div class="background"></div>
     <div *ngIf="isGameOver" class="game-over">
         <title class="game-over-title">Конец Игры</title>
@@ -9,21 +25,24 @@
             </li>
         </ul>
         <ul class="words-tab-unlearned">
+            learned
             <li *ngFor="let unlearnedWord of unlearnedWords" class="unlearned-words">
                 <a>{{unlearnedWord}}</a>
             </li>
         </ul>
     </div>
-    <div *ngIf="isStarted && health && !isGameOver">
+    <ng-container *ngIf="isStarted && health && !isGameOver">
         <div class="level">Уровень:&nbsp;{{level}}</div>
         <div class="health">{{health}}</div>
-        <div class="animal-wrapper">
-            <div [ngStyle]="{'top': coordinateY + 'px', 'left': coordinateX + 'px'}" class="animal" mat-button>{{targetWord}}</div>
+        <div class="running-field">
+            <div class="word-wrapper" [ngStyle]="{'top': coordinateY + 'px', 'left': coordinateX + 'px'}">
+                <div class="animal"></div>
+                <div class="word">{{targetWord}}</div>
+            </div>
         </div>
-    </div>
+    </ng-container>
     <!-- <p>Total words: {{(wordList | async).length}}</p> -->
-    <button color="primary" mat-flat-button (click)="start()" *ngIf="!isStarted">Старт</button>
-    <button color="primary" mat-flat-button (click)="start()" *ngIf="isGameOver">Перезапуск</button>
+    <button mat-raised-button color="primary" (click)="start()" *ngIf="isGameOver">Перезапуск</button>
     <div class="game-list">
         <!-- {{targetWord}} -->
         <!-- <app-card-game-item *ngIf="!isGameInProgress && isStarted" [card]="cardWord" class="wrap"></app-card-game-item> -->
@@ -31,7 +50,7 @@
             Продолжить
         </button> -->
         <div *ngIf="isStarted && !isGameOver" class="buttons-wrapper">
-            <button class="answer-word" color="accent" mat-flat-button (click)="compareWords($event)"
+            <button mat-raised-button color="primary" class="answer-word" (click)="compareWords($event)"
             *ngFor="let answer of answerWordsArray">{{answer}}</button>
         </div>
     </div>
