@@ -79,10 +79,15 @@ export class SprintGameComponent implements OnInit {
     this.gameStatus = GameStatuses.Loading;
   }
 
+  exit(): void {
+    this.gameStatus = GameStatuses.Start;
+  }
+
   gameInit(): void {
     this.gameStatus = GameStatuses.Play;
     this.clearValues();
     this.score = 0;
+    this.wordCounter = 0;
     this.timerInit();
     this.setGameWords();
   }
@@ -177,7 +182,6 @@ export class SprintGameComponent implements OnInit {
   private clearValues(): void {
     this.bonusCounter = 0;
     this.bonusLvl = 0;
-    this.wordCounter = 0;
     this.maxCorrectSequence = 0;
     this.correctSequenceCounter = 0;
     this.gameWords = [];
