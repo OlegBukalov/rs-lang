@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { TextBookSettingsService } from '../../services/text-book-settings.service';
 
 @Component({
@@ -20,6 +20,9 @@ export class TextBookSettingsComponent {
   }
 
   onFormSubmit() {
-    // this.textBookSettingsService.setValues(this.formGroup);
+    this.textBookSettingsService.setSettings(this.formGroup.value);
+    console.log(this.textBookSettingsService.textBookSettings);
+    // eslint-disable-next-line no-alert
+    alert(JSON.stringify(this.formGroup.value, null, 2));
   }
 }

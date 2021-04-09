@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ReactiveFormsModule } from '@angular/forms';
 import { TextBookComponent } from './text-book/text-book.component';
 import { TextBookGroupComponent } from './text-book-group/text-book-group.component';
 import { TextBookPageComponent } from './text-book-page/text-book-page.component';
@@ -25,6 +26,7 @@ import { TextBookSettingsComponent } from './text-book-settings/text-book-settin
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     RouterModule.forChild(textBookRoutes),
     MatProgressSpinnerModule,
     MatSlideToggleModule,

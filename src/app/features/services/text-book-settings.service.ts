@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
+import { ITextBookSettings } from '../interfaces/itext-book-settings';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TextBookSettingsService {
-  textBookSettings: any;
+  textBookSettings: ITextBookSettings;
 
-  setValues(passingTextBookSettings: any) {
-    this.textBookSettings = passingTextBookSettings;
+  setSettings(passingSettings: ITextBookSettings) {
+    this.textBookSettings = passingSettings;
   }
 }
