@@ -34,11 +34,12 @@
     </div>
   </ng-template>
   <ng-template  ngSwitchCase="end">
-    <!-- TODO: поменять correctWordCounter -->
     <app-sprint-game-over
       [wordCounter]="wordCounter"
-      [correctWordCounter]="5"
+      [correctWordCounter]="correctWordCounter"
       [score]="score"
+      (startGame)="setLoadingStatus()"
+      (exit)="exit()"
     >
     </app-sprint-game-over>
   </ng-template>
