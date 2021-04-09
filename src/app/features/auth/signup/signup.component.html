@@ -1,0 +1,71 @@
+<form (ngSubmit)="onSignup()" class="form" [formGroup]="signupForm">
+  <mat-form-field appearance="standard">
+    <mat-label>Имя</mat-label>
+    <input
+      matInput
+      placeholder="Имя пользователя"
+      [formControl]="signupForm.controls[formControlName.Name]"
+    />
+    <ng-container *ngIf="isShowErrors(this.formControlName.Name)">
+      <mat-error *ngIf="signupForm.controls[formControlName.Name].errors.required">
+        Обязательно для заполнения
+      </mat-error>
+      <mat-error *ngIf="signupForm.controls[formControlName.Name].errors.maxlength">
+        Максимум
+        {{ signupForm.controls[formControlName.Name].errors.maxlength.requiredLength }} символов
+      </mat-error>
+      <mat-error *ngIf="signupForm.controls[formControlName.Name].errors.minlength">
+        Минимум
+        {{ signupForm.controls[formControlName.Name].errors.minlength.requiredLength }} символов
+      </mat-error>
+    </ng-container>
+  </mat-form-field>
+  <mat-form-field appearance="standard">
+    <mat-label>Почта</mat-label>
+    <input
+      matInput
+      placeholder="email@example.com"
+      [formControl]="signupForm.controls[formControlName.Email]"
+    />
+    <ng-container *ngIf="isShowErrors(this.formControlName.Email)">
+      <mat-error *ngIf="signupForm.controls[formControlName.Email].errors.required">
+        Обязательно для заполнения
+      </mat-error>
+      <mat-error *ngIf="signupForm.controls[formControlName.Email].errors.email">
+        Некорректная почта
+      </mat-error>
+    </ng-container>
+  </mat-form-field>
+  <mat-form-field appearance="standard">
+    <mat-label>Пароль</mat-label>
+    <input
+      matInput
+      [type]="isHidePassword ? 'password' : 'text'"
+      [formControl]="signupForm.controls[formControlName.Password]"
+    />
+    <button
+      mat-icon-button
+      matSuffix
+      type="button"
+      (click)="isHidePassword = !isHidePassword"
+      title="{{ isHidePassword ? 'Показать пароль' : 'Скрыть пароль' }}"
+      [attr.aria-pressed]="isHidePassword"
+    >
+      <mat-icon>{{ isHidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </button>
+    <ng-container *ngIf="isShowErrors(this.formControlName.Password)">
+      <mat-error *ngIf="signupForm.controls[formControlName.Password].errors.required">
+        Обязательно для заполнения
+      </mat-error>
+      <mat-error *ngIf="signupForm.controls[formControlName.Password].errors.maxlength">
+        Максимум
+        {{ signupForm.controls[formControlName.Password].errors.maxlength.requiredLength }} символов
+      </mat-error>
+      <mat-error *ngIf="signupForm.controls[formControlName.Password].errors.minlength">
+        Минимум
+        {{ signupForm.controls[formControlName.Password].errors.minlength.requiredLength }} символов
+      </mat-error>
+    </ng-container>
+  </mat-form-field>
+  <button mat-flat-button color="primary" type="submit">Зарегистрироваться</button>
+</form>

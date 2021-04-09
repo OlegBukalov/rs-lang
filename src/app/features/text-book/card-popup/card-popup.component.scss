@@ -1,0 +1,49 @@
+.container {
+    width: 50%;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 6px #000;
+
+    img {
+      border-radius: 20px;
+    }
+
+    .word-transcription {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+
+        .word {
+            margin-right: 20px;
+        }
+
+        .audio {
+            margin-right: 20px;
+        }
+    }
+}
+
+.spinner {
+    position: fixed;
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
+    width: 100px;
+    height: 100px;
+    z-index: 110;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba($color: #202020, $alpha: 0.7);
+    z-index: 90;
+}

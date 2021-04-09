@@ -1,0 +1,22 @@
+:host {
+  padding: 20px 20px 10px 20px;
+  font-family: 'Poiret One', cursive;
+  font-weight: bold;
+  font-size: 20px;
+  color: #333470;
+
+  .title {
+    letter-spacing: 3px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .description {
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .color-strong {
+    color: #8F6CEF;
+  }
+}

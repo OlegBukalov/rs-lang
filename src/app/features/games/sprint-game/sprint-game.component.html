@@ -1,0 +1,37 @@
+<div class="container" [ngSwitch]="gameStatus">
+  <ng-template ngSwitchCase="start">
+    <app-settings-page (startGame)="setLoadingStatus()"></app-settings-page>
+  </ng-template>
+  <ng-template  ngSwitchCase="loading">
+    <app-start-loading (startLoadingEnd)="gameInit()"></app-start-loading>
+  </ng-template>
+  <ng-template ngSwitchCase="play">
+    <div>
+      <span>Score: {{score}}</span>
+    </div>
+    <mat-card class="card">
+      <app-bonus-score
+        [scoreCounter] = "bonusCounter"
+        [scoreLvl] = "bonusLvl"
+      ></app-bonus-score>
+      <span>{{currentWord.word}}</span>
+      <span>{{currentWord.randomTranslate}}</span>
+      <div class="answer-buttons">
+        <button (click)="checkAnswer(false)"> Неверно </button>
+        <button (click)="checkAnswer(true)"> Верно </button>
+      </div>
+      <div class="progress-bar-block">
+        <mat-progress-bar
+          mode="determinate"
+          [value]="progressbarValue">
+        </mat-progress-bar>
+        <div class="progress-bar-timer">{{curSecond}} sec</div>
+      </div>
+    </mat-card>
+    <div class="answer-buttons">
+      <button (click)="setLoadingStatus()">Начать заново</button>
+      <button (click)="gameEnd()">Выйти</button>
+    </div>
+  </ng-template>
+  <!-- TODO: add end component -->
+</div>

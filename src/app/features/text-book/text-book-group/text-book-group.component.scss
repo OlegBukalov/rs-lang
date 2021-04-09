@@ -1,0 +1,54 @@
+.difficulty-container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-column-gap: 10px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #edf0f6;
+
+  .difficulty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 4px solid #939ba5;
+    font-size: 20px;
+    font-weight: 500;
+    color: #939ba5;
+    text-align: center;
+
+    transition: color 0.3s, border-color 0.3s;
+    &:hover {
+      cursor: pointer;
+    }
+    &.active {
+      &[id='0'] {
+        border-color: #f94144;
+      }
+      &[id='1'] {
+        border-color: #f3722c;
+      }
+      &[id='2'] {
+        border-color: #f8961e;
+      }
+      &[id='3'] {
+        border-color: #90be6d;
+      }
+      &[id='4'] {
+        border-color: #43aa8b;
+      }
+      &[id='5'] {
+        border-color: #577590;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .difficulty-container {
+
+    .difficulty {
+      font-size: 14px;
+    }
+  }
+}

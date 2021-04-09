@@ -1,3 +1,33 @@
-<div *ngFor="let card of cards">
-    {{card.word}}
+<div class="page-container">
+    <button
+      class="arrow-btn left btn-template"
+      (click)="navigate(pageId - 1)"
+      [disabled]="pageId === paginationOptions.firstPageIndex"
+    >
+        <span class="material-icons">chevron_left</span>
+    </button>
+    <div class="cards-container">
+        <app-text-book-card
+          *ngFor="let card of cards | async"
+          [card]="card"
+          [color]="color"
+        >
+        </app-text-book-card>
+    </div>
+    <button
+      class="arrow-btn right btn-template"
+      (click)="navigate(pageId + 1)"
+      [disabled]='pageId === paginationOptions.lastPageIndex'
+    >
+        <span class="material-icons">chevron_right</span>
+    </button>
 </div>
+
+<app-pagination
+  [pageId]="pageId"
+  [options]="paginationOptions"
+  (navigate)="navigate($event)"
+>
+</app-pagination>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,20 @@
+<div class="container" *ngIf="card; else loadingBlock">
+    <img src="data:image/jpeg;base64,{{ card.image }}" alt="{{card.word}}" />
+    <div class="word-transcription">
+        <button class="audio btn-template" (click)="playAudio()">
+            <span class="material-icons">headset</span>
+        </button>
+        <p class="word">{{ card.word }}</p>
+        <p class="transcription">{{ card.transcription }}</p>
+    </div>
+    <div class="examples">
+        <p [innerHTML]="card.textMeaning"></p>
+        <p [innerHTML]="card.textExample"></p>
+    </div>
+</div>
+
+<div class="overlay" routerLink="../../"></div>
+
+<ng-template #loadingBlock>
+    <mat-spinner class="spinner"></mat-spinner>
+</ng-template>

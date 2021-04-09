@@ -45,6 +45,10 @@ export class WordsApiService {
     return arr.sort(() => Math.random() - 0.5);
   }
 
+  getCardById(id: string): Observable<IWord> {
+    return this.http.get<IWord>(`${this.baseUrl}/${id}`);
+  }
+
   changePageToken(passedPageToken: string): void {
     this.pageToken = passedPageToken;
   }
@@ -57,4 +61,9 @@ export class WordsApiService {
   // changeIDToken(passedIDToken: string): void {
   //   this.id = passedIDToken;
   // }
+
+  setRandomPage(): void {
+    const randomPage = Math.round(Math.random() * 29).toString();
+    this.changePageToken(randomPage);
+  }
 }

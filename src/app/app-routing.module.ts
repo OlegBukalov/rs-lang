@@ -1,30 +1,41 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { NotFoundComponent } from './features/not-found/not-found.component';
-import { StatisticsComponent } from './features/statistics/statistics.component';
 import { HomeComponent } from './features/home/home.component';
-import { LoginComponent } from './features/login/login.component';
+import { AuthComponent } from './features/auth/auth.component';
+import { AuthGuard } from './features/auth/auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: 'dictionary',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/dictionary/dictionary.module').then((m) => m.DictionaryModule),
   },
   {
     path: 'text-book',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/text-book/text-book.module').then((m) => m.TextBookModule),
   },
   {
     path: 'games',
+    // canActivate: [AuthGuard],
     loadChildren: () => import('./features/games/games.module').then((m) => m.GamesModule),
   },
-  { path: 'statistics', component: StatisticsComponent },
-  { path: 'login', component: LoginComponent },
-  { path: '**', component: NotFoundComponent },
+  {
+    path: 'statistics',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./features/statistics/statistics.module').then((m) => m.StatisticsModule),
+  },
+  { path: 'auth', component: AuthComponent },
+  {
+    path: '**',
+    loadChildren: () =>
+      import('./features/not-found/not-found.module').then((m) => m.NotFoundModule),
+  },
 ];
 
 @NgModule({
