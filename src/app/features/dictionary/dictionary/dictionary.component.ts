@@ -22,7 +22,7 @@ export class DictionaryComponent implements OnInit {
   isLoading: boolean;
 
   get categories(): string[] {
-    return Object.values(DictionaryCategory).filter((key) => Number.isNaN(+key));
+    return Object.values(DictionaryCategory);
   }
 
   // TODO: пагинация
