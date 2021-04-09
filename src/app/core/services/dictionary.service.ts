@@ -19,6 +19,7 @@ export class DictionaryService {
     return `${environment.baseUrl}/users/${this.authService.userId}`;
   }
 
+  //TODO: use auth interceptor for authorization headers
   private get httpHeaders() {
     return new HttpHeaders({ Authorization: `Bearer ${this.authService.token}` });
   }
@@ -38,7 +39,7 @@ export class DictionaryService {
   getAggregatedWords(category: DictionaryCategory): Observable<IWordPage[]> {
     const filter = this.getCategoryFilter(category);
     const url = `${this.baseUrl}/aggregatedWords/?wordsPerPage=${this.wordsPerPage}&filter=${filter}`;
-    return this.http.get<IWordPage[]>(url, { headers: this.httpHeaders });
+    return this.http.get<IWordPage[]>(url,{ headers: this.httpHeaders });
   }
 
   private getCategoryFilter(category: DictionaryCategory): string {
