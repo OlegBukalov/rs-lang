@@ -1,0 +1,10 @@
+<div mat-dialog-content>
+  <p class="dialog-exit-title">
+    Если вы преждевременно завершите игру, то <span>данные не сохранятся</span>
+  </p>
+  <p class="dialog-exit-title">Вы уверены, что хотите прервать игру?</p>
+</div>
+<div mat-dialog-actions class="dialog-exit-buttons">
+  <button mat-button mat-dialog-close class="btn-template" (click)="redirect()">Да</button>
+  <button mat-button mat-dialog-close class="btn-template" (click)="close()">Нет</button>
+</div>

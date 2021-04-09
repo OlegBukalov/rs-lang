@@ -1,39 +1,38 @@
 <div class="logo">
-  <h1>
-    <span class="prefix-logo">RS</span>
-    <span class="logo-body">Lang</span>
-  </h1>
+    <h1>
+        <span class="prefix-logo">RS</span>
+        <span class="logo-body">Lang</span>
+    </h1>
 </div>
 <nav>
-  <ul class="main-menu">
-    <li class="main-menu__item">
-      <a routerLink="">Главная</a>
-    </li>
-    <li class="main-menu__item">
-      <a routerLink="dictionary" routerLinkActive="active">Словарь</a>
-    </li>
-    <li class="main-menu__item">
-      <a routerLink="text-book/group/1/page/2" routerLinkActive="active">Учебник</a>
-    </li>
-    <li class="main-menu__item">
-      <a routerLink="games" routerLinkActive="active">Игры</a>
-    </li>
-    <li class="main-menu__item">
-      <a
-        routerLink="statistics" routerLinkActive="active">Статистика</a>
-    </li>
-    <li *ngIf="!this.authService.isLoggedIn(); else logout" class="main-menu__item">
-      <a routerLink="auth" routerLinkActive="active">
-        <span class="material-icons btn-icon">login</span>
-      </a>
-    </li>
-      <ng-template #logout>
+    <ul class="main-menu">
         <li class="main-menu__item">
-          <a routerLink="**" routerLinkActive="active">{{this.authService.loginData.name}}</a>
+            <a routerLink="">Главная</a>
         </li>
         <li class="main-menu__item">
-          <a (click)="onClick()" routerLink="auth" routerLinkActive="active">Выход</a>
+            <a routerLink="dictionary" routerLinkActive="active">Словарь</a>
         </li>
-      </ng-template>
-  </ul>
+        <li class="main-menu__item">
+            <a [routerLink]="textBookLink" routerLinkActive="active">Учебник</a>
+        </li>
+        <li class="main-menu__item">
+            <a routerLink="games" routerLinkActive="active">Игры</a>
+        </li>
+        <li class="main-menu__item">
+            <a routerLink="statistics" routerLinkActive="active">Статистика</a>
+        </li>
+        <li *ngIf="!this.authService.isLoggedIn(); else logout" class="main-menu__item">
+            <a routerLink="auth" routerLinkActive="active">
+                <span class="material-icons btn-icon">login</span>
+            </a>
+        </li>
+        <ng-template #logout>
+            <li class="main-menu__item">
+                <a routerLink="**" routerLinkActive="active">{{this.authService.loginData.name}}</a>
+            </li>
+            <li class="main-menu__item">
+                <a (click)="onClick()" routerLink="auth" routerLinkActive="active">Выход</a>
+            </li>
+        </ng-template>
+    </ul>
 </nav>
