@@ -2,26 +2,26 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthComponent } from './auth.component';
-import { BASIC_ROUTE, CHILD_ROUTE_LINKS } from './auth.constants';
+import { AuthPath } from './auth.constants';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 
 export const routes: Routes = [
   {
-    path: BASIC_ROUTE,
+    path: AuthPath.Auth,
     component: AuthComponent,
     children: [
       {
         path: '',
-        redirectTo: `/${BASIC_ROUTE}/${CHILD_ROUTE_LINKS[0]}`,
+        redirectTo: `/${AuthPath.Auth}/${AuthPath.Login}`,
         pathMatch: 'full',
       },
       {
-        path: `${CHILD_ROUTE_LINKS[0]}`,
+        path: `${AuthPath.Login}`,
         component: LoginComponent,
       },
       {
-        path: `${CHILD_ROUTE_LINKS[1]}`,
+        path: `${AuthPath.Signup}`,
         component: SignupComponent,
       },
     ],

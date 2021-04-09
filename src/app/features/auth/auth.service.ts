@@ -3,7 +3,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { LoginResponse, TokenPayload } from './login-response.interface';
+import { LoginResponse, TokenPayload } from './auth.interfaces';
+import { AuthPath } from './auth.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class AuthService implements OnDestroy {
     name: '',
   };
 
-  activeLink: Subject<string> = new Subject();
+  activeLink: Subject<AuthPath> = new Subject();
 
   private readonly baseUrl = 'https://afternoon-falls-25894.herokuapp.com/';
 
@@ -70,7 +71,7 @@ export class AuthService implements OnDestroy {
   }
 
   setupTokenRefreshTimeout() {
-    if (this.loginData.token) {
+    if (this.loginData?.token) {
       this.tokenExpirationTime = this.getTokenPayload(this.loginData.token).exp;
       const iatTime = this.getTokenPayload(this.loginData.token).iat;
       const timeoutTime = (this.tokenExpirationTime - iatTime) * 1000;

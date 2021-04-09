@@ -6,8 +6,7 @@ import { ToasterService } from 'src/app/core/services/toaster.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import {
-  BASIC_ROUTE,
-  CHILD_ROUTE_LINKS,
+  AuthPath,
   FormControlName,
   MAX_NAME_LENGTH,
   MAX_PASSWORD_LENGTH,
@@ -64,8 +63,8 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.subscription = this.authService.signup(this.signupForm).subscribe(
       () => {
         this.toastrService.showSuccess('Регистрация прошла успешно!', 'Успех');
-        this.authService.activeLink.next(CHILD_ROUTE_LINKS[0]);
-        this.router.navigate([BASIC_ROUTE, CHILD_ROUTE_LINKS[0]]);
+        this.authService.activeLink.next(AuthPath.Login);
+        this.router.navigate([AuthPath.Auth, AuthPath.Login]);
       },
       (error) => {
         this.handleSignupErrors(error);

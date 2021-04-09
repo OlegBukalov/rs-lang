@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { CHILD_ROUTE_LINKS } from './auth.constants';
+import { AuthPath } from './auth.constants';
 import { AuthService } from './auth.service';
 @Component({
   selector: 'app-auth',
@@ -8,18 +8,17 @@ import { AuthService } from './auth.service';
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit, OnDestroy {
-  activeLink: string;
+  activeLink: AuthPath;
 
-  links: string[] = [];
+  authPath = AuthPath;
 
   subscription: Subscription;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.links = CHILD_ROUTE_LINKS;
-    this.authService.activeLink.next(this.links[0]);
-    this.subscription = this.authService.activeLink.subscribe((link: string) => {
+    this.authService.activeLink.next(AuthPath.Login);
+    this.subscription = this.authService.activeLink.subscribe((link: AuthPath) => {
       this.activeLink = link;
     });
   }
