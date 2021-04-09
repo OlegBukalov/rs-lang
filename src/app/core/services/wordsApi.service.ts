@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { IWord } from '../interfaces/iword';
 
@@ -8,12 +9,13 @@ import { IWord } from '../interfaces/iword';
   providedIn: 'root',
 })
 export class WordsApiService {
+  private readonly baseUrl = `${environment.baseUrl}/words`;
+
   INIT_MISTAKES_COUNTER = 0;
   INIT_LEFT_CARDS_COUNTER = 20;
   TOTAL_CATEGORIES = 6;
   TOTAL_PAGE_CARDS = 29;
 
-  private readonly baseUrl = 'https://afternoon-falls-25894.herokuapp.com/words';
   private pageToken = '0';
   private groupToken = '0';
 
