@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/lines-between-class-members */
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { IWord } from 'src/app/core/interfaces/iword';

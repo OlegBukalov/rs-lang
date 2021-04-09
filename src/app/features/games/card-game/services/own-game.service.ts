@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/lines-between-class-members */
 import { Injectable } from '@angular/core';
 
 @Injectable({

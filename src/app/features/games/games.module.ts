@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
+import { MatDialogModule } from '@angular/material/dialog';
 import { GameListComponent } from './game-list.component';
 import { GameItemComponent } from './game-item/game-item.component';
 import { gamesRoutes } from './games-routes';
@@ -46,6 +47,7 @@ import { BonusScoreComponent } from './sprint-game/bonus-score/bonus-score.compo
     MatCardModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    MatDialogModule,
   ],
   providers: [],
 })
