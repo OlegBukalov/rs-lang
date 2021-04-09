@@ -9,6 +9,8 @@ import { IWordPage } from '../interfaces/iword-page';
 import { IUserWord } from '../interfaces/iuser-word';
 import { ToasterService } from './toaster.service';
 
+const MAX_WORDS_PER_PAGE = 3600;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -19,12 +21,10 @@ export class DictionaryService {
     return `${environment.baseUrl}/users/${this.authService.userId}`;
   }
 
-  //TODO: use auth interceptor for authorization headers
+  // TODO: use auth interceptor for authorization headers
   private get httpHeaders() {
     return new HttpHeaders({ Authorization: `Bearer ${this.authService.token}` });
   }
-
-  private wordsPerPage = 10;
 
   constructor(
     private http: HttpClient,
@@ -32,14 +32,10 @@ export class DictionaryService {
     private toaster: ToasterService,
   ) {}
 
-  setWordsPerPageCount(value: number) {
-    this.wordsPerPage = value;
-  }
-
   getAggregatedWords(category: DictionaryCategory): Observable<IWordPage[]> {
     const filter = this.getCategoryFilter(category);
-    const url = `${this.baseUrl}/aggregatedWords/?wordsPerPage=${this.wordsPerPage}&filter=${filter}`;
-    return this.http.get<IWordPage[]>(url,{ headers: this.httpHeaders });
+    const url = `${this.baseUrl}/aggregatedWords/?wordsPerPage=${MAX_WORDS_PER_PAGE}&filter=${filter}`;
+    return this.http.get<IWordPage[]>(url, { headers: this.httpHeaders });
   }
 
   private getCategoryFilter(category: DictionaryCategory): string {

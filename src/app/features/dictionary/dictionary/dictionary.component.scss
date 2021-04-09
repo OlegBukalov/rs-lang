@@ -26,19 +26,11 @@
             }
         }
     }
-    .select {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        margin: 20px 50px;
-        select {
-            margin-right: 20px;
-        }
-        span {
-            font-size: 20px;
-        }
+    .paginator {
+        background-color: $color_light_gray;
+        font-size: 20px;
     }
-    .pages {
+    .page {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-column-gap: 20px;
