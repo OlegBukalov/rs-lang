@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-// import { IWord } from 'src/app/core/interfaces/iword';
+import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 
 @Component({
@@ -34,15 +34,17 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     // 'ten',
   ];
 
-  learnedWords: string[];
+  realWordsList: IWord[] = [];
 
-  unlearnedWords: string[];
+  learnedWords: IWord[];
 
-  wordsForRoundList: string[] = [];
+  unlearnedWords: IWord[];
 
-  targetWord: string;
+  wordsForRoundList: IWord[] = [];
 
-  answerWordsArray: string[] = [];
+  targetWord: IWord;
+
+  answerWordsArray: IWord[] = [];
 
   health: number;
 
@@ -91,7 +93,10 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
   constructor(private wordsApiService: WordsApiService) {}
 
   ngOnInit(): void {
-    this.subscription = this.wordsApiService.getWordList().subscribe(() => {});
+    this.subscription = this.wordsApiService.getWordList().subscribe((response: IWord[]) => {
+      this.realWordsList = response;
+      console.log('RealWordsList: ', this.realWordsList);
+    });
   }
 
   start() {
@@ -100,7 +105,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     this.learnedWords = [];
     this.unlearnedWords = [];
     this.health = 5;
-    this.wordsForRoundList = this.wordsList.slice();
+    this.wordsForRoundList = this.realWordsList.slice();
     this.targetWord = this.wordsForRoundList.shift();
     this.getRandomWords(4);
     this.isStarted = true;
@@ -124,7 +129,6 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
       if (this.coordinateX >= window.innerWidth - 50) {
         // this.wordsForRoundList.push(this.targetWord);
         this.unlearnedWords.push(this.targetWord);
-
         clearInterval(this.interval1);
         clearInterval(this.interval2);
         this.checkHealth();
@@ -150,8 +154,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
   compareWords(event: any): void {
     clearInterval(this.interval1);
     clearInterval(this.interval2);
-
-    if (event.target.textContent !== this.targetWord) {
+    if (event.target.textContent !== this.targetWord.word) {
       // this.wordsForRoundList.push(this.targetWord);
       this.unlearnedWords.push(this.targetWord);
 
@@ -197,15 +200,15 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     this.answerWordsArray.push(this.targetWord);
 
     const getNonDuplicatedRandomIndex = () => {
-      let randomIndex = this.getRandomInt(this.wordsList.length);
+      let randomIndex = this.getRandomInt(this.realWordsList.length);
       // let duplicatedWordIndex = this.answerWordsArray.findIndex((answer: string) => {
       //   return (answer === this.wordsList[randomIndex]);
       // });
       // if (duplicatedWordIndex > -1) {
       //   randomIndex = getNonDuplicatedRandomIndex();
       // }
-      const duplicatedWord = this.answerWordsArray.find((answer: string) => {
-        return answer === this.wordsList[randomIndex];
+      const duplicatedWord = this.answerWordsArray.find((answer: IWord) => {
+        return answer === this.realWordsList[randomIndex];
       });
       if (duplicatedWord) {
         randomIndex = getNonDuplicatedRandomIndex();
@@ -214,7 +217,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     };
     for (let i = 0; i < maxWordsNumber - 1; i += 1) {
       const randomIndex = getNonDuplicatedRandomIndex();
-      this.answerWordsArray.push(this.wordsList[randomIndex]);
+      this.answerWordsArray.push(this.realWordsList[randomIndex]);
     }
     this.answerWordsArray = this.shuffle(this.answerWordsArray);
   }

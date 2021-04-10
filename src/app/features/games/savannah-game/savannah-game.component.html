@@ -20,14 +20,15 @@
     <div *ngIf="isGameOver" class="game-over">
         <title class="game-over-title">Конец Игры</title>
         <ul class="words-tab-learned">
+            *Learned*
             <li *ngFor="let learnedWord of learnedWords" class="learned-words">
-                <a>{{learnedWord}}</a>
+                <a>{{learnedWord.word}}</a>
             </li>
         </ul>
         <ul class="words-tab-unlearned">
-            learned
+            *Unlearned*
             <li *ngFor="let unlearnedWord of unlearnedWords" class="unlearned-words">
-                <a>{{unlearnedWord}}</a>
+                <a>{{unlearnedWord.word}}</a>
             </li>
         </ul>
     </div>
@@ -37,21 +38,15 @@
         <div class="running-field">
             <div class="word-wrapper" [ngStyle]="{'top': coordinateY + 'px', 'left': coordinateX + 'px'}">
                 <div class="animal"></div>
-                <div class="word">{{targetWord}}</div>
+                <div class="word">{{targetWord.word}}</div>
             </div>
         </div>
     </ng-container>
-    <!-- <p>Total words: {{(wordList | async).length}}</p> -->
     <button mat-raised-button color="primary" (click)="start()" *ngIf="isGameOver">Перезапуск</button>
     <div class="game-list">
-        <!-- {{targetWord}} -->
-        <!-- <app-card-game-item *ngIf="!isGameInProgress && isStarted" [card]="cardWord" class="wrap"></app-card-game-item> -->
-        <!-- <button color="primary" mat-flat-button (click)="continue()" *ngIf="isStarted && !isGameInProgress && !isGameOver">
-            Продолжить
-        </button> -->
         <div *ngIf="isStarted && !isGameOver" class="buttons-wrapper">
             <button mat-raised-button color="primary" class="answer-word" (click)="compareWords($event)"
-            *ngFor="let answer of answerWordsArray">{{answer}}</button>
+            *ngFor="let answer of answerWordsArray">{{answer.word}}</button>
         </div>
     </div>
 </div>
