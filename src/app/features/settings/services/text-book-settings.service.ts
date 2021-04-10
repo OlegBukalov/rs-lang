@@ -6,10 +6,10 @@ import { ITextBookSettings } from '../interfaces/itext-book-settings';
 })
 export class TextBookSettingsService {
   textBookSettings: ITextBookSettings = {
-    hideWordTranslation: false,
-    hideSentenceTranslation: false,
-    hideHardWordsBtn: false,
-    hideDeletedWordsBtn: false,
+    isWordTranslationHidden: false,
+    isSentenceTranslationHidden: false,
+    isHardWordsBtnHidden: false,
+    isDeletedWordsBtnHidden: false,
   };
 
   setSettings(passingSettings: ITextBookSettings) {

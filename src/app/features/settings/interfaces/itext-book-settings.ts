@@ -1,6 +1,6 @@
 export interface ITextBookSettings {
-  hideWordTranslation: boolean;
-  hideSentenceTranslation: boolean;
-  hideHardWordsBtn: boolean;
-  hideDeletedWordsBtn: boolean;
+  isWordTranslationHidden: boolean;
+  isSentenceTranslationHidden: boolean;
+  isHardWordsBtnHidden: boolean;
+  isDeletedWordsBtnHidden: boolean;
 }
