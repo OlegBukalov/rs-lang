@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { TextBookSettingsService } from '../../services/text-book-settings.service';
+import { TextBookSettingsService } from './services/text-book-settings.service';
 
 @Component({
   selector: 'app-text-book-settings',

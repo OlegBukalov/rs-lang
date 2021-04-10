@@ -15,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'text-book',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/text-book/text-book.module').then((m) => m.TextBookModule),
   },
@@ -23,6 +23,11 @@ const routes: Routes = [
     path: 'games',
     canActivate: [AuthGuard],
     loadChildren: () => import('./features/games/games.module').then((m) => m.GamesModule),
+  },
+  {
+    path: 'settings',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./features/settings/settings.module').then((m) => m.SettingsModule),
   },
   {
     path: 'statistics',
