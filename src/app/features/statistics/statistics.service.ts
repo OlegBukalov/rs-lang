@@ -79,7 +79,7 @@ export class StatisticsService {
     return item.maxRightAnswers;
   }
 
-  updatePercentRightAnswers(item: IDataGame): void {
+  updatePercentRightAnswers(item: IDataGame): number {
     if (item.countRightAnswers !== 0) {
       const all = item.countAnswers;
       const right = item.countRightAnswers;
@@ -91,7 +91,7 @@ export class StatisticsService {
   updateAllRightAnswers(): number {
     let all = 0;
     let right = 0;
-    this.dataAllGames.map((item) => {
+    this.dataAllGames.forEach((item) => {
       all += item.data.countAnswers;
       right += item.data.countRightAnswers;
       return item;
