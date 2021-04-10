@@ -13,9 +13,9 @@ export class SprintGameOverComponent {
 
   @Input() correctWordCounter: number;
 
-  @Input() correctWords: IWord;
+  @Input() correctWords: IWord[];
 
-  @Input() difficultWords: IWord;
+  @Input() difficultWords: IWord[];
 
   @Output() startGame = new EventEmitter();
 
