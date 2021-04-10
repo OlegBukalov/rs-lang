@@ -30,7 +30,7 @@ export class DictionaryComponent implements OnInit {
 
   ngOnInit() {
     this.updateCategoryWords();
-    this.wordsPerPage = this.paginationArray[0];
+    [this.wordsPerPage] = this.paginationArray;
   }
 
   selectCurrentCategory(categoryName: string) {

@@ -32,14 +32,14 @@ export class TextBookPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private wordsApiService: WordsApiService,
-    private storage: StorageService
+    private storage: StorageService,
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const id = IdValidatorService.validate(params.pageId);
       this.updateCards(id);
-      this.storage.setItem('pageId',id.toString());
+      this.storage.setItem('pageId', id.toString());
     });
   }
 

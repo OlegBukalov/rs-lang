@@ -8,7 +8,7 @@ import { StorageService } from '../../services/storage.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  constructor(public authService: AuthService,private storage: StorageService) {}
+  constructor(public authService: AuthService, private storage: StorageService) {}
 
   onClick(): void {
     this.authService.logout();
@@ -17,8 +17,8 @@ export class HeaderComponent {
   get textBookLink() {
     let groupId = this.storage.getItem('groupId');
     let pageId = this.storage.getItem('pageId');
-    groupId = groupId ? groupId : '0';
-    pageId = pageId ? pageId : '0'
+    groupId = groupId || '0';
+    pageId = pageId || '0';
     return `text-book/group/${groupId}/page/${pageId}`;
   }
 }

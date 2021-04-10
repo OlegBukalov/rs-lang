@@ -27,13 +27,13 @@ export class TextBookGroupComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private wordsApiService: WordsApiService,
-    private storage: StorageService
+    private storage: StorageService,
   ) {
     this.route.params.subscribe((params) => {
       const id = IdValidatorService.validate(params.groupId);
       this.updateCards(id);
       this.updateColor();
-      this.storage.setItem('groupId',id.toString());
+      this.storage.setItem('groupId', id.toString());
     });
   }
 
