@@ -1,10 +1,10 @@
 <div class="card" routerLink="card/{{ card.id }}" *ngIf="card">
-    <div class="image-container" [style.background]="'#' + color">
-        <!-- TODO: append image to div.image -->
-        <div class="image"></div>
-    </div>
-    <div class="content">
-        <p class="word">{{ card.word }}</p>
-        <p class="translation">{{ card.wordTranslate }}</p>
-    </div>
+  <div class="image-container" [style.background]="'#' + color">
+    <!-- TODO: append image to div.image -->
+    <div class="image"></div>
+  </div>
+  <div class="content">
+    <p class="word">{{ card.word }}</p>
+    <p *ngIf="!settings.hideWordTranslation" class="translation">{{ card.wordTranslate }}</p>
+  </div>
 </div>

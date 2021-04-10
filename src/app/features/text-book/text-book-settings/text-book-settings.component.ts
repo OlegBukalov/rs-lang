@@ -21,8 +21,5 @@ export class TextBookSettingsComponent {
 
   onFormSubmit() {
     this.textBookSettingsService.setSettings(this.formGroup.value);
-    console.log(this.textBookSettingsService.textBookSettings);
-    // eslint-disable-next-line no-alert
-    alert(JSON.stringify(this.formGroup.value, null, 2));
   }
 }

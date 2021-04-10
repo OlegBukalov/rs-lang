@@ -5,7 +5,12 @@ import { ITextBookSettings } from '../interfaces/itext-book-settings';
   providedIn: 'root',
 })
 export class TextBookSettingsService {
-  textBookSettings: ITextBookSettings;
+  textBookSettings: ITextBookSettings = {
+    hideWordTranslation: false,
+    hideSentenceTranslation: false,
+    hideHardWordsBtn: false,
+    hideDeletedWordsBtn: false,
+  };
 
   setSettings(passingSettings: ITextBookSettings) {
     this.textBookSettings = passingSettings;
