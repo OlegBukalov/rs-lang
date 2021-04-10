@@ -40,6 +40,10 @@ export class SprintGameComponent implements OnInit {
 
   words: IWord[];
 
+  correctWords: IWord[] = [];
+
+  difficultWords: IWord[] = [];
+
   gameWords: ISprintWord[] = [];
 
   currentWord: ISprintWord = {
@@ -62,11 +66,15 @@ export class SprintGameComponent implements OnInit {
   private subscriptionTimer: Subscription;
 
   @HostListener('document:keydown.arrowleft') onKeydownLeftHandler() {
-    this.checkAnswer(false);
+    if (this.gameStatus === GameStatuses.Play) {
+      this.checkAnswer(false);
+    }
   }
 
   @HostListener('document:keydown.arrowright') onKeydownRightHandler() {
-    this.checkAnswer(true);
+    if (this.gameStatus === GameStatuses.Play) {
+      this.checkAnswer(true);
+    }
   }
 
   constructor(private wordsApiService: WordsApiService, private toastrService: ToasterService) {}
@@ -88,6 +96,8 @@ export class SprintGameComponent implements OnInit {
     this.clearValues();
     this.score = 0;
     this.wordCounter = 0;
+    this.correctWords = [];
+    this.difficultWords = [];
     this.timerInit();
     this.setGameWords();
   }
@@ -109,12 +119,14 @@ export class SprintGameComponent implements OnInit {
       this.audio.play();
       this.setScore();
       this.setCorrectCounters();
+      this.correctWords.push(this.words.find((item: IWord) => item.id === this.currentWord.id));
     } else {
       this.audio.src = 'assets/audio/sprint/error.mp3';
       this.audio.play();
       this.bonusLvl = 0;
       this.bonusCounter = 0;
       this.correctSequenceCounter = 0;
+      this.difficultWords.push(this.words.find((item: IWord) => item.id === this.currentWord.id));
     }
     this.setNextGameWord();
   }
