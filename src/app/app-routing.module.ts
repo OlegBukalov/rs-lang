@@ -25,6 +25,11 @@ const routes: Routes = [
     loadChildren: () => import('./features/games/games.module').then((m) => m.GamesModule),
   },
   {
+    path: 'settings',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./features/settings/settings.module').then((m) => m.SettingsModule),
+  },
+  {
     path: 'statistics',
     canActivate: [AuthGuard],
     loadChildren: () =>
