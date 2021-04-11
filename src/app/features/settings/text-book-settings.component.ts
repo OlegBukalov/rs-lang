@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ITextBookSettings } from './interfaces/itext-book-settings';
 import { TextBookSettingsService } from './services/text-book-settings.service';
 
 @Component({
@@ -10,12 +11,14 @@ import { TextBookSettingsService } from './services/text-book-settings.service';
 export class TextBookSettingsComponent {
   formGroup: FormGroup;
 
+  settings: ITextBookSettings = this.textBookSettingsService.textBookSettings;
+
   constructor(formBuilder: FormBuilder, private textBookSettingsService: TextBookSettingsService) {
     this.formGroup = formBuilder.group({
-      isWordTranslationHidden: false,
-      isSentenceTranslationHidden: false,
-      isHardWordsBtnHidden: false,
-      isDeletedWordsBtnHidden: false,
+      isWordTranslationHidden: [this.settings.isWordTranslationHidden, Validators.required],
+      isSentenceTranslationHidden: [this.settings.isSentenceTranslationHidden, Validators.required],
+      isHardWordsBtnHidden: [this.settings.isHardWordsBtnHidden, Validators.required],
+      isDeletedWordsBtnHidden: [this.settings.isDeletedWordsBtnHidden, Validators.required],
     });
   }
 
