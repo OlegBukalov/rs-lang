@@ -22,7 +22,7 @@
             <a routerLink="statistics" routerLinkActive="active">Статистика</a>
         </li>
         <li *ngIf="!this.authService.isLoggedIn(); else logout" class="main-menu__item">
-            <a routerLink="auth" routerLinkActive="active">
+            <a routerLink="auth" routerLinkActive="active" title="авторизация">
                 <span class="material-icons btn-icon">login</span>
             </a>
         </li>
@@ -31,7 +31,9 @@
                 <a routerLink="**" routerLinkActive="active">{{this.authService.loginData.name}}</a>
             </li>
             <li class="main-menu__item">
-                <a (click)="onClick()" routerLink="auth" routerLinkActive="active">Выход</a>
+                <a (click)="onClick()" routerLink="auth" routerLinkActive="active" title="выйти">
+                  <span class="material-icons btn-icon">logout</span>
+                </a>
             </li>
         </ng-template>
     </ul>

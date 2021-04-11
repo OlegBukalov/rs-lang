@@ -5,12 +5,18 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
+
+import { StatisticsService } from 'src/app/features/statistics/statistics.service';
+import { GameID } from 'src/app/features/statistics/enums/game-id.enum';
+
 import { IComponentCanDeactivate } from './guards/exit-card-game.guard';
 import { DialogElementsExampleDialogComponent } from './card-game-modal/card-game-modal.component';
 import { OwnGameService } from './services/own-game.service';
 import { GameState } from './services/gameState.state';
 
 import { environment } from '../../../../environments/environment';
+
+const IDGame = GameID.CardGame;
 
 @Component({
   selector: 'app-card-game',
@@ -32,6 +38,11 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   isSaved: boolean = this.ownGameService.isSaved;
   isHiddenChildCard: boolean;
 
+  wordCounter = 0;
+  correctWordCounter = 0;
+  maxCorrectSequence = 0;
+  currentMaxCorrectSequence = 0;
+
   state = GameState;
   currentState: GameState = GameState.STOP;
 
@@ -47,6 +58,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     private wordsApiService: WordsApiService,
     private ownGameService: OwnGameService,
     public dialog: MatDialog,
+    private statisticsService: StatisticsService,
   ) {}
 
   ngOnInit(): void {
@@ -77,6 +89,11 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     this.ownGameService.setIsSaved(true);
     this.setCurrentState(GameState.STOP);
     this.isHiddenChildCard = false;
+
+    this.wordCounter = 0;
+    this.correctWordCounter = 0;
+    this.maxCorrectSequence = 0;
+    this.currentMaxCorrectSequence = 0;
   }
 
   startGame() {
@@ -110,6 +127,11 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   checkCard(card: IWord): void {
     if (this.playingWord.audio === card.audio) {
       this.playResultAudio(true);
+
+      this.wordCounter += 1;
+      this.correctWordCounter += 1;
+      this.currentMaxCorrectSequence += 1;
+
       this.leftCards -= 1;
       this.ownGameService.setDisabledItemId(card.id);
       this.playingWordIndexes.shift();
@@ -122,6 +144,10 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     } else {
       this.playResultAudio(false);
       this.countTry += 1;
+
+      this.wordCounter += 1;
+      this.getMaxCorrectSequence(this.currentMaxCorrectSequence);
+      this.currentMaxCorrectSequence = 0;
     }
   }
 
@@ -134,6 +160,14 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   finishGame(): void {
+    const dataGame = {
+      idGame: IDGame,
+      countAll: this.wordCounter,
+      countRight: this.correctWordCounter,
+      maxRight: this.maxCorrectSequence,
+    };
+    this.statisticsService.getDataFromGame(dataGame);
+
     this.setCurrentState(GameState.RESULT);
     this.isHiddenChildCard = false;
     const audioInstance = new Audio();
@@ -144,6 +178,12 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   countMistakes() {
     if (this.countTry > this.LOSS_QUANTITY) {
       this.hardWords.push(this.playingWord);
+    }
+  }
+
+  getMaxCorrectSequence(value: number): void {
+    if (this.maxCorrectSequence < value) {
+      this.maxCorrectSequence = value;
     }
   }
 

@@ -1,4 +1,9 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+// import { Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
+
+import { AuthService } from '../auth/auth.service';
 
 import { IItemListGames } from './interfaces/iitem-list-games';
 import { IDataGame } from './interfaces/idata-game';
@@ -18,6 +23,8 @@ type ItemGame = {
 export class StatisticsService {
   // TODO временно явно прописан со значениями, будет заменено на полученные данные с бэка
   private allRightAnswers = 0;
+  private readonly baseUrl = `${environment.baseUrl}/users`;
+  urlUserSettings: string;
 
   private dataAllGames: IItemListGames[] = [
     {
@@ -51,7 +58,7 @@ export class StatisticsService {
       },
     },
     {
-      game: GameID.Sprint,
+      game: GameID.CardGame,
       data: {
         name: 'Своя игра',
         countAnswers: 0,
@@ -61,6 +68,25 @@ export class StatisticsService {
       },
     },
   ];
+
+  constructor(private http: HttpClient, public authService: AuthService) {}
+
+  // getWordList(): Observable<IWord[]> {
+  //   return this.http.get<IWord[]>(this.wordListUrl).pipe(map((arr) => this.random(arr)));
+  // }
+
+  // getUserData(): Observable<any> {
+  getUserData(): void {
+    // const baseUrl = 'https://rs-lang-team-5.herokuapp.com';
+    // const idUser = this.authService.loginData.userId;
+    // this.URLStat = `${baseUrl}/users/${idUser}/statistics`;
+    // const idUser = this.authService.loginData.userId;
+    // this.urlUserSettings = `${this.baseUrl}/${idUser}/statistics`;
+    // console.log(this.urlUserSettings);
+    // const a = of(this.http.get<any>(this.urlUserSettings));
+    // console.log(a);
+    // return this.http.get<any>(this.urlUserSettings);
+  }
 
   getDataFromGame(dataGame: ItemGame): void {
     const item = this.dataAllGames.find((itemGame) => itemGame.game === dataGame.idGame).data;
