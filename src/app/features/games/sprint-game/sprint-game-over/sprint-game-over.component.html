@@ -1,6 +1,20 @@
 <span>Вы набрали {{score}} очков</span>
 <span>Правильных ответов {{correctWordCounter}}</span>
 <span>Всего ответов {{wordCounter}}</span>
+<div class="words">
+  <div class="words-column">
+    <p>Верные ответы:</p>
+    <div class="word-list">
+      <span *ngFor="let word of correctWords">{{word.word}} - {{word.wordTranslate}}</span>
+    </div>
+  </div>
+  <div class="words-column">
+    <p>Неверные ответы:</p>
+    <div class="word-list">
+      <span *ngFor="let word of difficultWords">{{word.word}} - {{word.wordTranslate}}</span>
+    </div>
+  </div>
+</div>
 <div>
   <button (click)="onStart()">Начать заново</button>
   <button (click)="onExit()">Выйти</button>
