@@ -5,6 +5,6 @@
   </div>
   <div class="content">
     <p class="word">{{ card.word }}</p>
-    <p *ngIf="!settings.hideWordTranslation" class="translation">{{ card.wordTranslate }}</p>
+    <p *ngIf="!settings.isWordTranslationHidden" class="translation">{{ card.wordTranslate }}</p>
   </div>
 </div>

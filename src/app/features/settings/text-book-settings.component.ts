@@ -12,14 +12,18 @@ export class TextBookSettingsComponent {
 
   constructor(formBuilder: FormBuilder, private textBookSettingsService: TextBookSettingsService) {
     this.formGroup = formBuilder.group({
-      hideWordTranslation: false,
-      hideSentenceTranslation: false,
-      hideHardWordsBtn: false,
-      hideDeletedWordsBtn: false,
+      isWordTranslationHidden: false,
+      isSentenceTranslationHidden: false,
+      isHardWordsBtnHidden: false,
+      isDeletedWordsBtnHidden: false,
     });
   }
 
   onFormSubmit() {
     this.textBookSettingsService.setSettings(this.formGroup.value);
+    // eslint-disable-next-line no-console
+    console.log(this.textBookSettingsService.textBookSettings);
+    // eslint-disable-next-line no-alert
+    alert(JSON.stringify(this.formGroup.value, null, 2));
   }
 }
