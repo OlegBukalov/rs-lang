@@ -1,2 +1,50 @@
-<p>Количество изученных слов (за сегодня)</p>
-<p>Общее количество изученных слов (за весь период)</p>
+<div class="data-day" *ngIf="isEmpty; else emptyData">
+  <div class="data-words">
+    <p>Количество изученных слов (за сегодня)</p>
+    <p>Общее количество изученных слов (за весь период)</p>
+  </div>
+
+  <div class="data-games">
+    <table>
+      <caption>Статистика по играм</caption>
+      <colgroup>
+        <col style="width: 20%">
+        <col style="width: 40%">
+        <col style="width: 40%">
+      </colgroup>
+      <thead>
+        <th></th>
+        <th>Самая длинная серия правильных ответов</th>
+        <th>Правильные ответы (в %)</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let itemData of data">
+          <td>{{itemData.data.name}}</td>
+          <td>{{itemData.data.percentRightAnswers}} %</td>
+          <td>{{itemData.data.maxRightAnswers}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="data-correct">
+    <p>Правильные ответы за день (%) - {{ allRightAnswers }} %</p>
+  </div>
+</div>
+
+<ng-template #emptyData>
+  <div class="empty-data">
+    <p>К сожалению, у вас нет данных по статистике</p>
+    <p>Чтобы видеть свой прогресс вы можете:</p>
+    <ul>
+      <li>
+        <a (click)="redirectToLink('text-book/group/1/page/2')">По учебнику выучить слова</a>
+         - вы будете видеть, сколько слов вы выучили за сегодня и диаграмму по дням за весь период обучения
+       </li>
+      <li>
+        <a (click)="redirectToLink('games')">Выбрать и поиграть в любую игру</a>
+         - результаты правильных и неправильных ответов будут доступны за один текущий день
+       </li>
+    </ul>
+  </div>
+</ng-template>

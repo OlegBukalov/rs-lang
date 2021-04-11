@@ -4,6 +4,8 @@ import { filter, finalize, take } from 'rxjs/operators';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { ToasterService } from 'src/app/core/services/toaster.service';
+import { StatisticsService } from 'src/app/features/statistics/statistics.service';
+import { GameID } from 'src/app/features/statistics/enums/game-id.enum';
 import {
   BASE_SCORE,
   SCORE_MULTIPLIER,
@@ -15,6 +17,7 @@ import { ISprintWord } from './interfaces/sprint-word';
 import { GameStatuses } from './enums/game-statuses.enum';
 
 const TIME_LIMIT = 60;
+const IDGame = GameID.Sprint;
 
 @Component({
   selector: 'app-sprint-game',
@@ -77,7 +80,11 @@ export class SprintGameComponent implements OnInit {
     }
   }
 
-  constructor(private wordsApiService: WordsApiService, private toastrService: ToasterService) {}
+  constructor(
+    private wordsApiService: WordsApiService,
+    private toastrService: ToasterService,
+    private statisticsService: StatisticsService,
+  ) {}
 
   ngOnInit(): void {
     this.gameStatus = GameStatuses.Start;
@@ -103,12 +110,15 @@ export class SprintGameComponent implements OnInit {
   }
 
   gameEnd(): void {
+    const dataGame = {
+      idGame: IDGame,
+      countAll: this.wordCounter,
+      countRight: this.correctWordCounter,
+      maxRight: this.maxCorrectSequence,
+    };
+    this.statisticsService.getDataFromGame(dataGame);
     this.subscriptionWords.unsubscribe();
     this.gameStatus = GameStatuses.End;
-    // TODO: для передачи в статистику
-    // this.wordCounter - всего слов
-    // this.correctWordCounter - всего правильных
-    // this.maxCorrectSequence - макс последовательность правильных ответов
     this.clearValues();
   }
 
