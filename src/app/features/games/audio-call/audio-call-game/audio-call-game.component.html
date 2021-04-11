@@ -1,5 +1,22 @@
-<img src="./../../../../../assets/img/games/audioCall/loud-speaker'.svg" alt="Loud speaker image">
-<div>
-  <p>WOW!!!!</p>
-  <p>Game started on level <b>{{ level }}</b></p> 
+<img
+  src="./../../../../../assets/img/games/audioCall/loud-speaker'.svg"
+  alt="Loud speaker image"
+  class="loudspeaker"
+  (click)="audio.play()"
+/>
+
+<audio #audio [src]="currentAnswer?.audio | cardAsset | async" autoplay></audio>
+
+<div class="answers">
+  <div *ngFor="let word of currentTask; index as i">
+    <button class="answers__button" (click)="onAnswer(i, $event)">
+      {{ word.wordTranslate }}
+    </button>
+  </div>
+</div>
+
+<div class="scorepad">
+  <p>Уровень: {{ level }}</p>
+  <p>Верных ответов: {{ correctWordCounter }}</p>
+  <p>Неверных ответов: {{ incorrect }}</p>
 </div>
