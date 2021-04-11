@@ -25,7 +25,7 @@ export const GAMES_DESCRIPTION: IGameItem[] = [
   {
     id: 3,
     title: 'Своя игра',
-    titleEn: 'own-game',
+    titleEn: 'card-game',
     imgUrl: '../assets/img/game-description/game_me.jpg',
     routerLink: 'card-game',
   },

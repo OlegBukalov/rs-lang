@@ -3,6 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { LoginResponse } from './login-response.interface';
 
 @Injectable({
@@ -17,7 +18,28 @@ export class AuthService implements OnDestroy {
     name: '',
   };
 
-  private readonly baseUrl = 'https://afternoon-falls-25894.herokuapp.com/';
+  get token() {
+    // const token = localStorage.getItem('token');
+    // if (token) return token;
+
+    // localStorage.setItem('token', this.loginData.token);
+    return this.loginData.token;
+  }
+
+  // Для тестирования раскомментировать три строки
+  // в геттерах token и userId
+  // и закомментировать поля canActivate в app-routing.module
+  // тогда не нужно будет заново авторизоваться после каждой перезагрузки
+
+  get userId() {
+    // const id = localStorage.getItem('userId');
+    // if (id) return id;
+
+    // localStorage.setItem('userId', this.loginData.userId);
+    return this.loginData.userId;
+  }
+
+  private readonly baseUrl = `${environment.baseUrl}/`;
 
   private tokenExpirationTime: number;
 
