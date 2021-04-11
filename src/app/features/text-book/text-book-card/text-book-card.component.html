@@ -1,7 +1,6 @@
 <div class="card" routerLink="card/{{ card.id }}" *ngIf="card">
-  <div class="image-container" [style.background]="'#' + color">
-    <!-- TODO: append image to div.image -->
-    <div class="image"></div>
+  <div class="image-container" [style.background]="'#' + color" *ngIf="card">
+    <img [src]="card.image | cardAsset | async" alt="{{ card.word }}" />
   </div>
   <div class="content">
     <p class="word">{{ card.word }}</p>
