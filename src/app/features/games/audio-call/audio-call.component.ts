@@ -23,7 +23,7 @@ export class AudioCallComponent {
     this.gameStatus = GameStatus.Start;
   }
 
-  gameStart(level: number): void {
+  onGameStart(level: number): void {
     this.level = level;
     this.gameStatus = GameStatus.Game;
   }

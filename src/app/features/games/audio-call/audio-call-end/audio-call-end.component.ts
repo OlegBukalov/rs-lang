@@ -11,6 +11,7 @@ export class AudioCallEndComponent {
   @Input() incorrect;
 
   @Output() repeatGame = new EventEmitter();
+  
   repeat() {
     this.repeatGame.emit();
   }

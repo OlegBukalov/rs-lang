@@ -1,5 +1,5 @@
 <div [ngSwitch]="gameStatus">
-  <app-audio-call-start *ngSwitchCase="'start'" (startNewGame)="gameStart($event)"></app-audio-call-start>
+  <app-audio-call-start *ngSwitchCase="'start'" (startNewGame)="onGameStart($event)"></app-audio-call-start>
   <app-audio-call-game *ngSwitchCase="'game'" [level]="level" (gameEnd)="onGameEnd($event)"></app-audio-call-game>
   <app-audio-call-end *ngSwitchCase="'end'" [score]="score" [level]="level" (repeatGame)="onGameRepeat()"></app-audio-call-end>
 </div>

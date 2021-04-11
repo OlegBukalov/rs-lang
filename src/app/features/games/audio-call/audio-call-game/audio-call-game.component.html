@@ -2,8 +2,7 @@
   src="./../../../../../assets/img/games/audioCall/loud-speaker'.svg"
   alt="Loud speaker image"
   class="loudspeaker"
-  (click)="audio.play()"
-/>
+  (click)="audio.play()"/>
 
 <audio #audio [src]="currentAnswer?.audio | cardAsset | async" autoplay></audio>
 
