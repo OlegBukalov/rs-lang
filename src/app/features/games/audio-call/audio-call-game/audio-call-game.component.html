@@ -2,9 +2,19 @@
   src="./../../../../../assets/img/games/audioCall/loud-speaker'.svg"
   alt="Loud speaker image"
   class="loudspeaker"
+  *ngIf="audioLoaded; else audioLoader"
   (click)="audio.play()"/>
 
-<audio #audio [src]="currentAnswer?.audio | cardAsset | async" autoplay></audio>
+<ng-template #audioLoader>
+  <mat-spinner></mat-spinner>
+</ng-template>
+
+<audio
+  #audio
+  [src]="currentAnswer?.audio | cardAsset | async"
+  autoplay
+  (loadeddata)="onAudioLoad()"
+></audio>
 
 <div class="answers">
   <div *ngFor="let word of currentTask; index as i">
@@ -18,4 +28,9 @@
   <p>Уровень: {{ level }}</p>
   <p>Верных ответов: {{ correctWordCounter }}</p>
   <p>Неверных ответов: {{ incorrect }}</p>
+</div>
+
+<div class="error-message" *ngIf="showErrorMessage">
+  <p>Что-то пошло не так...</p>
+  <p>Проверьте свое интернет-соединение и перезагрузите страницу.</p>
 </div>

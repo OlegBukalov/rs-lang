@@ -4,6 +4,14 @@ import { Subscription } from 'rxjs';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { AudioCallService } from '../audio-call.service';
 import { IGameResult, IWordChunk } from '../interfaces';
+import {
+  WORDS_CHUNK_LENGTH,
+  WORDS_CHUNK_PAGES_QUANTITY,
+  ANSWERS_QUANTITY,
+  INCORRECT_ANSWERS_QUANTITY,
+  MAX_INCORRECT_ANSWERS_TO_LOOSE,
+  ANSWER_BUTTON_DELAY,
+} from '../constants';
 
 @Component({
   selector: 'app-audio-call-game',
@@ -29,13 +37,17 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
 
   words: IWord[];
 
-  markedWords: IWordChunk[];
+  private markedWords: IWordChunk[];
 
   currentTask: IWordChunk[];
 
   currentAnswer: IWordChunk;
 
-  currentAnswerPosition: number;
+  private currentAnswerPosition: number;
+
+  audioLoaded = false;
+
+  showErrorMessage = false;
 
   private subscription = new Subscription();
 
@@ -49,45 +61,51 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  createWordsChunk(level, page): void {
+  private createWordsChunk(level, page): void {
     this.subscription.add(
-      this.gameService.getWords(level, page).subscribe((data: IWord[]) => {
-        this.words = data;
-        this.addShownProperty();
-        if (!this.currentTask) this.createCurrentTask();
-      }),
+      this.gameService.getWords(level, page).subscribe(
+        (data: IWord[]) => {
+          this.words = data;
+          this.addShownProperty();
+          if (!this.currentTask) this.createCurrentTask();
+        },
+        () => {
+          this.showErrorMessage = true;
+        },
+      ),
     );
   }
 
-  addShownProperty(): void {
+  private addShownProperty(): void {
     this.markedWords = this.words.map((element) => {
       return { ...element, isShown: false };
     });
   }
 
-  generateTaskArr() {
-    const taskSet = new Set();
-    while (taskSet.size <= 3) {
-      taskSet.add(Math.floor(20 * Math.random()));
+  private generateRandomIncorrectAnswers(): number[] {
+    const taskSet = new Set<number>();
+    while (taskSet.size <= INCORRECT_ANSWERS_QUANTITY) {
+      taskSet.add(Math.floor(WORDS_CHUNK_LENGTH * Math.random()));
     }
 
     return [...taskSet];
   }
 
-  createCurrentTask(): void {
-    const taskArray = this.generateTaskArr();
-    const taskArrayWords = taskArray.map((element) => {
+  private createCurrentTask(): void {
+    const randomAnswersArray = this.generateRandomIncorrectAnswers();
+    const taskArrayWords = randomAnswersArray.map((element) => {
       return this.markedWords[+element];
     });
     this.currentTask = taskArrayWords;
     this.currentAnswer = this.createCurrentAnswer();
-    this.currentAnswerPosition = Math.floor(5 * Math.random());
+    this.currentAnswerPosition = Math.floor(ANSWERS_QUANTITY * Math.random());
     this.currentTask.splice(this.currentAnswerPosition, 0, this.currentAnswer);
     this.clearButtonsStyles();
     this.wordCounter += 1;
+    this.audioLoaded = false;
   }
 
-  createCurrentAnswer(): IWordChunk {
+  private createCurrentAnswer(): IWordChunk {
     const wordsWithoutAnswers = this.markedWords.filter(
       (word) => this.currentTask.indexOf(word) < 0,
     );
@@ -97,45 +115,66 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
     return shuffledWords[0];
   }
 
-  onAnswer(i, event): void {
-    if (this.checkAnswer(i)) {
-      this.correctWordCounter += 1;
-      this.currentCorrectSequence += 1;
-      if (this.currentCorrectSequence > this.maxCorrectSequence) {
-        this.maxCorrectSequence = this.currentCorrectSequence;
-      }
-      event.target.classList.add('answers__button_correct');
-      setTimeout(() => {
-        this.createCurrentTask();
-      }, 500);
-    } else {
-      this.incorrect += 1;
-      this.currentCorrectSequence = 0;
-      event.target.classList.add('answers__button_incorrect');
-      if (this.incorrect >= 5) {
-        const gameResult: IGameResult = {
-          wordCounter: this.wordCounter,
-          correctWordCounter: this.correctWordCounter,
-          maxCorrectSequence: this.maxCorrectSequence,
-        };
-        setTimeout(() => this.gameEnd.emit(gameResult), 500);
-      }
-    }
+  onAnswer(answerIndex: number, event): void {
+    this.goToNewPageOfWords();
 
-    if (this.checkShownedWords() <= 1) {
+    if (this.isAnswerCorrect(answerIndex)) {
+      this.onCorrectAnswer(event);
+    } else {
+      this.onIncorrectAnswer(event);
+    }
+  }
+
+  private isAnswerCorrect(index): boolean {
+    return this.currentAnswerPosition === index;
+  }
+
+  private onCorrectAnswer(event): void {
+    this.correctWordCounter += 1;
+    this.currentCorrectSequence += 1;
+    if (this.currentCorrectSequence > this.maxCorrectSequence) {
+      this.maxCorrectSequence = this.currentCorrectSequence;
+    }
+    event.target.classList.add('answers__button_correct');
+    setTimeout(() => {
+      this.createCurrentTask();
+    }, ANSWER_BUTTON_DELAY);
+  }
+
+  private onIncorrectAnswer(event): void {
+    this.incorrect += 1;
+    this.currentCorrectSequence = 0;
+    event.target.classList.add('answers__button_incorrect');
+    if (this.incorrect >= MAX_INCORRECT_ANSWERS_TO_LOOSE) {
+      this.onLooseGame();
+    }
+  }
+
+  private onLooseGame(): void {
+    const gameResult: IGameResult = {
+      wordCounter: this.wordCounter,
+      correctWordCounter: this.correctWordCounter,
+      maxCorrectSequence: this.maxCorrectSequence,
+    };
+    setTimeout(() => this.gameEnd.emit(gameResult), ANSWER_BUTTON_DELAY);
+  }
+
+  private goToNewPageOfWords(): void {
+    if (this.areAllWordsShown()) {
       this.page += 1;
-      if (this.page >= 30) {
+      if (this.page >= WORDS_CHUNK_PAGES_QUANTITY) {
         this.page = 0;
       }
       this.createWordsChunk(this.level, this.page);
     }
   }
 
-  checkAnswer(index): boolean {
-    return this.currentAnswerPosition === index;
+  private areAllWordsShown(): boolean {
+    const unShownnedWords = this.markedWords.filter((word) => !word.isShown);
+    return unShownnedWords.length <= 1;
   }
 
-  clearButtonsStyles(): void {
+  private clearButtonsStyles(): void {
     const buttons = document.querySelectorAll('.answers__button');
     buttons.forEach((button) => {
       button.classList.remove('answers__button_correct');
@@ -143,8 +182,7 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
     });
   }
 
-  checkShownedWords(): number {
-    const unShownnedWords = this.markedWords.filter((word) => !word.isShown);
-    return unShownnedWords.length;
+  onAudioLoad(): void {
+    this.audioLoaded = true;
   }
 }

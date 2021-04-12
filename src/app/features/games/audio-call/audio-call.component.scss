@@ -5,14 +5,3 @@
     align-items: center;
     justify-content: flex-start;
 }
-
-.buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-
-    &__item {
-        display: block;
-        margin: 0 10px;
-    }
-}

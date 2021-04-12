@@ -1,6 +1,14 @@
 @import './../../../../../variables.scss';
 @import './../game-styles.scss';
 
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
 .loudspeaker {
   display: block;
   width: 200px;
@@ -33,7 +41,7 @@
 .scorepad {
   @extend %scorepad;
   position: absolute;
-  top: 110px;
+  top: 170px;
   right: 10px;
 
   min-width: 200px;
@@ -43,4 +51,17 @@
   font-family: 'Poiret One', cursive;
   font-weight: bold;
   font-size: 1.1rem;
+}
+
+.error-message {
+  padding: 10px;
+  margin-top: 30px;
+
+  font-family: 'Poiret One', cursive;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: $color_dark_red;
+
+  border: 1px solid $color_dark_red;
+  border-radius: 10px;
 }

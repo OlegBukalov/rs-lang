@@ -8,7 +8,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class AudioCallStartComponent {
   level = 1;
 
-  levels = [1, 2, 3, 4, 5, 6];
+  readonly levels = [1, 2, 3, 4, 5, 6];
 
   @Output() startNewGame = new EventEmitter();
 

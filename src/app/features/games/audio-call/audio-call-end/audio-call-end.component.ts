@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IGameResult } from '../interfaces';
 
 @Component({
   selector: 'app-audio-call-end',
@@ -6,12 +7,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./audio-call-end.component.scss'],
 })
 export class AudioCallEndComponent {
-  @Input() level;
-  @Input() score;
-  @Input() incorrect;
+  @Input() level: number;
+  @Input() score: IGameResult;
+  @Input() incorrect: number;
 
   @Output() repeatGame = new EventEmitter();
-  
+
   repeat() {
     this.repeatGame.emit();
   }
