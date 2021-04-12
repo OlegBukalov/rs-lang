@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { finalize, first } from 'rxjs/operators';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { DictionaryService } from 'src/app/core/services/dictionary.service';
+import { ToasterService } from 'src/app/core/services/toaster.service';
 import { DEFAULT_CATEGORY, DictionaryCategory } from '../dictionary-category';
 
 const PAGINATION_ARRAY = [6, 12, 26, 50, 100];
@@ -30,7 +32,7 @@ export class DictionaryComponent implements OnInit {
     return Object.values(DictionaryCategory).filter((key) => Number.isNaN(+key));
   }
 
-  constructor(private dictionarySevice: DictionaryService) {}
+  constructor(private dictionarySevice: DictionaryService, private toaster: ToasterService) {}
 
   ngOnInit() {
     this.updateCategoryWords();
@@ -48,15 +50,25 @@ export class DictionaryComponent implements OnInit {
 
   updateCategoryWords() {
     this.isLoading = true;
-    this.dictionarySevice.getAggregatedWords(this.currentCategory).subscribe((result) => {
-      this.cards = result[0].paginatedResults;
-      this.isLoading = false;
-    });
+    const result = this.dictionarySevice.getAggregatedWords(this.currentCategory).pipe(first(),
+      finalize(() => {
+        this.isLoading = false
+      })
+    );
+    result.subscribe(
+      (pages) => {
+        const [page] = pages;
+        this.cards = page.paginatedResults;
+      },
+      () => {
+        this.cards = [];
+        this.toaster.showError('Не удалось загрузить слова', 'Ошибка!');
+      },
+    );
   }
 
-  handlePage(event: PageEvent): PageEvent {
+  handlePage(event: PageEvent) {
     this.pageLeftIndex = event.pageIndex * event.pageSize;
     this.pageRightIndex = this.pageLeftIndex + event.pageSize;
-    return event;
   }
 }

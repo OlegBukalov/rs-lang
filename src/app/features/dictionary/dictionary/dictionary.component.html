@@ -17,12 +17,16 @@
         (page)="handlePage($event)"
       ></mat-paginator>
 
-      <mat-list class="page">
+      <mat-list class="page" *ngIf="cards.length; else: emptyArrayBlock">
         <app-dictionary-card *ngFor="let card of (cards | slice: pageLeftIndex : pageRightIndex)" [card]="card"></app-dictionary-card>
       </mat-list>
+
+      <ng-template #emptyArrayBlock>
+        <p>Список слов пуст</p>
+      </ng-template>
   </div>
 
-    <ng-template #loadingBlock>
-        <mat-spinner class="spinner"></mat-spinner>
-    </ng-template>
+  <ng-template #loadingBlock>
+      <mat-spinner class="spinner"></mat-spinner>
+  </ng-template>
 </div>
