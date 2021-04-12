@@ -1,5 +1,6 @@
 <div class="wrap-game-list">
-    <div *ngIf="!isStarted && !isGameOver" class="start-game-menu">
+    <div class="background"></div>
+    <div *ngIf="!isStarted && !isGameOver || !isStarted && isGameOver" class="start-game-menu">
         <div class="game-title-wrapper">
             <h2 class="game-title">Саванна</h2>
         </div>
@@ -12,11 +13,24 @@
                 - Для начала игры нажмите на кнопку "Старт"
             </div>
         </div>
-        <div class="start-button-wrapper">
-            <button mat-raised-button color="primary" class="start-button" (click)="start()" *ngIf="!isStarted">Старт</button>
+        <div class="main-menu-buttons">
+            <div class="level-buttons-wrapper">
+                <div class="level-buttons-title">
+                    Уровень сложности
+                </div>
+                <button class="level-button" mat-raised-button color="{{level === selectedLevel ? 'accent' : 'primary'}}"
+                    (click)="selectLevel(level)" *ngFor="let level of levels">{{level + 1}}</button>
+            </div>
+            <button mat-raised-button color="primary" class="start-button" (click)="start()">
+                {{!wordsListForLevel.length && !isGameOver ? 'Старт' : 'Перезапуск'}}
+            </button>
+            <div class="language-slider-wrapper">
+                <mat-slide-toggle class="language-slider" [(ngModel)]="isRussianEnglish">
+                    {{isRussianEnglish ? 'Рус-Анг' : 'Анг-Рус'}}
+                </mat-slide-toggle>
+            </div>
         </div>
     </div>
-    <div class="background"></div>
     <div *ngIf="isGameOver" class="game-over">
         <title class="game-over-title">Конец Игры</title>
         <ul class="words-tab-learned">
@@ -33,20 +47,21 @@
         </ul>
     </div>
     <ng-container *ngIf="isStarted && health && !isGameOver">
-        <div class="level">Уровень:&nbsp;{{level}}</div>
-        <div class="health">{{health}}</div>
+        <div class="health-wrapper">
+            <div title="{{health}}" [ngStyle]="{'width': 40 * health + 'px'}" class="health"></div>
+            <div class="branch"></div>
+        </div>
         <div class="running-field">
             <div class="word-wrapper" [ngStyle]="{'top': coordinateY + 'px', 'left': coordinateX + 'px'}">
                 <div class="animal"></div>
-                <div class="word">{{targetWord.word}}</div>
+                <div title="{{targetWord.textMeaning}}" class="word">{{isRussianEnglish ? targetWord.wordTranslate : targetWord.word}}</div>
             </div>
         </div>
     </ng-container>
-    <button mat-raised-button color="primary" (click)="start()" *ngIf="isGameOver">Перезапуск</button>
     <div class="game-list">
         <div *ngIf="isStarted && !isGameOver" class="buttons-wrapper">
-            <button mat-raised-button color="primary" class="answer-word" (click)="compareWords($event)"
-            *ngFor="let answer of answerWordsArray">{{answer.word}}</button>
+            <button mat-raised-button color="primary" class="answer-word" (click)="compareWords(answer)"
+            *ngFor="let answer of answerWordsArray">{{isRussianEnglish ? answer.word : answer.wordTranslate}}</button>
         </div>
     </div>
 </div>

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IWord } from 'src/app/core/interfaces/iword';
+import { ToasterService } from 'src/app/core/services/toaster.service';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 
 @Component({
@@ -9,206 +10,189 @@ import { WordsApiService } from 'src/app/core/services/wordsApi.service';
   styleUrls: ['./savannah-game.component.scss'],
 })
 export class SavannahGameComponent implements OnInit, OnDestroy {
-  level = 1;
+  untouchableFullWordsList: IWord[] = [];
 
-  wordsList: string[] = [
-    'agree',
-    'alcohol',
-    'boat',
-    'car',
-    'bridge',
-    'master',
-    'application',
-    'ball',
-    'cow',
-    'arrow',
-    // 'world',
-    // 'logic',
-    // 'wizard',
-    // 'mail',
-    // 'cheese',
-    // 'rat',
-    // 'sword',
-    // 'generator',
-    // 'oil',
-    // 'ten',
-  ];
-
-  realWordsList: IWord[] = [];
-
-  learnedWords: IWord[];
-
-  unlearnedWords: IWord[];
-
-  wordsForRoundList: IWord[] = [];
+  wordsListForLevel: IWord[] = [];
 
   targetWord: IWord;
 
   answerWordsArray: IWord[] = [];
 
-  health: number;
+  learnedWords: IWord[];
 
-  // cardWord: IWord = {
-  //   id: '1',
-  //   group: 1,
-  //   page: 1,
-  //   word: 'word',
-  //   image: 'img',
-  //   audio: 'string',
-  //   audioMeaning: 'audioMeaning',
-  //   audioExample: 'string',
-  //   textMeaning: 'textMeaning',
-  //   textExample: 'textExample',
-  //   transcription: 'transcription',
-  //   textExampleTranslate: 'textExampleTranslate',
-  //   textMeaningTranslate: 'textMeaningTranslate',
-  //   wordTranslate: 'wordTranslate',
-  //   wordsPerExampleSentence: 10,
-  // };
+  unlearnedWords: IWord[];
+
+  health: number;
 
   isStarted = false;
 
-  // isGameInProgress = false;
-
   isGameOver = false;
 
-  subscription: Subscription;
-
-  interval1: any;
-
-  interval2: any;
+  isRussianEnglish = false;
 
   coordinateX = 0;
 
   coordinateY = 50;
 
-  stepV = 1;
+  stepY = 1;
 
-  stepH = 6; // top lvl stepH = 8;
+  stepX = 6; // speed
 
-  k = -1;
+  inverter = -1;
 
-  n = 0;
+  fourVerticalStepsCounter = 0;
 
-  constructor(private wordsApiService: WordsApiService) {}
+  levels = [0, 1, 2, 3, 4, 5];
+
+  selectedLevel = 0;
+
+  intervalX: any;
+
+  intervalY: any;
+
+  subscription: Subscription;
+
+  constructor(private wordsApiService: WordsApiService, private toastrService: ToasterService) {}
 
   ngOnInit(): void {
-    this.subscription = this.wordsApiService.getWordList().subscribe((response: IWord[]) => {
-      this.realWordsList = response;
-      console.log('RealWordsList: ', this.realWordsList);
-    });
+    this.selectLevel(0);
   }
 
-  start() {
-    clearInterval(this.interval1);
-    clearInterval(this.interval2);
+  // TODO maybe change logic
+  selectLevel(level: number): void {
+    this.selectedLevel = level;
+    this.wordsApiService.changeGroupToken(level.toString());
+    this.wordsApiService.setRandomPage();
+  }
+
+  start(): void {
+    new Promise((resolve, reject) => {
+      this.subscription = this.wordsApiService.getWordList().subscribe(
+        (response: IWord[]) => {
+          this.untouchableFullWordsList = response;
+          resolve(true);
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+    })
+      .then(() => {
+        this.wordsListForLevel = this.untouchableFullWordsList.slice();
+        this.resetGameParametrs();
+        this.continueRun();
+      })
+      .catch((error) => {
+        this.toastrService.showError(error, 'Ошибка');
+      });
+  }
+
+  resetGameParametrs(): void {
+    this.health = 5;
     this.learnedWords = [];
     this.unlearnedWords = [];
-    this.health = 5;
-    this.wordsForRoundList = this.realWordsList.slice();
-    this.targetWord = this.wordsForRoundList.shift();
-    this.getRandomWords(4);
-    this.isStarted = true;
-    // this.isGameInProgress = true;
     this.isGameOver = false;
-    this.continueRun();
+    this.isStarted = true;
   }
 
-  continueRun() {
-    if (!this.wordsForRoundList.length) {
+  continueRun(): void {
+    if (!this.wordsListForLevel.length) {
+      // TODO Game Over Logic...
       this.isGameOver = true;
+      this.isStarted = false;
+      this.clearIntervals();
       return;
     }
-    this.targetWord = this.wordsForRoundList.shift();
-    this.getRandomWords(4);
-    this.stepH = window.innerWidth >= 1070 ? 8 : 6;
-    this.coordinateY = window.innerWidth >= 1070 ? 250 : 180;
-    this.coordinateX = -150;
-    this.interval1 = setInterval(() => {
-      this.coordinateX += this.stepH;
+    this.targetWord = this.wordsListForLevel.shift();
+    this.getFourRandomWords();
+    this.setAnimalParametrs();
+    this.intervalX = setInterval(() => {
+      this.coordinateX += this.stepX;
       if (this.coordinateX >= window.innerWidth - 50) {
-        // this.wordsForRoundList.push(this.targetWord);
         this.unlearnedWords.push(this.targetWord);
-        clearInterval(this.interval1);
-        clearInterval(this.interval2);
+        this.toastrService.showCustomAlert(
+          'Неверно!',
+          `${this.targetWord.word} - ${this.targetWord.wordTranslate}`,
+          {
+            positionClass: 'toast-top-right',
+          },
+        );
         this.checkHealth();
         this.continueRun();
       }
     }, 100);
-    this.interval2 = setInterval(() => {
-      if (this.n === 4) {
-        this.k *= -1;
-        this.n = 0;
+    this.intervalY = setInterval(() => {
+      if (this.fourVerticalStepsCounter === 4) {
+        this.inverter *= -1;
+        this.fourVerticalStepsCounter = 0;
       }
-      this.n += 1;
-      this.coordinateY += this.stepV * this.k;
+      this.fourVerticalStepsCounter += 1;
+      this.coordinateY += this.stepY * this.inverter;
     }, 100);
   }
 
-  // continue() {
-  //   this.isGameInProgress = true;
+  setAnimalParametrs(): void {
+    this.stepX = window.innerWidth >= 1070 ? 8 : 6; // start speed
+    this.coordinateY = window.innerWidth >= 1070 ? 310 : 240; // start y coordinate
+    this.coordinateX = -150; // start x coordinate
+  }
 
-  //   this.continueRun();
-  // }
-
-  compareWords(event: any): void {
-    clearInterval(this.interval1);
-    clearInterval(this.interval2);
-    if (event.target.textContent !== this.targetWord.word) {
-      // this.wordsForRoundList.push(this.targetWord);
-      this.unlearnedWords.push(this.targetWord);
-
-      this.checkHealth();
-      // TODO fail
-    } else {
-      this.learnedWords.push(this.targetWord);
-
+  compareWords(answer: IWord): void {
+    if (
+      answer.word === this.targetWord.word ||
+      answer.wordTranslate === this.targetWord.wordTranslate
+    ) {
       // TODO success
-    }
-    this.continueRun();
-  }
-
-  // arrayDuplicateChecker(array: string[], targetWord: string): void {
-  //   if (!array.includes(targetWord)) {
-  //     array.push(targetWord);
-  //   }
-  // }
-
-  checkHealth(): void {
-    if (this.health > 1) {
-      this.health -= 1;
-      // console.log('CheckHealth If ', this.health);
+      this.clearIntervals();
+      this.learnedWords.push(this.targetWord);
+      this.toastrService.showShow(
+        'Верно!',
+        `${this.targetWord.word} - ${this.targetWord.wordTranslate}`,
+        {
+          positionClass: 'toast-top-left',
+        },
+      );
+      this.continueRun();
     } else {
-      // console.log('checkHealth Else ', this.health);
-      // console.log('END GAME: ', this.isStarted, this.isGameOver);
-      this.isGameOver = true;
+      // TODO FAIL
+      this.unlearnedWords.push(this.targetWord);
+      this.toastrService.showCustomAlert(
+        'Неверно!',
+        `${this.targetWord.word} - ${this.targetWord.wordTranslate}`,
+        {
+          positionClass: 'toast-top-right',
+        },
+      );
+      if (this.checkHealth()) {
+        this.continueRun();
+      }
     }
   }
 
-  // getRandomWord(): void {
-  //   const randomNum = this.getRandomInt(this.wordList.length);
-  //   for (let i = 0; i < this.wordList.length - 1; i++) {
-  //     if (i === randomNum) {
-  //       this.targetWord = this.wordList[i];
-  //       console.log(this.targetWord, i, randomNum);
-  //     }
-  //   }
-  // }
+  checkHealth(): boolean {
+    this.clearIntervals();
+    this.health -= 1;
+    if (this.health === 0) {
+      this.isStarted = false;
+      this.isGameOver = true;
+      return false;
+    }
+    return true;
+  }
 
-  getRandomWords(maxWordsNumber: number): void {
+  clearIntervals(): void {
+    clearInterval(this.intervalX);
+    clearInterval(this.intervalY);
+  }
+
+  getFourRandomWords(): void {
+    const maxWordsNumber = 4;
     this.answerWordsArray = [];
     this.answerWordsArray.push(this.targetWord);
-
     const getNonDuplicatedRandomIndex = () => {
-      let randomIndex = this.getRandomInt(this.realWordsList.length);
-      // let duplicatedWordIndex = this.answerWordsArray.findIndex((answer: string) => {
-      //   return (answer === this.wordsList[randomIndex]);
-      // });
-      // if (duplicatedWordIndex > -1) {
-      //   randomIndex = getNonDuplicatedRandomIndex();
-      // }
+      let randomIndex = this.getRandomInt(this.untouchableFullWordsList.length);
       const duplicatedWord = this.answerWordsArray.find((answer: IWord) => {
-        return answer === this.realWordsList[randomIndex];
+        return answer === this.untouchableFullWordsList[randomIndex];
       });
       if (duplicatedWord) {
         randomIndex = getNonDuplicatedRandomIndex();
@@ -217,32 +201,30 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     };
     for (let i = 0; i < maxWordsNumber - 1; i += 1) {
       const randomIndex = getNonDuplicatedRandomIndex();
-      this.answerWordsArray.push(this.realWordsList[randomIndex]);
+      this.answerWordsArray.push(this.untouchableFullWordsList[randomIndex]);
     }
-    this.answerWordsArray = this.shuffle(this.answerWordsArray);
+    this.answerWordsArray = this.wordsShuffler(this.answerWordsArray);
   }
 
-  // TODO refactoring - change names of variables, set variables types
-  shuffle(arr) {
-    const newArr = arr.slice();
-    let j;
-    let temp;
-    for (let i = newArr.length - 1; i > 0; i -= 1) {
-      j = Math.floor(Math.random() * (i + 1));
-      temp = newArr[j];
-      newArr[j] = newArr[i];
-      newArr[i] = temp;
+  wordsShuffler(array): IWord[] {
+    const arrayForShuffle = array.slice();
+    let randomIndex;
+    let tempElement;
+    for (let i = arrayForShuffle.length - 1; i > 0; i -= 1) {
+      randomIndex = Math.floor(Math.random() * (i + 1));
+      tempElement = arrayForShuffle[randomIndex];
+      arrayForShuffle[randomIndex] = arrayForShuffle[i];
+      arrayForShuffle[i] = tempElement;
     }
-    return newArr;
+    return arrayForShuffle;
   }
 
   getRandomInt(max): number {
     const randomNumber = Math.floor(Math.random() * Math.floor(max));
-    // console.log('randomNum ', randomNumber);
     return randomNumber;
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 }

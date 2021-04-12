@@ -19,10 +19,8 @@ export class ToasterService {
     });
   }
 
-  showShow(message: string, title: string): void {
-    this.toastr.show(message, title, {
-      positionClass: 'toast-top-center',
-    });
+  showShow(message: string, title: string, customProperties?: Partial<IndividualConfig>): void {
+    this.toastr.show(message, title, customProperties);
   }
 
   showWarning(message: string, title: string): void {

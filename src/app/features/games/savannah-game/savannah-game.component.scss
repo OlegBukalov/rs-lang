@@ -48,21 +48,63 @@
         white-space: pre-line;
       }
 
-      .start-button-wrapper {
+      .main-menu-buttons {
+        position: relative;
         height: 45%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+
+        .level-buttons-wrapper {
+          position: absolute;
+          left: 10px;
+          z-index: 2;
+          color: white;
+          top: calc(50% - 35px);
+
+          .level-buttons-title {
+            text-align: center;
+            height: 30px;
+          }
+
+          .level-button {
+            margin: 0 2px;
+            padding: 0;
+            min-width: 40px;
+            min-height: 40px;
+            font-size: 20px;
+          }
+        }
 
         .start-button {
-          width: 150px;
+          width: 170px;
           height: 50px;
           font-size: 25px;
+          position: absolute;
+          left: calc(50% - 75px);
+          top: calc(50% - 10px);
+        }
+
+        .language-slider-wrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #3f51b5;
+          border-radius: 20px;
+          width: 150px;
+          height: 40px;
+          margin: 8px 0;
+          position: absolute;
+          left: calc(80% - 45px);
+          z-index: 2;
+          color: white;
+          top: calc(50% - 14px);
+          font-family: auto;
+          font-size: 26px;
+          font-weight: 400;
         }
       }
     }
 
     .game-over {
+      position: absolute;
       display: flex;
       flex-direction: row;
       min-width: 350px;
@@ -74,6 +116,7 @@
       color: white;
       z-index: 2;
       margin: 20px;
+      left: calc(50% - 177px);
 
       .words-tab-learned, .words-tab-unlearned {
         display: flex;
@@ -115,9 +158,45 @@
       margin-left: -20px;
     }
 
+    .health-wrapper {
+      position: absolute;
+      align-self: flex-start;
+      margin: 10px 0;
+      display: flex;
+
+      .health {
+        position: absolute;
+        width: 200px;
+        height: 40px;
+        background-image: url('/assets/img/games/savannah/owl.svg');
+        background-repeat: repeat-x;
+        transition: transform 0.3s;
+        transform-origin: center center;
+        z-index: 3;
+        cursor: pointer;
+      }
+
+      .health:hover {
+        top: -6px;
+      }
+
+      .branch {
+        top: -10px;
+        position: absolute;
+        width: 300px;
+        height: 100px;
+        background-image: url(/assets/img/games/savannah/branch-end.svg);
+        background-repeat: no-repeat;
+        transition: transform 0.3s;
+        transform-origin: center center;
+        transform: rotate(-5deg);
+        z-index: 2;
+      }
+    }
+
     .running-field {
       width: 100%;
-      height: 420px;
+      height: 480px;
       position: relative;
       overflow: hidden;
       z-index: 2;
@@ -147,6 +226,7 @@
           font-size: 45px;
           height: 55px;
           font-weight: 800;
+          cursor: pointer;
         }
       }
     }
@@ -192,7 +272,7 @@
       }
 
       .running-field {
-        height: 560px;
+        height: 600px;
       }
     }
   }
@@ -201,3 +281,4 @@
     z-index: 1;
     cursor: pointer;
   }
+
