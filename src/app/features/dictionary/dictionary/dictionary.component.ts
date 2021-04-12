@@ -52,10 +52,11 @@ export class DictionaryComponent implements OnInit {
 
   updateCategoryWords() {
     this.isLoading = true;
-    const result = this.dictionarySevice.getAggregatedWords(this.currentCategory).pipe(first(),
+    const result = this.dictionarySevice.getAggregatedWords(this.currentCategory).pipe(
+      first(),
       finalize(() => {
-        this.isLoading = false
-      })
+        this.isLoading = false;
+      }),
     );
     result.subscribe(
       (pages) => {

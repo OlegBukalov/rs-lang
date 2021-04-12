@@ -7,7 +7,7 @@ const cardRoutes: Routes = [{ path: 'card/:cardId', component: CardPopupComponen
 
 export const textBookRoutes: Routes = [
   {
-    path: 'group/:groupId/page/:pageId ',
+    path: 'group/:groupId/page/:pageId',
     component: TextBookComponent,
     children: cardRoutes,
   },
