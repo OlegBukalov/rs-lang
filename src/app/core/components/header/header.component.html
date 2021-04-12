@@ -1,8 +1,8 @@
 <div class="logo">
-    <h1>
-        <span class="prefix-logo">RS</span>
-        <span class="logo-body">Lang</span>
-    </h1>
+  <h1>
+      <span class="prefix-logo">RS</span>
+      <span class="logo-body">Lang</span>
+  </h1>
 </div>
 <nav>
   <ul class="main-menu">
@@ -25,18 +25,14 @@
       <a routerLink="statistics" routerLinkActive="active">Статистика</a>
     </li>
     <li *ngIf="!this.authService.isLoggedIn(); else logout" class="main-menu__item">
-      <a routerLink="auth" routerLinkActive="active">
+      <a routerLink="{{authPath.Auth}}" routerLinkActive="active">
         <span class="material-icons btn-icon">login</span>
       </a>
     </li>
     <ng-template #logout>
       <li class="main-menu__item">
-        <a routerLink="**" routerLinkActive="active">{{ this.authService.loginData.name }}</a>
-      </li>
-      <li class="main-menu__item">
-        <a (click)="onClick()" routerLink="auth" routerLinkActive="active">Выход</a>
+        <a (click)="onLogout()" routerLink="{{authPath.Auth}}" routerLinkActive="active">Выход</a>
       </li>
     </ng-template>
   </ul>
 </nav>
-
