@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { IWord } from '../../../../core/interfaces/iword';
 
 @Component({
   selector: 'app-sprint-game-over',
@@ -11,6 +12,10 @@ export class SprintGameOverComponent {
   @Input() wordCounter: number;
 
   @Input() correctWordCounter: number;
+
+  @Input() correctWords: IWord[];
+
+  @Input() difficultWords: IWord[];
 
   @Output() startGame = new EventEmitter();
 

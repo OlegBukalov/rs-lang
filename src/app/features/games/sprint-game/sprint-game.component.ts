@@ -4,6 +4,8 @@ import { filter, finalize, take } from 'rxjs/operators';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { ToasterService } from 'src/app/core/services/toaster.service';
+import { StatisticsService } from 'src/app/features/statistics/statistics.service';
+import { GameID } from 'src/app/features/statistics/enums/game-id.enum';
 import {
   BASE_SCORE,
   SCORE_MULTIPLIER,
@@ -15,6 +17,7 @@ import { ISprintWord } from './interfaces/sprint-word';
 import { GameStatuses } from './enums/game-statuses.enum';
 
 const TIME_LIMIT = 60;
+const IDGame = GameID.Sprint;
 
 @Component({
   selector: 'app-sprint-game',
@@ -40,6 +43,10 @@ export class SprintGameComponent implements OnInit {
 
   words: IWord[];
 
+  correctWords: IWord[] = [];
+
+  difficultWords: IWord[] = [];
+
   gameWords: ISprintWord[] = [];
 
   currentWord: ISprintWord = {
@@ -62,14 +69,22 @@ export class SprintGameComponent implements OnInit {
   private subscriptionTimer: Subscription;
 
   @HostListener('document:keydown.arrowleft') onKeydownLeftHandler() {
-    this.checkAnswer(false);
+    if (this.gameStatus === GameStatuses.Play) {
+      this.checkAnswer(false);
+    }
   }
 
   @HostListener('document:keydown.arrowright') onKeydownRightHandler() {
-    this.checkAnswer(true);
+    if (this.gameStatus === GameStatuses.Play) {
+      this.checkAnswer(true);
+    }
   }
 
-  constructor(private wordsApiService: WordsApiService, private toastrService: ToasterService) {}
+  constructor(
+    private wordsApiService: WordsApiService,
+    private toastrService: ToasterService,
+    private statisticsService: StatisticsService,
+  ) {}
 
   ngOnInit(): void {
     this.gameStatus = GameStatuses.Start;
@@ -88,17 +103,22 @@ export class SprintGameComponent implements OnInit {
     this.clearValues();
     this.score = 0;
     this.wordCounter = 0;
+    this.correctWords = [];
+    this.difficultWords = [];
     this.timerInit();
     this.setGameWords();
   }
 
   gameEnd(): void {
+    const dataGame = {
+      idGame: IDGame,
+      countAll: this.wordCounter,
+      countRight: this.correctWordCounter,
+      maxRight: this.maxCorrectSequence,
+    };
+    this.statisticsService.getDataFromGame(dataGame);
     this.subscriptionWords.unsubscribe();
     this.gameStatus = GameStatuses.End;
-    // TODO: для передачи в статистику
-    // this.wordCounter - всего слов
-    // this.correctWordCounter - всего правильных
-    // this.maxCorrectSequence - макс последовательность правильных ответов
     this.clearValues();
   }
 
@@ -109,12 +129,14 @@ export class SprintGameComponent implements OnInit {
       this.audio.play();
       this.setScore();
       this.setCorrectCounters();
+      this.correctWords.push(this.words.find((item: IWord) => item.id === this.currentWord.id));
     } else {
       this.audio.src = 'assets/audio/sprint/error.mp3';
       this.audio.play();
       this.bonusLvl = 0;
       this.bonusCounter = 0;
       this.correctSequenceCounter = 0;
+      this.difficultWords.push(this.words.find((item: IWord) => item.id === this.currentWord.id));
     }
     this.setNextGameWord();
   }

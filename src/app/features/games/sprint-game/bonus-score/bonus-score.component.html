@@ -12,4 +12,10 @@
     </div>
   </ng-template>
 </div>
-<p>{{lvlText}}</p>
+<ul class="score-images">
+  <li><img src="./assets/img/games/sprint/own-1.jpg" alt="score sprint"></li>
+  <li *ngIf="scoreLvl > 0"><img src="./assets/img/games/sprint/own-2.jpg" alt="score sprint"></li>
+  <li *ngIf="scoreLvl > 1"><img src="./assets/img/games/sprint/own-3.jpg" alt="score sprint"></li>
+  <li *ngIf="scoreLvl > 2"><img src="./assets/img/games/sprint/own-4.jpg" alt="score sprint"></li>
+</ul>
+<p class="sprint-level-text">{{lvlText}}</p>
