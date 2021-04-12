@@ -23,9 +23,17 @@ export class StatisticsDayComponent implements OnInit {
   ngOnInit(): void {
     this.data = this.statisticsService.getData();
     this.allRightAnswers = this.statisticsService.getAllRightAnswers();
+
+    this.updateData();
   }
 
   redirectToLink(link: string) {
     this.router.navigateByUrl(link);
+  }
+
+  updateData() {
+    // this.dictionarySevice.getAggregatedWords(this.currentCategory).subscribe((result) => {
+    //   this.wordPages = result;
+    // });
   }
 }

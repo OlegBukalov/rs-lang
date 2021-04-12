@@ -109,7 +109,7 @@ export class StatisticsService {
     if (item.countRightAnswers !== 0) {
       const all = item.countAnswers;
       const right = item.countRightAnswers;
-      return (right / all) * 100;
+      return right / all;
     }
     return 0;
   }
@@ -122,7 +122,7 @@ export class StatisticsService {
       right += item.data.countRightAnswers;
       return item;
     });
-    this.allRightAnswers = (right / all) * 100;
+    this.allRightAnswers = right / all;
     return this.allRightAnswers;
   }
 

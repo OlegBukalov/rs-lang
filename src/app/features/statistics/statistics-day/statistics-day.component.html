@@ -19,16 +19,16 @@
       </thead>
       <tbody>
         <tr *ngFor="let itemData of data">
-          <td>{{itemData.data.name}}</td>
-          <td>{{itemData.data.percentRightAnswers}} %</td>
-          <td>{{itemData.data.maxRightAnswers}}</td>
+          <td>{{ itemData.data.name }}</td>
+          <td>{{ itemData.data.percentRightAnswers.toFixed(2) | percent }}</td>
+          <td>{{ itemData.data.maxRightAnswers }}</td>
         </tr>
       </tbody>
     </table>
   </div>
 
   <div class="data-correct">
-    <p>Правильные ответы за день (%) - {{ allRightAnswers }} %</p>
+    <p>Правильные ответы за день (%) - {{ allRightAnswers.toFixed(2) | percent }}</p>
   </div>
 </div>
 
