@@ -5,3 +5,8 @@ export interface LoginResponse {
   userId: string;
   name: string;
 }
+
+export interface TokenPayload {
+  iat: number;
+  exp: number;
+}
