@@ -4,7 +4,7 @@ module.exports = {
     {
       files: ['*.ts'],
       parserOptions: {
-        project: ['tsconfig.*?.json', 'e2e/tsconfig.json'],
+        project: ['tsconfig.*?.json'],
         createDefaultProgram: true,
       },
       extends: [
@@ -21,6 +21,7 @@ module.exports = {
         'import/prefer-default-export': 'off',
         'class-methods-use-this': 'off',
         'lines-between-class-members': 'off',
+        '@typescript-eslint/lines-between-class-members': 'off',
         '@typescript-eslint/unbound-method': [
           'error',
           {
@@ -39,21 +40,6 @@ module.exports = {
     {
       files: ['*.component.ts'],
       extends: ['plugin:@angular-eslint/template/process-inline-templates'],
-    },
-    {
-      files: ['src/**/*.spec.ts', 'src/**/*.d.ts'],
-      parserOptions: {
-        project: './src/tsconfig.spec.json',
-      },
-      // Правила для линтера
-      extends: ['plugin:jasmine/recommended'],
-      // Плагин для запуска правил
-      plugins: ['jasmine'],
-      env: { jasmine: true },
-      // Отключим правило 'no-unused-vars'
-      rules: {
-        '@typescript-eslint/no-unused-vars': 'off',
-      },
     },
   ],
 };

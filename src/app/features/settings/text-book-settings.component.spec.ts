@@ -1,18 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CardGameListComponent } from './card-game-list.component';
 
-describe('CardGameListComponent', () => {
-  let component: CardGameListComponent;
-  let fixture: ComponentFixture<CardGameListComponent>;
+import { TextBookSettingsComponent } from './text-book-settings.component';
+
+describe('TextBookSettingsComponent', () => {
+  let component: TextBookSettingsComponent;
+  let fixture: ComponentFixture<TextBookSettingsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CardGameListComponent],
+      declarations: [TextBookSettingsComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CardGameListComponent);
+    fixture = TestBed.createComponent(TextBookSettingsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

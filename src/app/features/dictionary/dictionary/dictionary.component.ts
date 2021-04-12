@@ -20,23 +20,25 @@ export class DictionaryComponent implements OnInit {
 
   pageSizeOptions: number[] = PAGINATION_ARRAY;
 
-  pageSize: number = PAGINATION_ARRAY[0];
+  pageSize: number;
 
   isLoading: boolean;
 
   pageLeftIndex = 0;
 
-  pageRightIndex: number = this.pageSize;
+  pageRightIndex: number;
 
   get categories(): string[] {
-    return Object.values(DictionaryCategory).filter((key) => Number.isNaN(+key));
+    return Object.values(DictionaryCategory);
   }
 
-  constructor(private dictionarySevice: DictionaryService, private toaster: ToasterService) {}
+  constructor(private dictionarySevice: DictionaryService, private toaster: ToasterService) {
+    [this.pageSize] = PAGINATION_ARRAY;
+    this.pageRightIndex = this.pageSize;
+  }
 
   ngOnInit() {
     this.updateCategoryWords();
-    this.pageSize = this.pageSizeOptions[0];
   }
 
   selectCurrentCategory(categoryName: string) {
