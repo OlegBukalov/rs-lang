@@ -161,7 +161,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     }
   }
 
-  // TODO: replace to initializeValuesForGame() in "Начать заново" & "closeModal()"
+  // TODO: replace to initializeValuesForGame() in "Начать заново" & "closeModal()
   // repeatGame() {
   //   this.initializeValuesForGame();
   //   this.isHiddenChildCard = false;
@@ -196,7 +196,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     return false;
   }
 
-  // TODO: replace to initializeValuesForGame() in "Начать заново" & "closeModal()"
+  // TODO: replace to initializeValuesForGame() in "Начать заново" & "closeModal()
   // closeModal() {
   //   this.setCurrentState(GameState.STOP);
   // }
