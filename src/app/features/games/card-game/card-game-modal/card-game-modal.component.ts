@@ -15,10 +15,12 @@ export class DialogElementsExampleDialogComponent {
 
   close() {
     this.dialogRef.close();
+    return true;
   }
 
   redirect() {
     this.dialogRef.close();
-    this.ownGameService.setIsSaved(true);
+    // this.ownGameService.setIsSaved(true);
+    return false;
   }
 }

@@ -2,24 +2,18 @@
   <h2 class="card-game__title">Своя игра</h2>
   <h4 class="card-game__score">Осталось карточек: {{ leftCards }}</h4>
   <div class="card-game-buttons">
-    <div class="card-game__button">
-      <button class="btn-template" (click)="repeatGame()">начать заново</button>
-    </div>
-    <div class="card-game__button">
-      <button class="btn-template" (click)="mixCards()">перемешать</button>
-    </div>
-    <div class="card-game__button">
-      <button
-        class="btn-template"
-        (click)="openExitModalWindow()"
-        *ngIf="currentState === state.HOLD"
-      >
-        прервать игру
-      </button>
+    <div class="card-game__button" *ngIf="currentState === state.HOLD">
+      <button class="btn-template" (click)="initializeValuesForGame()">начать заново</button>
     </div>
     <div class="card-game__button" *ngIf="currentState === state.STOP">
       <button class="btn-template" (click)="startGame()">играть</button>
     </div>
+    <div class="card-game__button" *ngIf="currentState === state.STOP">
+      <button class="btn-template" (click)="mixCards()">перемешать</button>
+    </div>
+    <!-- <div class="card-game__button" *ngIf="currentState === state.HOLD">
+      <button class="btn-template" (click)="openExitModalWindow()">прервать игру</button>
+    </div> -->
     <div class="card-game__button" *ngIf="currentState === state.HOLD">
       <button class="btn-template" (click)="repeatWord()">повторить</button>
     </div>
@@ -50,7 +44,7 @@
   <app-card-game-exit-modal
     *ngIf="currentState === state.RESULT"
     [hardWords]="hardWords"
-    (closeModal)="closeModal()"
+    (closeModal)="initializeValuesForGame()"
   >
   </app-card-game-exit-modal>
 </div>

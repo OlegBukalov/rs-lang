@@ -14,14 +14,14 @@ const routes: Routes = [
       import('./features/dictionary/dictionary.module').then((m) => m.DictionaryModule),
   },
   {
-    path: 'text-book',
+    // path: 'text-book',
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/text-book/text-book.module').then((m) => m.TextBookModule),
   },
   {
     path: 'games',
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     loadChildren: () => import('./features/games/games.module').then((m) => m.GamesModule),
   },
   {

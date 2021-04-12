@@ -161,10 +161,11 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     }
   }
 
-  repeatGame() {
-    this.initializeValuesForGame();
-    this.isHiddenChildCard = false;
-  }
+  // TODO: replace to initializeValuesForGame() in "Начать заново" & "closeModal()"
+  // repeatGame() {
+  //   this.initializeValuesForGame();
+  //   this.isHiddenChildCard = false;
+  // }
 
   mixCards() {
     this.getData();
@@ -180,22 +181,25 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   canDeactivate(): boolean | Observable<boolean> {
-    return this.ownGameService.isSaved ? true : this.openExitModalWindow();
-  }
+    if (this.ownGameService.isSaved) {
+      return true;
+    }
 
-  openExitModalWindow() {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
+    // TODO: to fix
     this.dialog.open(DialogElementsExampleDialogComponent, dialogConfig);
+    // return this.dialog.afterAllClosed();
     return false;
   }
 
-  closeModal() {
-    this.setCurrentState(GameState.HOLD);
-  }
+  // TODO: replace to initializeValuesForGame() in "Начать заново" & "closeModal()"
+  // closeModal() {
+  //   this.setCurrentState(GameState.STOP);
+  // }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
