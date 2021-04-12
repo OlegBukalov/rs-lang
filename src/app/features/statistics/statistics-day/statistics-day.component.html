@@ -1,36 +1,43 @@
 <div class="data-day" *ngIf="isEmpty; else emptyData">
-  <div class="data-words">
-    <p>Количество изученных слов (за сегодня)</p>
-    <p>Общее количество изученных слов (за весь период)</p>
-  </div>
+  <div *ngIf="isLoading; else: loadingBlock">
+    <!-- <div class="data-words">
+      <p>Количество изученных слов (за сегодня)</p>
+      <p>Общее количество изученных слов (за весь период) - {{ countAllUserWords || 0 }}</p>
+    </div> -->
+    <app-statistics-data-word [countAllUserWords]="countAllUserWords"></app-statistics-data-word>
 
-  <div class="data-games">
-    <table>
-      <caption>Статистика по играм</caption>
-      <colgroup>
-        <col style="width: 20%">
-        <col style="width: 40%">
-        <col style="width: 40%">
-      </colgroup>
-      <thead>
-        <th></th>
-        <th>Самая длинная серия правильных ответов</th>
-        <th>Правильные ответы (в %)</th>
-      </thead>
-      <tbody>
-        <tr *ngFor="let itemData of data">
-          <td>{{ itemData.data.name }}</td>
-          <td>{{ itemData.data.percentRightAnswers.toFixed(2) | percent }}</td>
-          <td>{{ itemData.data.maxRightAnswers }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <div class="data-games">
+      <table>
+        <caption>Статистика по играм</caption>
+        <colgroup>
+          <col style="width: 20%">
+          <col style="width: 40%">
+          <col style="width: 40%">
+        </colgroup>
+        <thead>
+          <th></th>
+          <th>Самая длинная серия правильных ответов</th>
+          <th>Правильные ответы (в %)</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let itemData of data">
+            <td>{{ itemData.data.name }}</td>
+            <td>{{ itemData.data.percentRightAnswers | percent }}</td>
+            <td>{{ itemData.data.maxRightAnswers }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <div class="data-correct">
-    <p>Правильные ответы за день (%) - {{ allRightAnswers.toFixed(2) | percent }}</p>
+    <div class="data-correct">
+      <p>Правильные ответы за день (%) - {{ allRightAnswersOfDay | percent }}</p>
+    </div>
   </div>
 </div>
+
+<ng-template #loadingBlock>
+    <mat-spinner class="spinner"></mat-spinner>
+</ng-template>
 
 <ng-template #emptyData>
   <div class="empty-data">

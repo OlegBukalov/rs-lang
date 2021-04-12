@@ -7,6 +7,7 @@ import { statisticsRoutes } from './statistics-routes';
 import { StatisticsGroupComponent } from './statistics-group/statistics-group.component';
 import { StatisticsDayComponent } from './statistics-day/statistics-day.component';
 import { StatisticsAllComponent } from './statistics-all/statistics-all.component';
+import { StatisticsDataWordComponent } from './statistics-data-word/statistics-data-word.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { StatisticsAllComponent } from './statistics-all/statistics-all.componen
     StatisticsGroupComponent,
     StatisticsDayComponent,
     StatisticsAllComponent,
+    StatisticsDataWordComponent,
   ],
   imports: [CommonModule, RouterModule.forChild(statisticsRoutes)],
 })

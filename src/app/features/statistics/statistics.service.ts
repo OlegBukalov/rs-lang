@@ -3,7 +3,9 @@ import { HttpClient } from '@angular/common/http';
 // import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+import { DictionaryCategory } from 'src/app/features/dictionary/dictionary-category';
 import { AuthService } from '../auth/auth.service';
+import { DictionaryService } from '../../core/services/dictionary.service';
 
 import { IItemListGames } from './interfaces/iitem-list-games';
 import { IDataGame } from './interfaces/idata-game';
@@ -69,7 +71,11 @@ export class StatisticsService {
     },
   ];
 
-  constructor(private http: HttpClient, public authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private dictionaryService: DictionaryService,
+  ) {}
 
   // getWordList(): Observable<IWord[]> {
   //   return this.http.get<IWord[]>(this.wordListUrl).pipe(map((arr) => this.random(arr)));
@@ -86,6 +92,19 @@ export class StatisticsService {
     // const a = of(this.http.get<any>(this.urlUserSettings));
     // console.log(a);
     // return this.http.get<any>(this.urlUserSettings);
+  }
+
+  getAllUserWords(): number {
+    let countAllWords: any;
+    this.dictionaryService.getAggregatedWords(DictionaryCategory.Studied).subscribe((result) => {
+      const data = result;
+      // let allUserData: any;
+      const [allUserData] = data;
+      // console.log(allUserData);
+      [countAllWords] = allUserData.totalCount;
+      // console.log(countAllWords.count);
+    });
+    return countAllWords.count;
   }
 
   getDataFromGame(dataGame: ItemGame): void {
@@ -134,7 +153,20 @@ export class StatisticsService {
     return this.dataAllGames;
   }
 
-  setData() {
+  async setData() {
     // TODO data from back
+    // async addWordToDictionary(wordId: string) {
+    // const body = { difficulty: 'easy' };
+    // const url = `${this.baseUrl}/words/${wordId}`;
+    // try {
+    //   if (await this.isAdded(wordId)) {
+    //     await this.http.put(url, body, { headers: this.httpHeaders }).toPromise();
+    //   } else {
+    //     await this.http.post(url, body, { headers: this.httpHeaders }).toPromise();
+    //   }
+    // } catch {
+    //   this.toaster.showError('Слово не добавлено в словарь', 'Ошибка!');
+    // }
+    // }
   }
 }
