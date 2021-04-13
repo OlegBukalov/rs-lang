@@ -1,41 +1,17 @@
-// Global const styles
-$bg_dark: #262E5B;
-$bg_light: #E0E2F6;
-
-$color_link: #FFF;
-$color_link_hover: #FE8931;
-$color_link_active: #FE8931;
-
-// basic color accents
-$color_dark_blue: #262E5B;
-$color_violet: #8F6CEF;
-$color_orange: #FE8931;
-
-// for button - class="btn-template"
-
-// additional color accents
-$color_blue: #3321BF;
-$color_dark_red: #A23979;
-$color_light_red: #FE8697;
-$color_dark_gray: #BEC9D7;
-$color_light_gray: #D8DEEA;
-$color_green: #2CD77B;
-$color_dark_mint: #589DAE;
-$color_light_mint: #6EB7BE;
-
 // Fonts and template global
- // * ========================================================================== *
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+// * ========================================================================== *
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
 
 // Add material icon
- // * ========================================================================== *
+// * ========================================================================== *
 
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/materialicons/v81/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+  src: url(https://fonts.gstatic.com/s/materialicons/v81/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2)
+    format('woff2');
 }
 
 .material-icons {
@@ -52,6 +28,15 @@ $color_light_mint: #6EB7BE;
   direction: ltr;
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
+}
+
+.spinner {
+  position: absolute;
+  top: calc(50% - 50px);
+  left: calc(50% - 50px);
+  width: 100px;
+  height: 100px;
+  z-index: 110;
 }
 
 /* Document
@@ -269,9 +254,9 @@ button {
  */
 
 button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
+[type='button'],
+[type='reset'],
+[type='submit'] {
   -webkit-appearance: button;
 }
 
@@ -329,8 +314,8 @@ textarea {
  * 2. Remove the padding in IE 10-.
  */
 
-[type="checkbox"],
-[type="radio"] {
+[type='checkbox'],
+[type='radio'] {
   box-sizing: border-box; /* 1 */
   padding: 0; /* 2 */
 }
@@ -340,7 +325,7 @@ textarea {
  * 2. Correct the outline style in Safari.
  */
 
-[type="search"] {
+[type='search'] {
   -webkit-appearance: textfield; /* 1 */
   outline-offset: -2px; /* 2 */
 }
@@ -492,7 +477,7 @@ template {
     align-items: center;
     padding-left: 50px;
     font-family: 'Poiret One', cursive;
-    color: #FFF;
+    color: #fff;
 
     .prefix-logo {
       display: flex;
@@ -500,8 +485,8 @@ template {
       align-items: center;
       width: 60px;
       height: 60px;
-      border: 1px solid #FFF;
-      color: #FE8931;
+      border: 1px solid #fff;
+      color: #fe8931;
     }
 
     .logo-body {
@@ -524,18 +509,54 @@ button.btn-template {
   border-radius: 10px;
   font-family: 'Poiret One', cursive;
   font-size: 24px;
-  color: #FFF;
+  color: #fff;
   letter-spacing: 2px;
-  transition: background-color .3s;
+  transition: background-color 0.3s;
   cursor: pointer;
 
   &:hover {
-    background-color: #FFF;
+    background-color: #fff;
     color: #333470;
   }
 
   &:focus {
     outline: none;
     background-color: #060137;
+    color: #FFF;
+  }
+}
+
+.menu-select-template {
+  width: 100%;
+}
+
+.cdk-overlay-pane {
+  width: 275px;
+}
+
+button.item-btn-template {
+  display: block;
+  border: none;
+  height: auto;
+  font-family: 'Poiret One', cursive;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333470;
+  line-height: 2.3;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  transition: background-color .3s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #E0E2F6;
+    color: #333470;
+  }
+}
+
+.progress-bar-block {
+  .mat-progress-bar-fill::after {
+    background-color: #262E5B;
   }
 }

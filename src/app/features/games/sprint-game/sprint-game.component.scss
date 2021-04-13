@@ -1,15 +1,117 @@
+@import '../../../../variables.scss';
 .container {
   width: 100%;
-  height: calc(100vh - 309px);
+  padding: 50px 0;
   display:flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
+.score {
+  padding-bottom: 10px;
+  font-family: 'Poiret One', cursive;
+  font-weight: bold;
+  font-size: 30px;
+  color: $color_dark_mint;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
 .card {
   width: 40%;
-  border: 2px solid;
-  border-radius: 5px;
+  display:flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid $color_dark_mint;
+  border-radius: 20px;
   text-align: -webkit-center;
+}
+
+.sprint-word,
+.sprint-translate {
+  margin: 0;
+  padding: 5px 0;
+  font-family: 'Poiret One', cursive;
+  font-weight: bold;
+  font-size: 20px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.sprint-translate {
+  padding-bottom: 20px;
+}
+
+button.btn-right,
+button.btn-wrong {
+  display: block;
+  width: 200px;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Poiret One', cursive;
+  font-size: 24px;
+  color: #fff;
+  letter-spacing: 2px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.btn-right {
+  background-color: $color_light_mint;
+  border: 1px solid $color_light_mint;
+
+  &:hover {
+    background-color: $color_dark_mint;
+  }
+
+  &:focus {
+    border-color: $color_dark_mint;
+  }
+}
+
+.btn-wrong {
+  background: $color_light_red;
+  border: 1px solid $color_light_red;
+
+  &:hover {
+    background-color: $color_dark_red;
+  }
+
+  &:focus {
+    border-color: $color_dark_red;
+  }
+}
+
+.answer-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 10px;
+
+  button:not(:first-child) {
+    margin-left: 20px;
+  }
+}
+
+.progress-bar-block {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 40px;
+}
+
+.mat-progress-bar {
+  height: 30px;
+}
+
+.progress-bar-timer {
+  position: absolute;
+  padding: 10px;
+  color: white;
 }
