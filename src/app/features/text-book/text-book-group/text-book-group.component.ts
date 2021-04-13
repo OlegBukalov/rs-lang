@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
@@ -15,7 +15,7 @@ import { categories, IGroupCategory } from './group-difficulty';
 export class TextBookGroupComponent implements OnInit {
   groupId: number;
 
-  cards: Observable<IWord[]>;
+  cards: IWord[];
 
   currentColor: string;
 
@@ -44,7 +44,10 @@ export class TextBookGroupComponent implements OnInit {
   updateCards(groupId: number) {
     this.groupId = groupId;
     this.wordsApiService.changeGroupToken(this.groupId.toString());
-    this.cards = this.wordsApiService.getWordList();
+    const result = this.wordsApiService.getWordList().pipe(first());
+    result.subscribe((cards) => {
+      this.cards = cards;
+    });
   }
 
   updateColor() {

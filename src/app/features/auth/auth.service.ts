@@ -22,23 +22,10 @@ export class AuthService implements OnDestroy {
   activeLink: Subject<AuthPath | undefined> = new Subject();
 
   get token() {
-    // const token = localStorage.getItem('token');
-    // if (token) return token;
-
-    // localStorage.setItem('token', this.loginData.token);
     return this.loginData.token;
   }
 
-  // Для тестирования раскомментировать три строки
-  // в геттерах token и userId
-  // и закомментировать поля canActivate в app-routing.module
-  // тогда не нужно будет заново авторизоваться после каждой перезагрузки
-
   get userId() {
-    // const id = localStorage.getItem('userId');
-    // if (id) return id;
-
-    // localStorage.setItem('userId', this.loginData.userId);
     return this.loginData.userId;
   }
 

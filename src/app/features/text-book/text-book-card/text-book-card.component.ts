@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { ITextBookSettings } from '../../settings/interfaces/itext-book-settings';
 import { TextBookSettingsService } from '../../settings/services/text-book-settings.service';
@@ -13,7 +13,14 @@ export class TextBookCardComponent {
 
   @Input() color: string;
 
+  @ViewChild('image') image: ElementRef;
+
   settings: ITextBookSettings = this.textBookSettingsService.textBookSettings;
 
   constructor(private textBookSettingsService: TextBookSettingsService) {}
+
+  showImage() {
+    const image = this.image.nativeElement as HTMLImageElement;
+    image.style.display = 'block';
+  }
 }

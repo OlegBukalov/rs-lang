@@ -1,4 +1,4 @@
-<div class="page-container">
+<div class="page-container" *ngIf="!isLoading; else: loadingBlock">
   <button
     class="arrow-btn left btn-template"
     (click)="navigate(pageId - 1)"
@@ -6,8 +6,8 @@
   >
     <span class="material-icons">chevron_left</span>
   </button>
-  <div class="cards-container">
-    <app-text-book-card *ngFor="let card of cards | async" [card]="card" [color]="color">
+  <div class="cards-container" *ngIf="cards.length; else: emptyArrayBlock">
+    <app-text-book-card *ngFor="let card of cards" [card]="card" [color]="color">
     </app-text-book-card>
   </div>
   <button
@@ -21,5 +21,13 @@
 
 <app-pagination [pageId]="pageId" [options]="paginationOptions" (navigate)="navigate($event)">
 </app-pagination>
+
+<ng-template #emptyArrayBlock>
+  <p>Список слов пуст</p>
+</ng-template>
+
+<ng-template #loadingBlock>
+  <mat-spinner class="spiner"></mat-spinner>
+</ng-template>
 
 <router-outlet></router-outlet>
