@@ -14,7 +14,7 @@ export class CardGameItemComponent {
   @Input() card?: IWord;
   @Input() isHiddenDataChild: boolean;
   @Input() isHiddenChildCard: boolean;
-  @Output() checkCard? = new EventEmitter();
+  @Output() checkCard: EventEmitter<IWord> = new EventEmitter();
 
   @ViewChild('audio') audioPlayerRef: ElementRef;
 
