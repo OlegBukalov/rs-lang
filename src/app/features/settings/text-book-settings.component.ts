@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 import { ITextBookSettings } from './interfaces/itext-book-settings';
 import { TextBookSettingsService } from './services/text-book-settings.service';
 
@@ -16,7 +17,11 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
 
-  constructor(formBuilder: FormBuilder, private textBookSettingsService: TextBookSettingsService) {
+  constructor(
+    formBuilder: FormBuilder,
+    private textBookSettingsService: TextBookSettingsService,
+    private authService: AuthService,
+  ) {
     this.formGroup = formBuilder.group({
       isWordTranslationHidden: [this.settings.isWordTranslationHidden, Validators.required],
       isSentenceTranslationHidden: [this.settings.isSentenceTranslationHidden, Validators.required],
@@ -26,13 +31,14 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getData();
+    this.getSettingsFromServer();
   }
 
-  getData() {
-    this.subscription = this.textBookSettingsService.getSettingsFromServer().subscribe((data) => {
-      this.settings = data;
-    });
+  getSettingsFromServer() {
+    if (this.authService.isAuthorized())
+      this.subscription = this.textBookSettingsService.getSettingsFromServer().subscribe((data) => {
+        this.settings = data;
+      });
   }
 
   onFormSubmit() {
@@ -40,6 +46,6 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) this.subscription.unsubscribe();
   }
 }
