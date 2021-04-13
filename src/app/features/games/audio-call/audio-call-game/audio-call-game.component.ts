@@ -2,6 +2,7 @@ import { EventEmitter, Component, Input, OnDestroy, OnInit, Output } from '@angu
 
 import { Subscription } from 'rxjs';
 import { IWord } from 'src/app/core/interfaces/iword';
+import { ToasterService } from 'src/app/core/services/toaster.service';
 import { AudioCallService } from '../audio-call.service';
 import { IGameResult, IWordChunk } from '../interfaces';
 import {
@@ -51,7 +52,7 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private gameService: AudioCallService) {}
+  constructor(private gameService: AudioCallService, private toaster: ToasterService) {}
 
   ngOnInit() {
     this.createWordsChunk(this.level, this.page);
@@ -71,6 +72,10 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
         },
         () => {
           this.showErrorMessage = true;
+          this.toaster.showError(
+            'Что-то пошло не так. Проверьте свое Интернет-соединение.',
+            'Ошибка!',
+          );
         },
       ),
     );
