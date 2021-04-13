@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { ITextBookSettings } from './interfaces/itext-book-settings';
 import { TextBookSettingsService } from './services/text-book-settings.service';
 
@@ -8,10 +9,12 @@ import { TextBookSettingsService } from './services/text-book-settings.service';
   templateUrl: './text-book-settings.component.html',
   styleUrls: ['./text-book-settings.component.scss'],
 })
-export class TextBookSettingsComponent {
+export class TextBookSettingsComponent implements OnInit, OnDestroy {
   formGroup: FormGroup;
 
   settings: ITextBookSettings = this.textBookSettingsService.textBookSettings;
+
+  private subscription: Subscription;
 
   constructor(formBuilder: FormBuilder, private textBookSettingsService: TextBookSettingsService) {
     this.formGroup = formBuilder.group({
@@ -22,7 +25,21 @@ export class TextBookSettingsComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.getData();
+  }
+
+  getData() {
+    this.subscription = this.textBookSettingsService.getSettingsFromServer().subscribe((data) => {
+      this.settings = data;
+    });
+  }
+
   onFormSubmit() {
     this.textBookSettingsService.setSettings(this.formGroup.value);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

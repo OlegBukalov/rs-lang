@@ -33,7 +33,7 @@ export class TextBookSettingsService {
   }
 
   async addSettingsToServer(passingSettings: ITextBookSettings) {
-    const body = { wordsPerDay: 0, passingSettings };
+    const body = { wordsPerDay: 1, optional: passingSettings };
     const url = `${this.baseUrl}/settings`;
     try {
       await this.http.put(url, body).toPromise();
