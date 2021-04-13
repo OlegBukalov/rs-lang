@@ -9,11 +9,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class DialogElementsExampleDialogComponent {
   constructor(private dialogRef: MatDialogRef<DialogElementsExampleDialogComponent>) {}
 
-  close() {
-    this.dialogRef.close(false);
-  }
-
-  redirect() {
-    this.dialogRef.close(true);
+  close(isSure: boolean) {
+    this.dialogRef.close(isSure);
   }
 }
