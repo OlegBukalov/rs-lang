@@ -118,15 +118,19 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
         this.ownGameService.setDisabledItemId(card.id);
         this.playingWordIndexes.shift();
         this.countMistakes();
-        if (this.playingWordIndexes.length) {
-          this.playNextWord();
-        } else {
-          this.finishGame();
-        }
+        this.checkFinishGame();
       } else {
         this.playResultAudio(false);
         this.countTry += 1;
       }
+    }
+  }
+
+  checkFinishGame(): void {
+    if (this.playingWordIndexes.length) {
+      this.playNextWord();
+    } else {
+      this.finishGame();
     }
   }
 
