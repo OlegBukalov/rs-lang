@@ -13,8 +13,8 @@
   #audio
   [src]="currentAnswer?.audio | cardAsset | async"
   autoplay
-  (loadeddata)="onAudioLoad()"
-></audio>
+  (loadeddata)="onAudioLoad()">
+</audio>
 
 <div class="answers">
   <div *ngFor="let word of currentTask; index as i">

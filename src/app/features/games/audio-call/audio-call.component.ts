@@ -28,12 +28,12 @@ export class AudioCallComponent {
     this.gameStatus = GameStatus.Game;
   }
 
-  onGameEnd(score: IGameResult) {
+  onGameEnd(score: IGameResult): void {
     this.score = score;
     this.gameStatus = GameStatus.End;
   }
 
-  onGameRepeat() {
+  onGameRepeat(): void {
     this.score.wordCounter = 0;
     this.score.correctWordCounter = 0;
     this.score.maxCorrectSequence = 0;

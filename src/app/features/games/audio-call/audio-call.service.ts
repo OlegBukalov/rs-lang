@@ -11,7 +11,7 @@ export class AudioCallService {
 
   constructor(private http: HttpClient) {}
 
-  getWords(level, page): Observable<IWord[]> {
-    return this.http.get<IWord[]>(this.baseUrl, { params: { group: level, page } });
+  getWords(level: number, page: number): Observable<IWord[]> {
+    return this.http.get<IWord[]>(this.baseUrl, { params: { group: `${level}`, page: `${page}` } });
   }
 }

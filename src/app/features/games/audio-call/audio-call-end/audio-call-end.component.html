@@ -2,7 +2,7 @@
 
 <div class="scorepad">
   <p>Уровень: {{ level }}</p>
-  <p>Всего слов использовано: {{ score?.wordCounter }}</p>
+  <p>Всего слов использовано: {{ score?.wordCounter || 0 }}</p>
   <p>Угадано слов: {{ score?.correctWordCounter }}</p>
   <p>Максимальное количество верных ответов подряд: {{ score?.maxCorrectSequence }}</p>
 </div>

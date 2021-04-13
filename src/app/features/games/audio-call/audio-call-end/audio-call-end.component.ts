@@ -13,7 +13,7 @@ export class AudioCallEndComponent {
 
   @Output() repeatGame = new EventEmitter();
 
-  repeat() {
+  repeat(): void {
     this.repeatGame.emit();
   }
 }

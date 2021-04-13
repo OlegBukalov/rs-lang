@@ -38,17 +38,17 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
 
   words: IWord[];
 
-  private markedWords: IWordChunk[];
-
   currentTask: IWordChunk[];
 
   currentAnswer: IWordChunk;
 
-  private currentAnswerPosition: number;
-
   audioLoaded = false;
 
   showErrorMessage = false;
+
+  private markedWords: IWordChunk[];
+
+  private currentAnswerPosition: number;
 
   private subscription = new Subscription();
 
@@ -62,7 +62,21 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  private createWordsChunk(level, page): void {
+  onAnswer(answerIndex: number, event: MouseEvent): void {
+    this.goToNewPageOfWords();
+
+    if (this.isAnswerCorrect(answerIndex)) {
+      this.onCorrectAnswer(event);
+    } else {
+      this.onIncorrectAnswer(event);
+    }
+  }
+
+  onAudioLoad(): void {
+    this.audioLoaded = true;
+  }
+
+  private createWordsChunk(level: number, page: number): void {
     this.subscription.add(
       this.gameService.getWords(level, page).subscribe(
         (data: IWord[]) => {
@@ -99,7 +113,7 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
   private createCurrentTask(): void {
     const randomAnswersArray = this.generateRandomIncorrectAnswers();
     const taskArrayWords = randomAnswersArray.map((element) => {
-      return this.markedWords[+element];
+      return this.markedWords[element];
     });
     this.currentTask = taskArrayWords;
     this.currentAnswer = this.createCurrentAnswer();
@@ -111,45 +125,33 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
   }
 
   private createCurrentAnswer(): IWordChunk {
-    const wordsWithoutAnswers = this.markedWords.filter(
-      (word) => this.currentTask.indexOf(word) < 0,
-    );
+    const wordsWithoutAnswers = this.markedWords.filter((word) => !this.currentTask.includes(word));
     const sortedWords = wordsWithoutAnswers.filter((word) => !word.isShown);
     const shuffledWords = sortedWords.sort(() => Math.random() - 0.5);
     shuffledWords[0].isShown = true;
     return shuffledWords[0];
   }
 
-  onAnswer(answerIndex: number, event): void {
-    this.goToNewPageOfWords();
-
-    if (this.isAnswerCorrect(answerIndex)) {
-      this.onCorrectAnswer(event);
-    } else {
-      this.onIncorrectAnswer(event);
-    }
-  }
-
-  private isAnswerCorrect(index): boolean {
+  private isAnswerCorrect(index: number): boolean {
     return this.currentAnswerPosition === index;
   }
 
-  private onCorrectAnswer(event): void {
+  private onCorrectAnswer(event: MouseEvent): void {
     this.correctWordCounter += 1;
     this.currentCorrectSequence += 1;
     if (this.currentCorrectSequence > this.maxCorrectSequence) {
       this.maxCorrectSequence = this.currentCorrectSequence;
     }
-    event.target.classList.add('answers__button_correct');
+    (event.target as HTMLElement).classList.add('answers__button_correct');
     setTimeout(() => {
       this.createCurrentTask();
     }, ANSWER_BUTTON_DELAY);
   }
 
-  private onIncorrectAnswer(event): void {
+  private onIncorrectAnswer(event: MouseEvent): void {
     this.incorrect += 1;
     this.currentCorrectSequence = 0;
-    event.target.classList.add('answers__button_incorrect');
+    (event.target as HTMLElement).classList.add('answers__button_incorrect');
     if (this.incorrect >= MAX_INCORRECT_ANSWERS_TO_LOOSE) {
       this.onLooseGame();
     }
@@ -185,9 +187,5 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
       button.classList.remove('answers__button_correct');
       button.classList.remove('answers__button_incorrect');
     });
-  }
-
-  onAudioLoad(): void {
-    this.audioLoaded = true;
   }
 }
