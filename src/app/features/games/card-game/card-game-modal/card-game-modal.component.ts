@@ -14,13 +14,13 @@ export class DialogElementsExampleDialogComponent {
   ) {}
 
   close() {
-    this.dialogRef.close();
-    return true;
+    this.dialogRef.close('close');
+    // return true;
   }
 
   redirect() {
-    this.dialogRef.close();
+    this.dialogRef.close('redirect');
     // this.ownGameService.setIsSaved(true);
-    return false;
+    // return false;
   }
 }

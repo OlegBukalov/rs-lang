@@ -3,7 +3,7 @@
   <h4 class="card-game__score">Осталось карточек: {{ leftCards }}</h4>
   <div class="card-game-buttons">
     <div class="card-game__button" *ngIf="currentState === state.HOLD">
-      <button class="btn-template" (click)="initializeValuesForGame()">начать заново</button>
+      <button class="btn-template" (click)="initializeValuesForGame()">выйти из игры</button>
     </div>
     <div class="card-game__button" *ngIf="currentState === state.STOP">
       <button class="btn-template" (click)="startGame()">играть</button>
@@ -11,9 +11,6 @@
     <div class="card-game__button" *ngIf="currentState === state.STOP">
       <button class="btn-template" (click)="mixCards()">перемешать</button>
     </div>
-    <!-- <div class="card-game__button" *ngIf="currentState === state.HOLD">
-      <button class="btn-template" (click)="openExitModalWindow()">прервать игру</button>
-    </div> -->
     <div class="card-game__button" *ngIf="currentState === state.HOLD">
       <button class="btn-template" (click)="repeatWord()">повторить</button>
     </div>

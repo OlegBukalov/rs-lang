@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
@@ -19,6 +19,8 @@ import { environment } from '../../../../environments/environment';
 })
 export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeactivate {
   LOSS_QUANTITY = 2;
+
+  dialogRef: MatDialogRef<DialogElementsExampleDialogComponent>;
 
   words: IWord[];
   playingWordIndexes: number[] = [];
@@ -74,9 +76,9 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     this.countTry = this.wordsApiService.INIT_MISTAKES_COUNTER;
     this.leftCards = this.wordsApiService.INIT_LEFT_CARDS_COUNTER;
     this.isHiddenDataChild = false;
+    this.isHiddenChildCard = false;
     this.ownGameService.setIsSaved(true);
     this.setCurrentState(GameState.STOP);
-    this.isHiddenChildCard = false;
   }
 
   startGame() {
@@ -161,12 +163,6 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     }
   }
 
-  // TODO: replace to initializeValuesForGame() in "Начать заново" & "closeModal()
-  // repeatGame() {
-  //   this.initializeValuesForGame();
-  //   this.isHiddenChildCard = false;
-  // }
-
   mixCards() {
     this.getData();
     this.initializeValuesForGame();
@@ -191,15 +187,15 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     dialogConfig.autoFocus = true;
 
     // TODO: to fix
-    this.dialog.open(DialogElementsExampleDialogComponent, dialogConfig);
-    // return this.dialog.afterAllClosed();
-    return false;
+    this.dialogRef = this.dialog.open(DialogElementsExampleDialogComponent, dialogConfig);
+    this.dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'close') {
+        this.ownGameService.isSaved = false;
+      }
+      this.ownGameService.isSaved = true;
+    });
+    return this.ownGameService.isSaved;
   }
-
-  // TODO: replace to initializeValuesForGame() in "Начать заново" & "closeModal()
-  // closeModal() {
-  //   this.setCurrentState(GameState.STOP);
-  // }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
