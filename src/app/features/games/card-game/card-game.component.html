@@ -16,23 +16,14 @@
   </ng-template>
 
   <div class="card-game-buttons">
-    <div class="card-game__button">
-      <button class="btn-template btn-template-game" (click)="repeatGame()">начать заново</button>
-    </div>
-    <div class="card-game__button">
-      <button class="btn-template btn-template-game" (click)="mixCards()">перемешать</button>
-    </div>
-    <div class="card-game__button">
-      <button
-        class="btn-template btn-template-game"
-        (click)="openExitModalWindow()"
-        *ngIf="currentState === state.HOLD"
-      >
-        прервать игру
-      </button>
+    <div class="card-game__button" *ngIf="currentState === state.HOLD">
+      <button class="btn-template" (click)="initializeValuesForGame()">выйти из игры</button>
     </div>
     <div class="card-game__button" *ngIf="currentState === state.STOP">
       <button class="btn-template btn-template-game" (click)="startGame()">играть</button>
+    </div>
+    <div class="card-game__button" *ngIf="currentState === state.STOP">
+      <button class="btn-template" (click)="mixCards()">перемешать</button>
     </div>
     <div class="card-game__button" *ngIf="currentState === state.HOLD">
       <button class="btn-template btn-template-game" (click)="repeatWord()">повторить</button>
@@ -64,7 +55,7 @@
   <app-card-game-exit-modal
     *ngIf="currentState === state.RESULT"
     [hardWords]="hardWords"
-    (closeModal)="closeModal()"
+    (closeModal)="initializeValuesForGame()"
   >
   </app-card-game-exit-modal>
 </div>
