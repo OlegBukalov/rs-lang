@@ -191,8 +191,9 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     this.dialogRef.afterClosed().subscribe((result) => {
       if (result === 'close') {
         this.ownGameService.isSaved = false;
+      } else {
+        this.ownGameService.isSaved = true;
       }
-      this.ownGameService.isSaved = true;
     });
     return this.ownGameService.isSaved;
   }
