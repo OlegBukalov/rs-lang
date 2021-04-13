@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../../auth/auth.service';
@@ -31,33 +32,38 @@ export class TextBookSettingsService {
     private toaster: ToasterService,
   ) {}
 
+  getSettingsFromServer(): Observable<ITextBookSettings> {
+    const url = `${this.baseUrl}/settings`;
+    return this.http.get<ITextBookSettings>(url, { headers: this.httpHeaders });
+  }
+
   async addSettingsToServer(passingSettings: ITextBookSettings) {
-    const body = passingSettings;
+    const body = { wordsPerDay: 0, optional: passingSettings };
     const url = `${this.baseUrl}/settings`;
     try {
-      // if (await this.isAdded()) {
-      //   await this.http.put(url, body, { headers: this.httpHeaders }).toPromise();
-      // } else {
-      await this.http.post(url, body, { headers: this.httpHeaders }).toPromise();
-      // }
+      if (await this.isAdded()) {
+        await this.http.put(url, body, { headers: this.httpHeaders }).toPromise();
+      } else {
+        await this.http.post(url, body, { headers: this.httpHeaders }).toPromise();
+      }
     } catch {
       this.toaster.showError('Настройки не сохранены', 'Ошибка!');
     }
   }
 
-  // private async isAdded() {
-  //   // TODO: отловить ошибку, если userWord не существует
-  //   try {
-  //     await this.http
-  //       .get<ITextBookSettings>(`${this.baseUrl}/settings`, {
-  //         headers: this.httpHeaders,
-  //       })
-  //       .toPromise();
-  //     return true;
-  //   } catch {
-  //     return false;
-  //   }
-  // }
+  private async isAdded() {
+    // TODO: отловить ошибку, если userWord не существует
+    try {
+      await this.http
+        .get<ITextBookSettings>(`${this.baseUrl}/settings`, {
+          headers: this.httpHeaders,
+        })
+        .toPromise();
+      return true;
+    } catch {
+      return false;
+    }
+  }
 
   setSettings(passingSettings: ITextBookSettings) {
     this.textBookSettings = passingSettings;
