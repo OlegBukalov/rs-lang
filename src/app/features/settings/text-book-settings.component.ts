@@ -24,6 +24,5 @@ export class TextBookSettingsComponent {
 
   onFormSubmit() {
     this.textBookSettingsService.setSettings(this.formGroup.value);
-    // this.textBookSettingsService.addSettingsToServer(this.formGroup.value);
   }
 }
