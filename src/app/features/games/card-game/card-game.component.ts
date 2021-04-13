@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
@@ -19,8 +19,6 @@ import { environment } from '../../../../environments/environment';
 })
 export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeactivate {
   LOSS_QUANTITY = 2;
-
-  dialogRef: MatDialogRef<DialogElementsExampleDialogComponent>;
 
   words: IWord[];
   playingWordIndexes: number[] = [];
@@ -186,19 +184,12 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
-    // TODO: to fix
-    this.dialogRef = this.dialog.open(DialogElementsExampleDialogComponent, dialogConfig);
-    this.dialogRef.afterClosed().subscribe((result) => {
-      if (result === 'close') {
-        this.ownGameService.isSaved = false;
-      } else {
-        this.ownGameService.isSaved = true;
-      }
-    });
-    return this.ownGameService.isSaved;
+    const dialogRef = this.dialog.open(DialogElementsExampleDialogComponent, dialogConfig);
+    return dialogRef.afterClosed();
   }
 
   ngOnDestroy() {
+    this.ownGameService.isSaved = true;
     this.subscription.unsubscribe();
   }
 }

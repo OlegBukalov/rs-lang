@@ -11,7 +11,6 @@ export const textBookRoutes: Routes = [
     path: 'group/:groupId/page/:pageId ',
     component: TextBookComponent,
     children: cardRoutes,
-    // canActivate: [AuthGuard],
   },
   { path: '**', component: NotFoundComponent },
 ];

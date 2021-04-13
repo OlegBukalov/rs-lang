@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { OwnGameService } from '../services/own-game.service';
 
 @Component({
   selector: 'app-card-game-modal',
@@ -8,19 +7,13 @@ import { OwnGameService } from '../services/own-game.service';
   styleUrls: ['./card-game-modal.component.scss'],
 })
 export class DialogElementsExampleDialogComponent {
-  constructor(
-    private dialogRef: MatDialogRef<DialogElementsExampleDialogComponent>,
-    private ownGameService: OwnGameService,
-  ) {}
+  constructor(private dialogRef: MatDialogRef<DialogElementsExampleDialogComponent>) {}
 
   close() {
-    this.dialogRef.close('close');
-    // return true;
+    this.dialogRef.close(false);
   }
 
   redirect() {
-    this.dialogRef.close('redirect');
-    // this.ownGameService.setIsSaved(true);
-    // return false;
+    this.dialogRef.close(true);
   }
 }
