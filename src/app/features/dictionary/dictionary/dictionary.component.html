@@ -18,7 +18,12 @@
       ></mat-paginator>
 
       <mat-list class="page" *ngIf="cards.length; else: emptyArrayBlock">
-        <app-dictionary-card *ngFor="let card of (cards | slice: pageLeftIndex : pageRightIndex)" [card]="card"></app-dictionary-card>
+        <app-dictionary-card 
+          *ngFor="let card of (cards | slice: pageLeftIndex : pageRightIndex)" 
+          [card]="card"
+          [currentCategory]="currentCategory"
+          (cardMoved)="updateCategoryWords()"
+        ></app-dictionary-card>
       </mat-list>
 
       <ng-template #emptyArrayBlock>

@@ -11,4 +11,12 @@
         </div>
         <audio #audio [src]="card.audio | cardAsset | async"></audio>
     </div>
+    <div class="buttons">
+      <button
+        *ngFor="let category of categories"
+        class="btn"
+        (click)="moveCard(category)"
+        [hidden]="currentCategory === category"
+      >В {{category.toString()}}</button>
+  </div>
 </div>
