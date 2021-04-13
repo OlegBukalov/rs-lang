@@ -31,6 +31,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   isHiddenDataChild = false;
   isSaved: boolean = this.ownGameService.isSaved;
   isHiddenChildCard: boolean;
+  isLoading: boolean;
 
   state = GameState;
   currentState: GameState = GameState.STOP;
@@ -62,8 +63,10 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   getData() {
+    this.isLoading = true;
     this.subscription = this.wordsApiService.getWordList().subscribe((data) => {
       this.words = data;
+      this.isLoading = false;
     });
   }
 
@@ -108,20 +111,26 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   checkCard(card: IWord): void {
-    if (this.playingWord.audio === card.audio) {
-      this.playResultAudio(true);
-      this.leftCards -= 1;
-      this.ownGameService.setDisabledItemId(card.id);
-      this.playingWordIndexes.shift();
-      this.countMistakes();
-      if (this.playingWordIndexes.length) {
-        this.playNextWord();
+    if (this.playingWord) {
+      if (this.playingWord.audio === card.audio) {
+        this.playResultAudio(true);
+        this.leftCards -= 1;
+        this.ownGameService.setDisabledItemId(card.id);
+        this.playingWordIndexes.shift();
+        this.countMistakes();
+        this.checkFinishGame();
       } else {
-        this.finishGame();
+        this.playResultAudio(false);
+        this.countTry += 1;
       }
+    }
+  }
+
+  checkFinishGame(): void {
+    if (this.playingWordIndexes.length) {
+      this.playNextWord();
     } else {
-      this.playResultAudio(false);
-      this.countTry += 1;
+      this.finishGame();
     }
   }
 

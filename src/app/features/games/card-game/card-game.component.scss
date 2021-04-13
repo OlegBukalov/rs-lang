@@ -2,6 +2,20 @@
   padding: 50px;
   font-family: 'Poiret One', cursive;
   font-size: 26px;
+
+  button.btn-template-game {
+    background-color: #333470;
+
+    &:hover {
+      background-color: #fff;
+      color: #333470;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #333480;
+    }
+  }
 }
 
 .card-game-buttons {
@@ -9,6 +23,19 @@
 
   .card-game__button {
     margin-right: 10px;
+  }
+}
+
+.conditions-game {
+  list-style-type: none;
+
+  li {
+    margin-bottom: 5px;
+    font-size: 24px;
+  }
+
+  li:before {
+    content: ' - ';
   }
 }
 
