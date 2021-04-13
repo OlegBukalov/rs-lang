@@ -9,7 +9,6 @@ import { SavannahGameComponent } from './savannah-game/savannah-game.component';
 export const gamesRoutes: Routes = [
   { path: '', component: GameListComponent },
   { path: 'savannah', component: SavannahGameComponent },
-  // заменить компоненту для игры audio-call
   { path: 'audio-call', component: AudioCallComponent },
   { path: 'sprint', component: SprintGameComponent },
   { path: 'own-game', component: CardGameListComponent },

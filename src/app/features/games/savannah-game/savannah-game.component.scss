@@ -7,7 +7,6 @@
 
 .wrap-game-list {
     position: relative;
-    // padding: 50px;
     font-family: 'Poiret One', cursive;
     font-size: 26px;
     height: 100%;
@@ -40,7 +39,6 @@
       .game-rules-wrapper {
         height: 50%;
         width: 46%;
-        // min-height: 50%;
         color: #32339e;
         font-weight: 600;
         font-size: 22px;
@@ -106,7 +104,7 @@
     .game-over {
       position: absolute;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       min-width: 350px;
       max-width: 400px;
       max-height: 400px;
@@ -117,32 +115,48 @@
       z-index: 2;
       margin: 20px;
       left: calc(50% - 177px);
+      align-items: center;
 
-      .words-tab-learned, .words-tab-unlearned {
+      .game-over-title {
+        padding: 10px;
+      }
+
+      .learned-unlearnder-words-wrapper {
         display: flex;
-        flex-direction: column;
-        overflow-x: hidden;
-        overflow-y: auto;
+        overflow: auto;
 
-        .learned-words {
+        .words-tab-learned, .words-tab-unlearned {
           display: flex;
           flex-direction: column;
-          width: 50%;
+          overflow-x: hidden;
+          overflow-y: auto;
+          margin: 0;
+  
+          .learned-words {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+          }
+  
+          .unlearned-words {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+          }
         }
-
-        .unlearned-words {
-          display: flex;
-          flex-direction: column;
-          width: 50%;
+  
+        .words-tab-learned {
+          padding: 10px 10px 10px 40px;
+        }
+  
+        .words-tab-unlearned {
+          padding: 10px 40px 10px 10px;
         }
       }
 
-      .words-tab-learned {
-        padding: 10px 10px 10px 40px;
-      }
-
-      .words-tab-unlearned {
-        padding: 10px 40px 10px 10px;
+      .score {
+        align-items: center;
+        padding: 10px;
       }
     }
 
@@ -226,7 +240,6 @@
           font-size: 45px;
           height: 55px;
           font-weight: 800;
-          cursor: pointer;
         }
       }
     }

@@ -7,16 +7,12 @@ import { IndividualConfig, ToastrService } from 'ngx-toastr';
 export class ToasterService {
   constructor(private toastr: ToastrService) {}
 
-  showSuccess(message: string, title: string): void {
-    this.toastr.success(message, title, {
-      positionClass: 'toast-top-center',
-    });
+  showSuccess(message: string, title: string, customProperties?: Partial<IndividualConfig>): void {
+    this.toastr.success(message, title, customProperties);
   }
 
-  showError(message: string, title: string): void {
-    this.toastr.error(message, title, {
-      positionClass: 'toast-top-center',
-    });
+  showError(message: string, title: string, customProperties?: Partial<IndividualConfig>): void {
+    this.toastr.error(message, title, customProperties);
   }
 
   showShow(message: string, title: string, customProperties?: Partial<IndividualConfig>): void {

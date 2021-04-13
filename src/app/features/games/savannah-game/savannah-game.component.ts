@@ -30,6 +30,8 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
 
   isRussianEnglish = false;
 
+  score: number;
+
   coordinateX = 0;
 
   coordinateY = 50;
@@ -56,6 +58,22 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectLevel(0);
+    const debouncedHandleResize = this.debounce(() => {
+      this.setAnimalCoordinateY();
+    }, 1000);
+    window.addEventListener('resize', debouncedHandleResize);
+  }
+
+  debounce(func: Function, debounceTime: number): VoidFunction {
+    let timeout = null;
+    return (...args) => {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        timeout = null;
+        func.apply(context, args);
+      }, debounceTime);
+    };
   }
 
   // TODO maybe change logic
@@ -88,6 +106,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
   }
 
   resetGameParametrs(): void {
+    this.clearIntervals();
     this.health = 5;
     this.learnedWords = [];
     this.unlearnedWords = [];
@@ -97,7 +116,8 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
 
   continueRun(): void {
     if (!this.wordsListForLevel.length) {
-      // TODO Game Over Logic...
+      // game over
+      this.culcScore();
       this.isGameOver = true;
       this.isStarted = false;
       this.clearIntervals();
@@ -109,8 +129,9 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     this.intervalX = setInterval(() => {
       this.coordinateX += this.stepX;
       if (this.coordinateX >= window.innerWidth - 50) {
+        // fail
         this.unlearnedWords.push(this.targetWord);
-        this.toastrService.showCustomAlert(
+        this.toastrService.showError(
           'Неверно!',
           `${this.targetWord.word} - ${this.targetWord.wordTranslate}`,
           {
@@ -132,9 +153,25 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
   }
 
   setAnimalParametrs(): void {
-    this.stepX = window.innerWidth >= 1070 ? 8 : 6; // start speed
-    this.coordinateY = window.innerWidth >= 1070 ? 310 : 240; // start y coordinate
+    this.setAnimalCoordinateY(); // start y coordinate
+    this.stepX = 6; // start speed
     this.coordinateX = -150; // start x coordinate
+  }
+
+  setAnimalCoordinateY(): void {
+    const screenWidth = window.innerWidth;
+    const minScreenWidth = 1150;
+    const maxScreenWidth = 1500;
+    const minCoordinateY = 230;
+    const maxCoordinateY = 305;
+    if (screenWidth >= minScreenWidth && screenWidth <= maxScreenWidth) {
+      this.coordinateY =
+        minCoordinateY + (screenWidth - minScreenWidth) / ((3 * screenWidth) / minScreenWidth);
+    } else if (screenWidth < minScreenWidth) {
+      this.coordinateY = minCoordinateY;
+    } else {
+      this.coordinateY = maxCoordinateY;
+    }
   }
 
   compareWords(answer: IWord): void {
@@ -142,10 +179,10 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
       answer.word === this.targetWord.word ||
       answer.wordTranslate === this.targetWord.wordTranslate
     ) {
-      // TODO success
+      // success
       this.clearIntervals();
       this.learnedWords.push(this.targetWord);
-      this.toastrService.showShow(
+      this.toastrService.showSuccess(
         'Верно!',
         `${this.targetWord.word} - ${this.targetWord.wordTranslate}`,
         {
@@ -154,9 +191,9 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
       );
       this.continueRun();
     } else {
-      // TODO FAIL
+      // fail
       this.unlearnedWords.push(this.targetWord);
-      this.toastrService.showCustomAlert(
+      this.toastrService.showError(
         'Неверно!',
         `${this.targetWord.word} - ${this.targetWord.wordTranslate}`,
         {
@@ -169,10 +206,17 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     }
   }
 
+  culcScore(): void {
+    const onePoint = 10;
+    this.score = +this.learnedWords?.length * onePoint;
+  }
+
   checkHealth(): boolean {
     this.clearIntervals();
     this.health -= 1;
-    if (this.health === 0) {
+    if (this.health <= 0) {
+      // game over
+      this.culcScore();
       this.isStarted = false;
       this.isGameOver = true;
       return false;

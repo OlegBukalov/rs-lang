@@ -9,7 +9,7 @@
                 Правила игры:<br>
                 - Необходимо определить правильный перевод слова<br>
                 - Выбор правильного варианта необходимо делать кликом левой кнопки мыши<br>
-                - Игра начинается с выбранного раздела словa<br>
+                - Игра начинается с выбранного уровня сложности<br>
                 - Для начала игры нажмите на кнопку "Старт"
             </div>
         </div>
@@ -32,29 +32,32 @@
         </div>
     </div>
     <div *ngIf="isGameOver" class="game-over">
-        <title class="game-over-title">Конец Игры</title>
-        <ul class="words-tab-learned">
-            *Learned*
-            <li *ngFor="let learnedWord of learnedWords" class="learned-words">
-                <a>{{learnedWord.word}}</a>
-            </li>
-        </ul>
-        <ul class="words-tab-unlearned">
-            *Unlearned*
-            <li *ngFor="let unlearnedWord of unlearnedWords" class="unlearned-words">
-                <a>{{unlearnedWord.word}}</a>
-            </li>
-        </ul>
+        <div class="game-over-title">Конец Игры</div>
+        <div class="learned-unlearnder-words-wrapper">
+            <ul class="words-tab-learned">
+                *Learned*
+                <li *ngFor="let learnedWord of learnedWords" class="learned-words">
+                    <a>{{learnedWord.word}}</a>
+                </li>
+            </ul>
+            <ul class="words-tab-unlearned">
+                *Unlearned*
+                <li *ngFor="let unlearnedWord of unlearnedWords" class="unlearned-words">
+                    <a>{{unlearnedWord.word}}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="score">Очки:&nbsp;{{score}}</div>
     </div>
     <ng-container *ngIf="isStarted && health && !isGameOver">
-        <div class="health-wrapper">
-            <div title="{{health}}" [ngStyle]="{'width': 40 * health + 'px'}" class="health"></div>
+        <div class="health-wrapper" [matTooltipPosition]="'below'" matTooltip="Оставшееся количество попыток">
+            <div [ngStyle]="{'width': 40 * health + 'px'}" class="health"></div>
             <div class="branch"></div>
         </div>
         <div class="running-field">
             <div class="word-wrapper" [ngStyle]="{'top': coordinateY + 'px', 'left': coordinateX + 'px'}">
                 <div class="animal"></div>
-                <div title="{{targetWord.textMeaning}}" class="word">{{isRussianEnglish ? targetWord.wordTranslate : targetWord.word}}</div>
+                <div class="word">{{isRussianEnglish ? targetWord.wordTranslate : targetWord.word}}</div>
             </div>
         </div>
     </ng-container>

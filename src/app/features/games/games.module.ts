@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { GameListComponent } from './game-list.component';
 import { GameItemComponent } from './game-item/game-item.component';
 import { gamesRoutes } from './games-routes';
@@ -47,6 +48,7 @@ import { SavannahGameComponent } from './savannah-game/savannah-game.component';
     MatCardModule,
     MatButtonModule,
     MatSlideToggleModule,
+    MatTooltipModule,
   ],
   providers: [],
 })
