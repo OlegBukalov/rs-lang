@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from 'src/app/core/shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatListModule } from '@angular/material/list';
 import { dictionaryRoutes } from './dictionary-routes';
 import { DictionaryComponent } from './dictionary/dictionary.component';
 import { DictionaryCardComponent } from './dictionary-card/dictionary-card.component';
@@ -17,6 +19,8 @@ import { DictionaryCardComponent } from './dictionary-card/dictionary-card.compo
     FormsModule,
     SharedModule,
     MatProgressSpinnerModule,
+    MatPaginatorModule,
+    MatListModule,
   ],
 })
 export class DictionaryModule {}

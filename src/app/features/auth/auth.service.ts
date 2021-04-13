@@ -2,9 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { tap } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { LoginResponse } from './login-response.interface';
+import { LoginResponse, TokenPayload } from './auth.interfaces';
+import { AuthPath } from './auth.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -18,24 +19,13 @@ export class AuthService implements OnDestroy {
     name: '',
   };
 
-  get token() {
-    // const token = localStorage.getItem('token');
-    // if (token) return token;
+  activeLink: Subject<AuthPath | undefined> = new Subject();
 
-    // localStorage.setItem('token', this.loginData.token);
+  get token() {
     return this.loginData.token;
   }
 
-  // Для тестирования раскомментировать три строки
-  // в геттерах token и userId
-  // и закомментировать поля canActivate в app-routing.module
-  // тогда не нужно будет заново авторизоваться после каждой перезагрузки
-
   get userId() {
-    // const id = localStorage.getItem('userId');
-    // if (id) return id;
-
-    // localStorage.setItem('userId', this.loginData.userId);
     return this.loginData.userId;
   }
 
@@ -45,13 +35,16 @@ export class AuthService implements OnDestroy {
 
   private subscription: Subscription;
 
+  private tokenRefreshTimeout: any;
+
   constructor(private http: HttpClient) {}
 
   login(loginForm: FormGroup): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.baseUrl}signin`, loginForm.value).pipe(
       tap((value: LoginResponse) => {
         this.loginData = value;
-        this.setupTokenResreshTimeout();
+        localStorage.loginData = JSON.stringify(this.loginData);
+        this.setupTokenRefreshTimeout();
         return value;
       }),
     );
@@ -75,6 +68,8 @@ export class AuthService implements OnDestroy {
           (response: LoginResponse) => {
             this.loginData.token = response.token;
             this.loginData.refreshToken = response.refreshToken;
+            localStorage.loginData = JSON.stringify(this.loginData);
+            this.setupTokenRefreshTimeout();
             resolve(true);
           },
           (error) => {
@@ -84,21 +79,19 @@ export class AuthService implements OnDestroy {
     });
   }
 
-  private setupTokenResreshTimeout() {
-    if (this.loginData.token) {
-      const { token } = this.loginData;
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      this.tokenExpirationTime = payload.exp;
-      const iatTime = payload.iat;
+  setupTokenRefreshTimeout() {
+    if (this.loginData?.token) {
+      this.tokenExpirationTime = this.getTokenPayload(this.loginData.token).exp;
+      const iatTime = this.getTokenPayload(this.loginData.token).iat;
       const timeoutTime = (this.tokenExpirationTime - iatTime) * 1000;
-      setTimeout(() => {
-        const tokenLifeTime = this.tokenExpirationTime * 1000 - Date.now();
-        if (tokenLifeTime <= 0) {
+      this.tokenRefreshTimeout = setTimeout(() => {
+        const tokenLifeTimeLeft = this.tokenExpirationTime * 1000 - Date.now();
+        if (tokenLifeTimeLeft <= 0) {
           this.refreshToken();
         } else {
-          setTimeout(() => {
+          this.tokenRefreshTimeout = setTimeout(() => {
             this.refreshToken();
-          }, tokenLifeTime);
+          }, tokenLifeTimeLeft);
         }
       }, timeoutTime);
     }
@@ -108,12 +101,19 @@ export class AuthService implements OnDestroy {
     return this.tokenExpirationTime && this.tokenExpirationTime * 1000 - Date.now() > 0;
   }
 
+  private getTokenPayload(token: string): TokenPayload {
+    return JSON.parse(atob(token.split('.')[1]));
+  }
+
   logout(): void {
+    clearTimeout(this.tokenRefreshTimeout);
+    localStorage.loginData = null;
     this.tokenExpirationTime = null;
     this.loginData = null;
   }
 
   ngOnDestroy(): void {
+    clearTimeout(this.tokenRefreshTimeout);
     this.subscription.unsubscribe();
   }
 }

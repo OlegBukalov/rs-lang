@@ -1,4 +1,4 @@
-<form (ngSubmit)="onLogin()" class="form" [formGroup]="loginForm">
+<form *ngIf="isLoginCompleted; else loadingBlock" (ngSubmit)="onLogin()" class="form" [formGroup]="loginForm">
   <mat-form-field appearance="standard">
     <mat-label>Почта</mat-label>
     <input
@@ -48,3 +48,6 @@
   </mat-form-field>
   <button mat-flat-button color="primary" type="submit">Войти</button>
 </form>
+<ng-template #loadingBlock>
+  <mat-spinner class="spinner"></mat-spinner>
+</ng-template>
