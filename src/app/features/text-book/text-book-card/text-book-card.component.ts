@@ -13,7 +13,7 @@ export class TextBookCardComponent {
 
   @Input() color: string;
 
-  settings: ITextBookSettings = this.textBookSettingsService.textBookSettings;
+  settings: ITextBookSettings = this.textBookSettingsService.getSettings();
 
   constructor(private textBookSettingsService: TextBookSettingsService) {}
 }

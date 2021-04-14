@@ -18,6 +18,8 @@ export class AuthService implements OnDestroy {
     name: '',
   };
 
+  isLogout = false;
+
   get token() {
     // const token = localStorage.getItem('token');
     // if (token) return token;
@@ -114,7 +116,15 @@ export class AuthService implements OnDestroy {
 
   logout(): void {
     this.tokenExpirationTime = null;
-    this.loginData = null;
+    // this.loginData = null;
+    this.loginData = {
+      message: '',
+      token: '',
+      refreshToken: '',
+      userId: '',
+      name: '',
+    };
+    this.isLogout = true;
   }
 
   ngOnDestroy(): void {

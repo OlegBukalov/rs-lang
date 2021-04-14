@@ -10,7 +10,7 @@ import { ITextBookSettings } from '../interfaces/itext-book-settings';
   providedIn: 'root',
 })
 export class TextBookSettingsService {
-  textBookSettings: ITextBookSettings = {
+  private textBookSettings: ITextBookSettings = {
     isWordTranslationHidden: false,
     isSentenceTranslationHidden: false,
     isHardWordsBtnHidden: false,
@@ -38,12 +38,29 @@ export class TextBookSettingsService {
     try {
       await this.http.put(url, body).toPromise();
     } catch {
-      this.toaster.showError('Настройки не сохранены', 'Ошибка!');
+      this.toaster.showInfo('Авторизуйтесь для сохранения на сервере', 'Уведомление');
     }
   }
 
-  setSettings(passingSettings: ITextBookSettings) {
+  setSettingsOnSubmit(passingSettings: ITextBookSettings) {
     this.textBookSettings = passingSettings;
     this.addSettingsToServer(this.textBookSettings);
+  }
+
+  setSettingsOnLoad(passingSettings: ITextBookSettings) {
+    this.textBookSettings = passingSettings;
+  }
+
+  getSettings() {
+    return this.textBookSettings;
+  }
+
+  resetSettingsOnLogout() {
+    this.textBookSettings = {
+      isWordTranslationHidden: false,
+      isSentenceTranslationHidden: false,
+      isHardWordsBtnHidden: false,
+      isDeletedWordsBtnHidden: false,
+    };
   }
 }

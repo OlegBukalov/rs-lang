@@ -13,16 +13,43 @@ import { TextBookSettingsService } from './services/text-book-settings.service';
 export class TextBookSettingsComponent implements OnInit, OnDestroy {
   formGroup: FormGroup;
 
-  settings: ITextBookSettings = this.textBookSettingsService.textBookSettings;
+  private settings: ITextBookSettings;
 
   private subscription: Subscription;
 
   constructor(
-    formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     private textBookSettingsService: TextBookSettingsService,
     private authService: AuthService,
-  ) {
-    this.formGroup = formBuilder.group({
+  ) {}
+
+  ngOnInit(): void {
+    console.log('ngOnInit');
+    this.getAuthorizedData();
+    this.checkLogout();
+    this.initializeToggles();
+  }
+
+  getAuthorizedData() {
+    if (this.authService.isAuthorized()) {
+      this.subscription = this.textBookSettingsService.getSettingsFromServer().subscribe((data) => {
+        this.textBookSettingsService.setSettingsOnLoad(data);
+      });
+      console.log('getAuthorizedData');
+    }
+  }
+
+  checkLogout() {
+    if (this.authService.isLogout) {
+      this.textBookSettingsService.resetSettingsOnLogout();
+      this.authService.isLogout = false;
+    }
+  }
+
+  initializeToggles() {
+    console.log('start initializeToggles');
+    this.settings = this.textBookSettingsService.getSettings();
+    this.formGroup = this.formBuilder.group({
       isWordTranslationHidden: [this.settings.isWordTranslationHidden, Validators.required],
       isSentenceTranslationHidden: [this.settings.isSentenceTranslationHidden, Validators.required],
       isHardWordsBtnHidden: [this.settings.isHardWordsBtnHidden, Validators.required],
@@ -30,19 +57,8 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
-    this.getSettingsFromServer();
-  }
-
-  getSettingsFromServer() {
-    if (this.authService.isAuthorized())
-      this.subscription = this.textBookSettingsService.getSettingsFromServer().subscribe((data) => {
-        this.settings = data;
-      });
-  }
-
   onFormSubmit() {
-    this.textBookSettingsService.setSettings(this.formGroup.value);
+    this.textBookSettingsService.setSettingsOnSubmit(this.formGroup.value);
   }
 
   ngOnDestroy() {
