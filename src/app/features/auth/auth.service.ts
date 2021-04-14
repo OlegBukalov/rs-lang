@@ -106,24 +106,13 @@ export class AuthService implements OnDestroy {
     }
   }
 
-  isAuthorized(): boolean {
-    return Boolean(this.loginData.token);
-  }
-
   isLoggedIn(): boolean {
     return this.tokenExpirationTime && this.tokenExpirationTime * 1000 - Date.now() > 0;
   }
 
   logout(): void {
     this.tokenExpirationTime = null;
-    // this.loginData = null;
-    this.loginData = {
-      message: '',
-      token: '',
-      refreshToken: '',
-      userId: '',
-      name: '',
-    };
+    this.loginData = null;
     this.isLogout = true;
   }
 

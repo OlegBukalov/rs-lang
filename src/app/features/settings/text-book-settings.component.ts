@@ -24,7 +24,7 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    if (this.authService.isAuthorized()) {
+    if (this.authService.isLoggedIn()) {
       this.getAuthorizedData();
     }
     this.checkLogout();
