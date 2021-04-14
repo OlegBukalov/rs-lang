@@ -46,18 +46,43 @@ export class DictionaryService {
     }
   }
 
+  async addWordsToDictionary(wordsIdentifiers: string[], category: DictionaryCategory) {
+    wordsIdentifiers.forEach((wordId) => {
+      this.addWordAndHandleErrors(wordId, category, false);
+    });
+  }
+
   async addWordToDictionary(wordId: string, category: DictionaryCategory) {
-    const body = getCategoryBody(category);
-    const url = `${this.baseUrl}/words/${wordId}`;
+    this.addWordAndHandleErrors(wordId, category, true);
+  }
+
+  private async addWordAndHandleErrors(
+    wordId: string,
+    category: DictionaryCategory,
+    showToasterMessage: boolean,
+  ) {
     try {
-      if (await this.isAdded(wordId)) {
-        await this.http.put(url, body).toPromise();
-      } else {
-        await this.http.post(url, body).toPromise();
+      const isAdded = await this.tryToAddWordToDictionary(wordId, category);
+      if (showToasterMessage && !isAdded) {
+        this.toaster.showSuccess('Слово добавлено в словарь', 'Успех!');
       }
     } catch {
-      this.toaster.showError('Слово не добавлено в словарь', 'Ошибка!');
+      if (showToasterMessage) {
+        this.toaster.showError('Слово не добавлено в словарь', 'Ошибка!');
+      }
     }
+  }
+
+  private async tryToAddWordToDictionary(wordId: string, category: DictionaryCategory) {
+    const body = getCategoryBody(category);
+    const url = `${this.baseUrl}/words/${wordId}`;
+    const isAdded = await this.isAdded(wordId);
+    if (isAdded) {
+      await this.http.put(url, body).toPromise();
+      return true;
+    }
+    await this.http.post(url, body).toPromise();
+    return false;
   }
 
   private async isAdded(wordId: string) {
