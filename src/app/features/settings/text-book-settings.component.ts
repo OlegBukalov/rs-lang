@@ -24,19 +24,19 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log('ngOnInit');
-    this.getAuthorizedData();
+    if (this.authService.isAuthorized()) {
+      this.getAuthorizedData();
+    }
     this.checkLogout();
     this.initializeToggles();
   }
 
   getAuthorizedData() {
-    if (this.authService.isAuthorized()) {
-      this.subscription = this.textBookSettingsService.getSettingsFromServer().subscribe((data) => {
-        this.textBookSettingsService.setSettingsOnLoad(data);
-      });
-      console.log('getAuthorizedData');
-    }
+    this.subscription = this.textBookSettingsService.getSettingsFromServer().subscribe((data) => {
+      const { optional }: any = data;
+      this.textBookSettingsService.setSettingsOnLoad(optional);
+      this.initializeToggles();
+    });
   }
 
   checkLogout() {
@@ -47,7 +47,6 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
   }
 
   initializeToggles() {
-    console.log('start initializeToggles');
     this.settings = this.textBookSettingsService.getSettings();
     this.formGroup = this.formBuilder.group({
       isWordTranslationHidden: [this.settings.isWordTranslationHidden, Validators.required],
