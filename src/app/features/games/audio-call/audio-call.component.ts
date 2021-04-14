@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { StatisticsService } from '../../statistics/statistics.service';
 import { IGameResult } from './interfaces';
+import { GameID } from './../../statistics/enums/game-id.enum';
 
 enum GameStatus {
   Start = 'start',
@@ -19,7 +21,7 @@ export class AudioCallComponent {
 
   score: IGameResult;
 
-  constructor() {
+  constructor(private statisticsService: StatisticsService) {
     this.gameStatus = GameStatus.Start;
   }
 
@@ -30,6 +32,13 @@ export class AudioCallComponent {
 
   onGameEnd(score: IGameResult): void {
     this.score = score;
+    const dataGame = {
+      idGame: GameID.AudioCall,
+      countAll: this.score.wordCounter,
+      countRight: this.score.wordCounter - 1,
+      maxRight: this.score.maxCorrectSequence,
+    };
+    this.statisticsService.getDataFromGame(dataGame);
     this.gameStatus = GameStatus.End;
   }
 
