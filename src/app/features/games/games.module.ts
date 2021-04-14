@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { MatDialogModule } from '@angular/material/dialog';
+import { SharedModule } from 'src/app/core/shared/shared.module';
 import { GameListComponent } from './game-list.component';
 import { GameItemComponent } from './game-item/game-item.component';
 import { gamesRoutes } from './games-routes';
@@ -50,6 +51,7 @@ import { SprintGameOverComponent } from './sprint-game/sprint-game-over/sprint-g
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    SharedModule,
   ],
   providers: [],
 })
