@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../../auth/auth.service';
+import { ITextBookServerSettings } from '../interfaces/itext-book-server-settings';
 import { ITextBookSettings } from '../interfaces/itext-book-settings';
 
 @Injectable({
@@ -27,9 +28,9 @@ export class TextBookSettingsService {
     private toaster: ToasterService,
   ) {}
 
-  getSettingsFromServer(): Observable<ITextBookSettings> {
+  getSettingsFromServer(): Observable<ITextBookServerSettings> {
     const url = `${this.baseUrl}/settings`;
-    return this.http.get<ITextBookSettings>(url);
+    return this.http.get<ITextBookServerSettings>(url);
   }
 
   async addSettingsToServer(passingSettings: ITextBookSettings) {
