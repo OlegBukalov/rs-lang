@@ -39,9 +39,8 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
   }
 
   checkLogout() {
-    if (this.authService.isLogout) {
+    if (!this.authService.isLoggedIn()) {
       this.textBookSettingsService.resetSettingsOnLogout();
-      this.authService.isLogout = false;
     }
   }
 

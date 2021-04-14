@@ -9,13 +9,13 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: 'dictionary',
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/dictionary/dictionary.module').then((m) => m.DictionaryModule),
   },
   {
     path: 'text-book',
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/text-book/text-book.module').then((m) => m.TextBookModule),
   },
@@ -26,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: 'settings',
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     loadChildren: () => import('./features/settings/settings.module').then((m) => m.SettingsModule),
   },
   {

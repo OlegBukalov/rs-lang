@@ -19,7 +19,7 @@ export class TextBookSettingsService {
   };
 
   private get baseUrl() {
-    return `${environment.baseUrl}/users/${this.authService.userId}`;
+    return `${environment.baseUrl}/users/${this.authService?.userId}`;
   }
 
   constructor(
