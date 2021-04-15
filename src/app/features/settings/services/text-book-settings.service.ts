@@ -43,20 +43,19 @@ export class TextBookSettingsService {
     }
   }
 
-  setSettingsOnSubmit(passingSettings: ITextBookSettings) {
+  setSettings(passingSettings: ITextBookSettings) {
     this.textBookSettings = passingSettings;
-    this.addSettingsToServer(this.textBookSettings);
-  }
 
-  setSettingsOnLoad(passingSettings: ITextBookSettings) {
-    this.textBookSettings = passingSettings;
+    if (this.authService.isLoggedIn()) {
+      this.addSettingsToServer(this.textBookSettings);
+    }
   }
 
   getSettings() {
     return this.textBookSettings;
   }
 
-  resetSettingsOnLogout() {
+  resetSettings() {
     this.textBookSettings = {
       isWordTranslationHidden: false,
       isSentenceTranslationHidden: false,

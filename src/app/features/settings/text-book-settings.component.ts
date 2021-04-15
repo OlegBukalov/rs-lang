@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { ToasterService } from 'src/app/core/services/toaster.service';
 import { AuthService } from '../auth/auth.service';
 import { ITextBookSettings } from './interfaces/itext-book-settings';
 import { TextBookSettingsService } from './services/text-book-settings.service';
@@ -21,27 +22,33 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private textBookSettingsService: TextBookSettingsService,
     private authService: AuthService,
+    private toasterService: ToasterService,
   ) {}
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
       this.getAuthorizedData();
     }
-    this.checkLogout();
+    if (!this.authService.loginData) {
+      this.resetSettings();
+    }
     this.initializeToggles();
   }
 
   getAuthorizedData() {
-    this.subscription = this.textBookSettingsService.getSettingsFromServer().subscribe((data) => {
-      this.textBookSettingsService.setSettingsOnLoad(data.optional);
-      this.initializeToggles();
-    });
+    this.subscription = this.textBookSettingsService.getSettingsFromServer().subscribe(
+      (data) => {
+        this.textBookSettingsService.setSettings(data.optional);
+        this.initializeToggles();
+      },
+      (error) => {
+        this.toasterService.showError(error, 'Ошибка');
+      },
+    );
   }
 
-  checkLogout() {
-    if (!this.authService.isLoggedIn()) {
-      this.textBookSettingsService.resetSettingsOnLogout();
-    }
+  resetSettings() {
+    this.textBookSettingsService.resetSettings();
   }
 
   initializeToggles() {
@@ -55,7 +62,7 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit() {
-    this.textBookSettingsService.setSettingsOnSubmit(this.formGroup.value);
+    this.textBookSettingsService.setSettings(this.formGroup.value);
   }
 
   ngOnDestroy() {
