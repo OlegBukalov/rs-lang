@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
+import { DictionaryCategory } from '../../dictionary/dictionary-category';
 
 @Component({
   selector: 'app-card-popup',
@@ -29,7 +30,7 @@ export class CardPopupComponent {
     this.wordsApiService.getCardById(cardId).subscribe(
       (card) => {
         this.card = card;
-        this.dictionaryService.addWordToDictionary(this.card.id);
+        this.dictionaryService.addWordToDictionary(this.card.id, DictionaryCategory.Studied);
       },
       () => this.router.navigateByUrl(this.router.url.replace(/\/card\/.+/, '')),
     );

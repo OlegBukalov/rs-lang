@@ -1,5 +1,7 @@
 export interface IWord {
-  id: string;
+  // TODO: разобраться с id и _id
+  id?: string;
+  _id?: string;
   group: number;
   page: number;
   word: string;

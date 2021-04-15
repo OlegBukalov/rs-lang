@@ -18,4 +18,9 @@ export class TextBookCardComponent {
   settings: ITextBookSettings = this.textBookSettingsService.getSettings();
 
   constructor(private textBookSettingsService: TextBookSettingsService) {}
+
+  showImage() {
+    const image = this.image.nativeElement as HTMLImageElement;
+    image.style.display = 'block';
+  }
 }

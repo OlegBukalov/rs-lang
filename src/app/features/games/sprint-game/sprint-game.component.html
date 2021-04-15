@@ -17,8 +17,14 @@
       <p class="sprint-word">{{currentWord.word}}</p>
       <p class="sprint-translate">{{currentWord.randomTranslate}}</p>
       <div class="answer-buttons">
-        <button class="btn-wrong" (click)="checkAnswer(false)">неверно</button>
-        <button class="btn-right" (click)="checkAnswer(true)">верно</button>
+        <div>
+          <button class="btn-wrong" (click)="checkAnswer(false)">неверно</button>
+          <span class="material-icons material-icons-game">west</span>
+        </div>
+        <div>
+          <button class="btn-right" (click)="checkAnswer(true)">верно</button>
+          <span class="material-icons material-icons-game">east</span>
+        </div>
       </div>
       <div class="progress-bar-block">
         <mat-progress-bar
