@@ -27,7 +27,7 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
-      this.getAuthorizedData();
+      this.updateSettings();
     }
     if (!this.authService.loginData) {
       this.resetSettings();
@@ -35,7 +35,7 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
     this.initializeToggles();
   }
 
-  getAuthorizedData(): void {
+  updateSettings(): void {
     this.subscription = this.textBookSettingsService.getSettingsFromServer().subscribe(
       (data) => {
         this.textBookSettingsService.setSettings(data.optional);
