@@ -62,7 +62,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   getData() {
-    this.subscription = this.wordsApiService.getWordList().subscribe((data) => {
+    this.subscription = this.wordsApiService.getRandomWordList().subscribe((data) => {
       this.words = data;
     });
   }
