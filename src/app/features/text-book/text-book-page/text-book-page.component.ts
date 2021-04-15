@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, first } from 'rxjs/operators';
 import { IPaginationOptions } from 'src/app/core/interfaces/ipagination-options';
@@ -16,7 +16,7 @@ const LAST_PAGE_INDEX = 29;
   templateUrl: './text-book-page.component.html',
   styleUrls: ['./text-book-page.component.scss'],
 })
-export class TextBookPageComponent implements OnInit {
+export class TextBookPageComponent {
   pageId: number;
 
   @Input() color: string;
@@ -37,14 +37,17 @@ export class TextBookPageComponent implements OnInit {
     private wordsApiService: WordsApiService,
     private storage: StorageService,
     private toaster: ToasterService,
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.route.params.subscribe((params) => {
       const id = IdValidatorService.validate(params.pageId);
+      if (!this.isPageChanged(id)) return;
       this.updateCards(id);
       this.storage.setItem('pageId', id.toString());
     });
+  }
+
+  isPageChanged(id: number) {
+    return this.pageId !== id;
   }
 
   updateCards(pageId: number) {

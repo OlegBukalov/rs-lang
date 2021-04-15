@@ -19,30 +19,21 @@ export class WordsApiService {
   private pageToken = '0';
   private groupToken = '0';
 
-  // TODO: get data by ID
-  // private id = '';
-
   constructor(private http: HttpClient) {}
 
   private get wordListUrl() {
     return `${this.baseUrl}?page=${this.pageToken}&group=${this.groupToken}`;
   }
 
-  // TODO: get data by ID
-  // private get wordUrl() {
-  //   return `${this.baseUrl}/${this.id}`;
-  // }
-
   getWordList(): Observable<IWord[]> {
-    return this.http.get<IWord[]>(this.wordListUrl).pipe(map((arr) => this.random(arr)));
+    return this.http.get<IWord[]>(this.wordListUrl);
   }
 
-  // TODO: get data by ID
-  // getWord(): Observable<IWord[]> {
-  //   return this.http.get<IWord[]>(this.wordUrl);
-  // }
+  getRandomWordList(): Observable<IWord[]> {
+    return this.getWordList().pipe(map((arr) => this.randomize(arr)));
+  }
 
-  random(arr: IWord[]): IWord[] {
+  randomize(arr: IWord[]): IWord[] {
     return arr.sort(() => Math.random() - 0.5);
   }
 
