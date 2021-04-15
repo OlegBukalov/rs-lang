@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
+import { CoordinateService } from './coordinate.service';
 
 @Component({
   selector: 'app-savannah-game',
@@ -36,13 +37,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
 
   coordinateY = 50;
 
-  stepY = 1;
-
   stepX = 6; // speed
-
-  inverter = -1;
-
-  fourVerticalStepsCounter = 0;
 
   levels = [0, 1, 2, 3, 4, 5];
 
@@ -54,12 +49,16 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
-  constructor(private wordsApiService: WordsApiService, private toastrService: ToasterService) {}
+  constructor(
+    private wordsApiService: WordsApiService,
+    private toastrService: ToasterService,
+    private coordinateService: CoordinateService,
+  ) {}
 
   ngOnInit(): void {
     this.selectLevel(0);
     const debouncedHandleResize = this.debounce(() => {
-      this.setAnimalCoordinateY();
+      this.coordinateY = this.coordinateService.getAnimalCoordinateY();
     }, 1000);
     window.addEventListener('resize', debouncedHandleResize);
   }
@@ -124,7 +123,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
       return;
     }
     this.targetWord = this.wordsListForLevel.shift();
-    this.getFourRandomWords();
+    this.mixFourRandomWords();
     this.setAnimalParametrs();
     this.intervalX = setInterval(() => {
       this.coordinateX += this.stepX;
@@ -143,35 +142,13 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
       }
     }, 100);
     this.intervalY = setInterval(() => {
-      if (this.fourVerticalStepsCounter === 4) {
-        this.inverter *= -1;
-        this.fourVerticalStepsCounter = 0;
-      }
-      this.fourVerticalStepsCounter += 1;
-      this.coordinateY += this.stepY * this.inverter;
+      this.coordinateY += this.coordinateService.calculateStepY();
     }, 100);
   }
 
   setAnimalParametrs(): void {
-    this.setAnimalCoordinateY(); // start y coordinate
-    this.stepX = 6; // start speed
+    this.coordinateY = this.coordinateService.getAnimalCoordinateY(); // start y coordinate
     this.coordinateX = -150; // start x coordinate
-  }
-
-  setAnimalCoordinateY(): void {
-    const screenWidth = window.innerWidth;
-    const minScreenWidth = 1150;
-    const maxScreenWidth = 1500;
-    const minCoordinateY = 230;
-    const maxCoordinateY = 305;
-    if (screenWidth >= minScreenWidth && screenWidth <= maxScreenWidth) {
-      this.coordinateY =
-        minCoordinateY + (screenWidth - minScreenWidth) / ((3 * screenWidth) / minScreenWidth);
-    } else if (screenWidth < minScreenWidth) {
-      this.coordinateY = minCoordinateY;
-    } else {
-      this.coordinateY = maxCoordinateY;
-    }
   }
 
   compareWords(answer: IWord): void {
@@ -229,7 +206,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     clearInterval(this.intervalY);
   }
 
-  getFourRandomWords(): void {
+  mixFourRandomWords(): void {
     const maxWordsNumber = 4;
     this.answerWordsArray = [];
     this.answerWordsArray.push(this.targetWord);
@@ -247,10 +224,10 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
       const randomIndex = getNonDuplicatedRandomIndex();
       this.answerWordsArray.push(this.untouchableFullWordsList[randomIndex]);
     }
-    this.answerWordsArray = this.wordsShuffler(this.answerWordsArray);
+    this.answerWordsArray = this.shuffleWords(this.answerWordsArray);
   }
 
-  wordsShuffler(array): IWord[] {
+  private shuffleWords(array): IWord[] {
     const arrayForShuffle = array.slice();
     let randomIndex;
     let tempElement;
@@ -269,6 +246,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.clearIntervals();
     this.subscription?.unsubscribe();
   }
 }
