@@ -35,7 +35,7 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
     this.initializeToggles();
   }
 
-  getAuthorizedData() {
+  getAuthorizedData(): void {
     this.subscription = this.textBookSettingsService.getSettingsFromServer().subscribe(
       (data) => {
         this.textBookSettingsService.setSettings(data.optional);
