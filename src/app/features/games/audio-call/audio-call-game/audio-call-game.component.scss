@@ -1,0 +1,67 @@
+@import './../../../../../variables.scss';
+@import './../game-styles.scss';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.loudspeaker {
+  display: block;
+  width: 200px;
+  height: 200px;
+  margin: 20px auto;
+
+  cursor: pointer;
+}
+
+.answers {
+  display: flex;
+
+  &__button {
+    @extend %game-button;
+
+    &_correct {
+        background-color: $color_green;
+    }
+
+    &_incorrect {
+        background-color: $color_dark_red;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.scorepad {
+  @extend %scorepad;
+  position: absolute;
+  top: 170px;
+  right: 10px;
+
+  min-width: 200px;
+
+  padding: 10px;
+
+  font-family: 'Poiret One', cursive;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.error-message {
+  padding: 10px;
+  margin-top: 30px;
+
+  font-family: 'Poiret One', cursive;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: $color_dark_red;
+
+  border: 1px solid $color_dark_red;
+  border-radius: 10px;
+}

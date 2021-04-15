@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IGameResult } from './interfaces';
 
 enum GameStatus {
   Start = 'start',
@@ -16,12 +17,28 @@ export class AudioCallComponent {
 
   level = 1;
 
+  score: IGameResult;
+
   constructor() {
     this.gameStatus = GameStatus.Start;
   }
 
-  gameStart(level: number): void {
+  onGameStart(level: number): void {
     this.level = level;
     this.gameStatus = GameStatus.Game;
+  }
+
+  onGameEnd(score: IGameResult): void {
+    this.score = score;
+    this.gameStatus = GameStatus.End;
+  }
+
+  onGameRepeat(): void {
+    this.score.wordCounter = 0;
+    this.score.correctWordCounter = 0;
+    this.score.maxCorrectSequence = 0;
+    this.level = 1;
+
+    this.gameStatus = GameStatus.Start;
   }
 }
