@@ -17,7 +17,7 @@ export class DictionaryCardComponent {
 
   @ViewChild('audio') audioElement: ElementRef;
 
-  categories = [DictionaryCategory.Studied, DictionaryCategory.Hard, DictionaryCategory.Deleted];
+  readonly categories = Object.values(DictionaryCategory);
 
   constructor(private dictionaryService: DictionaryService) {}
 

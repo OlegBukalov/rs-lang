@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild, EventEmitter, Output } from '@angular/core';
 
 import { IWord } from 'src/app/core/interfaces/iword';
 import { OwnGameService } from '../services/own-game.service';
@@ -14,6 +14,7 @@ export class CardGameItemComponent {
   @Input() card?: IWord;
   @Input() isHiddenDataChild: boolean;
   @Input() isHiddenChildCard: boolean;
+  @Output() checkCard: EventEmitter<IWord> = new EventEmitter();
 
   @ViewChild('audio') audioPlayerRef: ElementRef;
 
@@ -22,6 +23,10 @@ export class CardGameItemComponent {
   private readonly baseCardURL = environment.dataURL;
 
   constructor(private ownGameService: OwnGameService) {}
+
+  checkItem(card: IWord): void {
+    this.checkCard.emit(card);
+  }
 
   get cardImgSrc(): string {
     return this.card ? `${this.baseCardURL + this.card.image}` : '';

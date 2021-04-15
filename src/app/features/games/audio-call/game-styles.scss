@@ -1,0 +1,22 @@
+%game-button {
+  margin: 5px;
+  padding: 5px;
+  min-width: 80px;
+
+  font-family: 'Poiret One', cursive;
+  font-size: 1.3rem;
+  color: $color_light_gray;
+  background-color: $color_dark_blue;
+  opacity: 0.8;
+
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+%scorepad {
+  color: $color_blue;
+
+  border: 1px solid $color_violet;
+  border-radius: 10px;
+}
