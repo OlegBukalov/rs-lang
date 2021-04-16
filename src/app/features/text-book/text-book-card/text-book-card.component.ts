@@ -15,7 +15,7 @@ export class TextBookCardComponent {
 
   @ViewChild('image') image: ElementRef;
 
-  settings: ITextBookSettings = this.textBookSettingsService.textBookSettings;
+  settings: ITextBookSettings = this.textBookSettingsService.getSettings();
 
   constructor(private textBookSettingsService: TextBookSettingsService) {}
 
