@@ -34,7 +34,7 @@ export class AudioCallComponent {
     this.score = score;
     const dataGame = {
       idGame: GameID.AudioCall,
-      countAll: this.score.totalAnswers,
+      countAll: this.score.totalAnswersCounter,
       countRight: this.score.wordCounter - 1,
       maxRight: this.score.maxCorrectSequence,
     };
@@ -44,7 +44,7 @@ export class AudioCallComponent {
 
   onGameRepeat(): void {
     this.score.wordCounter = 0;
-    this.score.totalAnswers = 0;
+    this.score.totalAnswersCounter = 0;
     this.score.correctWordCounter = 0;
     this.score.maxCorrectSequence = 0;
     this.level = 1;
