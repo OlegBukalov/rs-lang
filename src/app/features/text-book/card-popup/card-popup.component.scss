@@ -31,6 +31,14 @@
       margin-right: 20px;
     }
   }
+
+  .buttons {
+    display: flex;
+    .btn {
+      margin: 0 10px;
+      padding: 5px;
+    }
+  }
 }
 
 .overlay {
