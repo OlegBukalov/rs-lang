@@ -17,6 +17,8 @@ export class CardPopupComponent {
 
   settings: ITextBookSettings = this.textBookSettingsService.getSettings();
 
+  category = DictionaryCategory;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -45,5 +47,21 @@ export class CardPopupComponent {
     const audio = new Audio();
     audio.src = `data:audio/mpeg;base64,${this.card.audio}`;
     audio.play();
+  }
+
+  playWordMeaning() {
+    const audio = new Audio();
+    audio.src = `data:audio/mpeg;base64,${this.card.audioMeaning}`;
+    audio.play();
+  }
+
+  playWordExample() {
+    const audio = new Audio();
+    audio.src = `data:audio/mpeg;base64,${this.card.audioExample}`;
+    audio.play();
+  }
+
+  moveCard(category: DictionaryCategory) {
+    this.dictionaryService.addWordToDictionary(this.card.id, category);
   }
 }

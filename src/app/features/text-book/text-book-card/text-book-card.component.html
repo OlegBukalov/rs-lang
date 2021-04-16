@@ -13,11 +13,19 @@
     <p *ngIf="!settings.isWordTranslationHidden" class="translation">{{ card.wordTranslate }}</p>
   </div>
   <div class="buttons">
-    <button *ngIf="!settings.isHardWordsBtnHidden" class="btn-template">В сложные</button>
-    <button *ngIf="!settings.isDeletedWordsBtnHidden" class="btn-template">В удаленные</button>
-    <!-- *ngFor="let category of categories"
-        (click)="moveCard(category)"
-        [hidden]="currentCategory === category"
-      >В {{category.toString()}} -->
+    <button
+      *ngIf="!settings.isHardWordsBtnHidden"
+      class="btn-template"
+      (click)="moveCard(category.Hard)"
+    >
+      В сложные
+    </button>
+    <button
+      *ngIf="!settings.isDeletedWordsBtnHidden"
+      class="btn-template"
+      (click)="moveCard(category.Deleted)"
+    >
+      В удаленные
+    </button>
   </div>
 </div>

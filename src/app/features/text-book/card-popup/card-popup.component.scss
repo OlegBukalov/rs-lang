@@ -14,7 +14,9 @@
     border-radius: 20px;
   }
 
-  .word-transcription {
+  .word-transcription,
+  .word-meaning,
+  .word-example {
     display: flex;
     align-items: center;
     padding: 10px 0;
@@ -24,6 +26,14 @@
     }
 
     .transcription {
+      margin-right: 20px;
+    }
+
+    .meaning {
+      margin-right: 20px;
+    }
+
+    .example {
       margin-right: 20px;
     }
 

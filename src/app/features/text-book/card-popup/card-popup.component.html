@@ -8,19 +8,39 @@
     <p class="transcription">{{ card.transcription }}</p>
     <p *ngIf="!settings.isWordTranslationHidden" class="word">{{ card.wordTranslate }}</p>
   </div>
-  <div class="examples">
-    <p [innerHTML]="card.textMeaning"></p>
-    <p *ngIf="!settings.isSentenceTranslationHidden">{{ card.textMeaningTranslate }}</p>
-    <p [innerHTML]="card.textExample"></p>
-    <p *ngIf="!settings.isSentenceTranslationHidden">{{ card.textExampleTranslate }}</p>
+  <div class="word-meaning">
+    <button class="audio btn-template" (click)="playWordMeaning()">
+      <span class="material-icons">headset</span>
+    </button>
+    <p [innerHTML]="card.textMeaning" class="meaning"></p>
+    <p *ngIf="!settings.isSentenceTranslationHidden" class="meaning">
+      {{ card.textMeaningTranslate }}
+    </p>
+  </div>
+  <div class="word-example">
+    <button class="audio btn-template" (click)="playWordExample()">
+      <span class="material-icons">headset</span>
+    </button>
+    <p [innerHTML]="card.textExample" class="example"></p>
+    <p *ngIf="!settings.isSentenceTranslationHidden" class="example">
+      {{ card.textExampleTranslate }}
+    </p>
   </div>
   <div class="buttons">
-    <button *ngIf="!settings.isHardWordsBtnHidden" class="btn-template">В сложные</button>
-    <button *ngIf="!settings.isDeletedWordsBtnHidden" class="btn-template">В удаленные</button>
-    <!-- *ngFor="let category of categories"
-      (click)="moveCard(category)"
-      [hidden]="currentCategory === category"
-    >В {{category.toString()}} -->
+    <button
+      *ngIf="!settings.isHardWordsBtnHidden"
+      class="btn-template"
+      (click)="moveCard(category.Hard)"
+    >
+      В сложные
+    </button>
+    <button
+      *ngIf="!settings.isDeletedWordsBtnHidden"
+      class="btn-template"
+      (click)="moveCard(category.Deleted)"
+    >
+      В удаленные
+    </button>
   </div>
 </div>
 
