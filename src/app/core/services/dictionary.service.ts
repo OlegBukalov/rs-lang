@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/features/auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { DictionaryCategory } from 'src/app/features/dictionary/dictionary-category';
 import { namesByCategory } from 'src/app/features/dictionary/name-by-category';
+import { map } from 'rxjs/operators';
 import { IWordPage } from '../interfaces/iword-page';
 import { IUserWord } from '../interfaces/iuser-word';
 import { ToasterService } from './toaster.service';
@@ -25,10 +26,33 @@ export class DictionaryService {
     private toaster: ToasterService,
   ) {}
 
-  getAggregatedWords(category: DictionaryCategory): Observable<IWordPage[]> {
-    const filter = `{"userWord.optional.category":"${namesByCategory[category]}"}`;
-    const url = `${this.baseUrl}/aggregatedWords/?wordsPerPage=${MAX_WORDS_PER_PAGE}&filter=${filter}`;
-    return this.http.get<IWordPage[]>(url);
+  getAggregatedWords(
+    category: DictionaryCategory,
+    groupId?: string,
+    pageId?: string,
+  ): Observable<IWordPage[]> {
+    const quaryFilter = `{"userWord.optional.category":"${namesByCategory[category]}"}`;
+    let url = `${this.baseUrl}/aggregatedWords/?wordsPerPage=${MAX_WORDS_PER_PAGE}&filter=${quaryFilter}`;
+    url += groupId ? `&group=${groupId}` : '';
+
+    let result = this.http.get<IWordPage[]>(url);
+    if (pageId) {
+      result = result.pipe(map((pages) => this.pageFilter(pages, pageId)));
+    }
+    return result;
+  }
+
+  pageFilter(pages: IWordPage[], pageId: string): IWordPage[] {
+    const page = pages[0];
+    const cards = page.paginatedResults.filter((card) => {
+      return card.page.toString() === pageId;
+    });
+    return [
+      {
+        paginatedResults: cards,
+        totalCount: page.totalCount,
+      },
+    ];
   }
 
   async addWordsToDictionary(wordsIdentifiers: string[], category: DictionaryCategory) {

@@ -38,6 +38,10 @@
     }
 }
 
+.card.hard {
+    box-shadow: 0 0 6px red;
+}
+
 @media screen and (max-width: 950px) {
      :host {
         width: 80%;

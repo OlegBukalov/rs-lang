@@ -62,6 +62,8 @@ export class TextBookPageComponent {
     );
     result.subscribe(
       (cards) => {
+        // eslint-disable-next-line no-console
+        console.log(cards);
         this.cards = cards;
       },
       () => {

@@ -35,6 +35,7 @@ export class TextBookGroupComponent {
       const id = IdValidatorService.validate(params.groupId);
       if (!this.isGroupChanged(id)) {
         this.changeGroupToken(id);
+        this.updateColor();
         return;
       }
       this.updateCards(id);
