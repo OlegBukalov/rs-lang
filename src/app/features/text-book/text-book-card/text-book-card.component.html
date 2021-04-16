@@ -1,12 +1,23 @@
 <div class="card" routerLink="card/{{ card.id }}" *ngIf="card">
-    <div class="image-container" [style.background]="'#' + color" *ngIf="card">
-        <img #image [src]="card.image | cardAsset | async"
-          alt="{{ card.word }}" 
-          (load)="showImage($event)"
-          style="display: none;" />
-    </div>
-    <div class="content">
-        <p class="word">{{ card.word }}</p>
-        <p *ngIf="!settings.isWordTranslationHidden" class="translation">{{ card.wordTranslate }}</p>
-    </div>
+  <div class="image-container" [style.background]="'#' + color" *ngIf="card">
+    <img
+      #image
+      [src]="card.image | cardAsset | async"
+      alt="{{ card.word }}"
+      (load)="showImage($event)"
+      style="display: none"
+    />
+  </div>
+  <div class="content">
+    <p class="word">{{ card.word }}</p>
+    <p *ngIf="!settings.isWordTranslationHidden" class="translation">{{ card.wordTranslate }}</p>
+  </div>
+  <div class="buttons">
+    <button *ngIf="!settings.isHardWordsBtnHidden" class="btn">В сложные</button>
+    <button *ngIf="!settings.isDeletedWordsBtnHidden" class="btn">В удаленные</button>
+    <!-- *ngFor="let category of categories"
+        (click)="moveCard(category)"
+        [hidden]="currentCategory === category"
+      >В {{category.toString()}} -->
+  </div>
 </div>
