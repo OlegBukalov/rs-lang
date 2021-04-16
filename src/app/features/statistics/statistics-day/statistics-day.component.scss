@@ -7,15 +7,12 @@
   font-size: 16px;
   color: #262E5B;
   text-transform: uppercase;
-  letter-spacing: 5px;
-
-  .data-words {
-    padding: 10px 0;
-    margin-bottom: 20px;
-    text-align: center;
-  }
+  letter-spacing: 2px;
 
   .data-games {
+    display: flex;
+    justify-content: center;
+
     caption {
       padding: 10px 0;
       border-bottom: 1px solid #6EB7BE;
@@ -29,6 +26,10 @@
     th,
     td {
       padding: 10px 0;
+    }
+
+    td:nth-child(1) {
+      padding-left: 10px;
     }
 
     td:nth-child(2),
@@ -71,4 +72,12 @@
       color: #FE8931;
     }
   }
+}
+
+.loading-statistics {
+  margin: 0;
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

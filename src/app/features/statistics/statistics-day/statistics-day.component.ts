@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-// import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { DictionaryCategory } from 'src/app/features/dictionary/dictionary-category';
+import { ToasterService } from 'src/app/core/services/toaster.service';
+import { DictionaryService } from '../../../core/services/dictionary.service';
 import { StatisticsService } from '../statistics.service';
 
 import { IItemListGames } from '../interfaces/iitem-list-games';
@@ -12,52 +14,70 @@ import { IItemListGames } from '../interfaces/iitem-list-games';
   templateUrl: './statistics-day.component.html',
   styleUrls: ['./statistics-day.component.scss'],
 })
-export class StatisticsDayComponent implements OnInit {
+export class StatisticsDayComponent implements OnInit, OnDestroy {
+  private subscription: Subscription;
   data: IItemListGames[];
   countAllUserWords: number;
   allRightAnswersOfDay: number;
-  isLoading = true;
+  isLoading: boolean;
+  isEmpty: boolean;
 
-  isEmpty = true;
-  // TODO будет меняться в зависимости от наличия данных по обучению для отображения альтернативного контента
-
-  constructor(private router: Router, private statisticsService: StatisticsService) {}
+  constructor(
+    private router: Router,
+    private statisticsService: StatisticsService,
+    private dictionaryService: DictionaryService,
+    private toasterService: ToasterService,
+  ) {}
 
   ngOnInit(): void {
-    this.data = this.statisticsService.getData();
-    this.allRightAnswersOfDay = this.statisticsService.getAllRightAnswers();
+    this.getStatisticsData();
+    this.getCountAllUserWords();
+  }
 
-    this.countAllUserWords = this.statisticsService.getAllUserWords();
+  getStatisticsData(): void {
+    this.subscription = this.statisticsService.getDataFromServer().subscribe(
+      (data) => {
+        const dataDay = this.statisticsService.setUserStatistics(data.optional);
+        this.data = dataDay.dataGames.dataGameItems;
+        this.allRightAnswersOfDay = dataDay.dataGames.percentAllRightAnswers;
+      },
+      () => {
+        this.data = [];
+      },
+    );
+  }
 
-    this.updateData();
+  getCountAllUserWords(): void {
+    this.isLoading = false;
+    const result = this.dictionaryService.getAggregatedWords(DictionaryCategory.Studied);
+    result.subscribe(
+      (data) => {
+        const [item] = data;
+        const itemCount = item.totalCount;
+        const [countWord] = itemCount;
+        this.isLoading = true;
+        if (countWord) {
+          this.countAllUserWords = countWord.count;
+        } else this.countAllUserWords = 0;
+        this.checkTemplate();
+      },
+      () => {
+        this.toasterService.showError('Не удалось загрузить данные об изученных словах', 'Ошибка!');
+      },
+    );
+  }
+
+  checkTemplate() {
+    if (this.data && this.countAllUserWords === 0) {
+      this.isEmpty = true;
+    } else this.isEmpty = false;
   }
 
   redirectToLink(link: string) {
     this.router.navigateByUrl(link);
   }
 
-  // getAllUserWords(): number {
-  //   this.isLoading = true;
-  //   let countAllWords: any;
-  //   this.dictionaryService.getAggregatedWords(DictionaryCategory.Studied).subscribe((result) => {
-  //     const data = result;
-  //     this.isLoading = false;
-  //     let allUserData: any;
-  //     [allUserData] = data;
-  //
-  //     console.log(allUserData);
-  //     [countAllWords] = allUserData.totalCount;
-  //     console.log(countAllWords.count);
-  //
-  //   });
-  //
-  //   // this.countAllUserWords = countAllWords.count;
-  //   return countAllWords.count;
-  // }
-
-  updateData() {
-    // this.dictionarySevice.getAggregatedWords(this.currentCategory).subscribe((result) => {
-    //   this.wordPages = result;
-    // });
+  ngOnDestroy() {
+    if (this.subscription) this.subscription.unsubscribe();
   }
 }

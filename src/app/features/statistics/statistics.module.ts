@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { StatisticsComponent } from './statistics.component';
 import { statisticsRoutes } from './statistics-routes';
@@ -17,6 +18,6 @@ import { StatisticsDataWordComponent } from './statistics-data-word/statistics-d
     StatisticsAllComponent,
     StatisticsDataWordComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(statisticsRoutes)],
+  imports: [CommonModule, RouterModule.forChild(statisticsRoutes), MatProgressSpinnerModule],
 })
 export class StatisticsModule {}
