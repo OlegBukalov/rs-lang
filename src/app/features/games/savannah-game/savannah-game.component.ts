@@ -3,7 +3,21 @@ import { Subscription } from 'rxjs';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
-import { CoordinateService } from './coordinate.service';
+import {
+  DEFAULT_LEVEL,
+  GameState,
+  HEALTH_ICON_WIDTH,
+  LEVELS,
+  MAX_HEALTH,
+  MAX_WORDS_NUMBER,
+  ONE_SCORE_POINT,
+  START_COORDINATE_X,
+  START_COORDINATE_Y,
+  STEP_X,
+  WordProperty,
+} from './constants';
+import { CoordinateService } from './services/coordinate.service';
+import { UtilitiesService } from './services/utilities.service';
 
 @Component({
   selector: 'app-savannah-game',
@@ -25,23 +39,25 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
 
   health: number;
 
-  isStarted = false;
+  healthIconWidth = HEALTH_ICON_WIDTH;
 
-  isGameOver = false;
+  state: GameState = GameState.Pending;
 
-  isRussianEnglish = false;
+  gameState = GameState;
+
+  languageSet = WordProperty;
+
+  wordProperty: WordProperty = WordProperty.English;
 
   score: number;
 
-  coordinateX = 0;
+  coordinateX = START_COORDINATE_X;
 
-  coordinateY = 50;
+  coordinateY = START_COORDINATE_Y;
 
-  stepX = 6; // speed
+  levels = LEVELS;
 
-  levels = [0, 1, 2, 3, 4, 5];
-
-  selectedLevel = 0;
+  selectedLevel = DEFAULT_LEVEL;
 
   intervalX: any;
 
@@ -53,29 +69,28 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     private wordsApiService: WordsApiService,
     private toastrService: ToasterService,
     private coordinateService: CoordinateService,
+    private utilitiesService: UtilitiesService,
   ) {}
 
   ngOnInit(): void {
-    this.selectLevel(0);
-    const debouncedHandleResize = this.debounce(() => {
+    this.selectLevel(DEFAULT_LEVEL);
+    const debouncedHandleResize = this.utilitiesService.debounce(() => {
       this.coordinateY = this.coordinateService.getAnimalCoordinateY();
     }, 1000);
     window.addEventListener('resize', debouncedHandleResize);
   }
 
-  debounce(func: Function, debounceTime: number): VoidFunction {
-    let timeout = null;
-    return (...args) => {
-      const context = this;
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        timeout = null;
-        func.apply(context, args);
-      }, debounceTime);
-    };
+  switchLanguages(): void {
+    this.wordProperty = this.getOppositeLanguage(this.wordProperty);
   }
 
-  // TODO maybe change logic
+  getOppositeLanguage(language: WordProperty): WordProperty {
+    if (language === WordProperty.Russian) {
+      return WordProperty.English;
+    }
+    return WordProperty.Russian;
+  }
+
   selectLevel(level: number): void {
     this.selectedLevel = level;
     this.wordsApiService.changeGroupToken(level.toString());
@@ -83,62 +98,39 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
   }
 
   start(): void {
-    new Promise((resolve, reject) => {
-      this.subscription = this.wordsApiService.getWordList().subscribe(
-        (response: IWord[]) => {
-          this.untouchableFullWordsList = response;
-          resolve(true);
-        },
-        (error) => {
-          reject(error);
-        },
-      );
-    })
-      .then(() => {
+    this.subscription = this.wordsApiService.getWordList().subscribe(
+      (response: IWord[]) => {
+        this.untouchableFullWordsList = response;
         this.wordsListForLevel = this.untouchableFullWordsList.slice();
-        this.resetGameParametrs();
+        this.resetGameParameters();
         this.continueRun();
-      })
-      .catch((error) => {
-        this.toastrService.showError(error, 'Ошибка');
-      });
+      },
+      (error: Error) => {
+        this.toastrService.showError(error.message, 'Ошибка');
+      },
+    );
   }
 
-  resetGameParametrs(): void {
+  resetGameParameters(): void {
     this.clearIntervals();
-    this.health = 5;
+    this.health = MAX_HEALTH;
     this.learnedWords = [];
     this.unlearnedWords = [];
-    this.isGameOver = false;
-    this.isStarted = true;
+    this.state = GameState.InProgress;
   }
 
   continueRun(): void {
     if (!this.wordsListForLevel.length) {
-      // game over
-      this.culcScore();
-      this.isGameOver = true;
-      this.isStarted = false;
-      this.clearIntervals();
+      this.finishGame();
       return;
     }
     this.targetWord = this.wordsListForLevel.shift();
     this.mixFourRandomWords();
-    this.setAnimalParametrs();
+    this.setAnimalParameters();
     this.intervalX = setInterval(() => {
-      this.coordinateX += this.stepX;
-      if (this.coordinateX >= window.innerWidth - 50) {
-        // fail
-        this.unlearnedWords.push(this.targetWord);
-        this.toastrService.showError(
-          'Неверно!',
-          `${this.targetWord.word} - ${this.targetWord.wordTranslate}`,
-          {
-            positionClass: 'toast-top-right',
-          },
-        );
-        this.checkHealth();
-        this.continueRun();
+      this.coordinateX += STEP_X;
+      if (this.coordinateX >= this.coordinateService.getWindowWidth()) {
+        this.handleWrongAnswer();
       }
     }, 100);
     this.intervalY = setInterval(() => {
@@ -146,72 +138,84 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
-  setAnimalParametrs(): void {
-    this.coordinateY = this.coordinateService.getAnimalCoordinateY(); // start y coordinate
-    this.coordinateX = -150; // start x coordinate
+  setAnimalParameters(): void {
+    this.coordinateY = this.coordinateService.getAnimalCoordinateY();
+    this.coordinateX = START_COORDINATE_X;
   }
 
-  compareWords(answer: IWord): void {
-    if (
-      answer.word === this.targetWord.word ||
-      answer.wordTranslate === this.targetWord.wordTranslate
-    ) {
-      // success
-      this.clearIntervals();
-      this.learnedWords.push(this.targetWord);
-      this.toastrService.showSuccess(
-        'Верно!',
-        `${this.targetWord.word} - ${this.targetWord.wordTranslate}`,
-        {
-          positionClass: 'toast-top-left',
-        },
-      );
-      this.continueRun();
+  checkAnswer(answer: IWord): void {
+    if (this.isAnswerCorrect(answer)) {
+      this.handleCorrectAnswer();
     } else {
-      // fail
-      this.unlearnedWords.push(this.targetWord);
-      this.toastrService.showError(
-        'Неверно!',
-        `${this.targetWord.word} - ${this.targetWord.wordTranslate}`,
-        {
-          positionClass: 'toast-top-right',
-        },
-      );
-      if (this.checkHealth()) {
-        this.continueRun();
-      }
+      this.handleWrongAnswer();
     }
   }
 
-  culcScore(): void {
-    const onePoint = 10;
-    this.score = +this.learnedWords?.length * onePoint;
+  private isAnswerCorrect(answer: IWord): boolean {
+    return this.utilitiesService.compareObjectsByProperty(
+      this.wordProperty,
+      answer,
+      this.targetWord,
+    );
+  }
+
+  handleCorrectAnswer(): void {
+    this.clearIntervals();
+    this.learnedWords.push(this.targetWord);
+    this.toastrService.showSuccess(
+      'Верно!',
+      `${this.targetWord.word} - ${this.targetWord.wordTranslate}`,
+      {
+        positionClass: 'toast-top-left',
+      },
+    );
+    this.continueRun();
+  }
+
+  handleWrongAnswer(): void {
+    this.unlearnedWords.push(this.targetWord);
+    this.toastrService.showError(
+      'Неверно!',
+      `${this.targetWord.word} - ${this.targetWord.wordTranslate}`,
+      {
+        positionClass: 'toast-top-right',
+      },
+    );
+    if (this.checkHealth()) {
+      this.continueRun();
+    }
+  }
+
+  calculateScore(): void {
+    this.score = +this.learnedWords?.length * ONE_SCORE_POINT;
   }
 
   checkHealth(): boolean {
-    this.clearIntervals();
     this.health -= 1;
     if (this.health <= 0) {
-      // game over
-      this.culcScore();
-      this.isStarted = false;
-      this.isGameOver = true;
+      this.finishGame();
       return false;
     }
+    this.clearIntervals();
     return true;
   }
 
-  clearIntervals(): void {
+  private finishGame(): void {
+    this.clearIntervals();
+    this.calculateScore();
+    this.state = GameState.Over;
+  }
+
+  private clearIntervals(): void {
     clearInterval(this.intervalX);
     clearInterval(this.intervalY);
   }
 
   mixFourRandomWords(): void {
-    const maxWordsNumber = 4;
     this.answerWordsArray = [];
     this.answerWordsArray.push(this.targetWord);
     const getNonDuplicatedRandomIndex = () => {
-      let randomIndex = this.getRandomInt(this.untouchableFullWordsList.length);
+      let randomIndex = this.utilitiesService.getRandomInt(this.untouchableFullWordsList.length);
       const duplicatedWord = this.answerWordsArray.find((answer: IWord) => {
         return answer === this.untouchableFullWordsList[randomIndex];
       });
@@ -220,29 +224,11 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
       }
       return randomIndex;
     };
-    for (let i = 0; i < maxWordsNumber - 1; i += 1) {
+    for (let i = 0; i < MAX_WORDS_NUMBER - 1; i += 1) {
       const randomIndex = getNonDuplicatedRandomIndex();
       this.answerWordsArray.push(this.untouchableFullWordsList[randomIndex]);
     }
-    this.answerWordsArray = this.shuffleWords(this.answerWordsArray);
-  }
-
-  private shuffleWords(array): IWord[] {
-    const arrayForShuffle = array.slice();
-    let randomIndex;
-    let tempElement;
-    for (let i = arrayForShuffle.length - 1; i > 0; i -= 1) {
-      randomIndex = Math.floor(Math.random() * (i + 1));
-      tempElement = arrayForShuffle[randomIndex];
-      arrayForShuffle[randomIndex] = arrayForShuffle[i];
-      arrayForShuffle[i] = tempElement;
-    }
-    return arrayForShuffle;
-  }
-
-  getRandomInt(max): number {
-    const randomNumber = Math.floor(Math.random() * Math.floor(max));
-    return randomNumber;
+    this.answerWordsArray = this.utilitiesService.shuffleWords<IWord>(this.answerWordsArray);
   }
 
   ngOnDestroy(): void {

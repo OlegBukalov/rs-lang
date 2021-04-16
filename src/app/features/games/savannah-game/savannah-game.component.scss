@@ -19,21 +19,13 @@
       width: calc(100% - 20px);
       padding-left: 20px;
 
-      .game-title-wrapper {
-        width: 46%;
-        height: 15%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .game-title {
-          color: #333470;
-          letter-spacing: 5px;
-          text-transform: uppercase;
-          margin: 0;
-          font-size: 40px;
-          font-weight: 800;
-        }
+      .game-title {
+        color: #333470;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        margin: 10px 50px;
+        font-size: 40px;
+        font-weight: 800;
       }
 
       .game-rules-wrapper {
@@ -62,22 +54,25 @@
           width: 90%;
           justify-content: space-evenly;
 
-          .level-buttons-wrapper {
+          .level-wrapper {
             z-index: 2;
             color: white;
             margin: 10px;
   
             .level-buttons-title {
+              margin: 50px 0 10px 0;
               text-align: center;
               height: 30px;
             }
   
-            .level-button {
-              margin: 0 2px;
-              padding: 0;
-              min-width: 40px;
-              min-height: 40px;
-              font-size: 20px;
+            .level-buttons-wrapper {
+              .level-button {
+                margin: 0 2px;
+                padding: 0;
+                min-width: 40px;
+                min-height: 40px;
+                font-size: 20px;
+              }
             }
           }
   
@@ -120,10 +115,6 @@
       color: white;
       z-index: 2;
       margin: 20px;
-      // left: calc(50% - 177px);
-      // left: 50%;
-      // top: 25%;
-      // transform: translate(-50%, -50%);
       align-items: center;
 
       .game-over-title {
@@ -283,11 +274,6 @@
       }
 
       .start-game-menu {
-
-        .game-title-wrapper {
-          width: 40%;
-        }
-
         .game-rules-wrapper {
           width: 40%;
           height: 60%;
@@ -301,10 +287,6 @@
 
     @media screen and (max-width: 750px) {
       .start-game-menu {
-        .game-title-wrapper {
-          width: 40%;
-        }
-  
         .game-rules-wrapper {
           width: 70%;
           height: 250px;

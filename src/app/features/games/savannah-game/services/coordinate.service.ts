@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import {
+  ANIMAL_WIDTH,
   INVERTER,
   MAX_COORDINATE_Y,
   MAX_SCREEN_WIDTH,
   MIN_COORDINATE_Y,
   MIN_SCREEN_WIDTH,
-  SCREEN_WIDTH,
   STABILIZATION_FACTOR,
   STEP_Y,
-} from './constants';
+} from '../constants';
 
 @Injectable({
   providedIn: 'root',
@@ -19,14 +19,14 @@ export class CoordinateService {
   inverterState = INVERTER;
 
   getAnimalCoordinateY(): number {
-    if (SCREEN_WIDTH >= MIN_SCREEN_WIDTH && SCREEN_WIDTH <= MAX_SCREEN_WIDTH) {
+    if (window.innerWidth >= MIN_SCREEN_WIDTH && window.innerWidth <= MAX_SCREEN_WIDTH) {
       return (
         MIN_COORDINATE_Y +
-        (SCREEN_WIDTH - MIN_SCREEN_WIDTH) /
-          ((STABILIZATION_FACTOR * SCREEN_WIDTH) / MIN_SCREEN_WIDTH)
+        (window.innerWidth - MIN_SCREEN_WIDTH) /
+          ((STABILIZATION_FACTOR * window.innerWidth) / MIN_SCREEN_WIDTH)
       );
     }
-    if (SCREEN_WIDTH < MIN_SCREEN_WIDTH) {
+    if (window.innerWidth < MIN_SCREEN_WIDTH) {
       return MIN_COORDINATE_Y;
     }
     return MAX_COORDINATE_Y;
@@ -39,5 +39,9 @@ export class CoordinateService {
     }
     this.stepsYCounter += 1;
     return STEP_Y * this.inverterState;
+  }
+
+  getWindowWidth(): number {
+    return window.innerWidth - ANIMAL_WIDTH;
   }
 }
