@@ -15,8 +15,8 @@
     <p *ngIf="!settings.isSentenceTranslationHidden">{{ card.textExampleTranslate }}</p>
   </div>
   <div class="buttons">
-    <button *ngIf="!settings.isHardWordsBtnHidden" class="btn">В сложные</button>
-    <button *ngIf="!settings.isDeletedWordsBtnHidden" class="btn">В удаленные</button>
+    <button *ngIf="!settings.isHardWordsBtnHidden" class="btn-template">В сложные</button>
+    <button *ngIf="!settings.isDeletedWordsBtnHidden" class="btn-template">В удаленные</button>
     <!-- *ngFor="let category of categories"
       (click)="moveCard(category)"
       [hidden]="currentCategory === category"
