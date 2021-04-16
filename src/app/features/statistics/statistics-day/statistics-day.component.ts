@@ -67,8 +67,9 @@ export class StatisticsDayComponent implements OnInit, OnDestroy {
     );
   }
 
+  // TO DO все слова из игр будут попадать в изученные, так что достаточно этой проверки
   checkTemplate() {
-    if (this.data && this.countAllUserWords === 0) {
+    if (this.countAllUserWords === 0) {
       this.isEmpty = true;
     } else this.isEmpty = false;
   }
