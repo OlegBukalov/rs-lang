@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { AuthService } from '../auth.service';
-import { FormControlName, MAX_PASSWORD_LENGTH, MIN_PASSWORD_LENGTH } from '../constants';
+import { FormControlName, MAX_PASSWORD_LENGTH, MIN_PASSWORD_LENGTH } from '../auth.constants';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   isFormSubmitted = false;
 
   isHidePassword = true;
+
+  isLoginCompleted = true;
 
   subscription: Subscription;
 
@@ -41,6 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onLogin(): void {
     this.isFormSubmitted = true;
+    this.isLoginCompleted = false;
     if (!this.loginForm.valid) {
       this.toastrService.showError('Неверно заполнена форма входа', 'Ошибка');
       return;
@@ -48,9 +51,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscription = this.authService.login(this.loginForm).subscribe(
       () => {
         this.toastrService.showSuccess('Авторизация успешна', 'Успех');
+        this.isLoginCompleted = true;
         this.router.navigate(['']);
       },
       (error) => {
+        this.isLoginCompleted = true;
         if (error.status === 403 || error.status === 404) {
           this.toastrService.showError('Неверная почта или пароль', 'Ошибка');
         } else {

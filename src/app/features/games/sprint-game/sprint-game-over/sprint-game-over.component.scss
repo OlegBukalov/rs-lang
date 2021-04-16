@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.words {
+  display: flex;
+}
+
+.words-column {
+  padding: 10px;
+}
+
+.word-list {
+  display: flex;
+  flex-direction: column;
+}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { IWord } from 'src/app/core/interfaces/iword';
+import { StorageService } from 'src/app/core/services/storage.service';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { IdValidatorService } from '../id-validator.service';
 import { categories, IGroupCategory } from './group-difficulty';
@@ -26,11 +27,13 @@ export class TextBookGroupComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private wordsApiService: WordsApiService,
+    private storage: StorageService,
   ) {
     this.route.params.subscribe((params) => {
       const id = IdValidatorService.validate(params.groupId);
       this.updateCards(id);
       this.updateColor();
+      this.storage.setItem('groupId', id.toString());
     });
   }
 
