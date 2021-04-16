@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from './features/auth/auth.service';
 
 @Component({
@@ -9,12 +10,16 @@ import { AuthService } from './features/auth/auth.service';
 export class AppComponent implements OnInit {
   title = 'rs-lang';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     if (localStorage.loginData) {
       this.authService.loginData = JSON.parse(localStorage.loginData);
       this.authService.setupTokenRefreshTimeout();
     }
+  }
+
+  checkIsGameOpened() {
+    return this.router.url.includes('games/');
   }
 }
