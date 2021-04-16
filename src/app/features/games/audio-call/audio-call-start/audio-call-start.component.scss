@@ -1,0 +1,35 @@
+@import './../../../../../variables.scss';
+@import './../game-styles.scss';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  font-family: 'Poiret One', cursive;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.start-pad {
+  @extend %scorepad;
+  padding: 20px;
+
+  &__selection {
+    width: 90%;
+    padding: 5px;
+
+    font-family: 'Poiret One';
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: $color_blue;
+    border-radius: 5px;
+  }
+}
+
+.start-button {
+  @extend %game-button;
+  display: block;
+  color: $color_light_gray;
+}

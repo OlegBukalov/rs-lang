@@ -37,6 +37,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   isHiddenDataChild = false;
   isSaved: boolean = this.ownGameService.isSaved;
   isHiddenChildCard: boolean;
+  isLoading: boolean;
 
   wordCounter = 0;
   correctWordCounter = 0;
@@ -74,8 +75,10 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   getData() {
+    this.isLoading = true;
     this.subscription = this.wordsApiService.getWordList().subscribe((data) => {
       this.words = data;
+      this.isLoading = false;
     });
   }
 
@@ -86,6 +89,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     this.countTry = this.wordsApiService.INIT_MISTAKES_COUNTER;
     this.leftCards = this.wordsApiService.INIT_LEFT_CARDS_COUNTER;
     this.isHiddenDataChild = false;
+    this.isHiddenChildCard = false;
     this.ownGameService.setIsSaved(true);
     this.setCurrentState(GameState.STOP);
     this.isHiddenChildCard = false;
@@ -125,29 +129,35 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   checkCard(card: IWord): void {
-    if (this.playingWord.audio === card.audio) {
-      this.playResultAudio(true);
+    if (this.playingWord) {
+      if (this.playingWord.audio === card.audio) {
+        this.playResultAudio(true);
 
-      this.wordCounter += 1;
-      this.correctWordCounter += 1;
-      this.currentMaxCorrectSequence += 1;
+        this.wordCounter += 1;
+        this.correctWordCounter += 1;
+        this.currentMaxCorrectSequence += 1;
 
-      this.leftCards -= 1;
-      this.ownGameService.setDisabledItemId(card.id);
-      this.playingWordIndexes.shift();
-      this.countMistakes();
-      if (this.playingWordIndexes.length) {
-        this.playNextWord();
+        this.leftCards -= 1;
+        this.ownGameService.setDisabledItemId(card.id);
+        this.playingWordIndexes.shift();
+        this.countMistakes();
+        this.checkFinishGame();
       } else {
-        this.finishGame();
-      }
-    } else {
-      this.playResultAudio(false);
-      this.countTry += 1;
+        this.playResultAudio(false);
+        this.countTry += 1;
 
-      this.wordCounter += 1;
-      this.getMaxCorrectSequence(this.currentMaxCorrectSequence);
-      this.currentMaxCorrectSequence = 0;
+        this.wordCounter += 1;
+        this.getMaxCorrectSequence(this.currentMaxCorrectSequence);
+        this.currentMaxCorrectSequence = 0;
+      }
+    }
+  }
+
+  checkFinishGame(): void {
+    if (this.playingWordIndexes.length) {
+      this.playNextWord();
+    } else {
+      this.finishGame();
     }
   }
 
@@ -201,11 +211,6 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     }
   }
 
-  repeatGame() {
-    this.initializeValuesForGame();
-    this.isHiddenChildCard = false;
-  }
-
   mixCards() {
     this.getData();
     this.initializeValuesForGame();
@@ -220,24 +225,21 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   canDeactivate(): boolean | Observable<boolean> {
-    return this.ownGameService.isSaved ? true : this.openExitModalWindow();
-  }
+    if (this.ownGameService.isSaved) {
+      return true;
+    }
 
-  openExitModalWindow() {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
-    this.dialog.open(DialogElementsExampleDialogComponent, dialogConfig);
-    return false;
-  }
-
-  closeModal() {
-    this.setCurrentState(GameState.HOLD);
+    const dialogRef = this.dialog.open(DialogElementsExampleDialogComponent, dialogConfig);
+    return dialogRef.afterClosed();
   }
 
   ngOnDestroy() {
+    this.ownGameService.isSaved = true;
     this.subscription.unsubscribe();
   }
 }

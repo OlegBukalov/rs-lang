@@ -6,31 +6,37 @@
     <app-start-loading (startLoadingEnd)="gameInit()"></app-start-loading>
   </ng-template>
   <ng-template ngSwitchCase="play">
-    <div>
-      <span>Score: {{score}}</span>
+    <div class="score">
+      <span>{{score}}</span>
     </div>
     <mat-card class="card">
       <app-bonus-score
         [scoreCounter] = "bonusCounter"
         [scoreLvl] = "bonusLvl"
       ></app-bonus-score>
-      <span>{{currentWord.word}}</span>
-      <span>{{currentWord.randomTranslate}}</span>
+      <p class="sprint-word">{{currentWord.word}}</p>
+      <p class="sprint-translate">{{currentWord.randomTranslate}}</p>
       <div class="answer-buttons">
-        <button (click)="checkAnswer(false)"> Неверно </button>
-        <button (click)="checkAnswer(true)"> Верно </button>
+        <div>
+          <button class="btn-wrong" (click)="checkAnswer(false)">неверно</button>
+          <span class="material-icons material-icons-game">west</span>
+        </div>
+        <div>
+          <button class="btn-right" (click)="checkAnswer(true)">верно</button>
+          <span class="material-icons material-icons-game">east</span>
+        </div>
       </div>
       <div class="progress-bar-block">
         <mat-progress-bar
           mode="determinate"
           [value]="progressbarValue">
         </mat-progress-bar>
-        <div class="progress-bar-timer">{{curSecond}} sec</div>
+        <div class="progress-bar-timer">{{curSecond}} сек</div>
       </div>
     </mat-card>
     <div class="answer-buttons">
-      <button (click)="setLoadingStatus()">Начать заново</button>
-      <button (click)="exit()">Выйти</button>
+      <button class="btn-template" (click)="setLoadingStatus()">начать заново</button>
+      <button class="btn-template" (click)="exit()">выйти</button>
     </div>
   </ng-template>
   <ng-template  ngSwitchCase="end">

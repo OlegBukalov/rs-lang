@@ -6,13 +6,13 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./audio-call-start.component.scss'],
 })
 export class AudioCallStartComponent {
-  levels: number[] = [1, 2, 3, 4, 5, 6];
-
   level = 1;
+
+  readonly levels: number[] = [1, 2, 3, 4, 5, 6];
 
   @Output() startNewGame = new EventEmitter();
 
-  onStartClick() {
+  onStartClick(): void {
     this.startNewGame.emit(this.level);
   }
 }

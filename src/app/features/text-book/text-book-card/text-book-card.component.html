@@ -1,9 +1,12 @@
 <div class="card" routerLink="card/{{ card.id }}" *ngIf="card">
     <div class="image-container" [style.background]="'#' + color" *ngIf="card">
-        <img [src]="card.image | cardAsset | async" alt="{{card.word}}">
+        <img #image [src]="card.image | cardAsset | async"
+          alt="{{ card.word }}" 
+          (load)="showImage($event)"
+          style="display: none;" />
     </div>
     <div class="content">
         <p class="word">{{ card.word }}</p>
-        <p class="translation">{{ card.wordTranslate }}</p>
+        <p *ngIf="!settings.isWordTranslationHidden" class="translation">{{ card.wordTranslate }}</p>
     </div>
 </div>

@@ -1,29 +1,29 @@
 .page-container {
-  padding-left: 90px;
-  padding-right: 90px;
-
+    padding-left: 90px;
+    padding-right: 90px;
     .arrow-btn {
         display: flex;
         justify-content: center;
         align-items: center;
         outline: none;
     }
-
     .left {
-      position: fixed;
-      left: 10px;
-      bottom: 35%;
+        position: fixed;
+        left: 10px;
+        bottom: 35%;
     }
-
     .right {
-      position: fixed;
-      right: 10px;
-      bottom: 35%;
+        position: fixed;
+        right: 10px;
+        bottom: 35%;
     }
-
     .cards-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
     }
+}
+
+.spiner {
+    margin: 50px auto;
 }

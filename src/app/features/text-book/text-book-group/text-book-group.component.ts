@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
@@ -12,16 +12,18 @@ import { categories, IGroupCategory } from './group-difficulty';
   templateUrl: './text-book-group.component.html',
   styleUrls: ['./text-book-group.component.scss'],
 })
-export class TextBookGroupComponent implements OnInit {
+export class TextBookGroupComponent {
   groupId: number;
 
-  cards: Observable<IWord[]>;
+  cards: IWord[];
 
   currentColor: string;
 
   urlFragment = /(?<=group\/)\d+/;
 
   difficulties: IGroupCategory[] = categories;
+
+  variable: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,20 +33,33 @@ export class TextBookGroupComponent implements OnInit {
   ) {
     this.route.params.subscribe((params) => {
       const id = IdValidatorService.validate(params.groupId);
+      if (!this.isGroupChanged(id)) {
+        this.changeGroupToken(id);
+        return;
+      }
       this.updateCards(id);
       this.updateColor();
       this.storage.setItem('groupId', id.toString());
     });
   }
 
-  ngOnInit(): void {
+  isGroupChanged(id: number): boolean {
+    const storageId = +this.storage.getItem('groupId');
+    const groupId = this.groupId ? this.groupId : storageId;
+    return groupId !== id;
+  }
+
+  changeGroupToken(groupId: number) {
+    this.groupId = groupId;
     this.wordsApiService.changeGroupToken(this.groupId.toString());
   }
 
   updateCards(groupId: number) {
-    this.groupId = groupId;
-    this.wordsApiService.changeGroupToken(this.groupId.toString());
-    this.cards = this.wordsApiService.getWordList();
+    this.changeGroupToken(groupId);
+    const result = this.wordsApiService.getWordList().pipe(first());
+    result.subscribe((cards) => {
+      this.cards = cards;
+    });
   }
 
   updateColor() {

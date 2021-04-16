@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .settings__form {
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .example-form mat-slide-toggle {
+      margin: 8px 0;
+      display: block;
+    }
+  }
+}

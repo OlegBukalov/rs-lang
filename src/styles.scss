@@ -30,6 +30,15 @@
   -webkit-font-smoothing: antialiased;
 }
 
+.spinner {
+  position: absolute;
+  top: calc(50% - 50px);
+  left: calc(50% - 50px);
+  width: 100px;
+  height: 100px;
+  z-index: 110;
+}
+
 /* Document
  * ========================================================================== */
 
@@ -543,5 +552,11 @@ button.item-btn-template {
   &:hover {
     background-color: #E0E2F6;
     color: #333470;
+  }
+}
+
+.progress-bar-block {
+  .mat-progress-bar-fill::after {
+    background-color: #262E5B;
   }
 }

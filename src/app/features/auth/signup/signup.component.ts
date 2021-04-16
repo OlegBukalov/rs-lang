@@ -1,16 +1,18 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ToasterService } from 'src/app/core/services/toaster.service';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import {
+  AuthPath,
   FormControlName,
   MAX_NAME_LENGTH,
   MAX_PASSWORD_LENGTH,
   MIN_NAME_LENGTH,
   MIN_PASSWORD_LENGTH,
-} from '../constants';
+} from '../auth.constants';
 
 @Component({
   selector: 'app-signup',
@@ -18,6 +20,8 @@ import {
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit, OnDestroy {
+  @Output() signup: EventEmitter<void> = new EventEmitter();
+
   signupForm: FormGroup;
 
   formControlName = FormControlName;
@@ -26,9 +30,15 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   isHidePassword = true;
 
+  isSigninCompleted = true;
+
   subscription: Subscription;
 
-  constructor(private authService: AuthService, private toastrService: ToasterService) {}
+  constructor(
+    private authService: AuthService,
+    private toastrService: ToasterService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
@@ -48,6 +58,7 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   onSignup(): void {
     this.isFormSubmitted = true;
+    this.isSigninCompleted = false;
     if (!this.signupForm.valid) {
       this.toastrService.showError('Неверно заполнена форма регистрации', 'Ошибка');
       return;
@@ -55,8 +66,12 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.subscription = this.authService.signup(this.signupForm).subscribe(
       () => {
         this.toastrService.showSuccess('Регистрация прошла успешно!', 'Успех');
+        this.isSigninCompleted = true;
+        this.authService.activeLink.next(AuthPath.Login);
+        this.router.navigate([AuthPath.Auth, AuthPath.Login]);
       },
       (error) => {
+        this.isSigninCompleted = true;
         this.handleSignupErrors(error);
       },
     );
@@ -86,6 +101,8 @@ export class SignupComponent implements OnInit, OnDestroy {
             );
         }
       });
+    } else if (err.status === 417) {
+      this.toastrService.showError('Пользователь с такой почтой уже существует', 'Ошибка');
     }
   }
 

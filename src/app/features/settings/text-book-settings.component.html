@@ -1,0 +1,16 @@
+<form class="settings__form" [formGroup]="formGroup" (ngSubmit)="onFormSubmit()" ngNativeValidate>
+  <mat-slide-toggle color="primary" formControlName="isWordTranslationHidden"
+    >Скрыть перевод слова</mat-slide-toggle
+  >
+  <mat-slide-toggle color="primary" formControlName="isSentenceTranslationHidden"
+    >Скрыть перевод предложения</mat-slide-toggle
+  >
+  <mat-slide-toggle color="primary" formControlName="isHardWordsBtnHidden"
+    >Убрать кнопку "сложные слова"</mat-slide-toggle
+  >
+  <mat-slide-toggle color="primary" formControlName="isDeletedWordsBtnHidden"
+    >Убрать кнопку "удаленные слова"</mat-slide-toggle
+  >
+
+  <button class="btn-template" type="submit">Сохранить</button>
+</form>

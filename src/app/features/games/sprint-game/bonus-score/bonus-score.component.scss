@@ -22,3 +22,32 @@
 .center {
   justify-content: center;
 }
+
+.sprint-level-text {
+  padding: 5px 0;
+  font-family: 'Poiret One', cursive;
+  font-weight: bold;
+  font-size: 20px;
+  color:  #589DAE;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.score-images {
+  list-style-type: none;
+  padding: 10px 0;
+  display: flex;
+
+  li {
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+    }
+  }
+}
