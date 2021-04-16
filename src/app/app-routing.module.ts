@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: 'dictionary',
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/dictionary/dictionary.module').then((m) => m.DictionaryModule),
   },
@@ -24,7 +24,7 @@ const routes: Routes = [
   },
   {
     path: 'settings',
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     loadChildren: () => import('./features/settings/settings.module').then((m) => m.SettingsModule),
   },
   {

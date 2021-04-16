@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { GameID } from '../../statistics/enums/game-id.enum';
 import { StatisticsService } from '../../statistics/statistics.service';
 import { IGameResult } from './interfaces';
-import { GameID } from './../../statistics/enums/game-id.enum';
 
 enum GameStatus {
   Start = 'start',

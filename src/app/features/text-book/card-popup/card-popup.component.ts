@@ -4,6 +4,8 @@ import { IWord } from 'src/app/core/interfaces/iword';
 import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { DictionaryCategory } from '../../dictionary/dictionary-category';
+import { ITextBookSettings } from '../../settings/interfaces/itext-book-settings';
+import { TextBookSettingsService } from '../../settings/services/text-book-settings.service';
 
 @Component({
   selector: 'app-card-popup',
@@ -13,11 +15,14 @@ import { DictionaryCategory } from '../../dictionary/dictionary-category';
 export class CardPopupComponent {
   card: IWord;
 
+  settings: ITextBookSettings = this.textBookSettingsService.getSettings();
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private wordsApiService: WordsApiService,
     private dictionaryService: DictionaryService,
+    private textBookSettingsService: TextBookSettingsService,
   ) {
     this.route.params.subscribe((params) => {
       const { cardId } = params;
