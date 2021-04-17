@@ -5,3 +5,9 @@ export const namesByCategory = {
   [DictionaryCategory.Hard]: 'hard',
   [DictionaryCategory.Deleted]: 'deleted',
 };
+
+export const categoryByName = {
+  studied: DictionaryCategory.Studied,
+  hard: DictionaryCategory.Hard,
+  deleted: DictionaryCategory.Deleted,
+};
