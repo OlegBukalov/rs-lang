@@ -1,3 +1,5 @@
+import { GameID } from '../../statistics/enums/game-id.enum';
+
 export const MIN_SCREEN_WIDTH = 1150;
 export const MAX_SCREEN_WIDTH = 1500;
 export const MIN_COORDINATE_Y = 230;
@@ -16,6 +18,8 @@ export const MAX_HEALTH = 5;
 export const HEALTH_ICON_WIDTH = 40;
 export const DEFAULT_LEVEL = 0;
 export const LEVELS = [0, 1, 2, 3, 4, 5];
+
+export const GAME_ID = GameID.Savannah;
 
 export enum GameState {
   InProgress,

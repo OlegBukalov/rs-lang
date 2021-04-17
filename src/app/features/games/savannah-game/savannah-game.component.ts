@@ -3,9 +3,11 @@ import { Subscription } from 'rxjs';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
+import { StatisticsService } from '../../statistics/statistics.service';
 import {
   DEFAULT_LEVEL,
   GameState,
+  GAME_ID,
   HEALTH_ICON_WIDTH,
   LEVELS,
   MAX_HEALTH,
@@ -59,6 +61,14 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
 
   selectedLevel = DEFAULT_LEVEL;
 
+  maxCorrectSequence = 0;
+
+  currentCorrectSequence = 0;
+
+  prevUnlearnedWordsLength: number;
+
+  prevLearnedWordsLength: number;
+
   intervalX: any;
 
   intervalY: any;
@@ -70,6 +80,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     private toastrService: ToasterService,
     private coordinateService: CoordinateService,
     private utilitiesService: UtilitiesService,
+    private statisticsService: StatisticsService,
   ) {}
 
   ngOnInit(): void {
@@ -93,11 +104,12 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
 
   selectLevel(level: number): void {
     this.selectedLevel = level;
-    this.wordsApiService.changeGroupToken(level.toString());
+    this.wordsApiService.changeGroupToken(this.selectedLevel.toString());
     this.wordsApiService.setRandomPage();
   }
 
   start(): void {
+    this.wordsApiService.setRandomPage();
     this.subscription = this.wordsApiService.getWordList().subscribe(
       (response: IWord[]) => {
         this.untouchableFullWordsList = response;
@@ -116,6 +128,9 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     this.health = MAX_HEALTH;
     this.learnedWords = [];
     this.unlearnedWords = [];
+    this.prevLearnedWordsLength = 0;
+    this.prevUnlearnedWordsLength = 0;
+    this.currentCorrectSequence = 0;
     this.state = GameState.InProgress;
   }
 
@@ -151,6 +166,22 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     }
   }
 
+  calculateMaxCorrectSequence() {
+    if (
+      this.prevUnlearnedWordsLength === this.unlearnedWords.length &&
+      this.prevLearnedWordsLength < this.learnedWords.length
+    ) {
+      this.currentCorrectSequence += 1;
+    } else {
+      this.currentCorrectSequence = 0;
+    }
+    if (this.currentCorrectSequence > this.maxCorrectSequence) {
+      this.maxCorrectSequence = this.currentCorrectSequence;
+    }
+    this.prevLearnedWordsLength = this.learnedWords.length;
+    this.prevUnlearnedWordsLength = this.unlearnedWords.length;
+  }
+
   private isAnswerCorrect(answer: IWord): boolean {
     return this.utilitiesService.compareObjectsByProperty(
       this.wordProperty,
@@ -162,6 +193,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
   handleCorrectAnswer(): void {
     this.clearIntervals();
     this.learnedWords.push(this.targetWord);
+    this.calculateMaxCorrectSequence();
     this.toastrService.showSuccess(
       'Верно!',
       `${this.targetWord.word} - ${this.targetWord.wordTranslate}`,
@@ -174,6 +206,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
 
   handleWrongAnswer(): void {
     this.unlearnedWords.push(this.targetWord);
+    this.calculateMaxCorrectSequence();
     this.toastrService.showError(
       'Неверно!',
       `${this.targetWord.word} - ${this.targetWord.wordTranslate}`,
@@ -186,7 +219,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     }
   }
 
-  calculateScore(): void {
+  calculateGameScore(): void {
     this.score = +this.learnedWords?.length * ONE_SCORE_POINT;
   }
 
@@ -202,8 +235,19 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
 
   private finishGame(): void {
     this.clearIntervals();
-    this.calculateScore();
+    this.calculateGameScore();
+    this.sendGameStatistics();
     this.state = GameState.Over;
+  }
+
+  sendGameStatistics(): void {
+    const gameData = {
+      idGame: GAME_ID,
+      countAll: this.learnedWords.length + this.unlearnedWords.length,
+      countRight: this.learnedWords.length,
+      maxRight: this.maxCorrectSequence,
+    };
+    this.statisticsService.getDataFromGame(gameData);
   }
 
   private clearIntervals(): void {
