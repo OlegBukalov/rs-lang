@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { IWord } from 'src/app/core/interfaces/iword';
+import { DictionaryCategory } from '../../dictionary/dictionary-category';
 import { ITextBookSettings } from '../../settings/interfaces/itext-book-settings';
 import { TextBookSettingsService } from '../../settings/services/text-book-settings.service';
 
@@ -16,6 +17,8 @@ export class TextBookCardComponent {
   @ViewChild('image') image: ElementRef;
 
   settings: ITextBookSettings = this.textBookSettingsService.getSettings();
+
+  hardCategory = DictionaryCategory.Hard;
 
   constructor(private textBookSettingsService: TextBookSettingsService) {}
 

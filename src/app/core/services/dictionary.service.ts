@@ -27,12 +27,13 @@ export class DictionaryService {
   ) {}
 
   getAggregatedWords(
-    category: DictionaryCategory,
-    groupId?: string,
-    pageId?: string,
+    groupId: string,
+    pageId: string,
+    ...categories: DictionaryCategory[]
   ): Observable<IWordPage[]> {
-    const quaryFilter = `{"userWord.optional.category":"${namesByCategory[category]}"}`;
-    let url = `${this.baseUrl}/aggregatedWords/?wordsPerPage=${MAX_WORDS_PER_PAGE}&filter=${quaryFilter}`;
+    const filter = this.getQuaryFilter(categories);
+    let url = `${this.baseUrl}/aggregatedWords/?wordsPerPage=${MAX_WORDS_PER_PAGE}`;
+    url += filter ? `&filter=${filter}` : '';
     url += groupId ? `&group=${groupId}` : '';
 
     let result = this.http.get<IWordPage[]>(url);
@@ -40,6 +41,16 @@ export class DictionaryService {
       result = result.pipe(map((pages) => this.pageFilter(pages, pageId)));
     }
     return result;
+  }
+
+  getQuaryFilter(categories: DictionaryCategory[]) {
+    if (!categories.length) return '';
+    const filters = categories.map((category) => {
+      return `{"userWord.optional.category":"${namesByCategory[category]}"}`;
+    });
+    if (filters.length === 1) return filters[0];
+
+    return `{"$or":[${filters.join(',')}]}`;
   }
 
   pageFilter(pages: IWordPage[], pageId: string): IWordPage[] {

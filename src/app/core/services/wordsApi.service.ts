@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { flatMap, map } from 'rxjs/operators';
 import { DictionaryCategory } from 'src/app/features/dictionary/dictionary-category';
+import { namesByCategory } from 'src/app/features/dictionary/name-by-category';
 import { IWord } from '../interfaces/iword';
 import { DictionaryService } from './dictionary.service';
 
@@ -30,24 +31,36 @@ export class WordsApiService {
   getWordList(): Observable<IWord[]> {
     return this.http
       .get<IWord[]>(this.wordListUrl)
-      .pipe(flatMap((cards) => this.appendCardsStatus(cards)));
+      .pipe(flatMap((cards) => this.categoryFilter(cards)));
   }
 
-  private async appendCardsStatus(cards: IWord[]): Promise<IWord[]> {
+  private async categoryFilter(cards: IWord[]): Promise<IWord[]> {
     const result = await this.dictionary
-      .getAggregatedWords(DictionaryCategory.Hard, this.groupToken, this.pageToken)
-      .toPromise();
-    if (!result[0].totalCount[0].count) return cards;
-    const hardWords = result[0].paginatedResults;
+      .getAggregatedWords(
+        this.groupToken,
+        this.pageToken,
+        DictionaryCategory.Hard,
+        DictionaryCategory.Deleted,
+      )
+      .toPromise()
+      .catch(() => []);
+    if (!result.length || !result[0].totalCount[0].count) return cards;
+    const aggregatedWords = result[0].paginatedResults;
 
-    return cards.map((card) => {
+    const filteredCards = this.excludeDeleted(cards, aggregatedWords);
+    return filteredCards.map((card) => {
       // eslint-disable-next-line no-underscore-dangle
-      const filtered = hardWords.find((hardWord) => hardWord._id === card.id);
-      if (!filtered) return card;
+      const isExist = aggregatedWords.some((aggregatedWord) => aggregatedWord._id === card.id);
+      return isExist ? { ...card, status: DictionaryCategory.Hard } : card;
+    });
+  }
 
-      const cardWithStatus = card;
-      cardWithStatus.status = DictionaryCategory.Hard;
-      return cardWithStatus;
+  excludeDeleted(cards: IWord[], aggregatedWords: IWord[]): IWord[] {
+    const deletedStatus = namesByCategory[DictionaryCategory.Deleted];
+    return cards.filter((card) => {
+      // eslint-disable-next-line no-underscore-dangle
+      const filtered = aggregatedWords.find((aggregatedWord) => aggregatedWord._id === card.id);
+      return filtered ? filtered.userWord.optional.category !== deletedStatus : true;
     });
   }
 

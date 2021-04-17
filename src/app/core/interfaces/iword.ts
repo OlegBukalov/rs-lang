@@ -19,4 +19,7 @@ export interface IWord {
   wordTranslate: string;
   wordsPerExampleSentence: number;
   status?: DictionaryCategory;
+  userWord?: {
+    optional: any;
+  };
 }
