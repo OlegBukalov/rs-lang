@@ -19,6 +19,8 @@ export class WordsApiService {
   private pageToken = '0';
   private groupToken = '0';
 
+  private isTextbookGameOpen = false;
+
   constructor(private http: HttpClient) {}
 
   private get wordListUrl() {
@@ -57,5 +59,13 @@ export class WordsApiService {
   setRandomPage(): void {
     const randomPage = Math.round(Math.random() * 29).toString();
     this.changePageToken(randomPage);
+  }
+
+  setTextbookGameOpenFlag(newFlag: boolean): void {
+    this.isTextbookGameOpen = newFlag;
+  }
+
+  getTextbookGameOpenFlag(): boolean {
+    return this.isTextbookGameOpen;
   }
 }
