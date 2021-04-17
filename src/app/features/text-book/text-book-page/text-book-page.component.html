@@ -1,7 +1,7 @@
 <div class="page-container" *ngIf="!isLoading; else: loadingBlock">
   <div class="game-list">
     <app-game-btns
-      *ngFor="let gameItem of gameList"
+      *ngFor="let gameItem of games"
       [gameItem]="gameItem"
     >
     </app-game-btns>

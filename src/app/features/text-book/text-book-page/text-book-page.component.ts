@@ -19,7 +19,7 @@ const LAST_PAGE_INDEX = 29;
   styleUrls: ['./text-book-page.component.scss'],
 })
 export class TextBookPageComponent {
-  gameList: IGameItem[] = GAMES_DESCRIPTION;
+  games: IGameItem[] = GAMES_DESCRIPTION;
 
   pageId: number;
 

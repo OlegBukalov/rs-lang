@@ -19,7 +19,7 @@ export class WordsApiService {
   private pageToken = '0';
   private groupToken = '0';
 
-  isTextbookGameOpen = false;
+  private isTextbookGameOpen = false;
 
   constructor(private http: HttpClient) {}
 
