@@ -52,7 +52,7 @@ export class StatisticsDayComponent implements OnInit, OnDestroy {
   setCountAllUserWords(): void {
     this.isLoading = true;
     this.subscriptionCountWords = this.dictionaryService
-      .getAggregatedWords(DictionaryCategory.Studied)
+      .getAggregatedWords(null, null, DictionaryCategory.Studied)
       .pipe(
         finalize(() => {
           this.isLoading = false;

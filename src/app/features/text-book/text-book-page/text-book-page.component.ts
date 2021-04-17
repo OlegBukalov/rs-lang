@@ -33,7 +33,7 @@ export class TextBookPageComponent {
     UrlFragment: /(?<=page\/)\d+/,
   };
 
-  isLoading: boolean;
+  @Input() isLoading: boolean;
 
   constructor(
     private route: ActivatedRoute,
