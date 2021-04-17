@@ -1,7 +1,7 @@
 <div class="container" *ngIf="card; else loadingBlock">
   <img src="data:image/jpeg;base64,{{ card.image }}" alt="{{ card.word }}" />
   <div class="word-transcription">
-    <button class="audio btn-template" (click)="playAudio()">
+    <button class="audio btn-template" (click)="playAudio(card.audio)">
       <span class="material-icons">headset</span>
     </button>
     <p class="word">{{ card.word }}</p>
@@ -9,7 +9,7 @@
     <p *ngIf="!settings.isWordTranslationHidden" class="word">{{ card.wordTranslate }}</p>
   </div>
   <div class="word-meaning">
-    <button class="audio btn-template" (click)="playWordMeaning()">
+    <button class="audio btn-template" (click)="playAudio(card.audioMeaning)">
       <span class="material-icons">headset</span>
     </button>
     <p [innerHTML]="card.textMeaning" class="meaning"></p>
@@ -18,7 +18,7 @@
     </p>
   </div>
   <div class="word-example">
-    <button class="audio btn-template" (click)="playWordExample()">
+    <button class="audio btn-template" (click)="playAudio(card.audioExample)">
       <span class="material-icons">headset</span>
     </button>
     <p [innerHTML]="card.textExample" class="example"></p>

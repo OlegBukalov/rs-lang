@@ -43,21 +43,9 @@ export class CardPopupComponent {
     );
   }
 
-  playAudio() {
+  playAudio(audioPath: string) {
     const audio = new Audio();
-    audio.src = `data:audio/mpeg;base64,${this.card.audio}`;
-    audio.play();
-  }
-
-  playWordMeaning() {
-    const audio = new Audio();
-    audio.src = `data:audio/mpeg;base64,${this.card.audioMeaning}`;
-    audio.play();
-  }
-
-  playWordExample() {
-    const audio = new Audio();
-    audio.src = `data:audio/mpeg;base64,${this.card.audioExample}`;
+    audio.src = `data:audio/mpeg;base64,${audioPath}`;
     audio.play();
   }
 
