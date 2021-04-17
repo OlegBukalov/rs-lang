@@ -40,11 +40,9 @@ export class AudioCallComponent {
       countRight: this.score.wordCounter - 1,
       maxRight: this.score.maxCorrectSequence,
     };
-    const correctWordsIds = score.correctWords.map((word) => word.id);
-    const incorrectWordsIds = score.wordsWithMistakes.map((word) => word.id);
+    const wordsIds = [...score.correctWords, ...score.wordsWithMistakes].map((word) => word.id);
     this.statisticsService.setDataFromGame(dataGame);
-    this.dictionary.addWordsToDictionary(correctWordsIds, DictionaryCategory.Studied);
-    this.dictionary.addWordsToDictionary(incorrectWordsIds, DictionaryCategory.Studied);
+    this.dictionary.addWordsToDictionary(wordsIds, DictionaryCategory.Studied);
     this.gameStatus = GameStatus.End;
   }
 

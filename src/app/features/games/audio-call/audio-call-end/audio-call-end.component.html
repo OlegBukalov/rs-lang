@@ -14,13 +14,13 @@
 <div class="scorepad words-results">
   <div>
     <h3 class="words-results__head">Правильные ответы</h3>
-    <div *ngFor="let word of score?.correctWords">
+    <div *ngFor="let word of score?.correctWords || []">
       {{ word.word }}
     </div>
   </div>
   <div>
     <h3 class="words-results__head">Слова, в которых допущены ошибки</h3>
-    <div *ngFor="let word of score?.wordsWithMistakes">
+    <div *ngFor="let word of score?.wordsWithMistakes || []">
       {{ word.word }}
     </div>
   </div>
