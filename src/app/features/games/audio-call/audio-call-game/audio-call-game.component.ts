@@ -168,7 +168,7 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
 
   private pushWordToArray(isCorrect: boolean): void {
     if (!this.isWordInArrays()) {
-      const wordToArray = this.currentAnswer;
+      const wordToArray = { ...this.currentAnswer };
       delete wordToArray.isShown;
       if (isCorrect) {
         this.correctWords = [...this.correctWords, wordToArray];
