@@ -247,7 +247,7 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
       countRight: this.learnedWords.length,
       maxRight: this.maxCorrectSequence,
     };
-    this.statisticsService.getDataFromGame(gameData);
+    this.statisticsService.setDataFromGame(gameData);
   }
 
   private clearIntervals(): void {
