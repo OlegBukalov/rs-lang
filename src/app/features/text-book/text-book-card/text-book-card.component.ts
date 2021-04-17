@@ -31,7 +31,8 @@ export class TextBookCardComponent {
     image.style.display = 'block';
   }
 
-  moveCard(category: DictionaryCategory) {
+  moveCard(category: DictionaryCategory, event: MouseEvent) {
+    event.stopPropagation();
     this.dictionaryService.addWordToDictionary(this.card.id, category);
   }
 }

@@ -16,14 +16,14 @@
     <button
       *ngIf="!settings.isHardWordsBtnHidden"
       class="btn-template btn-icon"
-      (click)="moveCard(category.Hard)"
+      (click)="moveCard(category.Hard, $event)"
     >
       <span class="material-icons"> star_border </span>
     </button>
     <button
       *ngIf="!settings.isDeletedWordsBtnHidden"
       class="btn-template btn-icon"
-      (click)="moveCard(category.Deleted)"
+      (click)="moveCard(category.Deleted, $event)"
     >
       <span class="material-icons"> delete_outline </span>
     </button>
