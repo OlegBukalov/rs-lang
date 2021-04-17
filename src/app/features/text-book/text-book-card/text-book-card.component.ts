@@ -1,5 +1,7 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { IWord } from 'src/app/core/interfaces/iword';
+import { DictionaryService } from 'src/app/core/services/dictionary.service';
+import { DictionaryCategory } from '../../dictionary/dictionary-category';
 import { ITextBookSettings } from '../../settings/interfaces/itext-book-settings';
 import { TextBookSettingsService } from '../../settings/services/text-book-settings.service';
 
@@ -17,10 +19,22 @@ export class TextBookCardComponent {
 
   settings: ITextBookSettings = this.textBookSettingsService.getSettings();
 
-  constructor(private textBookSettingsService: TextBookSettingsService) {}
+  category = DictionaryCategory;
+
+  hardCategory = DictionaryCategory.Hard;
+
+  constructor(
+    private textBookSettingsService: TextBookSettingsService,
+    private dictionaryService: DictionaryService,
+  ) {}
 
   showImage() {
     const image = this.image.nativeElement as HTMLImageElement;
     image.style.display = 'block';
+  }
+
+  moveCard(category: DictionaryCategory, event: MouseEvent) {
+    event.stopPropagation();
+    this.dictionaryService.addWordToDictionary(this.card.id, category);
   }
 }
