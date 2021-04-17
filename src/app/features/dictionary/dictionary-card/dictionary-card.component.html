@@ -22,5 +22,6 @@
         (click)="moveCard(category)"
         [hidden]="currentCategory === category"
       >В {{category.toString()}}</button>
+      <button class="btn" (click)="deleteCardFromDictionary()">Восстановить</button>
   </div>
 </div>

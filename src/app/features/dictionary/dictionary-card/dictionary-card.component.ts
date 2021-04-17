@@ -31,4 +31,10 @@ export class DictionaryCardComponent {
     await this.dictionaryService.addWordToDictionary(this.card._id, category);
     this.cardMoved.emit();
   }
+
+  async deleteCardFromDictionary() {
+    // eslint-disable-next-line no-underscore-dangle
+    await this.dictionaryService.deleteWordFromDictionary(this.card._id);
+    this.cardMoved.emit();
+  }
 }
