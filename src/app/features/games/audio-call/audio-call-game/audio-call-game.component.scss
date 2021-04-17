@@ -5,9 +5,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
-
 
 .loudspeaker {
   display: block;
@@ -25,11 +24,11 @@
     @extend %game-button;
 
     &_correct {
-        background-color: $color_green;
+      background-color: $color_green;
     }
 
     &_incorrect {
-        background-color: $color_dark_red;
+      background-color: $color_dark_red;
     }
 
     &:hover {
@@ -64,4 +63,15 @@
 
   border: 1px solid $color_dark_red;
   border-radius: 10px;
+}
+
+.toggle-fullscreen {
+  position: relative;
+  top: -300px;
+  right: 200px;
+  margin: 20px;
+
+  border-radius: 3px;
+  background-color: $color_light_gray;
+  cursor: pointer;
 }
