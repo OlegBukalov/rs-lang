@@ -1,9 +1,17 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ToasterService } from 'src/app/core/services/toaster.service';
+import { environment } from 'src/environments/environment';
+import { AuthService } from '../auth/auth.service';
 
 import { IItemListGames } from './interfaces/iitem-list-games';
 import { IDataGame } from './interfaces/idata-game';
-
+import { IDataUserGames } from './interfaces/idata-user-games';
+import { IDataServerStatistics } from './interfaces/idata-server-statistics';
 import { GameID } from './enums/game-id.enum';
+
+import { START_DATA_GAMES } from './constants/startDataGames';
 
 type ItemGame = {
   idGame: GameID;
@@ -16,62 +24,34 @@ type ItemGame = {
   providedIn: 'root',
 })
 export class StatisticsService {
-  // TODO временно явно прописан со значениями, будет заменено на полученные данные с бэка
-  private allRightAnswers = 0;
+  private ratioAllRightAnswers = 0;
+  private dataAllGames: IItemListGames[] = START_DATA_GAMES;
 
-  private dataAllGames: IItemListGames[] = [
-    {
-      game: GameID.Savannah,
-      data: {
-        name: 'Саванна',
-        countAnswers: 0,
-        countRightAnswers: 0,
-        percentRightAnswers: 0,
-        maxRightAnswers: 0,
-      },
-    },
-    {
-      game: GameID.AudioCall,
-      data: {
-        name: 'Аудиовызов',
-        countAnswers: 0,
-        countRightAnswers: 0,
-        percentRightAnswers: 0,
-        maxRightAnswers: 0,
-      },
-    },
-    {
-      game: GameID.Sprint,
-      data: {
-        name: 'Спринт',
-        countAnswers: 0,
-        countRightAnswers: 0,
-        percentRightAnswers: 0,
-        maxRightAnswers: 0,
-      },
-    },
-    {
-      game: GameID.Sprint,
-      data: {
-        name: 'Своя игра',
-        countAnswers: 0,
-        countRightAnswers: 0,
-        percentRightAnswers: 0,
-        maxRightAnswers: 0,
-      },
-    },
-  ];
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private toaster: ToasterService,
+  ) {}
 
-  getDataFromGame(dataGame: ItemGame): void {
+  setDataFromGame(dataGame: ItemGame): void {
     const item = this.dataAllGames.find((itemGame) => itemGame.game === dataGame.idGame).data;
     item.countAnswers += dataGame.countAll;
     item.countRightAnswers += dataGame.countRight;
-    item.maxRightAnswers = this.updateMaxRightAnswers(item, dataGame.maxRight);
-    item.percentRightAnswers = this.updatePercentRightAnswers(item);
-    this.updateAllRightAnswers();
+    item.maxRightAnswers = this.getMaxRightAnswers(item, dataGame.maxRight);
+    item.percentRightAnswers = this.getPercentRightAnswers(item);
+    this.setRatioAllRightAnswers();
+
+    const currentDataGames: IDataUserGames = {
+      currentDay: new Date().toString(),
+      dataGames: {
+        dataGameItems: this.dataAllGames,
+        percentAllRightAnswers: this.ratioAllRightAnswers,
+      },
+    };
+    this.setData(currentDataGames);
   }
 
-  updateMaxRightAnswers(item: IDataGame, maxRight: number): number {
+  getMaxRightAnswers(item: IDataGame, maxRight: number): number {
     const currentMax = item.maxRightAnswers;
     if (currentMax < maxRight) {
       return maxRight;
@@ -79,16 +59,16 @@ export class StatisticsService {
     return item.maxRightAnswers;
   }
 
-  updatePercentRightAnswers(item: IDataGame): number {
+  getPercentRightAnswers(item: IDataGame): number {
     if (item.countRightAnswers !== 0) {
       const all = item.countAnswers;
       const right = item.countRightAnswers;
-      return (right / all) * 100;
+      return right / all;
     }
     return 0;
   }
 
-  updateAllRightAnswers(): number {
+  setRatioAllRightAnswers(): void {
     let all = 0;
     let right = 0;
     this.dataAllGames.forEach((item) => {
@@ -96,19 +76,30 @@ export class StatisticsService {
       right += item.data.countRightAnswers;
       return item;
     });
-    this.allRightAnswers = (right / all) * 100;
-    return this.allRightAnswers;
+    this.ratioAllRightAnswers = right / all;
   }
 
-  getAllRightAnswers() {
-    return this.allRightAnswers;
+  private get baseUrl() {
+    return `${environment.baseUrl}/users/${this.authService?.userId}`;
   }
 
-  getData() {
-    return this.dataAllGames;
+  async setData(dataUser: IDataUserGames) {
+    const url = `${this.baseUrl}/statistics`;
+    const body = { learnedWords: 1, optional: dataUser };
+    try {
+      await this.http.put(url, body).toPromise();
+    } catch {
+      this.toaster.showInfo('Ошибка передачи данных', 'Уведомление');
+    }
   }
 
-  setData() {
-    // TODO data from back
+  getUserStatistics(data: IDataUserGames): IDataUserGames {
+    this.dataAllGames = data.dataGames.dataGameItems;
+    return data;
+  }
+
+  getDataFromServer(): Observable<IDataServerStatistics> {
+    const url = `${this.baseUrl}/statistics`;
+    return this.http.get<IDataServerStatistics>(url);
   }
 }
