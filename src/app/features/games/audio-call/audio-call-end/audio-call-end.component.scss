@@ -20,6 +20,20 @@
   padding: 10px;
 }
 
+.words-results {
+  display: flex;
+  margin-top: 30px;
+  
+  &__head {
+    padding: 3px;
+    margin: 10px 5px;
+
+    color: $color_light_gray;
+    background-color: $color_dark_blue;
+    border-radius: 3px;
+  }
+}
+
 .repeat-game-button {
   margin: 5px;
   padding: 5px;

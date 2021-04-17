@@ -16,4 +16,6 @@ export interface IGameResult {
   totalAnswersCounter: number;
   correctWordCounter: number;
   maxCorrectSequence: number;
+  correctWords: IWord[];
+  wordsWithMistakes: IWord[];
 }
