@@ -15,17 +15,17 @@
   <div class="buttons">
     <button
       *ngIf="!settings.isHardWordsBtnHidden"
-      class="btn-template"
+      class="btn-template btn-icon"
       (click)="moveCard(category.Hard)"
     >
-      В сложные
+      <span class="material-icons"> star_border </span>
     </button>
     <button
       *ngIf="!settings.isDeletedWordsBtnHidden"
-      class="btn-template"
+      class="btn-template btn-icon"
       (click)="moveCard(category.Deleted)"
     >
-      В удаленные
+      <span class="material-icons"> delete_outline </span>
     </button>
   </div>
 </div>
