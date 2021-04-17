@@ -9,7 +9,7 @@ import { IGameItem } from '../../../core/interfaces/igame-item';
   styleUrls: ['./game-btns.component.scss'],
 })
 export class GameBtnsComponent {
-  @Input() public gameItem: IGameItem;
+  @Input() gameItem: IGameItem;
 
   constructor(private router: Router, private wordsApiService: WordsApiService) {}
 
