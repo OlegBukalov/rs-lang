@@ -21,6 +21,8 @@ export class TextBookCardComponent {
 
   category = DictionaryCategory;
 
+  hardCategory = DictionaryCategory.Hard;
+
   constructor(
     private textBookSettingsService: TextBookSettingsService,
     private dictionaryService: DictionaryService,

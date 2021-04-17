@@ -1,5 +1,10 @@
-<div class="card" routerLink="card/{{ card.id }}" *ngIf="card">
-  <div class="image-container" [style.background]="'#' + color" *ngIf="card">
+<div
+  class="card"
+  routerLink="card/{{ card.id }}"
+  *ngIf="card"
+  [class.hard]="card.status === hardCategory"
+>
+  <div class="image-container" [style.background]="'#' + color">
     <img
       #image
       [src]="card.image | cardAsset | async"
