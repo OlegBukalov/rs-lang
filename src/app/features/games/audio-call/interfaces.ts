@@ -13,6 +13,7 @@ export interface IWordChunk extends IWord {
 
 export interface IGameResult {
   wordCounter: number;
+  totalAnswersCounter: number;
   correctWordCounter: number;
   maxCorrectSequence: number;
 }

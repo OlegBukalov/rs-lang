@@ -17,7 +17,7 @@ import { ISprintWord } from './interfaces/sprint-word';
 import { GameStatuses } from './enums/game-statuses.enum';
 
 const TIME_LIMIT = 60;
-const IDGame = GameID.Sprint;
+const ID_GAME = GameID.Sprint;
 
 @Component({
   selector: 'app-sprint-game',
@@ -38,6 +38,8 @@ export class SprintGameComponent implements OnInit {
   maxCorrectSequence = 0;
 
   correctSequenceCounter = 0;
+
+  isTextbookGameOpen: boolean;
 
   gameStatus: GameStatuses;
 
@@ -88,6 +90,7 @@ export class SprintGameComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameStatus = GameStatuses.Start;
+    this.isTextbookGameOpen = this.wordsApiService.getTextbookGameOpenFlag();
   }
 
   setLoadingStatus(): void {
@@ -111,12 +114,12 @@ export class SprintGameComponent implements OnInit {
 
   gameEnd(): void {
     const dataGame = {
-      idGame: IDGame,
+      idGame: ID_GAME,
       countAll: this.wordCounter,
       countRight: this.correctWordCounter,
       maxRight: this.maxCorrectSequence,
     };
-    this.statisticsService.getDataFromGame(dataGame);
+    this.statisticsService.setDataFromGame(dataGame);
     this.subscriptionWords.unsubscribe();
     this.gameStatus = GameStatuses.End;
     this.clearValues();

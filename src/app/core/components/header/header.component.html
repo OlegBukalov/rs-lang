@@ -31,7 +31,9 @@
       </li>
       <ng-template #logout>
           <li class="main-menu__item">
-              <a (click)="onLogout()" routerLink="{{authPath.Auth}}" routerLinkActive="active">Выход</a>
+              <a (click)="onLogout()" routerLink="{{authPath.Auth}}" routerLinkActive="active">
+                <span class="material-icons btn-icon">logout</span>
+              </a>
           </li>
       </ng-template>
   </ul>

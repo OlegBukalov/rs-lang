@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs/operators';
+import { finalize, first } from 'rxjs/operators';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
@@ -23,7 +23,7 @@ export class TextBookGroupComponent {
 
   difficulties: IGroupCategory[] = categories;
 
-  variable: string;
+  isLoading: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -56,8 +56,14 @@ export class TextBookGroupComponent {
   }
 
   updateCards(groupId: number) {
+    this.isLoading = true;
     this.changeGroupToken(groupId);
-    const result = this.wordsApiService.getWordList().pipe(first());
+    const result = this.wordsApiService.getWordList().pipe(
+      first(),
+      finalize(() => {
+        this.isLoading = false;
+      }),
+    );
     result.subscribe((cards) => {
       this.cards = cards;
     });

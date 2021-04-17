@@ -6,6 +6,8 @@ import { IWord } from 'src/app/core/interfaces/iword';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
+import { IGameItem } from '../../../core/interfaces/igame-item';
+import { GAMES_DESCRIPTION } from '../../games/data-game-description';
 import { IdValidatorService } from '../id-validator.service';
 
 const FIRST_PAGE_INDEX = 0;
@@ -17,6 +19,8 @@ const LAST_PAGE_INDEX = 29;
   styleUrls: ['./text-book-page.component.scss'],
 })
 export class TextBookPageComponent {
+  games: IGameItem[] = GAMES_DESCRIPTION;
+
   pageId: number;
 
   @Input() color: string;
@@ -29,7 +33,7 @@ export class TextBookPageComponent {
     UrlFragment: /(?<=page\/)\d+/,
   };
 
-  isLoading: boolean;
+  @Input() isLoading: boolean;
 
   constructor(
     private route: ActivatedRoute,

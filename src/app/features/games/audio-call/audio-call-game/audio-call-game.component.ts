@@ -30,6 +30,8 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
 
   wordCounter = 0;
 
+  totalAnswersCounter = 0;
+
   correctWordCounter = 0;
 
   currentCorrectSequence = 0;
@@ -64,6 +66,7 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
 
   onAnswer(answerIndex: number, event: MouseEvent): void {
     this.goToNewPageOfWords();
+    this.totalAnswersCounter += 1;
 
     if (this.isAnswerCorrect(answerIndex)) {
       this.onCorrectAnswer(event);
@@ -160,6 +163,7 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
   private onLooseGame(): void {
     const gameResult: IGameResult = {
       wordCounter: this.wordCounter,
+      totalAnswersCounter: this.totalAnswersCounter,
       correctWordCounter: this.correctWordCounter,
       maxCorrectSequence: this.maxCorrectSequence,
     };

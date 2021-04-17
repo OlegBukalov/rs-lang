@@ -7,6 +7,7 @@ import { DictionaryCategory } from 'src/app/features/dictionary/dictionary-categ
 import { namesByCategory } from 'src/app/features/dictionary/name-by-category';
 import { IWord } from '../interfaces/iword';
 import { DictionaryService } from './dictionary.service';
+import { IWordPage } from '../interfaces/iword-page';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,8 @@ export class WordsApiService {
 
   private pageToken = '0';
   private groupToken = '0';
+
+  private isTextbookGameOpen = false;
 
   constructor(private http: HttpClient, private dictionary: DictionaryService) {}
 
@@ -43,8 +46,11 @@ export class WordsApiService {
         DictionaryCategory.Deleted,
       )
       .toPromise()
-      .catch(() => []);
-    if (!result.length || !result[0].totalCount[0].count) return cards;
+      .catch(() => {
+        const empty: IWordPage[] = [];
+        return empty;
+      });
+    if (!result.length || !result[0].totalCount.length) return cards;
     const aggregatedWords = result[0].paginatedResults;
 
     const filteredCards = this.excludeDeleted(cards, aggregatedWords);
@@ -92,5 +98,13 @@ export class WordsApiService {
   setRandomPage(): void {
     const randomPage = Math.round(Math.random() * 29).toString();
     this.changePageToken(randomPage);
+  }
+
+  setTextbookGameOpenFlag(newFlag: boolean): void {
+    this.isTextbookGameOpen = newFlag;
+  }
+
+  getTextbookGameOpenFlag(): boolean {
+    return this.isTextbookGameOpen;
   }
 }

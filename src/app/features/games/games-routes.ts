@@ -5,12 +5,11 @@ import { CardGameComponent } from './card-game/card-game.component';
 import { ExitCardGameGuard } from './card-game/guards/exit-card-game.guard';
 import { AudioCallComponent } from './audio-call/audio-call.component';
 import { SprintGameComponent } from './sprint-game/sprint-game.component';
+import { SavannahGameComponent } from './savannah-game/savannah-game.component';
 
 export const gamesRoutes: Routes = [
   { path: '', component: GameListComponent },
-  // заменить компоненту для игры savannah
-  { path: 'savannah', component: NotFoundComponent },
-  // заменить компоненту для игры audio-call
+  { path: 'savannah', component: SavannahGameComponent },
   { path: 'audio-call', component: AudioCallComponent },
   // заменить компоненту для игры sprint
   { path: 'sprint', component: SprintGameComponent },
