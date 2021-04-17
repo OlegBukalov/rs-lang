@@ -36,6 +36,13 @@
             text-transform: uppercase;
         }
     }
+    .stats {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px;
+    }
 }
 
 .card.hard {

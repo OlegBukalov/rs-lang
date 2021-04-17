@@ -4,6 +4,7 @@ import { IWord } from 'src/app/core/interfaces/iword';
 import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { DictionaryCategory } from '../../dictionary/dictionary-category';
+import { categoryByName } from '../../dictionary/name-by-category';
 
 @Component({
   selector: 'app-card-popup',
@@ -30,10 +31,21 @@ export class CardPopupComponent {
     this.wordsApiService.getCardById(cardId).subscribe(
       (card) => {
         this.card = card;
-        this.dictionaryService.addWordToDictionary(this.card.id, DictionaryCategory.Studied);
+        this.addCardToDictionary(card);
       },
       () => this.router.navigateByUrl(this.router.url.replace(/\/card\/.+/, '')),
     );
+  }
+
+  addCardToDictionary(card: IWord) {
+    // eslint-disable-next-line no-underscore-dangle
+    const id = this.card.id ? this.card.id : this.card._id;
+    let category: DictionaryCategory;
+    if (card.userWord && card.userWord.optional) {
+      category = categoryByName[card.userWord.optional.category] as DictionaryCategory;
+      if (!category) category = DictionaryCategory.Studied;
+    }
+    this.dictionaryService.addWordToDictionary(id, category);
   }
 
   playAudio() {

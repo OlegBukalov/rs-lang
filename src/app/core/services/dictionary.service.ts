@@ -7,7 +7,7 @@ import { DictionaryCategory } from 'src/app/features/dictionary/dictionary-categ
 import { namesByCategory } from 'src/app/features/dictionary/name-by-category';
 import { map } from 'rxjs/operators';
 import { IWordPage } from '../interfaces/iword-page';
-import { IUserWord } from '../interfaces/iuser-word';
+import { IGameStats, IUserWord } from '../interfaces/iuser-word';
 import { ToasterService } from './toaster.service';
 
 const MAX_WORDS_PER_PAGE = 3600;
@@ -25,6 +25,10 @@ export class DictionaryService {
     private authService: AuthService,
     private toaster: ToasterService,
   ) {}
+
+  getAggregatedWordById(wordId: string): Observable<IUserWord> {
+    return this.http.get<IUserWord>(`${this.baseUrl}/words/${wordId}`);
+  }
 
   getAggregatedWords(
     groupId: string,
@@ -68,21 +72,22 @@ export class DictionaryService {
 
   async addWordsToDictionary(wordsIdentifiers: string[], category: DictionaryCategory) {
     wordsIdentifiers.forEach((wordId) => {
-      this.addWordAndHandleErrors(wordId, category, false);
+      this.addWordAndHandleErrors(wordId, category, false, true);
     });
   }
 
   async addWordToDictionary(wordId: string, category: DictionaryCategory) {
-    await this.addWordAndHandleErrors(wordId, category, true);
+    await this.addWordAndHandleErrors(wordId, category, true, false);
   }
 
   private async addWordAndHandleErrors(
     wordId: string,
     category: DictionaryCategory,
     showToasterMessage: boolean,
+    updateStats: boolean,
   ) {
     try {
-      const isAdded = await this.tryToAddWordToDictionary(wordId, category);
+      const isAdded = await this.tryToAddWordToDictionary(wordId, category, updateStats);
       if (showToasterMessage && !isAdded) {
         this.toaster.showSuccess('Слово добавлено в словарь', 'Успех!');
       }
@@ -93,25 +98,43 @@ export class DictionaryService {
     }
   }
 
-  private async tryToAddWordToDictionary(wordId: string, category: DictionaryCategory) {
-    const body = { optional: { category: namesByCategory[category] } };
+  private async tryToAddWordToDictionary(
+    wordId: string,
+    category: DictionaryCategory,
+    updateStats: boolean,
+  ) {
     const url = `${this.baseUrl}/words/${wordId}`;
-    const isAdded = await this.isAdded(wordId);
-    if (isAdded) {
+    const gamesStats = await this.getWordGamesStats(wordId);
+    const body = { optional: { category: namesByCategory[category], gamesStats } };
+
+    if (this.isGameStatsDefined(gamesStats)) {
+      if (updateStats) this.updateGameStats(gamesStats, category);
       await this.http.put(url, body).toPromise();
       return true;
     }
+
+    body.optional.gamesStats = { rightAnswers: 0, wrongAnswers: 0 };
     await this.http.post(url, body).toPromise();
     return false;
   }
 
-  private async isAdded(wordId: string) {
-    // TODO: отловить ошибку, если userWord не существует
+  private isGameStatsDefined(stats: IGameStats): boolean {
+    return stats.rightAnswers !== -1 && stats.wrongAnswers !== -1;
+  }
+
+  updateGameStats(stats: IGameStats, category: DictionaryCategory) {
+    const result = stats;
+    if (category === DictionaryCategory.Studied) result.rightAnswers += 1;
+    if (category === DictionaryCategory.Hard) result.wrongAnswers += 1;
+    return result;
+  }
+
+  private async getWordGamesStats(wordId: string): Promise<IGameStats> {
     try {
-      await this.http.get<IUserWord>(`${this.baseUrl}/words/${wordId}`).toPromise();
-      return true;
+      const card = await this.http.get<IUserWord>(`${this.baseUrl}/words/${wordId}`).toPromise();
+      return card.optional.gamesStats || { rightAnswers: 0, wrongAnswers: 0 };
     } catch {
-      return false;
+      return { rightAnswers: -1, wrongAnswers: -1 };
     }
   }
 }

@@ -8,6 +8,7 @@ import { namesByCategory } from 'src/app/features/dictionary/name-by-category';
 import { IWord } from '../interfaces/iword';
 import { DictionaryService } from './dictionary.service';
 import { IWordPage } from '../interfaces/iword-page';
+import { IUserWordOptional } from '../interfaces/iuser-word';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +45,7 @@ export class WordsApiService {
         this.pageToken,
         DictionaryCategory.Hard,
         DictionaryCategory.Deleted,
+        DictionaryCategory.Studied,
       )
       .toPromise()
       .catch(() => {
@@ -55,9 +57,12 @@ export class WordsApiService {
 
     const filteredCards = this.excludeDeleted(cards, aggregatedWords);
     return filteredCards.map((card) => {
-      // eslint-disable-next-line no-underscore-dangle
-      const isExist = aggregatedWords.some((aggregatedWord) => aggregatedWord._id === card.id);
-      return isExist ? { ...card, status: DictionaryCategory.Hard } : card;
+      const aggregatedWord = aggregatedWords.find((word) => {
+        // eslint-disable-next-line no-underscore-dangle
+        return word._id === card.id;
+      });
+      const userWord = aggregatedWord ? aggregatedWord.userWord : undefined;
+      return aggregatedWord ? { ...card, userWord } : card;
     });
   }
 
@@ -79,7 +84,24 @@ export class WordsApiService {
   }
 
   getCardById(id: string): Observable<IWord> {
-    return this.http.get<IWord>(`${this.baseUrl}/${id}`);
+    let optional: IUserWordOptional;
+    this.dictionary.getAggregatedWordById(id).subscribe(
+      (word) => {
+        optional = word.optional;
+      },
+      () => {
+        optional = {
+          category: undefined,
+          gamesStats: undefined,
+          repeatsCount: undefined,
+        };
+      },
+    );
+    return this.http.get<IWord>(`${this.baseUrl}/${id}`).pipe(
+      map((word) => {
+        return { ...word, userWord: { optional } };
+      }),
+    );
   }
 
   changePageToken(passedPageToken: string): void {

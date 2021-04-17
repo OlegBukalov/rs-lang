@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { DictionaryCategory } from '../../dictionary/dictionary-category';
+import { namesByCategory } from '../../dictionary/name-by-category';
 import { ITextBookSettings } from '../../settings/interfaces/itext-book-settings';
 import { TextBookSettingsService } from '../../settings/services/text-book-settings.service';
 
@@ -18,7 +19,7 @@ export class TextBookCardComponent {
 
   settings: ITextBookSettings = this.textBookSettingsService.getSettings();
 
-  hardCategory = DictionaryCategory.Hard;
+  hardCategory = namesByCategory[DictionaryCategory.Hard];
 
   constructor(private textBookSettingsService: TextBookSettingsService) {}
 
