@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  checkIsGameOpened(): boolean {
+  isGameOpened(): boolean {
     return this.router.url.includes('games/');
   }
 }
