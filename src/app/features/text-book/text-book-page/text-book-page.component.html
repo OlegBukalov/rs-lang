@@ -1,4 +1,11 @@
 <div class="page-container" *ngIf="!isLoading; else: loadingBlock">
+  <div class="game-list">
+    <app-game-btns
+      *ngFor="let gameItem of gameList"
+      [gameItem]="gameItem"
+    >
+    </app-game-btns>
+  </div>
   <button
     class="arrow-btn left btn-template"
     (click)="navigate(pageId - 1)"

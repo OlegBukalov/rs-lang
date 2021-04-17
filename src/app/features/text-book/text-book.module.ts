@@ -11,6 +11,7 @@ import { textBookRoutes } from './text-book.routes';
 import { TextBookCardComponent } from './text-book-card/text-book-card.component';
 import { CardPopupComponent } from './card-popup/card-popup.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { GameBtnsComponent } from './game-btns/game-btns.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     TextBookCardComponent,
     CardPopupComponent,
     PaginationComponent,
+    GameBtnsComponent,
   ],
   imports: [
     CommonModule,

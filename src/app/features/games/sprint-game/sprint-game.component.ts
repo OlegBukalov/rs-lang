@@ -39,6 +39,8 @@ export class SprintGameComponent implements OnInit {
 
   correctSequenceCounter = 0;
 
+  isTextbookGameOpen: boolean;
+
   gameStatus: GameStatuses;
 
   words: IWord[];
@@ -88,6 +90,7 @@ export class SprintGameComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameStatus = GameStatuses.Start;
+    this.isTextbookGameOpen = this.wordsApiService.getTextbookGameOpenFlag();
   }
 
   setLoadingStatus(): void {
