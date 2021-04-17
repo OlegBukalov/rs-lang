@@ -1,3 +1,4 @@
+import { DictionaryCategory } from 'src/app/features/dictionary/dictionary-category';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 import { filter, finalize, take } from 'rxjs/operators';
@@ -5,6 +6,7 @@ import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { StatisticsService } from 'src/app/features/statistics/statistics.service';
+import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { GameID } from 'src/app/features/statistics/enums/game-id.enum';
 import {
   BASE_SCORE,
@@ -17,7 +19,7 @@ import { ISprintWord } from './interfaces/sprint-word';
 import { GameStatuses } from './enums/game-statuses.enum';
 
 const TIME_LIMIT = 60;
-const IDGame = GameID.Sprint;
+const ID_GAME = GameID.Sprint;
 
 @Component({
   selector: 'app-sprint-game',
@@ -38,6 +40,8 @@ export class SprintGameComponent implements OnInit {
   maxCorrectSequence = 0;
 
   correctSequenceCounter = 0;
+
+  isTextbookGameOpen: boolean;
 
   gameStatus: GameStatuses;
 
@@ -84,10 +88,12 @@ export class SprintGameComponent implements OnInit {
     private wordsApiService: WordsApiService,
     private toastrService: ToasterService,
     private statisticsService: StatisticsService,
+    private dictionaryService: DictionaryService,
   ) {}
 
   ngOnInit(): void {
     this.gameStatus = GameStatuses.Start;
+    this.isTextbookGameOpen = this.wordsApiService.getTextbookGameOpenFlag();
   }
 
   setLoadingStatus(): void {
@@ -111,14 +117,16 @@ export class SprintGameComponent implements OnInit {
 
   gameEnd(): void {
     const dataGame = {
-      idGame: IDGame,
+      idGame: ID_GAME,
       countAll: this.wordCounter,
       countRight: this.correctWordCounter,
       maxRight: this.maxCorrectSequence,
     };
-    this.statisticsService.getDataFromGame(dataGame);
+    this.statisticsService.setDataFromGame(dataGame);
     this.subscriptionWords.unsubscribe();
     this.gameStatus = GameStatuses.End;
+    this.addWordsToDictionary(this.correctWords, DictionaryCategory.Studied);
+    this.addWordsToDictionary(this.difficultWords, DictionaryCategory.Hard);
     this.clearValues();
   }
 
@@ -139,6 +147,11 @@ export class SprintGameComponent implements OnInit {
       this.difficultWords.push(this.words.find((item: IWord) => item.id === this.currentWord.id));
     }
     this.setNextGameWord();
+  }
+
+  private addWordsToDictionary(words: IWord[], category: DictionaryCategory): void {
+    const wordIdArr = words.map((word: IWord) => word.id);
+    this.dictionaryService.addWordsToDictionary(wordIdArr, category);
   }
 
   private setCorrectCounters(): void {

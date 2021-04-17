@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/features/auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { DictionaryCategory } from 'src/app/features/dictionary/dictionary-category';
 import { namesByCategory } from 'src/app/features/dictionary/name-by-category';
+import { map } from 'rxjs/operators';
 import { IWordPage } from '../interfaces/iword-page';
 import { IUserWord } from '../interfaces/iuser-word';
 import { ToasterService } from './toaster.service';
@@ -25,10 +26,44 @@ export class DictionaryService {
     private toaster: ToasterService,
   ) {}
 
-  getAggregatedWords(category: DictionaryCategory): Observable<IWordPage[]> {
-    const filter = `{"userWord.optional.category":"${namesByCategory[category]}"}`;
-    const url = `${this.baseUrl}/aggregatedWords/?wordsPerPage=${MAX_WORDS_PER_PAGE}&filter=${filter}`;
-    return this.http.get<IWordPage[]>(url);
+  getAggregatedWords(
+    groupId: string,
+    pageId: string,
+    ...categories: DictionaryCategory[]
+  ): Observable<IWordPage[]> {
+    const filter = this.getQuaryFilter(categories);
+    let url = `${this.baseUrl}/aggregatedWords/?wordsPerPage=${MAX_WORDS_PER_PAGE}`;
+    url += filter ? `&filter=${filter}` : '';
+    url += groupId ? `&group=${groupId}` : '';
+
+    let result = this.http.get<IWordPage[]>(url);
+    if (pageId) {
+      result = result.pipe(map((pages) => this.pageFilter(pages, pageId)));
+    }
+    return result;
+  }
+
+  getQuaryFilter(categories: DictionaryCategory[]) {
+    if (!categories.length) return '';
+    const filters = categories.map((category) => {
+      return `{"userWord.optional.category":"${namesByCategory[category]}"}`;
+    });
+    if (filters.length === 1) return filters[0];
+
+    return `{"$or":[${filters.join(',')}]}`;
+  }
+
+  pageFilter(pages: IWordPage[], pageId: string): IWordPage[] {
+    const page = pages[0];
+    const cards = page.paginatedResults.filter((card) => {
+      return card.page.toString() === pageId;
+    });
+    return [
+      {
+        paginatedResults: cards,
+        totalCount: page.totalCount,
+      },
+    ];
   }
 
   async addWordsToDictionary(wordsIdentifiers: string[], category: DictionaryCategory) {
