@@ -1,21 +1,21 @@
-<span>Вы набрали {{score}} очков</span>
-<span>Правильных ответов {{correctWordCounter}}</span>
-<span>Всего ответов {{wordCounter}}</span>
+<p class="data-result-title">Вы набрали <span>{{score}}</span> очков</p>
+<p class="data-result-title">Правильных ответов <span>{{correctWordCounter}}</span></p>
+<p class="data-result-title">Всего ответов <span>{{wordCounter}}</span></p>
 <div class="words">
   <div class="words-column">
     <p>Верные ответы:</p>
     <div class="word-list">
-      <span *ngFor="let word of correctWords">{{word.word}} - {{word.wordTranslate}}</span>
+      <span *ngFor="let word of correctWords"><span class="bold">{{word.word}}</span> - {{word.wordTranslate}}</span>
     </div>
   </div>
   <div class="words-column">
     <p>Неверные ответы:</p>
     <div class="word-list">
-      <span *ngFor="let word of difficultWords">{{word.word}} - {{word.wordTranslate}}</span>
+      <span *ngFor="let word of difficultWords"><span class="bold">{{word.word}}</span> - {{word.wordTranslate}}</span>
     </div>
   </div>
 </div>
-<div>
-  <button (click)="onStart()">Начать заново</button>
-  <button (click)="onExit()">Выйти</button>
+<div class="buttons-over">
+  <button class="btn-template" (click)="onStart()">Начать заново</button>
+  <button class="btn-template" (click)="onExit()">Выйти</button>
 </div>

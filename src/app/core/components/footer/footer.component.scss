@@ -51,4 +51,30 @@
       }
     }
   }
+
+  @media screen and (max-width: 800px) {
+    .list-team {
+      width: 60%;
+    }
+
+    .logo {
+      width: 40%;
+    }
+  }
+
+  @media screen and (max-width: 550px) {
+    .list-team {
+      width: 62%;
+      ul {
+
+        a {
+          font-size: 18px;
+        }
+      }
+    }
+
+    .logo {
+      width: 38%;
+    }
+  }
 }

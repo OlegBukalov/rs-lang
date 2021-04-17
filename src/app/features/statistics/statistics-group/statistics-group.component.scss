@@ -34,3 +34,9 @@ ul {
     }
   }
 }
+
+@media screen and (max-width: 630px) {
+  .menu-statistics {
+    align-items: flex-end;
+  }
+}
