@@ -1,34 +1,35 @@
-<div class="data-day" *ngIf="isEmpty; else emptyData">
-  <div class="data-words">
-    <p>Количество изученных слов (за сегодня)</p>
-    <p>Общее количество изученных слов (за весь период)</p>
-  </div>
+<div class="data-day" *ngIf="!isEmpty; else emptyData">
+  <div *ngIf="!isLoading; else: loadingBlock">
+    <app-statistics-data-word [countAllUserWords]="countAllUserWords"></app-statistics-data-word>
 
-  <div class="data-games">
-    <table>
-      <caption>Статистика по играм</caption>
-      <colgroup>
-        <col style="width: 20%">
-        <col style="width: 40%">
-        <col style="width: 40%">
-      </colgroup>
-      <thead>
-        <th></th>
-        <th>Самая длинная серия правильных ответов</th>
-        <th>Правильные ответы (в %)</th>
-      </thead>
-      <tbody>
-        <tr *ngFor="let itemData of data">
-          <td>{{itemData.data.name}}</td>
-          <td>{{itemData.data.percentRightAnswers}} %</td>
-          <td>{{itemData.data.maxRightAnswers}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <div *ngIf="data?.length">
+      <div class="data-games">
+        <table>
+          <caption>Статистика по играм</caption>
+          <colgroup>
+            <col style="width: 20%">
+            <col style="width: 40%">
+            <col style="width: 40%">
+          </colgroup>
+          <thead>
+            <th></th>
+            <th>Правильные ответы (в %)</th>
+            <th>Самая длинная серия правильных ответов</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let itemData of data">
+              <td>{{ itemData.data.name }}</td>
+              <td>{{ itemData.data.percentRightAnswers | percent }}</td>
+              <td>{{ itemData.data.maxRightAnswers }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-  <div class="data-correct">
-    <p>Правильные ответы за день (%) - {{ allRightAnswers }} %</p>
+      <div class="data-correct">
+        <p>Правильные ответы за день (%) - {{ allRightAnswersOfDay | percent }}</p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -46,5 +47,11 @@
          - результаты правильных и неправильных ответов будут доступны за один текущий день
        </li>
     </ul>
+  </div>
+</ng-template>
+
+<ng-template #loadingBlock>
+  <div class="loading-statistics">
+    <mat-spinner class="spinner"></mat-spinner>
   </div>
 </ng-template>

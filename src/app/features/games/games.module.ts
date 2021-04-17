@@ -7,6 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
+import { MatButtonModule } from '@angular/material/button';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from 'src/app/core/shared/shared.module';
 import { GameListComponent } from './game-list.component';
@@ -23,6 +26,7 @@ import { SprintGameComponent } from './sprint-game/sprint-game.component';
 import { SettingsPageComponent } from './sprint-game/settings-page/settings-page.component';
 import { StartLoadingComponent } from './sprint-game/start-loading/start-loading.component';
 import { BonusScoreComponent } from './sprint-game/bonus-score/bonus-score.component';
+import { SavannahGameComponent } from './savannah-game/savannah-game.component';
 import { SprintGameOverComponent } from './sprint-game/sprint-game-over/sprint-game-over.component';
 
 @NgModule({
@@ -40,6 +44,7 @@ import { SprintGameOverComponent } from './sprint-game/sprint-game-over/sprint-g
     SettingsPageComponent,
     StartLoadingComponent,
     BonusScoreComponent,
+    SavannahGameComponent,
     SprintGameOverComponent,
   ],
   imports: [
@@ -48,6 +53,9 @@ import { SprintGameOverComponent } from './sprint-game/sprint-game-over/sprint-g
     FormsModule,
     MatMenuModule,
     MatCardModule,
+    MatButtonModule,
+    MatSlideToggleModule,
+    MatTooltipModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatDialogModule,

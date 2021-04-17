@@ -4,3 +4,9 @@
   justify-content: space-between;
   height: 100vh;
 }
+
+@media screen and (min-width: 1070px) {
+  :host {
+    overflow-x: hidden;
+  }
+}

@@ -38,7 +38,7 @@ export class AudioCallComponent {
       countRight: this.score.wordCounter - 1,
       maxRight: this.score.maxCorrectSequence,
     };
-    this.statisticsService.getDataFromGame(dataGame);
+    this.statisticsService.setDataFromGame(dataGame);
     this.gameStatus = GameStatus.End;
   }
 
