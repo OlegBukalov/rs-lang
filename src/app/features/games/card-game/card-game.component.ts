@@ -32,6 +32,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   isSaved: boolean = this.ownGameService.isSaved;
   isHiddenChildCard: boolean;
   isLoading: boolean;
+  isTextbookGameOpen: boolean;
 
   state = GameState;
   currentState: GameState = GameState.STOP;
@@ -52,6 +53,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   ngOnInit(): void {
     this.getData();
+    this.isTextbookGameOpen = this.wordsApiService.getTextbookGameOpenFlag();
   }
 
   getGeneratedArray(length: number): number[] {

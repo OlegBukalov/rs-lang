@@ -29,7 +29,7 @@
       <button class="btn-template btn-template-game" (click)="repeatWord()">повторить</button>
     </div>
   </div>
-  <div class="card-game__levels">
+  <div class="card-game__levels" *ngIf="!isTextbookGameOpen">
     <div
       class="card-game__button"
       *ngFor="let btn of getGeneratedArray(totalCategories); let i = index"
