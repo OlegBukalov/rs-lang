@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 import { DictionaryCategory } from 'src/app/features/dictionary/dictionary-category';
 import { ToasterService } from 'src/app/core/services/toaster.service';
@@ -16,11 +17,12 @@ import { IItemListGames } from '../interfaces/iitem-list-games';
 })
 export class StatisticsDayComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
-  data: IItemListGames[];
-  countAllUserWords: number;
-  allRightAnswersOfDay: number;
-  isLoading: boolean;
-  isEmpty: boolean;
+  private subscriptionCountWords: Subscription;
+  data: IItemListGames[] = [];
+  countAllUserWords = 0;
+  allRightAnswersOfDay = 0;
+  isLoading = false;
+  isEmpty = false;
 
   constructor(
     private router: Router,
@@ -30,14 +32,14 @@ export class StatisticsDayComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.getStatisticsData();
-    this.getCountAllUserWords();
+    this.setStatisticsData();
+    this.setCountAllUserWords();
   }
 
-  getStatisticsData(): void {
+  setStatisticsData(): void {
     this.subscription = this.statisticsService.getDataFromServer().subscribe(
       (data) => {
-        const dataDay = this.statisticsService.setUserStatistics(data.optional);
+        const dataDay = this.statisticsService.getUserStatistics(data.optional);
         this.data = dataDay.dataGames.dataGameItems;
         this.allRightAnswersOfDay = dataDay.dataGames.percentAllRightAnswers;
       },
@@ -47,38 +49,43 @@ export class StatisticsDayComponent implements OnInit, OnDestroy {
     );
   }
 
-  getCountAllUserWords(): void {
-    this.isLoading = false;
-    const result = this.dictionaryService.getAggregatedWords(DictionaryCategory.Studied);
-    result.subscribe(
-      (data) => {
-        const [item] = data;
-        const itemCount = item.totalCount;
-        const [countWord] = itemCount;
-        this.isLoading = true;
-        if (countWord) {
-          this.countAllUserWords = countWord.count;
-        } else this.countAllUserWords = 0;
-        this.checkTemplate();
-      },
-      () => {
-        this.toasterService.showError('Не удалось загрузить данные об изученных словах', 'Ошибка!');
-      },
-    );
+  setCountAllUserWords(): void {
+    this.isLoading = true;
+    this.subscriptionCountWords = this.dictionaryService
+      .getAggregatedWords(DictionaryCategory.Studied)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        }),
+      )
+      .subscribe(
+        (data) => {
+          const [item] = data;
+          const itemCount = item.totalCount;
+          const [countWord] = itemCount;
+          this.countAllUserWords = countWord ? countWord.count : 0;
+          this.setTemplate();
+        },
+        () => {
+          this.toasterService.showError(
+            'Не удалось загрузить данные об изученных словах',
+            'Ошибка!',
+          );
+        },
+      );
   }
 
   // TO DO все слова из игр будут попадать в изученные, так что достаточно этой проверки
-  checkTemplate() {
-    if (this.countAllUserWords === 0) {
-      this.isEmpty = true;
-    } else this.isEmpty = false;
+  setTemplate(): void {
+    this.isEmpty = this.countAllUserWords === 0;
   }
 
-  redirectToLink(link: string) {
+  redirectToLink(link: string): void {
     this.router.navigateByUrl(link);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.subscription) this.subscription.unsubscribe();
+    if (this.subscriptionCountWords) this.subscriptionCountWords.unsubscribe();
   }
 }

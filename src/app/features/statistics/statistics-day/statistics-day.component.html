@@ -1,5 +1,5 @@
 <div class="data-day" *ngIf="!isEmpty; else emptyData">
-  <div *ngIf="isLoading; else: loadingBlock">
+  <div *ngIf="!isLoading; else: loadingBlock">
     <app-statistics-data-word [countAllUserWords]="countAllUserWords"></app-statistics-data-word>
 
     <div *ngIf="data?.length">

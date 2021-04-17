@@ -33,27 +33,25 @@ export class StatisticsService {
     private toaster: ToasterService,
   ) {}
 
-  getDataFromGame(dataGame: ItemGame): void {
+  setDataFromGame(dataGame: ItemGame): void {
     const item = this.dataAllGames.find((itemGame) => itemGame.game === dataGame.idGame).data;
     item.countAnswers += dataGame.countAll;
     item.countRightAnswers += dataGame.countRight;
-    item.maxRightAnswers = this.updateMaxRightAnswers(item, dataGame.maxRight);
-    item.percentRightAnswers = this.updatePercentRightAnswers(item);
-    this.updateRatioAllRightAnswers();
+    item.maxRightAnswers = this.getMaxRightAnswers(item, dataGame.maxRight);
+    item.percentRightAnswers = this.getPercentRightAnswers(item);
+    this.setRatioAllRightAnswers();
 
-    const today = new Date();
-    const currentDataGameItems = {
-      dataGameItems: this.dataAllGames,
-      percentAllRightAnswers: this.ratioAllRightAnswers,
-    };
     const currentDataGames: IDataUserGames = {
-      currentDay: today.toString(),
-      dataGames: currentDataGameItems,
+      currentDay: new Date().toString(),
+      dataGames: {
+        dataGameItems: this.dataAllGames,
+        percentAllRightAnswers: this.ratioAllRightAnswers,
+      },
     };
     this.setData(currentDataGames);
   }
 
-  updateMaxRightAnswers(item: IDataGame, maxRight: number): number {
+  getMaxRightAnswers(item: IDataGame, maxRight: number): number {
     const currentMax = item.maxRightAnswers;
     if (currentMax < maxRight) {
       return maxRight;
@@ -61,7 +59,7 @@ export class StatisticsService {
     return item.maxRightAnswers;
   }
 
-  updatePercentRightAnswers(item: IDataGame): number {
+  getPercentRightAnswers(item: IDataGame): number {
     if (item.countRightAnswers !== 0) {
       const all = item.countAnswers;
       const right = item.countRightAnswers;
@@ -70,7 +68,7 @@ export class StatisticsService {
     return 0;
   }
 
-  updateRatioAllRightAnswers(): number {
+  setRatioAllRightAnswers(): void {
     let all = 0;
     let right = 0;
     this.dataAllGames.forEach((item) => {
@@ -79,7 +77,6 @@ export class StatisticsService {
       return item;
     });
     this.ratioAllRightAnswers = right / all;
-    return this.ratioAllRightAnswers;
   }
 
   private get baseUrl() {
@@ -96,7 +93,7 @@ export class StatisticsService {
     }
   }
 
-  setUserStatistics(data: IDataUserGames): IDataUserGames {
+  getUserStatistics(data: IDataUserGames): IDataUserGames {
     this.dataAllGames = data.dataGames.dataGameItems;
     return data;
   }

@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./statistics-data-word.component.scss'],
 })
 export class StatisticsDataWordComponent {
-  @Input() countAllUserWords?: number;
+  @Input() countAllUserWords = 0;
 }

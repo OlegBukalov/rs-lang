@@ -16,7 +16,7 @@ import { GameState } from './services/gameState.state';
 
 import { environment } from '../../../../environments/environment';
 
-const IDGame = GameID.CardGame;
+const ID_GAME = GameID.CardGame;
 
 @Component({
   selector: 'app-card-game',
@@ -147,7 +147,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
         this.countTry += 1;
 
         this.wordCounter += 1;
-        this.getMaxCorrectSequence(this.currentMaxCorrectSequence);
+        this.setMaxCorrectSequence(this.currentMaxCorrectSequence);
         this.currentMaxCorrectSequence = 0;
       }
     }
@@ -171,12 +171,12 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   finishGame(): void {
     const dataGame = {
-      idGame: IDGame,
+      idGame: ID_GAME,
       countAll: this.wordCounter,
       countRight: this.correctWordCounter,
       maxRight: this.maxCorrectSequence,
     };
-    this.statisticsService.getDataFromGame(dataGame);
+    this.statisticsService.setDataFromGame(dataGame);
 
     this.setCurrentState(GameState.RESULT);
     this.isHiddenChildCard = false;
@@ -191,7 +191,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     }
   }
 
-  getMaxCorrectSequence(value: number): void {
+  setMaxCorrectSequence(value: number): void {
     if (this.maxCorrectSequence < value) {
       this.maxCorrectSequence = value;
     }
