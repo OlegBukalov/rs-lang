@@ -40,6 +40,10 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
 
   words: IWord[];
 
+  correctWords: IWord[] = [];
+
+  wordsWithMistakes: IWord[] = [];
+
   currentTask: IWordChunk[];
 
   currentAnswer: IWordChunk;
@@ -142,6 +146,7 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
   private onCorrectAnswer(event: MouseEvent): void {
     this.correctWordCounter += 1;
     this.currentCorrectSequence += 1;
+    this.pushWordToArray(true);
     if (this.currentCorrectSequence > this.maxCorrectSequence) {
       this.maxCorrectSequence = this.currentCorrectSequence;
     }
@@ -154,10 +159,30 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
   private onIncorrectAnswer(event: MouseEvent): void {
     this.incorrect += 1;
     this.currentCorrectSequence = 0;
+    this.pushWordToArray(false);
     (event.target as HTMLElement).classList.add('answers__button_incorrect');
     if (this.incorrect >= MAX_INCORRECT_ANSWERS_TO_LOOSE) {
       this.onLooseGame();
     }
+  }
+
+  private pushWordToArray(isCorrect: boolean): void {
+    if (!this.isWordInArrays()) {
+      const wordToArray = { ...this.currentAnswer };
+      delete wordToArray.isShown;
+      if (isCorrect) {
+        this.correctWords = [...this.correctWords, wordToArray];
+      } else {
+        this.wordsWithMistakes = [...this.wordsWithMistakes, wordToArray];
+      }
+    }
+  }
+
+  private isWordInArrays(): boolean {
+    return (
+      this.correctWords.includes(this.currentAnswer) ||
+      this.wordsWithMistakes.includes(this.currentAnswer)
+    );
   }
 
   private onLooseGame(): void {
@@ -166,6 +191,8 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
       totalAnswersCounter: this.totalAnswersCounter,
       correctWordCounter: this.correctWordCounter,
       maxCorrectSequence: this.maxCorrectSequence,
+      correctWords: this.correctWords,
+      wordsWithMistakes: this.wordsWithMistakes,
     };
     setTimeout(() => this.gameEnd.emit(gameResult), ANSWER_BUTTON_DELAY);
   }

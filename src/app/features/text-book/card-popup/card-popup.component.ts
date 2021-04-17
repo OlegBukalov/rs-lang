@@ -5,6 +5,8 @@ import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { DictionaryCategory } from '../../dictionary/dictionary-category';
 import { categoryByName } from '../../dictionary/name-by-category';
+import { ITextBookSettings } from '../../settings/interfaces/itext-book-settings';
+import { TextBookSettingsService } from '../../settings/services/text-book-settings.service';
 
 @Component({
   selector: 'app-card-popup',
@@ -14,11 +16,16 @@ import { categoryByName } from '../../dictionary/name-by-category';
 export class CardPopupComponent {
   card: IWord;
 
+  settings: ITextBookSettings = this.textBookSettingsService.getSettings();
+
+  category = DictionaryCategory;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private wordsApiService: WordsApiService,
     private dictionaryService: DictionaryService,
+    private textBookSettingsService: TextBookSettingsService,
   ) {
     this.route.params.subscribe((params) => {
       const { cardId } = params;
@@ -48,9 +55,13 @@ export class CardPopupComponent {
     this.dictionaryService.addWordToDictionary(id, category);
   }
 
-  playAudio() {
+  playAudio(audioPath: string) {
     const audio = new Audio();
-    audio.src = `data:audio/mpeg;base64,${this.card.audio}`;
+    audio.src = `data:audio/mpeg;base64,${audioPath}`;
     audio.play();
+  }
+
+  moveCard(category: DictionaryCategory) {
+    this.dictionaryService.addWordToDictionary(this.card.id, category);
   }
 }
