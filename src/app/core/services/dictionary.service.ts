@@ -108,12 +108,12 @@ export class DictionaryService {
     const body = { optional: { category: namesByCategory[category], gamesStats } };
 
     if (this.isGameStatsDefined(gamesStats)) {
-      if (updateStats) this.updateGameStats(gamesStats, category);
+      if (updateStats) body.optional.gamesStats = this.updateGameStats(gamesStats, category);
       await this.http.put(url, body).toPromise();
       return true;
     }
 
-    body.optional.gamesStats = { rightAnswers: 0, wrongAnswers: 0 };
+    if (updateStats) body.optional.gamesStats = this.createGameStats(category);
     await this.http.post(url, body).toPromise();
     return false;
   }
@@ -122,11 +122,18 @@ export class DictionaryService {
     return stats.rightAnswers !== -1 && stats.wrongAnswers !== -1;
   }
 
-  updateGameStats(stats: IGameStats, category: DictionaryCategory) {
+  private updateGameStats(stats: IGameStats, category: DictionaryCategory): IGameStats {
     const result = stats;
     if (category === DictionaryCategory.Studied) result.rightAnswers += 1;
     if (category === DictionaryCategory.Hard) result.wrongAnswers += 1;
     return result;
+  }
+
+  private createGameStats(category: DictionaryCategory): IGameStats {
+    const stats: IGameStats = { rightAnswers: 0, wrongAnswers: 0 };
+    if (category === DictionaryCategory.Studied) stats.rightAnswers += 1;
+    if (category === DictionaryCategory.Hard) stats.wrongAnswers += 1;
+    return stats;
   }
 
   private async getWordGamesStats(wordId: string): Promise<IGameStats> {
