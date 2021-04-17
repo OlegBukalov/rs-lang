@@ -6,7 +6,7 @@ import { IGameItem } from '../../../core/interfaces/igame-item';
 @Component({
   selector: 'app-game-btns',
   templateUrl: './game-btns.component.html',
-  styleUrls: ['./game-btns.component.scss']
+  styleUrls: ['./game-btns.component.scss'],
 })
 export class GameBtnsComponent {
   @Input() public gameItem: IGameItem;

@@ -12,7 +12,7 @@ import { IGameItem } from '../../../core/interfaces/igame-item';
 export class GameItemComponent {
   @Input() public gameItem: IGameItem;
 
-  constructor(private router: Router, private wordsApiService: WordsApiService,) {}
+  constructor(private router: Router, private wordsApiService: WordsApiService) {}
 
   redirectToGame(): void {
     this.wordsApiService.setTextbookGameOpenFlag(false);
