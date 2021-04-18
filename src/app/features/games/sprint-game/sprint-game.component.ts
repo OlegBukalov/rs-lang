@@ -203,24 +203,24 @@ export class SprintGameComponent implements OnInit {
           } else {
             wordsLeft = 0;
           }
-          for (let i = 0; i < maxCounter; ) {
-            const randomTranslate = this.getRandomTranslate(words[i], words);
-            this.gameWords.push({
-              id: words[i].id,
-              word: words[i].word,
-              translate: words[i].wordTranslate,
-              randomTranslate,
-              isCorrectTranslate: randomTranslate === words[i].wordTranslate,
-              audio: words[i].audio,
-            });
-            this.words.push(words[i]);
-            i += 1;
-          }
+          this.words = this.words.concat(words.slice(0, maxCounter));
           if (wordsLeft > 0 && currentPage > 0) {
             this.wordsApiService.changePageToken((currentPage - 1).toString());
             this.setGameWords(wordsLeft);
+          } else {
+            this.gameWords = this.words.map((word: IWord) => {
+              const randomTranslate = this.getRandomTranslate(word);
+              return {
+                id: word.id,
+                word: word.word,
+                translate: word.wordTranslate,
+                randomTranslate,
+                isCorrectTranslate: randomTranslate === word.wordTranslate,
+                audio: word.audio,
+              };
+            });
+            [this.currentWord] = this.gameWords;
           }
-          [this.currentWord] = this.gameWords;
         },
         (err) =>
           this.toastrService.showError(
@@ -260,10 +260,10 @@ export class SprintGameComponent implements OnInit {
       });
   }
 
-  private getRandomTranslate(word: IWord, words: IWord[]): string {
+  private getRandomTranslate(word: IWord): string {
     const isRandom: boolean = Math.random() < 0.5;
     const randomTranslate = isRandom
-      ? words[Math.round(Math.random() * (words.length - 1))].wordTranslate
+      ? this.words[Math.round(Math.random() * (this.words.length - 1))].wordTranslate
       : word.wordTranslate;
     return randomTranslate;
   }
