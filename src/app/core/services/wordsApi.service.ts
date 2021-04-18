@@ -113,6 +113,10 @@ export class WordsApiService {
     this.groupToken = passedGroupToken;
   }
 
+  getGroupToken(): number {
+    return Number(this.groupToken);
+  }
+
   // TODO: get data by ID
   // changeIDToken(passedIDToken: string): void {
   //   this.id = passedIDToken;

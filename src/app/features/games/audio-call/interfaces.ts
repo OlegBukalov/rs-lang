@@ -1,5 +1,10 @@
 import { IWord } from 'src/app/core/interfaces/iword';
 
+export interface IGameState {
+  level: number;
+  page: number;
+}
+
 export interface ITask {
   answers: string[];
   correctAnswerIndex: number;

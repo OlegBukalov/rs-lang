@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { StatisticsService } from '../../statistics/statistics.service';
-import { IGameResult } from './interfaces';
+import { IGameResult, IGameState } from './interfaces';
 import { GameID } from '../../statistics/enums/game-id.enum';
 import { DictionaryCategory } from '../../dictionary/dictionary-category';
 
@@ -19,7 +19,9 @@ enum GameStatus {
 export class AudioCallComponent {
   gameStatus: string;
 
-  level = 1;
+  level = 0;
+
+  page = 0;
 
   score: IGameResult;
 
@@ -27,8 +29,9 @@ export class AudioCallComponent {
     this.gameStatus = GameStatus.Start;
   }
 
-  onGameStart(level: number): void {
-    this.level = level;
+  onGameStart(initialGameState: IGameState): void {
+    this.level = initialGameState.level;
+    this.page = initialGameState.page;
     this.gameStatus = GameStatus.Game;
   }
 
