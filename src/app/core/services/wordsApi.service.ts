@@ -58,19 +58,16 @@ export class WordsApiService {
     const filteredCards = this.excludeDeleted(cards, aggregatedWords);
     return filteredCards.map((card) => {
       const aggregatedWord = aggregatedWords.find((word) => {
-        // eslint-disable-next-line no-underscore-dangle
-        return word._id === card.id;
+        return word.id === card.id;
       });
-      const userWord = aggregatedWord ? aggregatedWord.userWord : undefined;
-      return aggregatedWord ? { ...card, userWord } : card;
+      return aggregatedWord ? { ...card, userWord: aggregatedWord.userWord } : card;
     });
   }
 
   excludeDeleted(cards: IWord[], aggregatedWords: IWord[]): IWord[] {
     const deletedStatus = namesByCategory[DictionaryCategory.Deleted];
     return cards.filter((card) => {
-      // eslint-disable-next-line no-underscore-dangle
-      const filtered = aggregatedWords.find((aggregatedWord) => aggregatedWord._id === card.id);
+      const filtered = aggregatedWords.find((aggregatedWord) => aggregatedWord.id === card.id);
       return filtered ? filtered.userWord.optional.category !== deletedStatus : true;
     });
   }

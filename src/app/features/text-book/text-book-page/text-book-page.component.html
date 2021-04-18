@@ -1,4 +1,4 @@
-<div class="page-container" *ngIf="!isLoading; else: loadingBlock">
+<div class="page-container" *ngIf="!isLoading; else loadingBlock">
   <div class="game-list">
     <app-game-btns
       *ngFor="let gameItem of games"
@@ -13,10 +13,12 @@
   >
     <span class="material-icons">chevron_left</span>
   </button>
-  <div class="cards-container" *ngIf="cards && cards.length; else: emptyArrayBlock">
+
+  <div class="cards-container" *ngIf="cards && cards.length; else emptyArrayBlock">
     <app-text-book-card *ngFor="let card of cards" [card]="card" [color]="color" (cardCategoryChanged)="updateCards(pageId)">
     </app-text-book-card>
   </div>
+  
   <button
     class="arrow-btn right btn-template"
     (click)="navigate(pageId + 1)"

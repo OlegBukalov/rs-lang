@@ -28,6 +28,7 @@
 
 .conditions-game {
   list-style-type: none;
+  padding-left: 0;
 
   li {
     margin-bottom: 5px;
@@ -58,4 +59,33 @@
   width: 900px;
   display: flex;
   justify-content: space-between;
+}
+
+.toggle-fullscreen {
+  padding: 4px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1000px) {
+  .card-game__levels {
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 900px) {
+
+  .card-game__levels {
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .card-game__button {
+      margin-right: 10px;
+    }
+  }
+
+  .card-game-buttons {
+    justify-content: center;
+  }
 }

@@ -28,7 +28,7 @@ export class DictionaryCardComponent {
 
   async moveCard(category: DictionaryCategory) {
     // eslint-disable-next-line no-underscore-dangle
-    await this.dictionaryService.addWordToDictionary(this.card._id, category);
+    await this.dictionaryService.addWordToDictionary(this.card.id, category);
     this.cardMoved.emit();
   }
 

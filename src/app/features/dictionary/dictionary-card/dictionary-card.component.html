@@ -1,31 +1,31 @@
 <div class="card">
     <div>
-      <div class="card-info">
-          <!-- TODO: лоадер для картинки -->
-          <div class="card-image">
-            <img [src]="card.image | cardAsset | async" alt="{{card.word}}">
-          </div>
-          <div class="content">
-              <p class="word">{{card.word}}</p>
-              <p class="translate">{{card.wordTranslate}}</p>
-          </div>
-          <audio #audio [src]="card.audio | cardAsset | async"></audio>
-          <div class="repeats">
-            <p>Правильных ответов {{card.userWord.optional.gamesStats.rightAnswers || 0}}</p>
-            <p>Неправильных ответов {{card.userWord.optional.gamesStats.wrongAnswers || 0}}</p>
-          </div>
-      </div>
-  </div>
-  <div class="buttons">
-    <button class="btn-template btn-icon" (click)="playAudio()">
-      <span class="material-icons">headset</span>
-    </button>
-    <button
-      *ngFor="let category of categories"
-      class="btn-template"
-      (click)="moveCard(category)"
-      [hidden]="currentCategory === category"
-    >В {{category.toString()}}</button>
-    <button class="btn-template" (click)="deleteCardFromDictionary()">Восстановить</button>
-  </div>
+        <div class="card-info">
+            <!-- TODO: лоадер для картинки -->
+            <div class="card-image">
+                <img [src]="card.image | cardAsset | async" alt="{{card.word}}">
+            </div>
+            <div class="content">
+                <p class="word">{{card.word}}</p>
+                <p class="translate">{{card.wordTranslate}}</p>
+            </div>
+            <audio #audio [src]="card.audio | cardAsset | async"></audio>
+            <div class="repeats">
+                <p>Правильных ответов {{card.userWord.optional.gamesStats.rightAnswersCount || 0}}</p>
+                <p>Неправильных ответов {{card.userWord.optional.gamesStats.wrongAnswersCount || 0}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="buttons">
+        <button class="btn-template btn-icon" (click)="playAudio()">
+          <span class="material-icons">headset</span>
+        </button>
+        <button 
+          *ngFor="let category of categories"
+          class="btn-template" (click)="moveCard(category)"
+          [hidden]="currentCategory === category">
+          В {{category.toString()}}
+        </button>
+        <button class="btn-template" (click)="deleteCardFromDictionary()">Восстановить</button>
+    </div>
 </div>
