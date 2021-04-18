@@ -3,7 +3,8 @@
   alt="Loud speaker image"
   class="loudspeaker"
   *ngIf="audioLoaded; else audioLoader"
-  (click)="audio.play()"/>
+  (click)="audio.play()"
+/>
 
 <ng-template #audioLoader>
   <mat-spinner></mat-spinner>
@@ -13,8 +14,8 @@
   #audio
   [src]="currentAnswer?.audio | cardAsset | async"
   autoplay
-  (loadeddata)="onAudioLoad()">
-</audio>
+  (loadeddata)="onAudioLoad()"
+></audio>
 
 <div class="answers">
   <div *ngFor="let word of currentTask; index as i">
@@ -34,3 +35,7 @@
   <p>Что-то пошло не так...</p>
   <p>Проверьте свое интернет-соединение и перезагрузите страницу.</p>
 </div>
+
+<button appFullScreenButton class="toggle-fullscreen">
+  <img src="./../../../../../assets/img/games/fullscreen.svg" alt="toggle fullscreen" />
+</button>

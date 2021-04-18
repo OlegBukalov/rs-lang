@@ -11,6 +11,10 @@
         </div>
         <audio #audio [src]="card.audio | cardAsset | async"></audio>
     </div>
+    <div class="repeats">
+      <p>Правильных ответов {{card?.userWord?.optional?.gamesStats?.rightAnswersCount || 0}}</p>
+      <p>Неправильных ответов {{card?.userWord?.optional?.gamesStats?.wrongAnswersCount || 0}}</p>
+    </div>
     <div class="buttons">
       <button
         *ngFor="let category of categories"
