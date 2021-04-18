@@ -82,6 +82,17 @@
     padding: 0 20px;
   }
 
+  .title-video {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .video {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 50px;
+  }
+
   @media screen and (max-width: 1010px) {
     .team li {
       width: 300px;
