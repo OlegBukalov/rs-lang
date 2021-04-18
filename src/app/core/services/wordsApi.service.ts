@@ -8,6 +8,7 @@ import { namesByCategory } from 'src/app/features/dictionary/name-by-category';
 import { IWord } from '../interfaces/iword';
 import { DictionaryService } from './dictionary.service';
 import { IWordPage } from '../interfaces/iword-page';
+import { IUserWordOptional } from '../interfaces/iuser-word';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +45,7 @@ export class WordsApiService {
         this.pageToken,
         DictionaryCategory.Hard,
         DictionaryCategory.Deleted,
+        DictionaryCategory.Studied,
       )
       .toPromise()
       .catch(() => {
@@ -55,17 +57,17 @@ export class WordsApiService {
 
     const filteredCards = this.excludeDeleted(cards, aggregatedWords);
     return filteredCards.map((card) => {
-      // eslint-disable-next-line no-underscore-dangle
-      const isExist = aggregatedWords.some((aggregatedWord) => aggregatedWord._id === card.id);
-      return isExist ? { ...card, status: DictionaryCategory.Hard } : card;
+      const aggregatedWord = aggregatedWords.find((word) => {
+        return word.id === card.id;
+      });
+      return aggregatedWord ? { ...card, userWord: aggregatedWord.userWord } : card;
     });
   }
 
   excludeDeleted(cards: IWord[], aggregatedWords: IWord[]): IWord[] {
     const deletedStatus = namesByCategory[DictionaryCategory.Deleted];
     return cards.filter((card) => {
-      // eslint-disable-next-line no-underscore-dangle
-      const filtered = aggregatedWords.find((aggregatedWord) => aggregatedWord._id === card.id);
+      const filtered = aggregatedWords.find((aggregatedWord) => aggregatedWord.id === card.id);
       return filtered ? filtered.userWord.optional.category !== deletedStatus : true;
     });
   }
@@ -79,7 +81,24 @@ export class WordsApiService {
   }
 
   getCardById(id: string): Observable<IWord> {
-    return this.http.get<IWord>(`${this.baseUrl}/${id}`);
+    let optional: IUserWordOptional;
+    this.dictionary.getAggregatedWordById(id).subscribe(
+      (word) => {
+        optional = word.optional;
+      },
+      () => {
+        optional = {
+          category: undefined,
+          gamesStats: undefined,
+          repeatsCount: undefined,
+        };
+      },
+    );
+    return this.http.get<IWord>(`${this.baseUrl}/${id}`).pipe(
+      map((word) => {
+        return { ...word, userWord: { optional } };
+      }),
+    );
   }
 
   changePageToken(passedPageToken: string): void {

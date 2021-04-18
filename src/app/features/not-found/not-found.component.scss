@@ -1,35 +1,27 @@
-.tear {
-  position: relative;
-  width: 10px;
-  height: 10px;
-  border-radius: 0 50% 50% 50%;
-  border: 2px solid rgba(#000, 50%);
-  transform: rotate(45deg);
-  margin-top: 20px;
-  background-color: #0082ca;
-  left: 150px;
-  animation: drop-tear 3s linear infinite;
+:host {
+  font-family: 'Poiret One', cursive;
+  min-height: calc(100vh - 400px);
+  display: flex;
+  flex-direction: column;
 }
 
 .info-container {
-  width: 361px;
   margin: 40px auto;
   article {
     display: flex;
     flex-direction: column;
     text-align: center;
+    margin-bottom: 10px;
   }
 }
 
-.sad-icon {
-  display: block;
-  margin: 30px calc(50% - 75px) 150px;
-  font-size: 150px;
-  opacity: 0.7;
-}
-
 .sad-icon-container {
+  width: 400px;
+  margin: 0 auto;
   overflow: hidden;
+  background: url('/assets/img/error/error.jpg') no-repeat center bottom;
+  background-size: cover;
+  min-height: 300px;
 }
 
 .error-code {

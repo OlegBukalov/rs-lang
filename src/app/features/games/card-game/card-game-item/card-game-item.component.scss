@@ -39,6 +39,9 @@
 
     .card__image {
       width: 260px;
+      max-height: 175px;
+      overflow: hidden;
+      text-align: center;
     }
 
     img {
@@ -65,7 +68,7 @@
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    font-size: 70px;
+    // font-size: 70px;
     color: #000;
     font-weight: bold;
     cursor: default;
@@ -87,4 +90,36 @@
 
 .disabled {
   display: none;
+}
+
+@media screen and (max-width: 800px) {
+  .card-game__card {
+    padding: 10px;
+    width: 180px;
+
+    .base-animation {
+      height: 320px;
+    }
+
+    .card__description {
+      width: 180px;
+      height: 320px;
+
+      .card__image {
+        width: 140px;
+        max-height: 100px;
+      }
+
+      h3 {
+        font-size: 18px;
+      }
+    }
+
+    .card__back {
+
+      p {
+        font-size: 18px;
+      }
+    }
+  }
 }
