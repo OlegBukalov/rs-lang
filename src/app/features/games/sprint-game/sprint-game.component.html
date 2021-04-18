@@ -10,6 +10,9 @@
     <app-start-loading (startLoadingEnd)="gameInit()"></app-start-loading>
   </ng-template>
   <ng-template ngSwitchCase="play">
+    <button appFullScreenButton class="toggle-fullscreen" title="на весь экран">
+      <span class="material-icons">fullscreen</span>
+    </button>
     <div class="score">
       <span>{{score}}</span>
     </div>
@@ -55,7 +58,4 @@
     >
     </app-sprint-game-over>
   </ng-template>
-  <button appFullScreenButton class="toggle-fullscreen">
-    <img src="./../../../../../assets/img/games/fullscreen.svg" alt="toggle fullscreen" />
-  </button>
 </div>
