@@ -14,6 +14,7 @@ import {
   MAX_SCORE_COUNTER,
   MAX_SCORE_LVL,
   MAX_PROGRESSBAR_VALUE,
+  MAX_WORDS,
 } from './constants/scoreCounters';
 import { ISprintWord } from './interfaces/sprint-word';
 import { GameStatuses } from './enums/game-statuses.enum';
@@ -45,7 +46,7 @@ export class SprintGameComponent implements OnInit {
 
   gameStatus: GameStatuses;
 
-  words: IWord[];
+  words: IWord[] = [];
 
   correctWords: IWord[] = [];
 
@@ -102,6 +103,7 @@ export class SprintGameComponent implements OnInit {
 
   exit(): void {
     this.gameStatus = GameStatuses.Start;
+    this.subscriptionTimer.unsubscribe();
   }
 
   gameInit(): void {
@@ -112,7 +114,7 @@ export class SprintGameComponent implements OnInit {
     this.correctWords = [];
     this.difficultWords = [];
     this.timerInit();
-    this.setGameWords();
+    this.setGameWords(MAX_WORDS);
   }
 
   gameEnd(): void {
@@ -186,25 +188,39 @@ export class SprintGameComponent implements OnInit {
     }
   }
 
-  private setGameWords(): void {
+  private setGameWords(arrLength: number): void {
+    let wordsLeft = arrLength;
+    let maxCounter = arrLength;
+    const currentPage = this.wordsApiService.getPageToken();
     this.subscriptionWords = this.wordsApiService
-      .getWordList()
+      .getRandomWordList()
       .pipe(filter((data) => !!data))
       .subscribe(
         (words: IWord[]) => {
-          this.words = words.sort(() => Math.random() - 0.5); // рандомная сортировка слов, чтобы не было одинакового порядка слов
-          this.gameWords = this.words.map((word: IWord) => {
-            const randomTranslate = this.getRandomTranslate(word);
-            return {
-              id: word.id,
-              word: word.word,
-              translate: word.wordTranslate,
-              randomTranslate,
-              isCorrectTranslate: randomTranslate === word.wordTranslate,
-              audio: word.audio,
-            };
-          });
-          [this.currentWord] = this.gameWords;
+          if (wordsLeft >= words.length) {
+            maxCounter = words.length;
+            wordsLeft -= maxCounter;
+          } else {
+            wordsLeft = 0;
+          }
+          this.words = this.words.concat(words.slice(0, maxCounter));
+          if (wordsLeft > 0 && currentPage > 0) {
+            this.wordsApiService.changePageToken((currentPage - 1).toString());
+            this.setGameWords(wordsLeft);
+          } else {
+            this.gameWords = this.words.map((word: IWord) => {
+              const randomTranslate = this.getRandomTranslate(word);
+              return {
+                id: word.id,
+                word: word.word,
+                translate: word.wordTranslate,
+                randomTranslate,
+                isCorrectTranslate: randomTranslate === word.wordTranslate,
+                audio: word.audio,
+              };
+            });
+            [this.currentWord] = this.gameWords;
+          }
         },
         (err) =>
           this.toastrService.showError(
