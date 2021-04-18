@@ -41,9 +41,6 @@
       </button>
     </div>
   </div>
-  <button appFullScreenButton class="toggle-fullscreen">
-    <img src="./../../../../../assets/img/games/fullscreen.svg" alt="toggle fullscreen" />
-  </button>
   <div class="card-game__wrap" *ngIf="!isLoading; else: loadingBlock">
     <div class="card-game__content" *ngFor="let card of words">
         <app-card-game-item

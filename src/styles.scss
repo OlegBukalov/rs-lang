@@ -560,3 +560,31 @@ button.item-btn-template {
     background-color: #262E5B;
   }
 }
+
+button.toggle-fullscreen {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  margin-bottom: 20px;
+  background-color: #333470;
+  border: none;
+  border: 1px solid #333470;
+  border-radius: 10px;
+  font-family: 'Poiret One', cursive;
+  font-size: 24px;
+  color: #fff;
+  letter-spacing: 2px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #fff;
+    color: #333470;
+  }
+
+  &:focus {
+    outline: none;
+    background-color: #060137;
+    color: #FFF;
+  }
+}
