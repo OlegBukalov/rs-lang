@@ -105,6 +105,10 @@ export class WordsApiService {
     this.pageToken = passedPageToken;
   }
 
+  getPageToken(): number {
+    return Number(this.pageToken);
+  }
+
   changeGroupToken(passedGroupToken: string): void {
     this.groupToken = passedGroupToken;
   }

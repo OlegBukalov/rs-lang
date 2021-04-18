@@ -10,6 +10,7 @@
     padding: 0;
     margin: 0;
     font-weight: bold;
+    color: #589DAE;
   }
 
   h3 {
@@ -73,6 +74,12 @@
     padding: 0 10px;
     text-align: center;
     line-height: 1.5;
+  }
+
+  .team .description {
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding: 0 20px;
   }
 
   @media screen and (max-width: 1010px) {
