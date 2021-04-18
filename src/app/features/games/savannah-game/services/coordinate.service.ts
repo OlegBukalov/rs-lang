@@ -25,9 +25,9 @@ export class CoordinateService {
       return MIN_COORDINATE_Y;
     }
     if (window.innerWidth <= MAX_SCREEN_WIDTH && window.innerHeight <= MAX_SCREEN_HEIGHT) {
-      return MAX_COORDINATE_Y;
+      return MID_COORDINATE_Y;
     }
-    return MID_COORDINATE_Y;
+    return MAX_COORDINATE_Y;
   }
 
   calculateStepY(): number {
