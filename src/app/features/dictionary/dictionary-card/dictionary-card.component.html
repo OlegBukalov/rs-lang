@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" [class.hard]="card.userWord && card.userWord.optional.category === hardCategory">
     <div>
         <div class="card-info">
             <!-- TODO: лоадер для картинки -->
@@ -11,8 +11,8 @@
             </div>
             <audio #audio [src]="card.audio | cardAsset | async"></audio>
             <div class="repeats">
-                <p>Правильных ответов {{card.userWord.optional.gamesStats.rightAnswersCount || 0}}</p>
-                <p>Неправильных ответов {{card.userWord.optional.gamesStats.wrongAnswersCount || 0}}</p>
+                <p>Правильных ответов: {{card.userWord.optional.gamesStats.rightAnswersCount || 0}}</p>
+                <p>Неправильных ответов: {{card.userWord.optional.gamesStats.wrongAnswersCount || 0}}</p>
             </div>
         </div>
     </div>

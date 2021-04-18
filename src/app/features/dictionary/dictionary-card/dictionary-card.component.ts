@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 import { IWord } from 'src/app/core/interfaces/iword';
 import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { DictionaryCategory } from '../dictionary-category';
+import { namesByCategory } from '../name-by-category';
 
 @Component({
   selector: 'app-dictionary-card',
@@ -18,6 +19,8 @@ export class DictionaryCardComponent {
   @ViewChild('audio') audioElement: ElementRef;
 
   readonly categories = Object.values(DictionaryCategory);
+
+  hardCategory = namesByCategory[DictionaryCategory.Hard];
 
   constructor(private dictionaryService: DictionaryService) {}
 

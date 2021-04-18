@@ -1,74 +1,78 @@
-      :host {
-         width: 48%;
-         padding: 1%;
-     }
-     
-     .card {
-         display: flex;
-         justify-content: space-between;
-         align-items: center;
-         padding: 10px;
-         margin-bottom: 10px;
-         border: 2px solid #ddd;
-         border-radius: 20px;
-         &:hover {
-             cursor: pointer;
-             box-shadow: 0 0 6px #8f6cef;
-         }
-         .image-container {
-             width: 150px;
-             height: 150px;
-             padding: 6px;
-             border-radius: 50%;
-             img {
-                 background-color: #ddd;
-                 border-radius: 50%;
-                 width: 150px;
-                 height: 150px;
-                 object-fit: cover;
-             }
-         }
-         .content {
-             padding-left: 20px;
-             font-size: 26px;
-             .word {
-                 font-weight: bold;
-                 text-transform: uppercase;
-             }
-         }
-         .buttons {
-             display: flex;
-             flex-direction: column;
-             .btn-icon {
-                 display: flex;
-                 justify-content: center;
-                 align-items: center;
-                 width: 60px;
-                 height: 60px;
-                 border-radius: 50%;
-             }
-         }
-         .stats {
-             margin-left: 10px;
-             display: flex;
-             flex-direction: column;
-             align-items: center;
-             font-size: 14px;
-         }
-     }
-     
-     .card.hard {
-         box-shadow: 0 0 6px red;
-     }
-     
-     @media screen and (max-width: 950px) {
-          :host {
-             width: 80%;
-         }
-     }
-     
-     @media screen and (max-width: 800px) {
-          :host {
-             width: 90%;
-         }
-     }
+@import '../../../../variables.scss';
+ :host {
+    width: 48%;
+    padding: 1%;
+}
+
+.card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #ddd;
+    border-radius: 20px;
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 0 6px #8f6cef;
+    }
+    .image-container {
+        width: 150px;
+        height: 150px;
+        padding: 6px;
+        border-radius: 50%;
+        img {
+            background-color: #ddd;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+    }
+    .content {
+        padding-left: 20px;
+        font-size: 26px;
+        .word {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    }
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        .btn-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+    }
+    .stats {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px;
+    }
+}
+
+.card.hard {
+    border: 4px solid $color_light_red;
+    &:hover {
+        box-shadow: 0 0 8px $color_light_red;
+    }
+}
+
+@media screen and (max-width: 950px) {
+     :host {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+     :host {
+        width: 90%;
+    }
+}
