@@ -32,14 +32,14 @@
       class="btn-template"
       (click)="moveCard(category.Hard)"
     >
-      В сложные
+      <span class="material-icons"> star_border </span>
     </button>
     <button
       *ngIf="!settings.isDeletedWordsBtnHidden"
       class="btn-template"
       (click)="moveCard(category.Deleted)"
     >
-      В удаленные
+      <span class="material-icons"> delete_outline </span>
     </button>
   </div>
 </div>

@@ -17,6 +17,27 @@
         right: 10px;
         bottom: 35%;
     }
+
+    button.btn-template[disabled] {
+      background-color: #D8DEEA;
+      border-color: #D8DEEA;
+      color: #FFF;
+      cursor: default;
+
+      &:hover {
+        background-color: #D8DEEA;
+        border-color: #D8DEEA;
+        color: #FFF;
+        cursor: default;
+      }
+
+      &:focus {
+        background-color: #D8DEEA;
+        border-color: #D8DEEA;
+        color: #FFF;
+        cursor: default;
+      }
+    }
     .cards-container {
         display: flex;
         flex-wrap: wrap;
@@ -31,4 +52,32 @@
 .game-list {
   display: flex;
   justify-content: space-evenly;
+}
+
+@media screen and (max-width: 820px) {
+  .game-list {
+    flex-wrap: wrap;
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .page-container {
+      .left {
+          bottom: 30%;
+      }
+      .right {
+          bottom: 30%;
+      }
+    }
+}
+
+@media screen and (max-width: 550px) {
+  .page-container {
+      .left {
+          bottom: 25%;
+      }
+      .right {
+          bottom: 25%;
+      }
+    }
 }
