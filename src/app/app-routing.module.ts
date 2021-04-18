@@ -15,11 +15,13 @@ const routes: Routes = [
   },
   {
     path: 'text-book',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/text-book/text-book.module').then((m) => m.TextBookModule),
   },
   {
     path: 'games',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./features/games/games.module').then((m) => m.GamesModule),
   },
   {
