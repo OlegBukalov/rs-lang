@@ -17,7 +17,7 @@ export class WordsApiService {
   private readonly baseUrl = `${environment.baseUrl}/words`;
 
   INIT_MISTAKES_COUNTER = 0;
-  INIT_LEFT_CARDS_COUNTER = 20;
+  WORDS_PER_PAGE = 20;
   TOTAL_CATEGORIES = 6;
   TOTAL_PAGE_CARDS = 29;
 
