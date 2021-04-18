@@ -1,18 +1,20 @@
 <div class="card-game">
   <h2 class="card-game__title">Своя игра</h2>
 
-  <div *ngIf="currentState === state.STOP; else: conditionsGame">
+  <div *ngIf="currentState === state.STOP; else conditionsGame">
     <ul class="conditions-game">
       <li>выберите уровень сложности <span class="material-icons">star_border</span></li>
       <li>ознакомьтесь с набором карточек - на обратной стороне доступен перевод слова</li>
       <li>нажмите играть - вы будете видеть только картинки</li>
       <li>в наборе карточек нужно найти ту, которая соответствует озвученному слову</li>
       <li>игра продолжается, пока вы не соберете все карточки</li>
-      <li>если вы ошиблись на слове более двух раз, то оно попадает в список сложных для вас слов</li>
+      <li>
+        если вы ошиблись на слове более двух раз, то оно попадает в список сложных для вас слов
+      </li>
     </ul>
   </div>
   <ng-template #conditionsGame>
-  <h4 class="card-game__score">Осталось карточек: {{ leftCards }}</h4>
+    <h4 class="card-game__score">Осталось карточек: {{ leftCards }}</h4>
   </ng-template>
 
   <div class="card-game-buttons">
@@ -41,15 +43,15 @@
       </button>
     </div>
   </div>
-  <div class="card-game__wrap" *ngIf="!isLoading; else: loadingBlock">
+  <div class="card-game__wrap" *ngIf="!isLoading; else loadingBlock">
     <div class="card-game__content" *ngFor="let card of words">
-        <app-card-game-item
-          [card]="card"
-          [isHiddenDataChild]="isHiddenDataChild"
-          [isHiddenChildCard]="isHiddenChildCard"
-          [class.play]="currentState === state.HOLD"
-          (checkCard)="checkCard($event)"
-        ></app-card-game-item>
+      <app-card-game-item
+        [card]="card"
+        [isHiddenDataChild]="isHiddenDataChild"
+        [isHiddenChildCard]="isHiddenChildCard"
+        [class.play]="currentState === state.HOLD"
+        (checkCard)="checkCard($event)"
+      ></app-card-game-item>
     </div>
   </div>
   <app-card-game-exit-modal
@@ -60,5 +62,5 @@
   </app-card-game-exit-modal>
 </div>
 <ng-template #loadingBlock>
-    <mat-spinner class="spinner"></mat-spinner>
+  <mat-spinner class="spinner"></mat-spinner>
 </ng-template>

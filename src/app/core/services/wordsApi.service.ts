@@ -16,7 +16,7 @@ export class WordsApiService {
   private readonly baseUrl = `${environment.baseUrl}/words`;
 
   INIT_MISTAKES_COUNTER = 0;
-  INIT_LEFT_CARDS_COUNTER = 20;
+  TOTAL_CARDS = 20;
   TOTAL_CATEGORIES = 6;
   TOTAL_PAGE_CARDS = 29;
 
@@ -84,6 +84,10 @@ export class WordsApiService {
 
   changePageToken(passedPageToken: string): void {
     this.pageToken = passedPageToken;
+  }
+
+  getPageToken(): number {
+    return Number(this.pageToken);
   }
 
   changeGroupToken(passedGroupToken: string): void {
