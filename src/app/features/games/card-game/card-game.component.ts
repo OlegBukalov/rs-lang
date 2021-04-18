@@ -34,7 +34,6 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   countTry: number = this.wordsApiService.INIT_MISTAKES_COUNTER;
   leftCards: number;
   currentPage: number;
-  totalCards: number = this.wordsApiService.TOTAL_CARDS;
   totalCategories: number = this.wordsApiService.TOTAL_CATEGORIES;
   totalPageCards: number = this.wordsApiService.TOTAL_PAGE_CARDS;
   isHiddenDataChild = false;
@@ -51,8 +50,8 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   state = GameState;
   currentState: GameState = GameState.STOP;
 
-  private subscription1: Subscription;
-  private subscription2: Subscription;
+  private currentWordsSubscription: Subscription;
+  private previousWordsSubscription: Subscription;
 
   readonly baseCardURL = environment.dataURL;
 
@@ -82,10 +81,10 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   getData() {
     this.isLoading = true;
-    this.subscription1 = this.wordsApiService.getRandomWordList().subscribe((data) => {
+    this.currentWordsSubscription = this.wordsApiService.getRandomWordList().subscribe((data) => {
       this.words = data;
       this.currentPage = this.wordsApiService.getPageToken();
-      if (this.words.length < this.totalCards && this.currentPage !== 0) {
+      if (this.currentPage !== 0 && this.words.length < this.wordsApiService.WORDS_PER_PAGE) {
         this.addPreviousData();
       } else {
         this.isLoading = false;
@@ -95,10 +94,10 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   addPreviousData() {
-    const quantityDifference = this.totalCards - this.words.length;
+    const quantityDifference = this.wordsApiService.WORDS_PER_PAGE - this.words.length;
     const previousPage = this.currentPage - 1;
     this.wordsApiService.changePageToken(previousPage.toString());
-    this.subscription2 = this.wordsApiService.getRandomWordList().subscribe((data) => {
+    this.previousWordsSubscription = this.wordsApiService.getRandomWordList().subscribe((data) => {
       this.previousPageWords = data;
       const slicedPreviousPageWords = this.previousPageWords.slice(0, quantityDifference);
       this.words = this.words.concat(slicedPreviousPageWords);
@@ -265,7 +264,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   ngOnDestroy() {
     this.ownGameService.isSaved = true;
-    this.subscription1.unsubscribe();
-    if (this.subscription2) this.subscription2.unsubscribe();
+    this.currentWordsSubscription.unsubscribe();
+    if (this.previousWordsSubscription) this.previousWordsSubscription.unsubscribe();
   }
 }
