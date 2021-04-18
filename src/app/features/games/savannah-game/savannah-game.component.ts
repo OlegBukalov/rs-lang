@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { ToasterService } from 'src/app/core/services/toaster.service';
@@ -78,6 +79,8 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
+  isTextbookGameOpen = false;
+
   constructor(
     private wordsApiService: WordsApiService,
     private toastrService: ToasterService,
@@ -89,11 +92,11 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.selectLevel(DEFAULT_LEVEL);
     const debouncedHandleResize = this.utilitiesService.debounce(() => {
       this.coordinateY = this.coordinateService.getAnimalCoordinateY();
     }, 1000);
     window.addEventListener('resize', debouncedHandleResize);
+    this.isTextbookGameOpen = this.wordsApiService.getTextbookGameOpenFlag();
   }
 
   switchLanguages(): void {
@@ -114,18 +117,47 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
   }
 
   start(): void {
-    this.wordsApiService.setRandomPage();
-    this.subscription = this.wordsApiService.getWordList().subscribe(
-      (response: IWord[]) => {
-        this.untouchableFullWordsList = response;
-        this.wordsListForLevel = this.untouchableFullWordsList.slice();
-        this.resetGameParameters();
-        this.continueRun();
-      },
-      (error: Error) => {
-        this.toastrService.showError(error.message, 'Ошибка');
-      },
-    );
+    if (!this.isTextbookGameOpen) {
+      this.wordsApiService.setRandomPage();
+    }
+    this.wordsListForLevel = [];
+    this.untouchableFullWordsList = [];
+    this.setGameWords(this.wordsApiService.WORDS_PER_PAGE);
+  }
+
+  private setGameWords(arrLength: number): void {
+    let wordsLeft = arrLength;
+    let maxCounter = arrLength;
+    const currentPage = this.wordsApiService.getPageToken();
+    this.subscription = this.wordsApiService
+      .getRandomWordList()
+      .pipe(filter((data) => !!data))
+      .subscribe(
+        (words: IWord[]) => {
+          if (wordsLeft >= words.length) {
+            maxCounter = words.length;
+            wordsLeft -= maxCounter;
+          } else {
+            wordsLeft = 0;
+          }
+          this.untouchableFullWordsList = this.untouchableFullWordsList.concat(
+            words.slice(0, maxCounter),
+          );
+          if (wordsLeft > 0 && currentPage > 0) {
+            this.wordsApiService.changePageToken((currentPage - 1).toString());
+            this.setGameWords(wordsLeft);
+          } else {
+            this.wordsListForLevel = this.untouchableFullWordsList.slice();
+            this.resetGameParameters();
+            this.continueRun();
+          }
+        },
+        (err) =>
+          this.toastrService.showError(
+            err,
+            'Не удалось получить слова для изучения, попробуйте позже.',
+          ),
+      );
   }
 
   resetGameParameters(): void {
