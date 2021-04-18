@@ -32,6 +32,7 @@
       object-fit: cover;
     }
   }
+<<<<<<< HEAD
         .content {
             padding-left: 20px;
             font-family: 'Poiret One', cursive;
@@ -60,6 +61,29 @@
             align-items: center;
             font-size: 14px;
         }
+=======
+  .content {
+    padding-left: 20px;
+    font-family: 'Poiret One', cursive;
+    font-size: 26px;
+    .word {
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    .btn-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+  }
+>>>>>>> e9317c6ec924437657ab274568e0783585ebc5ce
 }
 
 .card.hard {
