@@ -27,11 +27,13 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   LOSS_QUANTITY = 2;
 
   words: IWord[];
+  previousPageWords: IWord[];
   playingWordIndexes: number[] = [];
   hardWords: IWord[] = [];
   playingWord: IWord;
   countTry: number = this.wordsApiService.INIT_MISTAKES_COUNTER;
-  leftCards: number = this.wordsApiService.INIT_LEFT_CARDS_COUNTER;
+  leftCards: number;
+  currentPage: number;
   totalCategories: number = this.wordsApiService.TOTAL_CATEGORIES;
   totalPageCards: number = this.wordsApiService.TOTAL_PAGE_CARDS;
   isHiddenDataChild = false;
@@ -48,7 +50,8 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   state = GameState;
   currentState: GameState = GameState.STOP;
 
-  private subscription: Subscription;
+  private currentWordsSubscription: Subscription;
+  private previousWordsSubscription: Subscription;
 
   readonly baseCardURL = environment.dataURL;
 
@@ -78,9 +81,28 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   getData() {
     this.isLoading = true;
-    this.subscription = this.wordsApiService.getWordList().subscribe((data) => {
+    this.currentWordsSubscription = this.wordsApiService.getRandomWordList().subscribe((data) => {
       this.words = data;
+      this.currentPage = this.wordsApiService.getPageToken();
+      if (this.currentPage !== 0 && this.words.length < this.wordsApiService.WORDS_PER_PAGE) {
+        this.addPreviousData();
+      } else {
+        this.isLoading = false;
+        this.leftCards = this.words.length;
+      }
+    });
+  }
+
+  addPreviousData() {
+    const quantityDifference = this.wordsApiService.WORDS_PER_PAGE - this.words.length;
+    const previousPage = this.currentPage - 1;
+    this.wordsApiService.changePageToken(previousPage.toString());
+    this.previousWordsSubscription = this.wordsApiService.getRandomWordList().subscribe((data) => {
+      this.previousPageWords = data;
+      const slicedPreviousPageWords = this.previousPageWords.slice(0, quantityDifference);
+      this.words = this.words.concat(slicedPreviousPageWords);
       this.isLoading = false;
+      this.leftCards = this.words.length;
     });
   }
 
@@ -89,7 +111,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     this.hardWords = [];
     this.playingWord = null;
     this.countTry = this.wordsApiService.INIT_MISTAKES_COUNTER;
-    this.leftCards = this.wordsApiService.INIT_LEFT_CARDS_COUNTER;
+    this.leftCards = this.words.length;
     this.isHiddenDataChild = false;
     this.isHiddenChildCard = false;
     this.ownGameService.setIsSaved(true);
@@ -214,7 +236,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   }
 
   mixCards() {
-    this.getData();
+    this.wordsApiService.randomize(this.words);
     this.initializeValuesForGame();
   }
 
@@ -242,6 +264,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
   ngOnDestroy() {
     this.ownGameService.isSaved = true;
-    this.subscription.unsubscribe();
+    this.currentWordsSubscription.unsubscribe();
+    if (this.previousWordsSubscription) this.previousWordsSubscription.unsubscribe();
   }
 }

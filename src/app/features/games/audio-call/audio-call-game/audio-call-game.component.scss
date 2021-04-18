@@ -5,9 +5,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
-
 
 .loudspeaker {
   display: block;
@@ -27,11 +26,11 @@
     padding: 10px 20px;
 
     &_correct {
-        background-color: $color_green;
+      background-color: $color_green;
     }
 
     &_incorrect {
-        background-color: $color_dark_red;
+      background-color: $color_dark_red;
     }
 
     &:hover {
