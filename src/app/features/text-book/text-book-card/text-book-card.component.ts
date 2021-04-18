@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { DictionaryCategory } from '../../dictionary/dictionary-category';
@@ -15,6 +15,8 @@ export class TextBookCardComponent {
   @Input() card: IWord;
 
   @Input() color: string;
+
+  @Output() cardCategoryChanged = new EventEmitter<void>();
 
   @ViewChild('image') image: ElementRef;
 
@@ -34,8 +36,9 @@ export class TextBookCardComponent {
     image.style.display = 'block';
   }
 
-  moveCard(category: DictionaryCategory, event: MouseEvent) {
+  async moveCard(category: DictionaryCategory, event: MouseEvent) {
     event.stopPropagation();
-    this.dictionaryService.addWordToDictionary(this.card.id, category);
+    await this.dictionaryService.addWordToDictionary(this.card.id, category);
+    this.cardCategoryChanged.emit();
   }
 }

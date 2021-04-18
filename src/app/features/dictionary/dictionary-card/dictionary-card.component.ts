@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 import { IWord } from 'src/app/core/interfaces/iword';
 import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { DictionaryCategory } from '../dictionary-category';
+import { namesByCategory } from '../name-by-category';
 
 @Component({
   selector: 'app-dictionary-card',
@@ -19,6 +20,8 @@ export class DictionaryCardComponent {
 
   readonly categories = Object.values(DictionaryCategory);
 
+  hardCategory = namesByCategory[DictionaryCategory.Hard];
+
   constructor(private dictionaryService: DictionaryService) {}
 
   playAudio() {
@@ -29,6 +32,12 @@ export class DictionaryCardComponent {
   async moveCard(category: DictionaryCategory) {
     // eslint-disable-next-line no-underscore-dangle
     await this.dictionaryService.addWordToDictionary(this.card.id, category);
+    this.cardMoved.emit();
+  }
+
+  async deleteCardFromDictionary() {
+    // eslint-disable-next-line no-underscore-dangle
+    await this.dictionaryService.deleteWordFromDictionary(this.card._id);
     this.cardMoved.emit();
   }
 }

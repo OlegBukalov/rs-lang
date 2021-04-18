@@ -1,40 +1,40 @@
+@import '../../../../variables.scss';
 .card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #ddd;
     background-color: white;
-    border: 1px solid black;
-    padding: 20px;
+    border-radius: 20px;
+    font-family: 'Poiret One', cursive;
+    color: #333470;
+    font-weight: bold;
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 0 6px #8f6cef;
+    }
     .card-info {
         display: flex;
+        justify-content: space-between;
         align-items: center;
         .card-image {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
+            width: 150px;
+            height: 150px;
+            padding: 6px;
             border-radius: 50%;
-            margin-right: 20px;
-        }
-        .play-btn {
-            margin-right: 20px;
-            background: none;
-            border: none;
-            &:hover {
-                cursor: pointer;
-            }
+            background-color: $color_dark_blue;
             img {
-                width: 20px;
-                height: 20px;
+                border-radius: 50%;
+                width: 150px;
+                height: 150px;
+                object-fit: cover;
             }
         }
         .content {
             display: flex;
             flex-direction: column;
+            font-size: 26px;
             .word {
-                margin: 0;
-            }
-            .translate {
-                margin: 0;
+                text-transform: uppercase;
             }
         }
     }
@@ -43,12 +43,21 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        font-size: 18px;
+        margin-right: 20px;
     }
-    .buttons {
-        display: flex;
-        .btn {
-            margin: 0 10px;
-            padding: 5px;
-        }
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.card.hard {
+    border: 4px solid $color_light_red;
+    &:hover {
+        box-shadow: 0 0 8px $color_light_red;
     }
 }

@@ -1,26 +1,31 @@
-<div class="card">
-    <div class="card-info">
-        <!-- TODO: лоадер для картинки -->
-        <img [src]="card.image | cardAsset | async" alt="{{card.word}}" class="card-image">
-        <button class="play-btn" (click)="playAudio()">
-          <img src="../../../../assets/icons/volume.svg" alt="Воспроизвести">
-        </button>
-        <div class="content">
-            <p class="word">{{card.word}}</p>
-            <p class="translate">{{card.wordTranslate}}</p>
+<div class="card" [class.hard]="card.userWord && card.userWord.optional.category === hardCategory">
+    <div>
+        <div class="card-info">
+            <!-- TODO: лоадер для картинки -->
+            <div class="card-image">
+                <img [src]="card.image | cardAsset | async" alt="{{card.word}}">
+            </div>
+            <div class="content">
+                <p class="word">{{card.word}}</p>
+                <p class="translate">{{card.wordTranslate}}</p>
+            </div>
+            <audio #audio [src]="card.audio | cardAsset | async"></audio>
+            <div class="repeats">
+                <p>Правильных ответов: {{card.userWord.optional.gamesStats.rightAnswersCount || 0}}</p>
+                <p>Неправильных ответов: {{card.userWord.optional.gamesStats.wrongAnswersCount || 0}}</p>
+            </div>
         </div>
-        <audio #audio [src]="card.audio | cardAsset | async"></audio>
-    </div>
-    <div class="repeats">
-      <p>Правильных ответов {{card?.userWord?.optional?.gamesStats?.rightAnswersCount || 0}}</p>
-      <p>Неправильных ответов {{card?.userWord?.optional?.gamesStats?.wrongAnswersCount || 0}}</p>
     </div>
     <div class="buttons">
-      <button
-        *ngFor="let category of categories"
-        class="btn"
-        (click)="moveCard(category)"
-        [hidden]="currentCategory === category"
-      >В {{category.toString()}}</button>
-  </div>
+        <button class="btn-template btn-icon" (click)="playAudio()">
+          <span class="material-icons">headset</span>
+        </button>
+        <button 
+          *ngFor="let category of categories"
+          class="btn-template" (click)="moveCard(category)"
+          [hidden]="currentCategory === category">
+          В {{category.toString()}}
+        </button>
+        <button class="btn-template" (click)="deleteCardFromDictionary()">Восстановить</button>
+    </div>
 </div>

@@ -514,6 +514,10 @@ button.btn-template {
   transition: background-color 0.3s;
   cursor: pointer;
 
+  &[hidden] {
+    display: none;
+  }
+
   &:hover {
     background-color: #fff;
     color: #333470;

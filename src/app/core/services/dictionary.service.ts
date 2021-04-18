@@ -27,6 +27,10 @@ export class DictionaryService {
     private toaster: ToasterService,
   ) {}
 
+  async deleteWordFromDictionary(wordId: string) {
+    await this.http.delete(`${this.baseUrl}/words/${wordId}`).toPromise();
+  }
+
   getAggregatedWordById(wordId: string): Observable<IUserWord> {
     return this.http.get<IUserWord>(`${this.baseUrl}/words/${wordId}`);
   }
@@ -48,7 +52,7 @@ export class DictionaryService {
     return result;
   }
 
-  getQuaryFilter(categories: DictionaryCategory[]) {
+  private getQuaryFilter(categories: DictionaryCategory[]) {
     if (!categories.length) return '';
     const filters = categories.map((category) => {
       return `{"userWord.optional.category":"${namesByCategory[category]}"}`;
@@ -69,7 +73,7 @@ export class DictionaryService {
     });
   }
 
-  pageFilter(pages: IWordPage[], pageId: string): IWordPage[] {
+  private pageFilter(pages: IWordPage[], pageId: string): IWordPage[] {
     const page = pages[0];
     const cards = page.paginatedResults.filter((card) => {
       return card.page.toString() === pageId;

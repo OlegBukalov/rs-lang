@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Observable } from 'rxjs';
 import { finalize, first } from 'rxjs/operators';
 import { IWord } from 'src/app/core/interfaces/iword';
+import { IWordPage } from 'src/app/core/interfaces/iword-page';
 import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { DEFAULT_CATEGORY, DictionaryCategory } from '../dictionary-category';
@@ -52,7 +54,8 @@ export class DictionaryComponent implements OnInit {
 
   updateCategoryWords() {
     this.isLoading = true;
-    const result = this.dictionarySevice.getAggregatedWords(null, null, this.currentCategory).pipe(
+    const observable = this.getAggregatedWords();
+    const result = observable.pipe(
       first(),
       finalize(() => {
         this.isLoading = false;
@@ -68,6 +71,17 @@ export class DictionaryComponent implements OnInit {
         this.toaster.showError('Не удалось загрузить слова', 'Ошибка!');
       },
     );
+  }
+
+  private getAggregatedWords(): Observable<IWordPage[]> {
+    return this.currentCategory === DictionaryCategory.Studied
+      ? this.dictionarySevice.getAggregatedWords(
+          null,
+          null,
+          this.currentCategory,
+          DictionaryCategory.Hard,
+        )
+      : this.dictionarySevice.getAggregatedWords(null, null, this.currentCategory);
   }
 
   handlePage(event: PageEvent) {

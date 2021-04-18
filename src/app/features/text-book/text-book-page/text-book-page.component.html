@@ -13,10 +13,12 @@
   >
     <span class="material-icons">chevron_left</span>
   </button>
+
   <div class="cards-container" *ngIf="cards && cards.length; else emptyArrayBlock">
-    <app-text-book-card *ngFor="let card of cards" [card]="card" [color]="color">
+    <app-text-book-card *ngFor="let card of cards" [card]="card" [color]="color" (cardCategoryChanged)="updateCards(pageId)">
     </app-text-book-card>
   </div>
+  
   <button
     class="arrow-btn right btn-template"
     (click)="navigate(pageId + 1)"
