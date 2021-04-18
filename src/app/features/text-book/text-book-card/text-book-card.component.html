@@ -2,8 +2,7 @@
   class="card"
   routerLink="card/{{ card.id }}"
   *ngIf="card"
-  [class.hard]="card.status === hardCategory"
->
+  [class.hard]="card.userWord && card.userWord.optional.category === hardCategory">
   <div class="image-container" [style.background]="'#' + color">
     <img
       #image
@@ -17,18 +16,22 @@
     <p class="word">{{ card.word }}</p>
     <p *ngIf="!settings.isWordTranslationHidden" class="translation">{{ card.wordTranslate }}</p>
   </div>
+  <div *ngIf="card.userWord" class="stats">
+    <p>Правильных ответов: {{card?.userWord?.optional?.gamesStats?.rightAnswersCount || 0}}</p>
+    <p>Неправильных ответов: {{card?.userWord?.optional?.gamesStats?.wrongAnswersCount || 0}}</p>
+  </div>
   <div class="buttons">
     <button
       *ngIf="!settings.isHardWordsBtnHidden"
       class="btn-template btn-icon"
-      (click)="moveCard(category.Hard, $event)"
+      (click)="moveCard(Category.Hard, $event)"
     >
       <span class="material-icons"> star_border </span>
     </button>
     <button
       *ngIf="!settings.isDeletedWordsBtnHidden"
       class="btn-template btn-icon"
-      (click)="moveCard(category.Deleted, $event)"
+      (click)="moveCard(Category.Deleted, $event)"
     >
       <span class="material-icons"> delete_outline </span>
     </button>

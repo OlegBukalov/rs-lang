@@ -1,4 +1,5 @@
 import { DictionaryCategory } from 'src/app/features/dictionary/dictionary-category';
+import { IUserWord } from './iuser-word';
 
 export interface IWord {
   // TODO: разобраться с id и _id
@@ -19,7 +20,5 @@ export interface IWord {
   wordTranslate: string;
   wordsPerExampleSentence: number;
   status?: DictionaryCategory;
-  userWord?: {
-    optional: any;
-  };
+  userWord?: IUserWord;
 }
