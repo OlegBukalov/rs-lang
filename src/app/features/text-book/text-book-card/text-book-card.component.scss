@@ -1,33 +1,38 @@
-     :host {
-        width: 48%;
-        padding: 1%;
+:host {
+  width: 48%;
+  padding: 1%;
+}
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 0 6px #8f6cef;
+  }
+  &:focus {
+    outline: none;
+    border-color: #D8DEEA;
+  }
+  .image-container {
+    width: 150px;
+    height: 150px;
+    padding: 6px;
+    border-radius: 50%;
+    img {
+      background-color: #ddd;
+      border-radius: 50%;
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
     }
-    
-    .card {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 2px solid #ddd;
-        border-radius: 20px;
-        &:hover {
-            cursor: pointer;
-            box-shadow: 0 0 6px #8f6cef;
-        }
-        .image-container {
-            width: 150px;
-            height: 150px;
-            padding: 6px;
-            border-radius: 50%;
-            img {
-                background-color: #ddd;
-                border-radius: 50%;
-                width: 150px;
-                height: 150px;
-                object-fit: cover;
-            }
-        }
+  }
+<<<<<<< HEAD
         .content {
             padding-left: 20px;
             font-family: 'Poiret One', cursive;
@@ -56,20 +61,117 @@
             align-items: center;
             font-size: 14px;
         }
+=======
+  .content {
+    padding-left: 20px;
+    font-family: 'Poiret One', cursive;
+    font-size: 26px;
+    .word {
+      font-weight: bold;
+      text-transform: uppercase;
     }
-    
-    .card.hard {
-        box-shadow: 0 0 6px red;
+  }
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    .btn-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
     }
-    
-    @media screen and (max-width: 950px) {
-         :host {
-            width: 80%;
-        }
+  }
+>>>>>>> e9317c6ec924437657ab274568e0783585ebc5ce
+}
+
+.card.hard {
+    box-shadow: 0 0 6px red;
+}
+
+@media screen and (max-width: 950px) {
+  :host {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  :host {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .card {
+
+    .image-container {
+      width: 100px;
+      height: 100px;
+      padding: 4px;
+      img {
+        width: 100px;
+        height: 100px;
+      }
     }
-    
-    @media screen and (max-width: 800px) {
-         :host {
-            width: 90%;
-        }
+
+    .content {
+      padding-left: 10px;
+      font-size: 22px;
     }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .card {
+    .content {
+      padding-left: 0;
+      font-size: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .card {
+    .image-container {
+      width: 90px;
+      height: 90px;
+      img {
+        width: 90px;
+        height: 90px;
+      }
+    }
+
+    .content {
+      font-size: 18px;
+    }
+
+    .buttons {
+
+      .btn-icon {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .card {
+    .image-container {
+      width: 80px;
+      height: 80px;
+      padding: 4px;
+      img {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    .content {
+      .word {
+        text-transform: lowercase;
+      }
+    }
+  }
+}
