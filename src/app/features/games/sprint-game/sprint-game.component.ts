@@ -14,6 +14,7 @@ import {
   MAX_SCORE_COUNTER,
   MAX_SCORE_LVL,
   MAX_PROGRESSBAR_VALUE,
+  MAX_WORDS,
 } from './constants/scoreCounters';
 import { ISprintWord } from './interfaces/sprint-word';
 import { GameStatuses } from './enums/game-statuses.enum';
@@ -45,7 +46,7 @@ export class SprintGameComponent implements OnInit {
 
   gameStatus: GameStatuses;
 
-  words: IWord[];
+  words: IWord[] = [];
 
   correctWords: IWord[] = [];
 
@@ -102,6 +103,7 @@ export class SprintGameComponent implements OnInit {
 
   exit(): void {
     this.gameStatus = GameStatuses.Start;
+    this.subscriptionTimer.unsubscribe();
   }
 
   gameInit(): void {
@@ -112,7 +114,7 @@ export class SprintGameComponent implements OnInit {
     this.correctWords = [];
     this.difficultWords = [];
     this.timerInit();
-    this.setGameWords();
+    this.setGameWords(MAX_WORDS);
   }
 
   gameEnd(): void {
@@ -186,24 +188,38 @@ export class SprintGameComponent implements OnInit {
     }
   }
 
-  private setGameWords(): void {
+  private setGameWords(arrLength: number): void {
+    let arrayLength = arrLength;
+    let maxCounter = arrLength;
+    const currentPage = this.wordsApiService.getPageToken();
     this.subscriptionWords = this.wordsApiService
-      .getWordList()
+      .getRandomWordList()
       .pipe(filter((data) => !!data))
       .subscribe(
         (words: IWord[]) => {
-          this.words = words.sort(() => Math.random() - 0.5); // рандомная сортировка слов, чтобы не было одинакового порядка слов
-          this.gameWords = this.words.map((word: IWord) => {
-            const randomTranslate = this.getRandomTranslate(word);
-            return {
-              id: word.id,
-              word: word.word,
-              translate: word.wordTranslate,
+          if (arrayLength >= words.length) {
+            maxCounter = words.length;
+            arrayLength -= maxCounter;
+          } else {
+            arrayLength = 0;
+          }
+          for (let i = 0; i < maxCounter; ) {
+            const randomTranslate = this.getRandomTranslate(words[i], words);
+            this.gameWords.push({
+              id: words[i].id,
+              word: words[i].word,
+              translate: words[i].wordTranslate,
               randomTranslate,
-              isCorrectTranslate: randomTranslate === word.wordTranslate,
-              audio: word.audio,
-            };
-          });
+              isCorrectTranslate: randomTranslate === words[i].wordTranslate,
+              audio: words[i].audio,
+            });
+            this.words.push(words[i]);
+            i += 1;
+          }
+          if (arrayLength > 0 && currentPage > 0) {
+            this.wordsApiService.changePageToken((currentPage - 1).toString());
+            this.setGameWords(arrayLength);
+          }
           [this.currentWord] = this.gameWords;
         },
         (err) =>
@@ -244,11 +260,12 @@ export class SprintGameComponent implements OnInit {
       });
   }
 
-  private getRandomTranslate(word: IWord): string {
+  private getRandomTranslate(word: IWord, words: IWord[]): string {
     const isRandom: boolean = Math.random() < 0.5;
     const randomTranslate = isRandom
-      ? this.words[Math.round(Math.random() * (this.words.length - 1))].wordTranslate
+      ? words[Math.round(Math.random() * (words.length - 1))].wordTranslate
       : word.wordTranslate;
     return randomTranslate;
+    return word.wordTranslate;
   }
 }
