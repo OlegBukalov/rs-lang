@@ -13,7 +13,7 @@
         </section>
         <section class="main-menu-buttons">
             <div class="buttons-wrapper">
-                <div class="level-wrapper">
+                <div *ngIf="!isTextbookGameOpen" class="level-wrapper">
                     <p class="level-buttons-title">
                         Уровень сложности
                     </p>
