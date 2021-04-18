@@ -49,3 +49,10 @@
     }
   }
 }
+
+@media screen and (max-width: 580px) {
+  :host {
+    height: 70vh;
+    min-height: 600px;
+  }
+}

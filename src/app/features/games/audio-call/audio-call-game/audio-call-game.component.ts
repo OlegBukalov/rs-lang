@@ -180,8 +180,8 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
 
   private isWordInArrays(): boolean {
     return (
-      this.correctWords.includes(this.currentAnswer) ||
-      this.wordsWithMistakes.includes(this.currentAnswer)
+      this.correctWords.some((element) => element.word === this.currentAnswer.word) ||
+      this.wordsWithMistakes.some((element) => element.word === this.currentAnswer.word)
     );
   }
 

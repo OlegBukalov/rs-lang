@@ -119,3 +119,44 @@ span.material-icons-game {
   padding: 10px;
   color: white;
 }
+
+@media screen and (max-width: 1020px) {
+  .card {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .card {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .container {
+    padding: 5px 0;
+  }
+
+  .score {
+    padding-top: 10px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .card {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .card {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  button.btn-right,
+  button.btn-wrong {
+    width: 150px;
+  }
+}

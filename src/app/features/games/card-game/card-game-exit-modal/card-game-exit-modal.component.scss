@@ -11,7 +11,7 @@
 
   ul {
     list-style-type: none;
-    padding: 20px 0 20px 20px;
+    padding: 20px;
     display: flex;
     flex-wrap: wrap;
 
@@ -40,7 +40,6 @@
     background-color: #FFF;
     position: relative;
     box-shadow: 4px 4px 14px #000;
-    color: #fff;
     color: #000;
 
     .close {
@@ -59,6 +58,24 @@
       text-align: center;
       font-size: 26px;
       font-weight: bold;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .own-modal-result {
+
+    ul {
+      padding: 10px;
+
+      li {
+        font-size: 18px;
+      }
+    }
+
+    .modal {
+      width: 80%;
+      padding: 30px 0;
     }
   }
 }

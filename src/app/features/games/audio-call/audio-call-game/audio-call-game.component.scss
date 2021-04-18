@@ -12,16 +12,18 @@
   display: block;
   width: 200px;
   height: 200px;
-  margin: 20px auto;
+  margin: 40px auto 20px;
 
   cursor: pointer;
 }
 
 .answers {
   display: flex;
+  padding: 50px 0;
 
   &__button {
     @extend %game-button;
+    padding: 10px 20px;
 
     &_correct {
       background-color: $color_green;
@@ -65,6 +67,7 @@
   border-radius: 10px;
 }
 
+<<<<<<< HEAD
 .toggle-fullscreen {
   position: relative;
   top: -300px;
@@ -74,4 +77,29 @@
   border-radius: 3px;
   background-color: $color_light_gray;
   cursor: pointer;
+=======
+@media screen and (max-width: 1050px) {
+  .scorepad {
+    top: 210px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .answers {
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+  }
+
+  .scorepad {
+    border: none;
+    text-align: center;
+    position: static;
+  }
+
+  .loudspeaker {
+    width: 150px;
+    height: 150px;
+  }
+>>>>>>> f7385080fc96f3809c61ef62ccfe4c48be8f2e13
 }
