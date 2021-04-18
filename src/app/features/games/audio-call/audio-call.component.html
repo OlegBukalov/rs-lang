@@ -6,6 +6,7 @@
   <app-audio-call-game
     *ngSwitchCase="'game'"
     [level]="level"
+    [page]="page"
     (gameEnd)="onGameEnd($event)">
   </app-audio-call-game>
   <app-audio-call-end

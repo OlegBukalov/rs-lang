@@ -22,9 +22,9 @@ import {
 export class AudioCallGameComponent implements OnInit, OnDestroy {
   @Input() level;
 
-  @Output() gameEnd = new EventEmitter();
+  @Input() page;
 
-  page = 0;
+  @Output() gameEnd = new EventEmitter();
 
   incorrect = 0;
 
