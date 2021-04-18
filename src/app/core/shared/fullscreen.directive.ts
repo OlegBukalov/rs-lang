@@ -2,9 +2,9 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 import { ToasterService } from '../services/toaster.service';
 
 @Directive({
-  selector: '[appFullscreen]',
+  selector: '[appFullScreenButton]',
 })
-export class FullscreenDirective {
+export class FullScreenButtonDirective {
   constructor(private element: ElementRef, private toaster: ToasterService) {}
 
   @HostListener('click') onClick() {
