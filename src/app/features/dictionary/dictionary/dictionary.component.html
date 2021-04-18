@@ -1,0 +1,37 @@
+<div class="dictionary-page">
+    <div class="categories">
+        <button class="category"
+          *ngFor="let category of categories"
+          [class.active]="category === currentCategory.toString()"
+          [disabled]="isLoading"
+          (click)="selectCurrentCategory(category)">
+          <span>{{category}}</span>
+        </button>
+    </div>
+
+    <div *ngIf="!isLoading; else loadingBlock">
+      <mat-paginator class="paginator"
+        [length]="cards.length"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="handlePage($event)"
+      ></mat-paginator>
+
+      <mat-list class="page" *ngIf="cards.length; else emptyArrayBlock">
+        <app-dictionary-card
+          *ngFor="let card of (cards | slice: pageLeftIndex : pageRightIndex)"
+          [card]="card"
+          [currentCategory]="currentCategory"
+          (cardMoved)="updateCategoryWords()"
+        ></app-dictionary-card>
+      </mat-list>
+
+      <ng-template #emptyArrayBlock>
+        <p class="list-empty">Список слов пуст</p>
+      </ng-template>
+  </div>
+
+  <ng-template #loadingBlock>
+      <mat-spinner class="spinner"></mat-spinner>
+  </ng-template>
+</div>

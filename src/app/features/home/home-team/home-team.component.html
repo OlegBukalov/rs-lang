@@ -1,0 +1,32 @@
+<h3>Наша команда</h3>
+<ul class="team">
+  <li
+    *ngFor="let teamItem of teamList"
+    [teamItem]="teamItem"
+  >
+    <div class="avatar">
+      <img src="{{ teamItem.imgUrl }}" alt="rslang team">
+    </div>
+    <h4>{{ teamItem.name }}</h4>
+    <p class="strong">{{ teamItem.position }}</p>
+    <p class="description">{{ teamItem.description }}</p>
+    <a
+      *ngIf="teamItem.link"
+      href="{{ teamItem.link }}"
+      target="_blank">
+      GitHub
+    </a>
+  </li>
+</ul>
+<h3 class="title-video">Чтобы подробнее ознакомиться с нашим проектом - посмотрите видео:</h3>
+<div class="video">
+  <iframe
+    width="460"
+    height="315"
+    src="https://www.youtube.com/embed/YUjYhCAscwE"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  ></iframe>
+</div>

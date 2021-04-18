@@ -1,0 +1,361 @@
+:host {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  position: fixed;
+}
+
+:-webkit-full-screen{
+  background: white;
+}
+
+.wrap-game-list {
+    position: relative;
+    font-family: 'Poiret One', cursive;
+    font-size: 26px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .toggle-fullscreen {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      z-index: 3;
+    }
+  
+    .start-game-menu {
+      height: 100%;
+      width: calc(100% - 20px);
+      padding-left: 20px;
+
+      .game-title {
+        color: #333470;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        margin: 10px 50px;
+        font-size: 40px;
+        font-weight: 800;
+        height: 10%;
+      }
+
+      .game-rules-wrapper {
+        height: 40%;
+        width: 46%;
+        color: #32339e;
+        font-weight: 600;
+        font-size: 22px;
+        white-space: pre-line;
+
+        .game-rules {
+          margin: 0;
+          padding: 0;
+        }
+      }
+
+      .main-menu-buttons {
+        position: relative;
+        height: 30%;
+        display: flex;
+        align-items: center;
+
+        .buttons-wrapper {
+          display: flex;
+          align-items: flex-end;
+          width: 90%;
+          justify-content: space-evenly;
+
+          .level-wrapper {
+            z-index: 2;
+            color: white;
+            margin: 10px;
+  
+            .level-buttons-title {
+              margin: 0 0 20px 0;
+              text-align: center;
+              height: 30px;
+            }
+  
+            .level-buttons-wrapper {
+              z-index: 2;
+              color: white;
+
+              .level-button {
+                margin: 2px;
+                padding: 0;
+                min-width: 40px;
+                min-height: 40px;
+                font-size: 20px;
+              }
+            }
+          }
+  
+          .start-button {
+            width: 170px;
+            height: 50px;
+            font-size: 25px;
+            margin: 10px;
+          }
+  
+          .language-slider-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #3f51b5;
+            border-radius: 20px;
+            width: 150px;
+            height: 40px;
+            margin: 10px;
+            z-index: 2;
+            color: white;
+            font-family: auto;
+            font-size: 26px;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+
+    .game-over {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      min-width: 350px;
+      max-width: 400px;
+      max-height: 350px;
+      background-color: #262e5beb;
+      border-radius: 20px;
+      border: 2px solid #06a08ad4;
+      color: white;
+      z-index: 2;
+      margin: 20px;
+      align-items: center;
+
+      .game-over-title {
+        padding: 10px;
+      }
+
+      .learned-unlearnder-words-wrapper {
+        display: flex;
+        overflow: auto;
+
+        .words-tab-learned, .words-tab-unlearned {
+          display: flex;
+          flex-direction: column;
+          overflow-x: hidden;
+          overflow-y: auto;
+          margin: 0;
+  
+          .learned-words {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+          }
+  
+          .unlearned-words {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+          }
+        }
+  
+        .words-tab-learned {
+          padding: 10px 10px 10px 40px;
+        }
+  
+        .words-tab-unlearned {
+          padding: 10px 40px 10px 10px;
+        }
+      }
+
+      .score {
+        align-items: center;
+        padding: 10px;
+      }
+    }
+
+    .background {
+      position: absolute;
+      background-image: url('/assets/img/games/savannah/savannah.svg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: calc(100% + 4px);
+      width: calc(100% + 20px);
+      align-self: center;
+      z-index: 0;
+      margin-left: -20px;
+    }
+
+    .health-wrapper {
+      position: absolute;
+      align-self: flex-start;
+      margin: 10px 0;
+      display: flex;
+
+      .health {
+        position: absolute;
+        width: 200px;
+        height: 40px;
+        background-image: url('/assets/img/games/savannah/owl.svg');
+        background-repeat: repeat-x;
+        transition: transform 0.3s;
+        transform-origin: center center;
+        z-index: 3;
+        cursor: pointer;
+      }
+
+      .health:hover {
+        top: -6px;
+      }
+
+      .branch {
+        top: -10px;
+        position: absolute;
+        width: 300px;
+        height: 100px;
+        background-image: url(/assets/img/games/savannah/branch-end.svg);
+        background-repeat: no-repeat;
+        transition: transform 0.3s;
+        transform-origin: center center;
+        transform: rotate(-5deg);
+        z-index: 2;
+      }
+    }
+
+    .running-field {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      z-index: 2;
+
+      .word-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        width: 200px;
+        height: 220px;
+
+        .animal {
+          margin-bottom: 10px;
+          width: 140px;
+          height: 150px;
+          background-image: url('/assets/img/games/savannah/giraffe.svg');
+          background-repeat: no-repeat;
+        }
+
+        .word {
+          padding: 5px;
+          color: white;
+          border: 3px solid white;
+          border-radius: 5px;
+          text-align: center;
+          font-size: 45px;
+          height: 55px;
+          font-weight: 800;
+        }
+      }
+    }
+  
+    .answers-words-field {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      align-self: center;
+      z-index: 2;
+      position: absolute;
+      top: 100px;
+
+      .answers-buttons-wrapper {
+        display: flex;
+        flex-direction: row;
+        flex-flow: wrap;
+
+        .answer-word {
+          margin: 10px;
+          min-width: 150px;
+          height: 50px;
+          font-size: 24px;
+        }
+      }
+    }
+  
+    @media screen and (max-width: 1050px) {
+      .start-game-menu {
+        .game-rules-wrapper {
+          height: 30%;
+        }
+
+        .main-menu-buttons {
+          align-items: flex-end;
+        }
+      }
+    }
+
+    @media screen and (max-width: 900px) {
+      .start-game-menu {
+        .game-rules-wrapper {
+          width: 70%;
+          height: 250px;
+        }
+
+        .main-menu-buttons {
+          .buttons-wrapper {
+            align-items: center;
+            width: 100%;
+  
+            .level-wrapper {
+              font-size: 18px;
+              margin: 0 0 10px 0;
+              width: 120px;
+
+              .level-buttons-title {
+                margin: 0 0 10px 0;
+              }
+    
+              .level-buttons-wrapper {
+                margin: 0;
+                font-size: 16px;
+
+                .level-button {
+                  min-width: 36px;
+                  min-height: 36px;
+                  font-size: 16px;
+                }
+              }
+            }
+    
+            .start-button {
+              height: 40px;
+              min-width: max-content;
+              width: 100px;
+              font-size: 16px;
+              margin: 0;
+              padding: 0;
+            }
+    
+            .language-slider-wrapper {
+              width: 110px;
+              font-size: 16px;
+            }
+          }
+        }
+      }
+
+      .answers-words-field {
+        .answers-buttons-wrapper { 
+          width: 400px;
+        }
+      }
+    }
+  }
+  
+  button {
+    z-index: 1;
+    cursor: pointer;
+  }

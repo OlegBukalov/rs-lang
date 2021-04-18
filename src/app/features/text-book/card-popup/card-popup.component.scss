@@ -1,0 +1,127 @@
+.container {
+  width: 80%;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 6px #000;
+
+  img {
+    display: block;
+    margin: 0 auto;
+    width: 300px;
+    border-radius: 20px;
+  }
+
+  .word-transcription,
+  .word-meaning,
+  .word-example {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+
+    .word {
+      margin-right: 20px;
+    }
+
+    .transcription {
+      margin-right: 20px;
+    }
+
+    .meaning {
+      margin-right: 20px;
+    }
+
+    .example {
+      margin-right: 20px;
+    }
+
+    .audio {
+      margin-right: 20px;
+      margin-bottom: 0;
+      padding: 10px;
+    }
+  }
+
+  .word-transcription {
+    justify-content: center;
+  }
+
+  .buttons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+
+    button {
+      padding: 10px;
+    }
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba($color: #202020, $alpha: 0.7);
+  z-index: 90;
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+
+    img {
+      width: 200px;
+    }
+
+    .word-transcription {
+      .audio {
+        padding: 5px;
+        font-size: 20px;
+      }
+    }
+
+    .word-meaning,
+    .word-example {
+      flex-direction: column;
+
+      p {
+        margin: 0;
+      }
+
+      .audio {
+        margin-right: 0;
+        padding: 5px;
+        font-size: 20px;
+      }
+
+      .meaning {
+        margin-right: 0;
+      }
+
+      .example {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: 550px) {
+  .container {
+    .word-transcription {
+      flex-wrap: wrap;
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+}

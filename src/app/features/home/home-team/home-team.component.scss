@@ -1,0 +1,101 @@
+:host{
+  font-family: 'Poiret One', cursive;
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  .strong {
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+    color: #589DAE;
+  }
+
+  h3 {
+    padding-top: 100px;
+    text-align: center;
+    font-size: 30px;
+    color: #333470;
+    text-transform: uppercase;
+  }
+
+  a {
+      display: block;
+      width: 100px;
+      padding: 5px 10px;
+      margin: auto;
+      background-color: #333470;
+      border-radius: 10px;
+      text-align: center;
+      color: #FFF;
+      text-decoration: none;
+      transition: background-color .3s;
+
+      &:hover {
+        background-color: #d86117;
+      }
+  }
+
+  .team {
+    padding: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .team li {
+    width: 400px;
+    margin-bottom: 50px;
+  }
+
+  .team .avatar {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    border-radius: 50%;
+  }
+
+  .avatar img {
+    max-width: 100%;
+  }
+
+  .team h4 {
+    font-size: 26px;
+    padding: 5px 0;
+    margin: 0;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .team p {
+    font-size: 20px;
+    padding: 0 10px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .team .description {
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding: 0 20px;
+  }
+
+  .title-video {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .video {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 50px;
+  }
+
+  @media screen and (max-width: 1010px) {
+    .team li {
+      width: 300px;
+    }
+  }
+}

@@ -1,0 +1,58 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Poiret One', cursive;
+}
+
+.data-result-title {
+  margin: 0;
+  padding: 10px 0;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: bold;
+  font-size: 22px;
+  color: #262E5B;
+
+  span {
+    color: #8F6CEF;
+  }
+}
+
+.buttons-over {
+  display: flex;
+  justify-content: center;
+
+  button:first-child {
+    margin-right: 10px;
+  }
+}
+
+.words {
+  display: flex;
+  padding-bottom: 20px;
+}
+
+.words-column {
+  padding: 10px;
+
+  p {
+    color: #589DAE;
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: uppercase;
+  }
+}
+
+.word-list {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+
+  .bold {
+    font-weight: bold;
+  }
+}
+
+.word-list > span {
+  padding-bottom: 10px;
+}

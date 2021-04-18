@@ -1,0 +1,58 @@
+:host {
+  height: 100vh;
+  min-height: 600px;
+  padding-left: 50px;
+  background: url('/assets/img/home/fon-home.jpg') no-repeat top right;
+  background-size: 40%;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Poiret One', cursive;
+
+  h3 {
+    padding-top: 20px;
+    width: 50%;
+    font-size: 60px;
+    color: #262e5b;
+  }
+
+  p {
+    width: 50%;
+    font-size: 40px;
+  }
+
+  @media screen and (max-width: 1050px) {
+    h3 {
+      font-size: 54px;
+    }
+
+    p {
+      font-size: 34px;
+    }
+  }
+
+  @media screen and (max-width: 950px) {
+    h3 {
+      width: 60%;
+      font-size: 50px;
+    }
+
+    p {
+      width: 60%;
+      font-size: 34px;
+    }
+  }
+
+  @media screen and (max-width: 650px) {
+    p {
+      width: 90%;
+      font-size: 30px;
+    }
+  }
+}
+
+@media screen and (max-width: 580px) {
+  :host {
+    height: 70vh;
+    min-height: 600px;
+  }
+}

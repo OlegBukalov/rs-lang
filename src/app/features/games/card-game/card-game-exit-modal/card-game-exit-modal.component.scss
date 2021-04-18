@@ -1,0 +1,81 @@
+.own-modal-result {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  ul {
+    list-style-type: none;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+
+    li {
+      width: 33.3%;
+      padding: 10px 0;
+      text-align: center;
+      font-weight: bold;
+      font-size: 20px;
+    }
+  }
+
+  .list-hard-title {
+    width: 80%;
+    margin: auto;
+    padding-bottom: 10px;
+    border-bottom: 1px solid  #A23979;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+  }
+
+  .modal {
+    width: 60%;
+    padding: 50px 0;
+    background-color: #FFF;
+    position: relative;
+    box-shadow: 4px 4px 14px #000;
+    color: #000;
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 30px;
+      cursor: pointer;
+
+      &:hover {
+        color: orange;
+      }
+    }
+
+    .end-game-text {
+      text-align: center;
+      font-size: 26px;
+      font-weight: bold;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .own-modal-result {
+
+    ul {
+      padding: 10px;
+
+      li {
+        font-size: 18px;
+      }
+    }
+
+    .modal {
+      width: 80%;
+      padding: 30px 0;
+    }
+  }
+}

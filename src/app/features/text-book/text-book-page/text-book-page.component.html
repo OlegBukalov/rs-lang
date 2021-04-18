@@ -1,0 +1,42 @@
+<div class="page-container" *ngIf="!isLoading; else loadingBlock">
+  <div class="game-list">
+    <app-game-btns
+      *ngFor="let gameItem of games"
+      [gameItem]="gameItem"
+    >
+    </app-game-btns>
+  </div>
+  <button
+    class="arrow-btn left btn-template"
+    (click)="navigate(pageId - 1)"
+    [disabled]="pageId === paginationOptions.firstPageIndex"
+  >
+    <span class="material-icons">chevron_left</span>
+  </button>
+
+  <div class="cards-container" *ngIf="cards && cards.length; else emptyArrayBlock">
+    <app-text-book-card *ngFor="let card of cards" [card]="card" [color]="color" (cardCategoryChanged)="updateCards(pageId)">
+    </app-text-book-card>
+  </div>
+  
+  <button
+    class="arrow-btn right btn-template"
+    (click)="navigate(pageId + 1)"
+    [disabled]="pageId === paginationOptions.lastPageIndex"
+  >
+    <span class="material-icons">chevron_right</span>
+  </button>
+</div>
+
+<app-pagination [pageId]="pageId" [options]="paginationOptions" (navigate)="navigate($event)">
+</app-pagination>
+
+<ng-template #emptyArrayBlock>
+  <p>Список слов пуст</p>
+</ng-template>
+
+<ng-template #loadingBlock>
+  <mat-spinner class="spiner"></mat-spinner>
+</ng-template>
+
+<router-outlet></router-outlet>

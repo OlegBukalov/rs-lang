@@ -1,0 +1,11 @@
+<div class="game-description">
+  <div class="game-wrap-img">
+    <div class="game-img">
+      <img src="{{ gameItem.imgUrl }}" alt="{{ gameItem.title }}" />
+    </div>
+  </div>
+  <h3 class="game-title">{{ gameItem.title }}</h3>
+  <div class="game-button">
+    <button class="btn-template" (click)="redirectToGame()">играть</button>
+  </div>
+</div>

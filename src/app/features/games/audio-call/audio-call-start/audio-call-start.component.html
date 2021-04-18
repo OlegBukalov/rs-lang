@@ -1,0 +1,10 @@
+<h2>Аудиовызов</h2>
+
+<div class="start-pad" *ngIf="!isTextbookGameOpen">
+  <h3>Уровень сложности</h3>
+
+  <select class="start-pad__selection" [(ngModel)]="level">
+    <option *ngFor="let level of levels" value="{{ level }}">{{ level }}</option>
+  </select>
+</div>
+<button class="start-button" (click)="onStartClick()">Старт</button>

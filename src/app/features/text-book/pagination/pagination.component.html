@@ -1,0 +1,33 @@
+<button
+  class="btn left btn-template"
+  (click)="navigateClick(options.firstPageIndex)"
+  [disabled]="pageId === options.firstPageIndex"
+>
+  <span class="material-icons">first_page</span>
+</button>
+
+<button
+  class="btn left btn-template"
+  (click)="navigateClick(pageId - 1)"
+  [disabled]="pageId === options.firstPageIndex"
+>
+  <span class="material-icons">chevron_left</span>
+</button>
+
+<div class="btn left"><span>{{ pageId + 1}}</span></div>
+
+<button
+  class="btn right btn-template"
+  (click)="navigateClick(pageId + 1)"
+  [disabled]="pageId === options.lastPageIndex"
+>
+  <span class="material-icons">chevron_right</span>
+</button>
+
+<button
+  class="btn right btn-template"
+  (click)="navigateClick(options.lastPageIndex)"
+  [disabled]="pageId === options.lastPageIndex"
+>
+  <span class="material-icons">last_page</span>
+</button>

@@ -1,0 +1,16 @@
+:host {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+
+    .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        margin: 0 10px;
+        font-family: 'Poiret One', cursive;
+        font-weight: bold;
+        font-size: 20px;
+    }
+}

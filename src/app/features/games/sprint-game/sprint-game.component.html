@@ -1,0 +1,61 @@
+<div class="container" [ngSwitch]="gameStatus">
+  <ng-template ngSwitchCase="start">
+    <app-settings-page
+      (startGame)="setLoadingStatus()"
+      [isTextbookGameOpen]="isTextbookGameOpen"
+    >
+    </app-settings-page>
+  </ng-template>
+  <ng-template  ngSwitchCase="loading">
+    <app-start-loading (startLoadingEnd)="gameInit()"></app-start-loading>
+  </ng-template>
+  <ng-template ngSwitchCase="play">
+    <button appFullScreenButton class="toggle-fullscreen" title="на весь экран">
+      <span class="material-icons">fullscreen</span>
+    </button>
+    <div class="score">
+      <span>{{score}}</span>
+    </div>
+    <mat-card class="card">
+      <app-bonus-score
+        [scoreCounter] = "bonusCounter"
+        [scoreLvl] = "bonusLvl"
+      ></app-bonus-score>
+      <p class="sprint-word">{{currentWord.word}}</p>
+      <p class="sprint-translate">{{currentWord.randomTranslate}}</p>
+      <div class="answer-buttons">
+        <div>
+          <button class="btn-wrong" (click)="checkAnswer(false)">неверно</button>
+          <span class="material-icons material-icons-game">west</span>
+        </div>
+        <div>
+          <button class="btn-right" (click)="checkAnswer(true)">верно</button>
+          <span class="material-icons material-icons-game">east</span>
+        </div>
+      </div>
+      <div class="progress-bar-block">
+        <mat-progress-bar
+          mode="determinate"
+          [value]="progressbarValue">
+        </mat-progress-bar>
+        <div class="progress-bar-timer">{{curSecond}} сек</div>
+      </div>
+    </mat-card>
+    <div class="answer-buttons">
+      <button class="btn-template" (click)="setLoadingStatus()">начать заново</button>
+      <button class="btn-template" (click)="exit()">выйти</button>
+    </div>
+  </ng-template>
+  <ng-template  ngSwitchCase="end">
+    <app-sprint-game-over
+      [wordCounter]="wordCounter"
+      [correctWordCounter]="correctWordCounter"
+      [score]="score"
+      [correctWords]="correctWords"
+      [difficultWords]="difficultWords"
+      (startGame)="setLoadingStatus()"
+      (exit)="exit()"
+    >
+    </app-sprint-game-over>
+  </ng-template>
+</div>

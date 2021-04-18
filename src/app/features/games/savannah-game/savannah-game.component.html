@@ -1,0 +1,75 @@
+<main class="wrap-game-list">
+    <div class="background"></div>
+    <button appFullScreenButton class="toggle-fullscreen" title="на весь экран">
+        <span class="material-icons">fullscreen</span>
+      </button>
+    <section *ngIf="state !== gameState.InProgress" class="start-game-menu">
+        <h2 class="game-title">Саванна</h2>
+        <section class="game-rules-wrapper">
+            <ul type="none" class="game-rules">
+                <li>Правила игры:</li>
+                <li>- Необходимо определить правильный перевод слова</li>
+                <li>- Выбор правильного варианта необходимо делать кликом левой кнопки мыши</li>
+                <li>- Игра начинается с выбранного уровня сложности</li>
+                <li>- Для начала игры нажмите на кнопку "Старт"</li>
+            </ul>
+        </section>
+        <section class="main-menu-buttons">
+            <div class="buttons-wrapper">
+                <div *ngIf="!isTextbookGameOpen" class="level-wrapper">
+                    <p class="level-buttons-title">
+                        Уровень сложности
+                    </p>
+                    <div class="level-buttons-wrapper">
+                        <button class="level-button" mat-raised-button [color]="level === selectedLevel ? 'accent' : 'primary'"
+                        (click)="selectLevel(level)" *ngFor="let level of levels">{{level + 1}}</button>
+                    </div>
+                </div>
+                <button mat-raised-button color="primary" class="start-button" (click)="start()">
+                    {{state !== gameState.Over ? 'Старт' : 'Перезапуск'}}
+                </button>
+                <div class="language-slider-wrapper">
+                    <mat-slide-toggle class="language-slider" (toggleChange)="switchLanguages()">
+                        {{this.wordProperty === languageSet.Russian ? 'Рус-Анг' : 'Анг-Рус'}}
+                    </mat-slide-toggle>
+                </div>
+            </div>
+        </section>
+    </section>
+    <section *ngIf="state === gameState.Over" class="game-over">
+        <span class="game-over-title">Конец Игры</span>
+        <div class="learned-unlearnder-words-wrapper">
+            <ul class="words-tab-learned">
+                *Выученные*
+                <li *ngFor="let learnedWord of learnedWords" class="learned-words">
+                    <a>{{learnedWord.word}}</a>
+                </li>
+            </ul>
+            <ul class="words-tab-unlearned">
+                *Невыученные*
+                <li *ngFor="let unlearnedWord of unlearnedWords" class="unlearned-words">
+                    <a>{{unlearnedWord.word}}</a>
+                </li>
+            </ul>
+        </div>
+        <span class="score">Очки:&nbsp;{{score}}</span>
+    </section>
+    <ng-container *ngIf="state === gameState.InProgress && health">
+        <div class="health-wrapper" [matTooltipPosition]="'below'" matTooltip="Оставшееся количество попыток">
+            <div [ngStyle]="{'width': healthIconWidth * health + 'px'}" class="health"></div>
+            <div class="branch"></div>
+        </div>
+        <div class="running-field">
+            <div class="word-wrapper" [ngStyle]="{'top': coordinateY + 'px', 'left': coordinateX + 'px'}">
+                <div class="animal"></div>
+                <span class="word">{{targetWord[wordProperty]}}</span>
+            </div>
+        </div>
+    </ng-container>
+    <section class="answers-words-field">
+        <div *ngIf="state === gameState.InProgress" class="answers-buttons-wrapper">
+            <button mat-raised-button color="primary" class="answer-word" (click)="checkAnswer(answer)"
+            *ngFor="let answer of answerWordsArray">{{answer[getOppositeLanguage(wordProperty)]}}</button>
+        </div>
+    </section>
+</main>

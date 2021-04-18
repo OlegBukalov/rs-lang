@@ -1,0 +1,44 @@
+:host {
+  font-family: 'Poiret One', cursive;
+  min-height: calc(100vh - 400px);
+  display: flex;
+  flex-direction: column;
+}
+
+.info-container {
+  margin: 40px auto;
+  article {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+}
+
+.sad-icon-container {
+  width: 400px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: url('/assets/img/error/error.jpg') no-repeat center bottom;
+  background-size: cover;
+  min-height: 300px;
+}
+
+.error-code {
+  font-size: 60px;
+  color: #0082ca;
+  margin-bottom: 30px;
+}
+
+.error-text {
+  font-size: 40px;
+}
+
+@keyframes drop-tear {
+  from {
+    bottom: 100px;
+  }
+  to {
+    bottom: -20px;
+  }
+}

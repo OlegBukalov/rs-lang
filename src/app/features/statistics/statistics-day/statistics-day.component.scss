@@ -1,0 +1,79 @@
+.data-day {
+  width: 90%;
+  margin: 0 auto;
+  font-family: 'Poiret One', cursive;
+  font-size: 20px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #262E5B;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+
+  .data-games {
+    display: flex;
+    justify-content: center;
+
+    caption {
+      padding: 10px 0;
+      border-bottom: 1px solid #6EB7BE;
+      text-align: center;
+    }
+
+    thead {
+      background-color: #E0E2F6;
+    }
+
+    th,
+    td {
+      padding: 10px 0;
+    }
+
+    td:nth-child(1) {
+      padding-left: 10px;
+    }
+
+    td:nth-child(2),
+    td:nth-child(3) {
+      text-align: center;
+    }
+
+    tr:nth-child(2n) {
+      background-color: #E0E2F6;
+    }
+  }
+
+  .data-correct {
+    padding: 20px 0;
+    text-align: center;
+  }
+}
+
+
+.empty-data {
+  padding: 0 50px;
+  padding-bottom: 50px;
+  font-family: 'Poiret One', cursive;
+  font-size: 18px;
+  font-weight: bold;
+
+  li {
+    margin-bottom: 20px;
+  }
+
+  a {
+    color: #8F6CEF;
+    cursor: pointer;
+
+    &:hover {
+      color: #FE8931;
+    }
+
+    &:active {
+      color: #FE8931;
+    }
+  }
+}
+
+.loading-statistics {
+  padding: 50px 0;
+}

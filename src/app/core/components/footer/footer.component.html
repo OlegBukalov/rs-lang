@@ -1,0 +1,26 @@
+<div class="logo">
+  <h1 routerLink="">
+    <span class="prefix-logo">RS</span>
+    <span class="logo-body">Lang</span>
+  </h1>
+  <div class="logo-rsschool">
+    <a href="https://rs.school/angular/" target="_blank">
+      <img src="https://rs.school/images/rs_school_js.svg" alt="rs school">
+    </a>
+    <span> - 2021</span>
+  </div>
+</div>
+<div class="list-team">
+  <ul>
+    <li
+      *ngFor="let teamItem of teamList"
+      [teamItem]="teamItem"
+    >
+      <a
+        href="{{ teamItem.link }}"
+        target="_blank">
+        {{ teamItem.name }}
+      </a>
+    </li>
+  </ul>
+</div>

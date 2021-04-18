@@ -1,0 +1,130 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #262E5B;
+
+  .btn-icon {
+    font-size: 30px;
+  }
+
+  nav {
+    width: 70%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  ul {
+    padding-left: 0;
+  }
+}
+
+.main-menu {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  padding-right: 50px;
+
+  &__item {
+    padding: 0 10px;
+
+    a {
+      display: block;
+      font-family: 'Poiret One', cursive;
+      font-size: 24px;
+      color: #FFF;
+      transition: color .2s;
+
+      &:hover {
+        color: #FE8931;
+      }
+
+      &.active {
+        color: #Fe8931;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  :host {
+    flex-direction: column;
+
+    .logo {
+      width: 100%;
+
+      h1 {
+        padding-left: 0;
+        justify-content: center;
+      }
+    }
+
+    nav {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .main-menu {
+      padding-right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .main-menu {
+
+    &__item {
+
+      a {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  :host {
+
+    .btn-icon {
+      font-size: 28px;
+    }
+  }
+  .main-menu {
+
+    &__item {
+      display: flex;
+      align-items: center;
+
+      a {
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .main-menu {
+
+    &__item:last-child {
+      position: absolute;
+      top: 42px;
+      right: 10px;
+
+      a {
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 525px) {
+  .main-menu {
+
+    &__item {
+
+      a {
+        font-size: 16px;
+      }
+    }
+  }
+}

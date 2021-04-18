@@ -1,0 +1,12 @@
+<div class="difficulty-container">
+  <div
+    class="difficulty"
+    *ngFor="let diff of difficulties"
+    [class.active]="diff.groupId === groupId"
+    data-id="{{ diff.groupId }}"
+    (click)="navigate(diff.groupId)"
+  >
+    <span>{{ diff.name }}</span>
+  </div>
+</div>
+<app-text-book-page [cards]="cards" [color]="currentColor" [isLoading]="isLoading"></app-text-book-page>

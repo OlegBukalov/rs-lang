@@ -1,0 +1,14 @@
+<div class="sprint-title">
+  <h2>Спринт</h2>
+  <p *ngIf="!isTextbookGameOpen">Выбирай уровень и стартуй!</p>
+</div>
+
+<div class="level">
+  <div *ngIf="!isTextbookGameOpen">
+    <button mat-button class="btn-template" [matMenuTriggerFor]="menu">Уровень сложности</button>
+    <mat-menu #menu="matMenu" class="menu-select-template">
+      <button mat-menu-item class="item-btn-template" *ngFor="let level of levels" (click)="chooseLvl(level)">Уровень {{level}}</button>
+    </mat-menu>
+  </div>
+  <button mat-flat-button class="btn-template" (click)="onStart()">Начать игру</button>
+</div>

@@ -1,0 +1,51 @@
+<div class="container" *ngIf="card; else loadingBlock">
+  <img src="data:image/jpeg;base64,{{ card.image }}" alt="{{ card.word }}" />
+  <div class="word-transcription">
+    <button class="audio btn-template" (click)="playAudio(card.audio)">
+      <span class="material-icons">headset</span>
+    </button>
+    <p class="word">{{ card.word }}</p>
+    <p class="transcription">{{ card.transcription }}</p>
+    <p *ngIf="!settings.isWordTranslationHidden" class="word">{{ card.wordTranslate }}</p>
+  </div>
+  <div class="word-meaning">
+    <button class="audio btn-template" (click)="playAudio(card.audioMeaning)">
+      <span class="material-icons">headset</span>
+    </button>
+    <p [innerHTML]="card.textMeaning" class="meaning"></p>
+    <p *ngIf="!settings.isSentenceTranslationHidden" class="meaning">
+      {{ card.textMeaningTranslate }}
+    </p>
+  </div>
+  <div class="word-example">
+    <button class="audio btn-template" (click)="playAudio(card.audioExample)">
+      <span class="material-icons">headset</span>
+    </button>
+    <p [innerHTML]="card.textExample" class="example"></p>
+    <p *ngIf="!settings.isSentenceTranslationHidden" class="example">
+      {{ card.textExampleTranslate }}
+    </p>
+  </div>
+  <div class="buttons">
+    <button
+      *ngIf="!settings.isHardWordsBtnHidden"
+      class="btn-template"
+      (click)="moveCard(category.Hard)"
+    >
+      <span class="material-icons"> star_border </span>
+    </button>
+    <button
+      *ngIf="!settings.isDeletedWordsBtnHidden"
+      class="btn-template"
+      (click)="moveCard(category.Deleted)"
+    >
+      <span class="material-icons"> delete_outline </span>
+    </button>
+  </div>
+</div>
+
+<div class="overlay" routerLink="../../"></div>
+
+<ng-template #loadingBlock>
+  <mat-spinner class="spinner"></mat-spinner>
+</ng-template>

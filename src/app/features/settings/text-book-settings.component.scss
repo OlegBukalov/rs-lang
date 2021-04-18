@@ -1,0 +1,44 @@
+:host {
+  display: flex;
+  justify-content: center;
+  height: 75vh;
+  background: url('/assets/img/settings/settings.jpg') no-repeat left bottom, url('/assets/img/settings/settings-right.jpg') no-repeat right bottom;
+  background-size: 500px;
+
+  .settings__form {
+    height: 250px;
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .example-form mat-slide-toggle {
+      margin: 8px 0;
+      display: block;
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  :host {
+    background-size: 400px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  :host {
+    background-size: 300px;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  :host {
+    background-size: 250px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  :host {
+    background-size: 200px;
+  }
+}

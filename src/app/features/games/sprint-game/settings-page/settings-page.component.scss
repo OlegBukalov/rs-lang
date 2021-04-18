@@ -1,0 +1,93 @@
+:host {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  height: calc(100vh - 250px);
+  width: 90%;
+  margin: auto;
+  background: url('/assets/img/games/sprint/sprint-settings.jpg') no-repeat left bottom;
+  background-size: 500px;
+  font-family: 'Poiret One', cursive;
+
+  h2 {
+    padding: 10px 0 0 0;
+    font-weight: bold;
+    font-size: 30px;
+    color: #589DAE;
+  }
+
+  p {
+    padding-bottom: 20px;
+    font-size: 26px;
+    color: #262E5B;
+  }
+
+  .sprint-title {
+    display: flex;
+    width: 85%;
+    margin: 0 auto;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+  }
+
+  .level {
+    display: flex;
+    width: 85%;
+    margin: 0 auto;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  button:last-child {
+    margin-left: 20px;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  :host {
+    background-size: 400px;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  :host {
+    background-size: 350px;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  :host {
+    background-size: 330px;
+
+    h2 {
+      padding: 0;
+      margin-bottom: 20px;
+      font-size: 26px;
+    }
+
+    p {
+      padding-bottom: 20px;
+      margin: 0;
+      font-size: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 630px) {
+  :host {
+    .level {
+      flex-direction: column;
+      align-items: flex-end;
+    }
+  }
+}
+
+@media screen and (max-width: 550px) {
+  :host {
+    width: 95%;
+  }
+}

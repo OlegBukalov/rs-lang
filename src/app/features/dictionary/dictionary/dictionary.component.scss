@@ -1,0 +1,67 @@
+@import '../../../../variables.scss';
+.dictionary-page {
+    background-color: $color_light_gray;
+    min-height: 54vh;
+    .categories {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-column-gap: 20px;
+        padding: 20px;
+        .category {
+            padding-bottom: 20px;
+            text-align: center;
+            transition: border-color 0.3s;
+            font-family: 'Poiret One', cursive;
+            font-weight: bold;
+            font-size: 28px;
+            background: none;
+            border-bottom: 4px solid $color_dark_gray;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            &:hover {
+                cursor: pointer;
+            }
+            &:focus {
+              outline: none;
+              border-color: #589DAE;
+            }
+            &.active {
+                border-color: $color_dark_blue;
+            }
+        }
+    }
+    .paginator {
+        background-color: $color_light_gray;
+        font-size: 20px;
+    }
+    .page {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 20px;
+        grid-row-gap: 20px;
+        padding: 30px;
+    }
+    .spinner {
+        display: flex;
+        justify-content: center;
+        margin: 50px 0;
+    }
+}
+
+.list-empty {
+  font-family: 'Poiret One', cursive;
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  color: #589DAE;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 1000px) {
+  .dictionary-page {
+    .page {
+        grid-template-columns: 1fr;
+    }
+  }
+}

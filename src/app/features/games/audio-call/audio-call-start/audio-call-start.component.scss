@@ -1,0 +1,70 @@
+@import './../../../../../variables.scss';
+@import './../game-styles.scss';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: calc(100vh - 150px);
+
+  background: url('/assets/img/games/audioCall/call.jpg') no-repeat center bottom;
+  background-size: 350px;
+
+  font-family: 'Poiret One', cursive;
+  font-weight: bold;
+  font-size: 1.1rem;
+
+  h2 {
+    font-weight: bold;
+    font-size: 30px;
+    color: #589DAE;
+    text-transform: uppercase;
+  }
+}
+
+.start-pad {
+  @extend %scorepad;
+  padding: 20px;
+
+  &__selection {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    padding: 5px;
+
+    font-family: 'Poiret One';
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: $color_blue;
+    border-radius: 5px;
+
+    &:focus {
+      outline: none;
+      border-color: #589DAE;
+    }
+  }
+}
+
+.start-button {
+  @extend %game-button;
+  display: block;
+  color: $color_light_gray;
+
+  padding: 10px 20px;
+  border: 1px solid #333470;
+  border-radius: 10px;
+  letter-spacing: 2px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #fff;
+    color: #333470;
+  }
+
+  &:focus {
+    outline: none;
+    background-color: #060137;
+    color: #FFF;
+  }
+}

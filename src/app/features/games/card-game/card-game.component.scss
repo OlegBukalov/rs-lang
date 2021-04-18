@@ -1,0 +1,91 @@
+.card-game {
+  padding: 50px;
+  font-family: 'Poiret One', cursive;
+  font-size: 26px;
+
+  button.btn-template-game {
+    background-color: #333470;
+
+    &:hover {
+      background-color: #fff;
+      color: #333470;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #333480;
+    }
+  }
+}
+
+.card-game-buttons {
+  display: flex;
+
+  .card-game__button {
+    margin-right: 10px;
+  }
+}
+
+.conditions-game {
+  list-style-type: none;
+  padding-left: 0;
+
+  li {
+    margin-bottom: 5px;
+    font-size: 24px;
+  }
+
+  li:before {
+    content: ' - ';
+  }
+}
+
+.card-game__wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-game__title {
+  text-align: center;
+  font-size: 30px;
+  color: #333470;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.card-game__levels {
+  width: 900px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.toggle-fullscreen {
+  padding: 4px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1000px) {
+  .card-game__levels {
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 900px) {
+
+  .card-game__levels {
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .card-game__button {
+      margin-right: 10px;
+    }
+  }
+
+  .card-game-buttons {
+    justify-content: center;
+  }
+}
