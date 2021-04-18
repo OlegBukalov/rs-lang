@@ -3,7 +3,7 @@ import { EventEmitter, Component, Input, OnDestroy, OnInit, Output } from '@angu
 import { Subscription } from 'rxjs';
 import { IWord } from 'src/app/core/interfaces/iword';
 import { ToasterService } from 'src/app/core/services/toaster.service';
-import { AudioCallService } from '../audio-call.service';
+import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { IGameResult, IWordChunk } from '../interfaces';
 import {
   WORDS_CHUNK_LENGTH,
@@ -58,7 +58,7 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private gameService: AudioCallService, private toaster: ToasterService) {}
+  constructor(private toaster: ToasterService, private wordsApiService: WordsApiService) {}
 
   ngOnInit() {
     this.createWordsChunk(this.level, this.page);
@@ -84,8 +84,10 @@ export class AudioCallGameComponent implements OnInit, OnDestroy {
   }
 
   private createWordsChunk(level: number, page: number): void {
+    this.wordsApiService.changeGroupToken(level.toString());
+    this.wordsApiService.changePageToken(page.toString());
     this.subscription.add(
-      this.gameService.getWords(level, page).subscribe(
+      this.wordsApiService.getRandomWordList().subscribe(
         (data: IWord[]) => {
           this.words = data;
           this.addShownProperty();
