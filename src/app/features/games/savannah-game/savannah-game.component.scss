@@ -272,6 +272,13 @@
       }
     }
 
+    .toggle-fullscreen {
+      padding: 4px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+
     @media screen and (min-width: 1070px) {
       .background {
         width: calc(100% + 40px);

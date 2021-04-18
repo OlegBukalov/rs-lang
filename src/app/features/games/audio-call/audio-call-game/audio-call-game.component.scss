@@ -5,9 +5,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
-
 
 .loudspeaker {
   display: block;
@@ -27,11 +26,11 @@
     padding: 10px 20px;
 
     &_correct {
-        background-color: $color_green;
+      background-color: $color_green;
     }
 
     &_incorrect {
-        background-color: $color_dark_red;
+      background-color: $color_dark_red;
     }
 
     &:hover {
@@ -66,6 +65,13 @@
 
   border: 1px solid $color_dark_red;
   border-radius: 10px;
+}
+
+.toggle-fullscreen {
+  padding: 4px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 1050px) {
