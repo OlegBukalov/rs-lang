@@ -1,5 +1,8 @@
 <main class="wrap-game-list">
     <div class="background"></div>
+    <button appFullScreenButton class="toggle-fullscreen" title="на весь экран">
+        <span class="material-icons">fullscreen</span>
+      </button>
     <section *ngIf="state !== gameState.InProgress" class="start-game-menu">
         <h2 class="game-title">Саванна</h2>
         <section class="game-rules-wrapper">
@@ -69,7 +72,4 @@
             *ngFor="let answer of answerWordsArray">{{answer[getOppositeLanguage(wordProperty)]}}</button>
         </div>
     </section>
-    <button appFullScreenButton class="toggle-fullscreen" title="на весь экран">
-      <span class="material-icons">fullscreen</span>
-    </button>
 </main>

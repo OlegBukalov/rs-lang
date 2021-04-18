@@ -6,6 +6,10 @@
   position: fixed;
 }
 
+:-webkit-full-screen{
+  background: white;
+}
+
 .wrap-game-list {
     position: relative;
     font-family: 'Poiret One', cursive;
@@ -14,6 +18,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    .toggle-fullscreen {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      z-index: 3;
+    }
   
     .start-game-menu {
       height: 100%;

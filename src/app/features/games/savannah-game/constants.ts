@@ -1,7 +1,11 @@
 import { GameID } from '../../statistics/enums/game-id.enum';
 
 export const MIN_SCREEN_WIDTH = 1536;
+export const MAX_SCREEN_WIDTH = 1920;
+export const MIN_SCREEN_HEIGHT = 722;
+export const MAX_SCREEN_HEIGHT = 864;
 export const MIN_COORDINATE_Y = 310;
+export const MID_COORDINATE_Y = 400;
 export const MAX_COORDINATE_Y = 530;
 
 export const STEP_Y = 1;
