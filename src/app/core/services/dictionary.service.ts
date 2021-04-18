@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -7,7 +8,7 @@ import { DictionaryCategory } from 'src/app/features/dictionary/dictionary-categ
 import { namesByCategory } from 'src/app/features/dictionary/name-by-category';
 import { map } from 'rxjs/operators';
 import { IWordPage } from '../interfaces/iword-page';
-import { IUserWord } from '../interfaces/iuser-word';
+import { IGameStats, IUserWord } from '../interfaces/iuser-word';
 import { ToasterService } from './toaster.service';
 
 const MAX_WORDS_PER_PAGE = 3600;
@@ -26,6 +27,10 @@ export class DictionaryService {
     private toaster: ToasterService,
   ) {}
 
+  getAggregatedWordById(wordId: string): Observable<IUserWord> {
+    return this.http.get<IUserWord>(`${this.baseUrl}/words/${wordId}`);
+  }
+
   getAggregatedWords(
     groupId: string,
     pageId: string,
@@ -36,7 +41,7 @@ export class DictionaryService {
     url += filter ? `&filter=${filter}` : '';
     url += groupId ? `&group=${groupId}` : '';
 
-    let result = this.http.get<IWordPage[]>(url);
+    let result = this.http.get<IWordPage[]>(url).pipe(map((pages) => this.resolveId(pages)));
     if (pageId) {
       result = result.pipe(map((pages) => this.pageFilter(pages, pageId)));
     }
@@ -51,6 +56,17 @@ export class DictionaryService {
     if (filters.length === 1) return filters[0];
 
     return `{"$or":[${filters.join(',')}]}`;
+  }
+
+  private resolveId(pages: IWordPage[]): IWordPage[] {
+    return pages.map((page) => {
+      return {
+        ...page,
+        paginatedResults: page.paginatedResults.map((card) => {
+          return { ...card, id: card._id };
+        }),
+      };
+    });
   }
 
   pageFilter(pages: IWordPage[], pageId: string): IWordPage[] {
@@ -68,21 +84,22 @@ export class DictionaryService {
 
   async addWordsToDictionary(wordsIdentifiers: string[], category: DictionaryCategory) {
     wordsIdentifiers.forEach((wordId) => {
-      this.addWordAndHandleErrors(wordId, category, false);
+      this.addWordAndHandleErrors(wordId, category, false, true);
     });
   }
 
   async addWordToDictionary(wordId: string, category: DictionaryCategory) {
-    await this.addWordAndHandleErrors(wordId, category, true);
+    await this.addWordAndHandleErrors(wordId, category, true, false);
   }
 
   private async addWordAndHandleErrors(
     wordId: string,
     category: DictionaryCategory,
     showToasterMessage: boolean,
+    updateStats: boolean,
   ) {
     try {
-      const isAdded = await this.tryToAddWordToDictionary(wordId, category);
+      const isAdded = await this.tryToAddWordToDictionary(wordId, category, updateStats);
       if (showToasterMessage && !isAdded) {
         this.toaster.showSuccess('Слово добавлено в словарь', 'Успех!');
       }
@@ -93,25 +110,45 @@ export class DictionaryService {
     }
   }
 
-  private async tryToAddWordToDictionary(wordId: string, category: DictionaryCategory) {
-    const body = { optional: { category: namesByCategory[category] } };
+  private async tryToAddWordToDictionary(
+    wordId: string,
+    category: DictionaryCategory,
+    updateStats: boolean,
+  ) {
     const url = `${this.baseUrl}/words/${wordId}`;
-    const isAdded = await this.isAdded(wordId);
-    if (isAdded) {
+    const gamesStats = await this.getWordGamesStats(wordId);
+    const body = { optional: { category: namesByCategory[category], gamesStats } };
+
+    if (this.isGameStatsDefined(gamesStats)) {
+      if (updateStats) body.optional.gamesStats = this.updateGameStats(gamesStats, category);
       await this.http.put(url, body).toPromise();
       return true;
     }
+
+    const stats: IGameStats = { rightAnswersCount: 0, wrongAnswersCount: 0 };
+    body.optional.gamesStats = stats;
+    if (updateStats) body.optional.gamesStats = this.updateGameStats(stats, category);
     await this.http.post(url, body).toPromise();
     return false;
   }
 
-  private async isAdded(wordId: string) {
-    // TODO: отловить ошибку, если userWord не существует
+  private isGameStatsDefined(stats: IGameStats): boolean {
+    return stats.rightAnswersCount !== -1 && stats.wrongAnswersCount !== -1;
+  }
+
+  private updateGameStats(stats: IGameStats, category: DictionaryCategory): IGameStats {
+    const result = stats;
+    if (category === DictionaryCategory.Studied) result.rightAnswersCount += 1;
+    if (category === DictionaryCategory.Hard) result.wrongAnswersCount += 1;
+    return result;
+  }
+
+  private async getWordGamesStats(wordId: string): Promise<IGameStats> {
     try {
-      await this.http.get<IUserWord>(`${this.baseUrl}/words/${wordId}`).toPromise();
-      return true;
+      const card = await this.http.get<IUserWord>(`${this.baseUrl}/words/${wordId}`).toPromise();
+      return card.optional.gamesStats || { rightAnswersCount: 0, wrongAnswersCount: 0 };
     } catch {
-      return false;
+      return { rightAnswersCount: -1, wrongAnswersCount: -1 };
     }
   }
 }

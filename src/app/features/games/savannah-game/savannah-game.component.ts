@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IWord } from 'src/app/core/interfaces/iword';
+import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { ToasterService } from 'src/app/core/services/toaster.service';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
+import { AuthService } from '../../auth/auth.service';
+import { DictionaryCategory } from '../../dictionary/dictionary-category';
 import { StatisticsService } from '../../statistics/statistics.service';
 import {
   DEFAULT_LEVEL,
@@ -81,6 +84,8 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
     private coordinateService: CoordinateService,
     private utilitiesService: UtilitiesService,
     private statisticsService: StatisticsService,
+    private dictionaryService: DictionaryService,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -236,7 +241,9 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
   private finishGame(): void {
     this.clearIntervals();
     this.calculateGameScore();
-    this.sendGameStatistics();
+    if (this.authService.isLoggedIn()) {
+      this.sendGameStatistics();
+    }
     this.state = GameState.Over;
   }
 
@@ -248,6 +255,13 @@ export class SavannahGameComponent implements OnInit, OnDestroy {
       maxRight: this.maxCorrectSequence,
     };
     this.statisticsService.setDataFromGame(gameData);
+    this.addWordsToDictionary(this.learnedWords, DictionaryCategory.Studied);
+    this.addWordsToDictionary(this.unlearnedWords, DictionaryCategory.Hard);
+  }
+
+  private addWordsToDictionary(words: IWord[], category: DictionaryCategory): void {
+    const wordIdArr = words.map((word: IWord) => word.id);
+    this.dictionaryService.addWordsToDictionary(wordIdArr, category);
   }
 
   private clearIntervals(): void {

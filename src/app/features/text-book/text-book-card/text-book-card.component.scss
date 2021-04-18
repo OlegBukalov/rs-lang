@@ -32,27 +32,34 @@
       object-fit: cover;
     }
   }
-  .content {
-    padding-left: 20px;
-    font-family: 'Poiret One', cursive;
-    font-size: 26px;
-    .word {
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-  }
-  .buttons {
-    display: flex;
-    flex-direction: column;
-    .btn-icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-    }
-  }
+        .content {
+            padding-left: 20px;
+            font-family: 'Poiret One', cursive;
+            font-size: 26px;
+            .word {
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+        }
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            .btn-icon {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+            }
+        }
+        .stats {
+            margin-left: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 14px;
+        }
 }
 
 .card.hard {
