@@ -189,7 +189,7 @@ export class SprintGameComponent implements OnInit {
   }
 
   private setGameWords(arrLength: number): void {
-    let arrayLength = arrLength;
+    let wordsLeft = arrLength;
     let maxCounter = arrLength;
     const currentPage = this.wordsApiService.getPageToken();
     this.subscriptionWords = this.wordsApiService
@@ -197,11 +197,11 @@ export class SprintGameComponent implements OnInit {
       .pipe(filter((data) => !!data))
       .subscribe(
         (words: IWord[]) => {
-          if (arrayLength >= words.length) {
+          if (wordsLeft >= words.length) {
             maxCounter = words.length;
-            arrayLength -= maxCounter;
+            wordsLeft -= maxCounter;
           } else {
-            arrayLength = 0;
+            wordsLeft = 0;
           }
           for (let i = 0; i < maxCounter; ) {
             const randomTranslate = this.getRandomTranslate(words[i], words);
@@ -216,9 +216,9 @@ export class SprintGameComponent implements OnInit {
             this.words.push(words[i]);
             i += 1;
           }
-          if (arrayLength > 0 && currentPage > 0) {
+          if (wordsLeft > 0 && currentPage > 0) {
             this.wordsApiService.changePageToken((currentPage - 1).toString());
-            this.setGameWords(arrayLength);
+            this.setGameWords(wordsLeft);
           }
           [this.currentWord] = this.gameWords;
         },
@@ -266,6 +266,5 @@ export class SprintGameComponent implements OnInit {
       ? words[Math.round(Math.random() * (words.length - 1))].wordTranslate
       : word.wordTranslate;
     return randomTranslate;
-    return word.wordTranslate;
   }
 }
