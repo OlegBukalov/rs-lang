@@ -5,10 +5,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { IWord } from 'src/app/core/interfaces/iword';
 import { WordsApiService } from 'src/app/core/services/wordsApi.service';
-
 import { StatisticsService } from 'src/app/features/statistics/statistics.service';
 import { GameID } from 'src/app/features/statistics/enums/game-id.enum';
-
 import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { IComponentCanDeactivate } from './guards/exit-card-game.guard';
 import { DialogElementsExampleDialogComponent } from './card-game-modal/card-game-modal.component';
@@ -16,7 +14,6 @@ import { OwnGameService } from './services/own-game.service';
 import { GameState } from './services/gameState.state';
 
 import { environment } from '../../../../environments/environment';
-
 import { DictionaryCategory } from '../../dictionary/dictionary-category';
 
 const ID_GAME = GameID.CardGame;
@@ -33,6 +30,10 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   previousPageWords: IWord[];
   playingWordIndexes: number[] = [];
   hardWords: IWord[] = [];
+
+  correctWords: string[] = [];
+  wrongWords: string[] = [];
+
   playingWord: IWord;
   countTry: number = this.wordsApiService.INIT_MISTAKES_COUNTER;
   leftCards: number;
@@ -44,14 +45,11 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   isHiddenChildCard: boolean;
   isLoading: boolean;
   isTextbookGameOpen: boolean;
-
   wordCounter = 0;
   correctWordCounter = 0;
   maxCorrectSequence = 0;
   currentMaxCorrectSequence = 0;
-
   currentCategory: DictionaryCategory;
-
   state = GameState;
   currentState: GameState = GameState.STOP;
 
@@ -115,6 +113,10 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   initializeValuesForGame(): void {
     this.playingWordIndexes = this.words.map((_, ind) => ind).sort(() => Math.random() - 0.5);
     this.hardWords = [];
+
+    this.correctWords = [];
+    this.wrongWords = [];
+
     this.playingWord = null;
     this.countTry = this.wordsApiService.INIT_MISTAKES_COUNTER;
     this.leftCards = this.words.length;
@@ -123,7 +125,6 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     this.ownGameService.setIsSaved(true);
     this.setCurrentState(GameState.STOP);
     this.isHiddenChildCard = false;
-
     this.wordCounter = 0;
     this.correctWordCounter = 0;
     this.maxCorrectSequence = 0;
@@ -163,12 +164,11 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
       if (this.playingWord.audio === card.audio) {
         this.playResultAudio(true);
 
-        this.addWordsToDictionary(this.playingWord, DictionaryCategory.Studied);
+        this.correctWords.push(this.playingWord.id);
 
         this.wordCounter += 1;
         this.correctWordCounter += 1;
         this.currentMaxCorrectSequence += 1;
-
         this.leftCards -= 1;
         this.ownGameService.setDisabledItemId(card.id);
         this.playingWordIndexes.shift();
@@ -178,7 +178,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
         this.playResultAudio(false);
         this.countTry += 1;
 
-        this.addWordsToDictionary(this.playingWord, DictionaryCategory.Hard);
+        this.wrongWords.push(this.playingWord.id);
 
         this.wordCounter += 1;
         this.setMaxCorrectSequence(this.currentMaxCorrectSequence);
@@ -187,11 +187,8 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     }
   }
 
-  addWordsToDictionary(word: IWord, category: DictionaryCategory) {
-    const { id } = word;
-    const tempArray = [];
-    tempArray.push(id);
-    this.dictionaryService.addWordsToDictionary(tempArray, category);
+  addWordsToDictionary(words: string[], category: DictionaryCategory) {
+    this.dictionaryService.addWordsToDictionary(words, category);
   }
 
   checkFinishGame(): void {
@@ -221,6 +218,10 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
 
     this.setCurrentState(GameState.RESULT);
     this.isHiddenChildCard = false;
+
+    this.addWordsToDictionary(this.correctWords, DictionaryCategory.Studied);
+    this.addWordsToDictionary(this.wrongWords, DictionaryCategory.Hard);
+
     const audioInstance = new Audio();
     audioInstance.src = '../../../../assets/sounds/466133__humanoide9000__victory-fanfare.wav';
     audioInstance.play();
