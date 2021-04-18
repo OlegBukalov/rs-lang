@@ -9,12 +9,15 @@ import { WordsApiService } from 'src/app/core/services/wordsApi.service';
 import { StatisticsService } from 'src/app/features/statistics/statistics.service';
 import { GameID } from 'src/app/features/statistics/enums/game-id.enum';
 
+import { DictionaryService } from 'src/app/core/services/dictionary.service';
 import { IComponentCanDeactivate } from './guards/exit-card-game.guard';
 import { DialogElementsExampleDialogComponent } from './card-game-modal/card-game-modal.component';
 import { OwnGameService } from './services/own-game.service';
 import { GameState } from './services/gameState.state';
 
 import { environment } from '../../../../environments/environment';
+
+import { DictionaryCategory } from '../../dictionary/dictionary-category';
 
 const ID_GAME = GameID.CardGame;
 
@@ -47,6 +50,8 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
   maxCorrectSequence = 0;
   currentMaxCorrectSequence = 0;
 
+  currentCategory: DictionaryCategory;
+
   state = GameState;
   currentState: GameState = GameState.STOP;
 
@@ -64,6 +69,7 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     private ownGameService: OwnGameService,
     public dialog: MatDialog,
     private statisticsService: StatisticsService,
+    private dictionaryService: DictionaryService,
   ) {}
 
   ngOnInit(): void {
@@ -157,6 +163,8 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
       if (this.playingWord.audio === card.audio) {
         this.playResultAudio(true);
 
+        this.addWordsToDictionary(this.playingWord, DictionaryCategory.Studied);
+
         this.wordCounter += 1;
         this.correctWordCounter += 1;
         this.currentMaxCorrectSequence += 1;
@@ -170,11 +178,20 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
         this.playResultAudio(false);
         this.countTry += 1;
 
+        this.addWordsToDictionary(this.playingWord, DictionaryCategory.Hard);
+
         this.wordCounter += 1;
         this.setMaxCorrectSequence(this.currentMaxCorrectSequence);
         this.currentMaxCorrectSequence = 0;
       }
     }
+  }
+
+  addWordsToDictionary(word: IWord, category: DictionaryCategory) {
+    const { id } = word;
+    const tempArray = [];
+    tempArray.push(id);
+    this.dictionaryService.addWordsToDictionary(tempArray, category);
   }
 
   checkFinishGame(): void {
