@@ -219,8 +219,8 @@ export class CardGameComponent implements OnInit, OnDestroy, IComponentCanDeacti
     this.setCurrentState(GameState.RESULT);
     this.isHiddenChildCard = false;
 
-    this.addWordsToDictionary(this.correctWords, DictionaryCategory.Studied);
-    this.addWordsToDictionary(this.wrongWords, DictionaryCategory.Hard);
+    this.addWordsToDictionary([...new Set(this.correctWords)], DictionaryCategory.Studied);
+    this.addWordsToDictionary([...new Set(this.wrongWords)], DictionaryCategory.Hard);
 
     const audioInstance = new Audio();
     audioInstance.src = '../../../../assets/sounds/466133__humanoide9000__victory-fanfare.wav';
