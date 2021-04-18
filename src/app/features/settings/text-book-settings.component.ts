@@ -38,8 +38,15 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
   updateSettings(): void {
     this.subscription = this.textBookSettingsService.getSettingsFromServer().subscribe(
       (data) => {
-        this.textBookSettingsService.setSettings(data.optional);
-        this.initializeToggles();
+        console.log();
+        if (JSON.stringify(data.optional) !== '{}') {
+          console.log(data);
+          console.log(data.optional);
+          this.textBookSettingsService.setSettings(data.optional);
+          this.initializeToggles();
+        } else {
+          this.initializeToggles();
+        }
       },
       (error) => {
         this.toasterService.showError(error, 'Ошибка');
