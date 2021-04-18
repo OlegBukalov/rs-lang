@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -40,7 +41,7 @@ export class DictionaryService {
     url += filter ? `&filter=${filter}` : '';
     url += groupId ? `&group=${groupId}` : '';
 
-    let result = this.http.get<IWordPage[]>(url);
+    let result = this.http.get<IWordPage[]>(url).pipe(map((pages) => this.resolveId(pages)));
     if (pageId) {
       result = result.pipe(map((pages) => this.pageFilter(pages, pageId)));
     }
@@ -55,6 +56,17 @@ export class DictionaryService {
     if (filters.length === 1) return filters[0];
 
     return `{"$or":[${filters.join(',')}]}`;
+  }
+
+  private resolveId(pages: IWordPage[]): IWordPage[] {
+    return pages.map((page) => {
+      return {
+        ...page,
+        paginatedResults: page.paginatedResults.map((card) => {
+          return { ...card, id: card._id };
+        }),
+      };
+    });
   }
 
   pageFilter(pages: IWordPage[], pageId: string): IWordPage[] {
@@ -113,35 +125,30 @@ export class DictionaryService {
       return true;
     }
 
-    if (updateStats) body.optional.gamesStats = this.createGameStats(category);
+    const stats: IGameStats = { rightAnswersCount: 0, wrongAnswersCount: 0 };
+    body.optional.gamesStats = stats;
+    if (updateStats) body.optional.gamesStats = this.updateGameStats(stats, category);
     await this.http.post(url, body).toPromise();
     return false;
   }
 
   private isGameStatsDefined(stats: IGameStats): boolean {
-    return stats.rightAnswers !== -1 && stats.wrongAnswers !== -1;
+    return stats.rightAnswersCount !== -1 && stats.wrongAnswersCount !== -1;
   }
 
   private updateGameStats(stats: IGameStats, category: DictionaryCategory): IGameStats {
     const result = stats;
-    if (category === DictionaryCategory.Studied) result.rightAnswers += 1;
-    if (category === DictionaryCategory.Hard) result.wrongAnswers += 1;
+    if (category === DictionaryCategory.Studied) result.rightAnswersCount += 1;
+    if (category === DictionaryCategory.Hard) result.wrongAnswersCount += 1;
     return result;
-  }
-
-  private createGameStats(category: DictionaryCategory): IGameStats {
-    const stats: IGameStats = { rightAnswers: 0, wrongAnswers: 0 };
-    if (category === DictionaryCategory.Studied) stats.rightAnswers += 1;
-    if (category === DictionaryCategory.Hard) stats.wrongAnswers += 1;
-    return stats;
   }
 
   private async getWordGamesStats(wordId: string): Promise<IGameStats> {
     try {
       const card = await this.http.get<IUserWord>(`${this.baseUrl}/words/${wordId}`).toPromise();
-      return card.optional.gamesStats || { rightAnswers: 0, wrongAnswers: 0 };
+      return card.optional.gamesStats || { rightAnswersCount: 0, wrongAnswersCount: 0 };
     } catch {
-      return { rightAnswers: -1, wrongAnswers: -1 };
+      return { rightAnswersCount: -1, wrongAnswersCount: -1 };
     }
   }
 }

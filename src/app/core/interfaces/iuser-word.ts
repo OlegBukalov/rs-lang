@@ -10,6 +10,6 @@ export interface IUserWordOptional {
 }
 
 export interface IGameStats {
-  rightAnswers?: number;
-  wrongAnswers?: number;
+  rightAnswersCount?: number;
+  wrongAnswersCount?: number;
 }

@@ -9,7 +9,7 @@
         </button>
     </div>
 
-    <div *ngIf="!isLoading; else: loadingBlock">
+    <div *ngIf="!isLoading; else loadingBlock">
       <mat-paginator class="paginator"
         [length]="cards.length"
         [pageSize]="pageSize"
@@ -17,7 +17,7 @@
         (page)="handlePage($event)"
       ></mat-paginator>
 
-      <mat-list class="page" *ngIf="cards.length; else: emptyArrayBlock">
+      <mat-list class="page" *ngIf="cards.length; else emptyArrayBlock">
         <app-dictionary-card 
           *ngFor="let card of (cards | slice: pageLeftIndex : pageRightIndex)" 
           [card]="card"

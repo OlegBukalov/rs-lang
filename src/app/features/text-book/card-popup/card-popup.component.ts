@@ -45,8 +45,7 @@ export class CardPopupComponent {
   }
 
   addCardToDictionary(card: IWord) {
-    // eslint-disable-next-line no-underscore-dangle
-    const id = this.card.id ? this.card.id : this.card._id;
+    const { id } = this.card;
     let category: DictionaryCategory;
     if (card.userWord && card.userWord.optional) {
       category = categoryByName[card.userWord.optional.category] as DictionaryCategory;
