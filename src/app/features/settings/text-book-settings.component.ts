@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { ToasterService } from 'src/app/core/services/toaster.service';
 import { AuthService } from '../auth/auth.service';
 import { ITextBookSettings } from './interfaces/itext-book-settings';
 import { TextBookSettingsService } from './services/text-book-settings.service';
@@ -22,7 +21,6 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private textBookSettingsService: TextBookSettingsService,
     private authService: AuthService,
-    private toasterService: ToasterService,
   ) {}
 
   ngOnInit(): void {
@@ -38,15 +36,12 @@ export class TextBookSettingsComponent implements OnInit, OnDestroy {
   updateSettings(): void {
     this.subscription = this.textBookSettingsService.getSettingsFromServer().subscribe(
       (data) => {
-        if (JSON.stringify(data.optional) !== '{}') {
-          this.textBookSettingsService.setSettings(data.optional);
-          this.initializeToggles();
-        } else {
-          this.initializeToggles();
-        }
+        this.textBookSettingsService.setSettings(data.optional);
+        this.initializeToggles();
       },
-      (error) => {
-        this.toasterService.showError(error, 'Ошибка');
+      () => {
+        this.resetSettings();
+        this.initializeToggles();
       },
     );
   }
