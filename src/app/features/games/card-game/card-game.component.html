@@ -43,7 +43,7 @@
       </button>
     </div>
   </div>
-  <div class="card-game__wrap" *ngIf="!isLoading; else: loadingBlock">
+  <div class="card-game__wrap" *ngIf="!isLoading; else loadingBlock">
     <div class="card-game__content" *ngFor="let card of words">
       <app-card-game-item
         [card]="card"
